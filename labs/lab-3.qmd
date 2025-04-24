@@ -1,0 +1,11 @@
+---
+title: "Lab 3: Basic Data Manipulation"
+format: html
+---
+
+## Introduction
+
+In this lab, we will learn how to manipulate data using the `tidyverse` suite of packages.
+
+## Learning objectives
+
