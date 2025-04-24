@@ -4,23 +4,139 @@ format: html
 editor: visual
 ---
 
-## Quarto
+## Day 2: Descriptive statistics and summary measures
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+In today's lab we will practice calculating and interpreting descriptive statistics and summery measures using the StEPS dataset.
 
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+We start by loading the dataset you cleaned during yesterday's lab:
 
 ```{r}
-1 + 1
+d <- read.csv("https://raw.githubusercontent.com/rpsychologist/STePS-study/main/data/steps.csv")
 ```
 
-You can add options to executable code like this
+### **Basic descriptive statistics**
+
+For this exercise, we'll We'll start of doing some basic descriptive statistics of the baseline variables. We start by checking the variable names to identify the baseline variables .
 
 ```{r}
-#| echo: false
-2 * 2
+colnames(d)
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+For easy handling, we'll create a data frame containing only the baseline variables, ID, Group and all variables ending with the suffix "\_screen".
+
+```{r}
+library(dplyr)
+d_bl <- d %>%
+  select(ID, 
+         Group,
+         LSAS_Screen,
+         GAD_screen,
+         PHQ.9_screen,
+         BBQ_screen,
+         SCS_screen,
+         DMRSODF_screen,
+         DERS.16_screen,
+         PID.5_screen)
+```
+
+Or more efficiently (if variables are correctly named) we can use the ends_with() function from the tidyselect package:
+
+```{r}
+d_bl <- d %>%
+  select(ID,
+         Group, 
+         ends_with("_screen"))
+```
+
+Here are some useful functions to get a quick overview of the data:
+
+`head()` gives the first rows of the dataset
+
+```{r}
+head(d_bl)
+
+```
+
+`tail()` gives the last rows of the dataset
+
+```{r}
+tail(d_bl)
+```
+
+`dim()` gives the dimensions of the dataset
+
+```{r}
+dim(d_bl)
+```
+
+`str()` gives summary information on the structure of the dataframe
+
+```{r}
+str(d_bl)
+```
+
+`names()` gets the name of an object
+
+```{r}
+names(d_bl)
+```
+
+
+### Numerical data
+
+We'll start of by examining baseline levels of the numeric outcome variable "LSAS_Screen".
+
+**Basic**
+
+A histogram of the variable gives a first overview of the distribution:
+
+```{r}
+hist(d_bl$LSAS_Screen)
+```
+
+Another option would be to create a boxplot
+
+```{r}
+boxplot(d_bl$LSAS_Screen)
+```
+
+Next let's calculate some centrality and spread measures Mean and standard deviation
+
+```{r}
+mean(d_bl$LSAS_Screen)
+sd(d_bl$LSAS_Screen)
+```
+
+Median and interquartile range
+
+```{r}
+median(d_bl$LSAS_Screen)
+IQR(d_bl$LSAS_Screen)
+```
+
+Much of this information could also be easily found using the summary() function
+
+```{r}
+summary(d_bl$LSAS_Screen)
+
+```
+
+Showing the centrality measures over the distribution
+
+```{r}
+hist(d_bl$LSAS_Screen,
+     main = "Histogram with Mean, Median, and Mode",
+     xlab = "Values", probability = TRUE)
+
+# Add lines for mean, median, and mode
+abline(v = mean(d_bl$LSAS_Screen), col = "blue", lwd = 2, lty = 2)     # Mean
+abline(v = median(d_bl$LSAS_Screen), col = "red", lwd = 2, lty = 2)    # Median
+abline(v = as.numeric(names(sort(table(d_bl$LSAS_Screen), decreasing = TRUE)[1])), col = "darkgreen", lwd = 2, lty = 2) # Mode
+
+```
+
+### Categorical data
+
+### Numerical by categorical data
+
+### Using the 'tableone' package
