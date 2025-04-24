@@ -1,8 +1,9 @@
 ---
 title: "Research school in clinical psychiatry"
+date: last-modified
 ---
 
-Welcome to the course materials for Biostatistics-courses in the Research School in Clinical Psychiatry at Karolinska Institutet. This website contains all materials related to the afternoon lab sessions of the courses.
+Welcome to the course materials for Biostatistics courses in the Research School in Clinical Psychiatry at Karolinska Institutet. This website contains all materials related to the afternoon lab sessions of the courses.
 
 # Teaching team
 
