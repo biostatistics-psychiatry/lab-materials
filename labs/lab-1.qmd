@@ -1,3 +1,58 @@
 ---
-title: "Lab 1: Hello R!"
+title: "Let's get started!"
 ---
+
+For this first lab session, we will help you install R and RStudio, discuss best practices for organizing your work, and introduce the datasets we will be using throughout the course.
+
+# Installing R and RStudio
+
+The courses will be taught using *R*, a language for statistical computing and graphics, and *RStudio*, an integrated development environment (IDE) for R.
+
+You can download R from [CRAN](https://cran.r-project.org/) and RStudio from [RStudio](https://www.rstudio.com/products/rstudio/download/).
+
+## RStudio setup
+
+There are a few things we want you to change in the default RStudio settings. To access the settings in RStudio, go to `Tools -> Global Options...` in the menu bar or press `Cmd + ,` (Mac) or `Ctrl + , ` (Windows/Linux). Then navigate to the `General` tab. Make sure to set the options according to the image below:
+
+![](images/rstudio-settings-general.png)
+
+The purpose of these settings is to ensure that you do not save the workspace image or history when you close RStudio, since we do not want to keep any temporary objects or commands that you have used during the session. This is important for reproducibility and to avoid cluttering your workspace with unnecessary files.
+
+# Best practices
+
+Working with statistical analyses in research projects can be complex, and sticking to some best practices will help you reduce . To help you keep track of your work, we recommend following some best practices for organizing your projects.
+
+## Folder structure
+
+## Relative paths
+
+## Working with notebooks
+
+## Clear sequence of tasks
+
+## Naming files, functions, and objects
+
+We recommend using `snake_case` for naming files, functions, and objects. This means using lowercase letters and underscores to separate words. For example, instead of using "MyFunction", use "my_function". This makes it easier to read and understand the code.
+
+### Examples of good filenames:
+
+- `data_cleaning_script.R`
+- `01_import_data.qmd`
+- `summary_statistics.csv`
+
+### Examples of bad filenames:
+
+- `DataCleaningScript.R` (uses camelCase instead of snake_case)
+- `01 Import Data.qmd` (contains spaces)
+- `summary-statistics.csv` (uses hyphens instead of underscores)
+
+## Built-in vs custom functions
+
+R has many built-in functions that can be used for various tasks. However, you may also need to create your own custom functions to perform specific tasks. When creating custom functions, make sure to use clear and descriptive names, and document the function's purpose and usage.
+
+# Introduction to the datasets
+
+## StepS-study
+
+## AnhörigSpel-study
+
