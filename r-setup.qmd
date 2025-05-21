@@ -1,0 +1,44 @@
+---
+title: "R and RStudio setup"
+---
+
+# Pre-requisites
+
+We assume that you have installed R and RStudio on your computer. You can download R from [CRAN](https://cran.r-project.org/) and RStudio from [RStudio](https://www.rstudio.com/products/rstudio/download/).
+
+# RStudio setup
+
+## Disable saving workspace and history
+
+There are a few things we want you to change in the default RStudio settings. To access the settings in RStudio, go to `Tools -> Global Options...` in the menu bar or press `Cmd + ,` (Mac) or `Ctrl + , ` (Windows/Linux). Then navigate to the `General` tab. Make sure to set the options according to the image below:
+
+![](images/rstudio-settings-general.png)
+
+The purpose of these settings is to ensure that you do not save the workspace image or history when you close RStudio, since we do not want to keep any temporary objects or commands that you have used during the session. This is important for reproducibility and to avoid cluttering your workspace with unnecessary files.
+
+## Working in projects
+
+RStudio projects are a great way to organize your work. They allow you to keep all your files, data, and code in one place, making it easier to manage your projects. To create a new project, go to the upper right corner where it says "Project: (None)". Then choose a location for your project and give it a name (maybe `biostat-labs` 🤓).
+
+![](images/projects-1.png)
+
+![](images/projects-2.png)
+
+## Folder structure
+
+Regardless of the project you are working on, you will benefit from having a well-organized folder structure. The needs may vary depending on the project, but a good starting point is to have separate folders for data, scripts, documentation, and output. This will help you keep your files organized and make it easier to find what you need later on. In this course, we will be assuming you have the following folder structure:
+
+```plaintext
+biostat-labs/
+├── data/
+├── src/
+├── docs/
+├── output/
+├── README.md
+```
+
+- `data/`: This folder *can* contain raw data, but if you have sensitive data you will likely store it on a secure server. It's safe to store the data you are working with in this course here, however.
+- `src/`: This folder contains the scripts you are working on. `src` stands for "source", which means the original code that you are writing.
+- `docs/`: This folder contains the documentation for your project. One good way to distinguish this from output is that the *docs* folder contains files and background information that is not generate by the code you are writing, for example documentation about questionnaires.
+- `output/`: This folder contains the output of your code, such as figures, tables, and reports. This is where you will save the results of your analysis. Feel free to create subfolders as needed.
+- `README.md`: This file contains information about your project, such as the purpose of the project, how to run the code, and any other relevant information. It's good practice to keep this file updated as it is often the "landing page" when others collaborate in your project.
