@@ -1,3 +1,36 @@
 project:
   type: website
   output-dir: docs
+
+website:
+  page-navigation: true
+  title: "Biostatistics - Research School in Clinical Psychiatry"
+  repo-url: https://github.com/biostatistics-psychiatry/lab-materials
+  repo-actions: [edit, issue]
+
+  sidebar:
+    pinned: true
+    align: center
+
+    style: docked
+    search: true
+    collapse-level: 1
+
+    contents:
+      - section: "Course information"
+        contents:
+          - href: index.qmd
+            text: Overview
+          - href: r-setup.qmd
+            text: R and RStudio setup
+      - section: "Labs"
+        contents:
+          - href: labs/lab-1.qmd
+            text: Lab 1
+          - href: labs/lab-2.qmd
+            text: Lab 2
+
+format:
+  html:
+    theme: flatly
+    toc: true

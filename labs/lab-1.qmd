@@ -1,58 +1,127 @@
 ---
-title: "Let's get started!"
+title: "Lab 1: Import and clean data"
 ---
 
-For this first lab session, we will help you install R and RStudio, discuss best practices for organizing your work, and introduce the datasets we will be using throughout the course.
-
-# Installing R and RStudio
-
-The courses will be taught using *R*, a language for statistical computing and graphics, and *RStudio*, an integrated development environment (IDE) for R.
-
-You can download R from [CRAN](https://cran.r-project.org/) and RStudio from [RStudio](https://www.rstudio.com/products/rstudio/download/).
-
-## RStudio setup
-
-There are a few things we want you to change in the default RStudio settings. To access the settings in RStudio, go to `Tools -> Global Options...` in the menu bar or press `Cmd + ,` (Mac) or `Ctrl + , ` (Windows/Linux). Then navigate to the `General` tab. Make sure to set the options according to the image below:
-
-![](images/rstudio-settings-general.png)
-
-The purpose of these settings is to ensure that you do not save the workspace image or history when you close RStudio, since we do not want to keep any temporary objects or commands that you have used during the session. This is important for reproducibility and to avoid cluttering your workspace with unnecessary files.
-
-# Best practices
-
-Working with statistical analyses in research projects can be complex, and sticking to some best practices will help you reduce . To help you keep track of your work, we recommend following some best practices for organizing your projects.
-
-## Folder structure
-
-## Relative paths
-
-## Working with notebooks
-
-## Clear sequence of tasks
-
-## Naming files, functions, and objects
-
-We recommend using `snake_case` for naming files, functions, and objects. This means using lowercase letters and underscores to separate words. For example, instead of using "MyFunction", use "my_function". This makes it easier to read and understand the code.
-
-### Examples of good filenames:
-
-- `data_cleaning_script.R`
-- `01_import_data.qmd`
-- `summary_statistics.csv`
-
-### Examples of bad filenames:
-
-- `DataCleaningScript.R` (uses camelCase instead of snake_case)
-- `01 Import Data.qmd` (contains spaces)
-- `summary-statistics.csv` (uses hyphens instead of underscores)
-
-## Built-in vs custom functions
-
-R has many built-in functions that can be used for various tasks. However, you may also need to create your own custom functions to perform specific tasks. When creating custom functions, make sure to use clear and descriptive names, and document the function's purpose and usage.
+For this first lab session, we will introduce the datasets we will be using throughout the course. We will also cover how to import and perform basic cleaning of the datasets.
 
 # Introduction to the datasets
 
-## StepS-study
+::: callout-note
+These datasets have the common .csv file format, which is very popular. If you need to import other file formats, such as .xlsx (Excel) or .sav (SPSS), you can use the `readxl` and `haven` packages, respectively.
+:::
+
+## STePS-study
+
+This is a dataset from the STePS study, which is a RCT comparing guided and unguided internet-delivered psychodynamic therapy for social anxiety disorder. The study [is published online](https://www.nature.com/articles/s44184-024-00063-0).
 
 ## AnhörigSpel-study
 
+# Load packages
+
+In this lab, we will be using the *tidyverse* package, which is a collection of useful packages for data manipulation and visualization. We will also use the *here* package, which helps us manage file paths in a simple way.
+
+```{r}
+#| label: load-packages
+#| message: false
+
+library(tidyverse)
+library(here)
+library(janitor)
+```
+
+::: callout-warning
+If you are using `R` for the first time, you have to run the following code in the **console** to install the packages (one time only!). You can then load them using the code above.
+
+```{r}
+#| eval: false
+
+install.packages("tidyverse")
+install.packages("here")
+```
+:::
+
+# Importing data into R
+
+Let's start with the *STePS* dataset. We use the `read_csv()` function, along with the `here()` function, to import the data. Within the `here()` function, we first specify the folder, then the filename. This is helpful for keeping the file paths clean, and makes it easier to share your code with others since the file paths are relative to the project folder.
+
+We also check the number of rows and columns in the dataset after importing it.
+
+```{r}
+#| label: import-steps
+#| message: false
+
+df_rawdata <- read_csv(here("data", "steps.csv"))
+
+row_check <- nrow(df_rawdata) # 181
+col_check <- ncol(df_rawdata) # 37
+```
+
+## Check data structure
+
+After importing the data, we can check the structure of the dataset using the `glimpse()` function. This function provides a quick overview of the dataset, including the number of rows and columns, as well as the data types of each column. Does it look as expected?
+
+Your object `df_rawdata` should contain `r row_check` rows and `r col_check` columns. We can see that the first column is named *ID*, which is the unique identifier for each participant. The second column is named *Group*, which indicates the group assignment: unguided treatment, guided treatment, or waitlist. The rest seem to be various questionnaires and scales.
+
+```{r}
+#| label: glimpse-data
+#| message: false
+
+glimpse(df_rawdata)
+```
+
+Other options for checking the basic structure of the data include `head()`, `names()`, `ncol()`, and `nrow()`.
+
+- `head(df_rawdata)` shows the first few rows of the dataset.
+- `names(df_rawdata)` shows the names of the columns.
+- `ncol(df_rawdata)` shows the number of columns in the dataset.
+- `nrow(df_rawdata)` shows the number of rows in the dataset.
+
+Try them out!
+
+# Data cleaning
+
+From the output above, we can see some potential issues with the raw data:
+
+- Some column names contain spaces and other problematic characters (such as `-`).
+- There are missing values in several columns.
+- The measurement points are not consistent.
+- The data types of some columns are not as expected (e.g., character instead of numeric).
+
+Let's get started with cleaning the data. Before we proceed, we will create a copy of the raw data and leave `df_rawdata` unchanged. This is a good practice to avoid losing the original data and to keep track of the changes we make.
+
+::: callout-important
+Make a habit of keeping the raw data you import from data collection platforms (e.g., BASS, REDCap) unchanged. This way, your life will be easier when you need to do new exports or updates. You can always go back to the original data if needed.
+:::
+
+```{r}
+#| label: copy-data
+#| message: false
+
+df_data <- df_rawdata
+```
+
+## Clean column names
+
+We will use the `clean_names()` function from the *janitor* package to clean the column names. This function replaces spaces and other problematic characters with underscores, and converts all names to lowercase. This makes it easier to work with the data later on.
+
+```{r}
+#| label: clean-column-names
+#| message: false
+
+df_data <- df_data |> 
+  clean_names()
+
+names(df_data)
+```
+
+## Ensure missing values are coded as NA
+
+If we are lucky, all the missing values are already coded as `NA` and R will recognize them as missing. More often, however, is that the missing values are coded as `""`, `-99`, or other values. This can cause problems later, so we need to ensure that all missing values are coded as `NA`.
+
+Sometimes, weird labels for missing values is also the reason why some columns are not recognized as numeric.
+
+```{r}
+#| label: check-missing-values
+#| message: false
+
+```
