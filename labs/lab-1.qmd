@@ -26,6 +26,7 @@ In this lab, we will be using the *tidyverse* package, which is a collection of 
 
 library(tidyverse)
 library(here)
+library(janitor)
 ```
 
 ::: callout-warning
@@ -68,6 +69,15 @@ Your object `df_rawdata` should contain `r row_check` rows and `r col_check` col
 glimpse(df_rawdata)
 ```
 
+Other options for checking the basic structure of the data include `head()`, `names()`, `ncol()`, and `nrow()`.
+
+- `head(df_rawdata)` shows the first few rows of the dataset.
+- `names(df_rawdata)` shows the names of the columns.
+- `ncol(df_rawdata)` shows the number of columns in the dataset.
+- `nrow(df_rawdata)` shows the number of rows in the dataset.
+
+Try them out!
+
 # Data cleaning
 
 From the output above, we can see some potential issues with the raw data:
@@ -88,4 +98,30 @@ Make a habit of keeping the raw data you import from data collection platforms (
 #| message: false
 
 df_data <- df_rawdata
+```
+
+## Clean column names
+
+We will use the `clean_names()` function from the *janitor* package to clean the column names. This function replaces spaces and other problematic characters with underscores, and converts all names to lowercase. This makes it easier to work with the data later on.
+
+```{r}
+#| label: clean-column-names
+#| message: false
+
+df_data <- df_data |> 
+  clean_names()
+
+names(df_data)
+```
+
+## Ensure missing values are coded as NA
+
+If we are lucky, all the missing values are already coded as `NA` and R will recognize them as missing. More often, however, is that the missing values are coded as `""`, `-99`, or other values. This can cause problems later, so we need to ensure that all missing values are coded as `NA`.
+
+Sometimes, weird labels for missing values is also the reason why some columns are not recognized as numeric.
+
+```{r}
+#| label: check-missing-values
+#| message: false
+
 ```
