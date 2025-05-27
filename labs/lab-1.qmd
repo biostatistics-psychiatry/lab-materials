@@ -2,7 +2,11 @@
 title: "Lab 1: Import and clean data"
 ---
 
-For this first lab session, we will introduce the datasets we will be using throughout the course. We will also cover how to import and perform basic cleaning of the datasets.
+For this first lab session, we will:
+
+- Introduce the datasets we will be using throughout the course
+- Import data into R
+- Perform basic cleaning of the data
 
 # Introduction to the datasets
 
@@ -50,7 +54,7 @@ We also check the number of rows and columns in the dataset after importing it.
 #| label: import-steps
 #| message: false
 
-df_rawdata <- read_csv(here("data", "steps.csv"))
+df_rawdata <- read_csv2(here("data", "steps_raw.csv"))
 
 row_check <- nrow(df_rawdata) # 181
 col_check <- ncol(df_rawdata) # 37
@@ -104,6 +108,15 @@ df_data <- df_rawdata
 
 We will use the `clean_names()` function from the *janitor* package to clean the column names. This function replaces spaces and other problematic characters with underscores, and converts all names to lowercase. This makes it easier to work with the data later on.
 
+What's wrong with these column names? And what is the difference after `clean_names()`?
+
+```{r}
+#| label: bad-column-names
+#| message: false
+
+names(df_data)
+```
+
 ```{r}
 #| label: clean-column-names
 #| message: false
@@ -114,14 +127,91 @@ df_data <- df_data |>
 names(df_data)
 ```
 
+We have sorted some of the problems, but we still have inconsistent names for time-points (*screening* and *screen*), and some questionnaires seems to have gotten inconsistent names as well (*ders_16*, *ders16*, and *ders*).
+
+```{r}
+#| label: fix-column-inconsistencies
+#| message: false
+
+df_data <- df_data |> 
+  rename_with(~ .x |> 
+    str_replace_all("screening", "screen") |> 
+    str_replace_all("ders_16|ders16", "ders") |> 
+    str_replace_all("phq_9", "phq9")
+  )
+
+names(df_data)
+```
+
+::: {.callout-tip}
+## This is rarely a linear process
+
+This type of data cleaning is often a result of going back and forth between running code and checking the results. Sometimes you will come all the way to the analyses before finding that DERS-16 is missing a time-point! This is why it's helpful to design your code in a way that allows you to easily go back and forth.
+:::
+
 ## Ensure missing values are coded as NA
 
 If we are lucky, all the missing values are already coded as `NA` and R will recognize them as missing. More often, however, is that the missing values are coded as `""`, `-99`, or other values. This can cause problems later, so we need to ensure that all missing values are coded as `NA`.
 
 Sometimes, weird labels for missing values is also the reason why some columns are not recognized as numeric.
 
+Let's check the data structure again. It looks like some columns that should be numeric are instead `<chr>`, which means they are character strings.
+
 ```{r}
 #| label: check-missing-values
 #| message: false
 
+glimpse(df_data)
+
+```
+
+Let's fix this by replacing the problematic values with `NA`. We will use the `mutate()` and `across()` functions from the *dplyr* package to apply the `na_if()` function to all character columns. This will replace any occurrence of "missing" with `NA`.
+
+```{r}
+#| label: fix-missing-values
+#| message: false
+
+df_data <- df_data |> 
+  mutate(across(where(is.character), ~na_if(., "missing")))
+
+```
+
+## Fix column types
+
+The NA values are now correctly coded, but we still have some columns that are not numeric despite only including numbers. We can use the `mutate()` function again to convert the columns to the correct data type. In this step, we also ensure that the `id` and `group` columns are factors.
+
+```{r}
+#| label: fix-column-types
+#| message: false
+
+# which columns should be numeric?
+num_cols <- c("lsas", "gad", "phq9", "bbq", "scs", "dmrsodf", "ders", "pid_5")
+
+df_data <- df_data |> 
+  mutate(
+    across(starts_with(num_cols), as.numeric),
+    id = factor(id),
+    group = factor(group)
+  )
+
+```
+
+Let's check that it worked.
+
+```{r}
+#| label: check-column-types
+#| message: false
+
+glimpse(df_data)
+```
+
+# Save the cleaned data
+
+Now that we have cleaned the data, we can save it as a new CSV file. We will use the `write_csv()` function from the *readr* package to do this. The cleaned data will be saved in the `data` folder with the name `steps_clean.csv`.
+
+```{r}
+#| label: save-cleaned-data
+#| message: false
+
+write_csv(df_data, here("data", "steps_clean.csv"))
 ```
