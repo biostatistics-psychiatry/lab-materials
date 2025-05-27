@@ -3,6 +3,16 @@ title: Lab 1 exercises
 number-sections: true
 ---
 
+```{r}
+#| label: setup
+#| echo: false
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+::: {.callout-tip}
+Three underscores (`___`) in the code below indicate where you need to fill in the missing parts.
+:::
+
 We begin by loading the necessary packages for these tasks. Do you experience any issues with loading the packages? If so, you may need to install them first using the `install.packages()` function in the console.
 
 ```{r}
@@ -23,9 +33,8 @@ Complete the code below to read the STePS dataset. We create a new object `df_da
 ```{r}
 #| label: read-data
 #| message: false
-#| eval: false
 
-df_rawdata <- read_csv2(here("FOLDER", "FILENAME.csv"))
+df_rawdata <- read_csv2(here(___))
 
 df_data <- df_rawdata
 ```
@@ -36,17 +45,14 @@ Call the `glimpse()` and `view()` functions to check the structure of the datase
 
 ```{r}
 #| label: glimpse-data
-#| message: false
-#| eval: false
 
-glimpse(OBJECT_NAME)
+glimpse(___)
 ```
 
 ```{r}
 #| label: view-data
-#| eval: false
 
-view(OBJECT_NAME)
+view(___)
 ```
 
 ## Clean column names part 1
@@ -54,15 +60,14 @@ view(OBJECT_NAME)
 Add the `clean_names()` function to the code below. Compare the names before and after using the function.
 
 ```{r}
-#| eval: false
 names(df_data)
 ```
 
 ```{r}
 #| label: clean-names
-#| eval: false
+
 df_data <- df_data |> 
-  # ADD FUNCTION HERE
+  ___
 
 ```
 
@@ -74,13 +79,12 @@ The `clean_names()` is very helpful, but it didn't sort all of the problems. We 
 
 ```{r}
 #| label: rename-columns
-#| eval: false
 
 df_data <- df_data |> 
   rename_with(~ .x |> 
     str_replace_all("screening", "screen") |> 
     str_replace_all("ders_16|ders16", "ders") |> 
-    str_replace_all(ADD PHQ-9 FIX HERE)
+    str_replace_all(___)
   )
 
 names(df_data)
@@ -92,10 +96,9 @@ Check which columns have weird values for missing values. You can use the `glimp
 
 ```{r}
 #| label: fix-missing-values
-#| eval: false
 
 df_data <- df_data |> 
-  mutate(across(c(ADD COLS WITH "missing" HERE), ~na_if(., "missing")))
+  mutate(across(c(___), ~na_if(., "missing")))
 
 ```
 
@@ -105,25 +108,35 @@ In the demonstration, we showed how to change column types to numeric. Replicate
 
 ```{r}
 #| label: fix-column-types
-#| eval: false
 
 # which columns should be numeric?
 num_cols <- c("lsas", "gad", "phq9", "bbq", "scs", "dmrsodf", "ders", "pid_5")
 
 # which columns should be factors?
-fct_cols <- c("COL1", "COL2")
+fct_cols <- c(___)
 
 df_data <- df_data |> 
   mutate(
     across(starts_with(num_cols), as.numeric),
     # INSERT FACTOR FIX HERE
-
+    ___
   )
 ```
 
 Use the `glimpse()` function to check that it worked.
 
+```{r}
+#| label: check-column-types
+
+___
+```
+
 ## Save cleaned data
 
 Finally, save the cleaned data to a new CSV file called `steps_clean.csv` in the `/data` folder. Use the `write_csv()` function from the *readr* package along with `here()`, just like we did in the beginning of this script.
 
+```{r}
+#| label: save-cleaned-data
+
+___
+```
