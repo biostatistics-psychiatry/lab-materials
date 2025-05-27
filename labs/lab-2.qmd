@@ -2,11 +2,14 @@
 title: "Lab 2: Descriptive statics and summary measures"
 format: html
 editor: visual
+execute: 
+  freeze: false
+  warning: false
 ---
 
 ## Day 2: Descriptive statistics and summary measures
 
-In today's lab we will practice calculating and interpreting descriptive statistics and summery measures using the StEPS dataset.
+In today's lab we will practice calculating and interpreting descriptive statistics and summery measures using the STePS dataset.
 
 We start by loading the dataset you cleaned during yesterday's lab:
 
@@ -16,7 +19,7 @@ d <- read.csv("https://raw.githubusercontent.com/rpsychologist/STePS-study/main/
 
 ### **Basic descriptive statistics**
 
-For this exercise, we'll We'll start of doing some basic descriptive statistics of the baseline variables. We start by checking the variable names to identify the baseline variables .
+For this exercise, we'll start of doing some basic descriptive statistics of the baseline variables. We start by checking the variable names to identify the baseline variables .
 
 ```{r}
 colnames(d)
@@ -50,78 +53,110 @@ d_bl <- d %>%
 
 Here are some useful functions to get a quick overview of the data:
 
-`head()` gives the first rows of the dataset
+| Useful functions | What they do |
+|------------------------------------|------------------------------------|
+| `head()` | shows the *first* rows of the dataset |
+| `tail()` | shows the *last* rows of the dataset |
+| `dim()` | gives the dimensions of the dataset |
+| `str()` | gives summary information on the structure of the dataframe |
+| `names()` | gets the name of an object |
 
-```{r}
-head(d_bl)
-
+```         
 ```
 
-`tail()` gives the last rows of the dataset
+***Excecises***
 
-```{r}
-tail(d_bl)
-```
+2.1 Use the function to get a quick overview of the dataset and give a berif summary of it.
 
-`dim()` gives the dimensions of the dataset
+### Numeric data
 
-```{r}
-dim(d_bl)
-```
+We'll start of our descriptive statistics by examining baseline levels of the numeric outcome variable "LSAS_Screen".
 
-`str()` gives summary information on the structure of the dataframe
+#### Visual presentations
 
-```{r}
-str(d_bl)
-```
+The simplest, and often most informative way, to get an overview of a variable is to produce a visual representation of its distribution. For uni-variable numeric variables, two common visualizations are histograms `hist()` and boxplots `boxplot()`.
 
-`names()` gets the name of an object
+##### Histogram
 
-```{r}
-names(d_bl)
-```
+A **histogram** is a graphical representation used to visualize the **distribution of a numeric variable**. It shows how data are **spread across intervals (bins)** and helps identify patterns such as **central tendency, variability, skewness**, and **outliers**.
 
-
-### Numerical data
-
-We'll start of by examining baseline levels of the numeric outcome variable "LSAS_Screen".
-
-**Basic**
-
-A histogram of the variable gives a first overview of the distribution:
+| Feature            | What It Tells You                  |
+|--------------------|------------------------------------|
+| **Height of bars** | Number of observations in each bin |
+| **Width of bars**  | Range of values grouped together   |
+| **Shape**          | Symmetry, skewness, modality       |
+| **Outliers**       | Bars isolated from the main group  |
 
 ```{r}
 hist(d_bl$LSAS_Screen)
 ```
 
-Another option would be to create a boxplot
+##### Boxplot
+
+A **boxplot** (also called a **box-and-whisker plot**) is a compact, visual summary of the **distribution, central tendency, and variability** of a dataset.
+
+| Component             | Description                              |
+|-----------------------|------------------------------------------|
+| **Minimum**           | Smallest value (excluding outliers)      |
+| **Q1 (1st Quartile)** | 25th percentile (lower hinge of the box) |
+| **Median (Q2)**       | 50th percentile (line inside the box)    |
+| **Q3 (3rd Quartile)** | 75th percentile (upper hinge of the box) |
+| **Maximum**           | Largest value (excluding outliers)       |
 
 ```{r}
 boxplot(d_bl$LSAS_Screen)
 ```
 
-Next let's calculate some centrality and spread measures Mean and standard deviation
+#### Centrality measures
+
+Sometimes we need more comprehensive summaries of our data, for this it is common to use **centrality measures**. Centrality measures are statistical summaries that describe the **center or typical value** of a dataset. They help summarize where most values lie and include:
+
+-   **Mean**: The average of all values (sum of all values divided by the number of values).
+
+-   **Median**: The middle value when data is ordered (or the average of the two middle numbers if the length of the vector is an even number).
+
+-   **Mode**: The most frequently occurring value.
+
+These measures provide insight into the **distribution’s central tendency**, helping you understand the "typical" case in your data.
+
+::: callout-note
+## Means, medians and outliers
+
+The mean is sensitive to outliers, while the median is not. The values \[1, 2, 3, 100\] has a mean of 26.5. and a median of 2.5. None of them are "wrong", but the usefulness of each measure depends on what you want your centrality measures to tell. However, with highly skewed variables (e.g. income), the median is usually viewed as more informative.
+:::
+
+Now let's use R to calculate some centrality measures for LSAS at baseline.
+
+Getting the mean using `mean()`
 
 ```{r}
 mean(d_bl$LSAS_Screen)
-sd(d_bl$LSAS_Screen)
 ```
 
-Median and interquartile range
+Getting the median using `median()`
 
 ```{r}
 median(d_bl$LSAS_Screen)
-IQR(d_bl$LSAS_Screen)
 ```
 
-Much of this information could also be easily found using the summary() function
+Unlike `mean()` and `median()`, base R does not include a built-in `mode()` function for computing the statistical mode (i.e. the most frequent value). However, you can create one.
+
+```{r}
+get_mode <- function(x) {
+  ux <- unique(x)
+  ux[which.max(tabulate(match(x, ux)))]
+}
+get_mode(d_bl$LSAS_Screen)
+```
+
+Much of this information could also be easily found using the `summary()` function
 
 ```{r}
 summary(d_bl$LSAS_Screen)
 
 ```
 
-Showing the centrality measures over the distribution
+You could also plot the mean, median and mode over the histogram, to get a better sense of the data.
 
 ```{r}
 hist(d_bl$LSAS_Screen,
@@ -131,12 +166,609 @@ hist(d_bl$LSAS_Screen,
 # Add lines for mean, median, and mode
 abline(v = mean(d_bl$LSAS_Screen), col = "blue", lwd = 2, lty = 2)     # Mean
 abline(v = median(d_bl$LSAS_Screen), col = "red", lwd = 2, lty = 2)    # Median
-abline(v = as.numeric(names(sort(table(d_bl$LSAS_Screen), decreasing = TRUE)[1])), col = "darkgreen", lwd = 2, lty = 2) # Mode
+abline(v = get_mode(d_bl$LSAS_Screen), col = "darkgreen", lwd = 2, lty = 2) # Mode
 
 ```
 
+***Exercises***
+
+2.2 Visualize the distribution of the PHQ-9 scale and the PID-5 scale and provide the mean, median and mode.
+
+2.3 How does the centrality measures differ and why?
+
+2.4 Reason on the pros and cons of the different centrality measures for these scales.
+
+#### Spread measures
+
+Centrality measures gives information on the most typical value in the distribution, but no info on the spread of values. For example, the two distributions below have the same mean value (0), but different spread (standard deviation 0.2 vs. 1)
+
+```{r}
+#| echo: false
+par(mfrow=c(1,2))
+curve(dnorm(x, mean = 0, sd = 0.2),
+       from = -4, to = 4,
+       col = "black", lwd = 2,
+       main = "",
+       xlab = "", ylab = "")
+abline(v= 0, col="red", lwd = 2)
+curve(dnorm(x, mean = 0, sd = 1),
+       from = -4, to = 4,
+       col = "black", lwd = 2,
+       main = "",
+       xlab = "", ylab = "")
+abline(v= 0, col="red", lwd = 2)
+```
+
+To get a summary of the spread of the data, we use different **spread measures.** Spread measures describe how much the data **varies or is dispersed** around a central value like the mean or median. They help you understand whether the values are tightly clustered or widely scattered. Commonly used spread measures include:
+
+-   **Range** `range()`: The difference between the maximum and minimum values. Simple but sensitive to outliers.
+
+    $$\text{Range} = \max(X) - \min(X)$$
+
+-   **Interquartile Range (IQR)** `IQR()`: The range of the middle 50% of data (Q3 − Q1). More robust against extreme values.
+
+    $$\mathrm{IQR} = Q_3 - Q_1$$
+
+-   **Variance** `var()`: The average of the squared deviations from the mean. It gives more weight to larger deviatios
+
+    Population variance
+
+    $$
+    \sigma^2 = \frac{1}{n} \sum_{i=1}^{n} (x_i - \mu)^2
+    $$
+
+    Sample variance
+
+    $$
+    s^2 = \frac{1}{n-1} \sum_{i=1}^{n} (x_i - \bar{x})^2
+    $$
+
+-   **Standard Deviation (SD)** `sd()`: The square root of variance. It measures average distance from the mean and is widely used in statistics.
+
+    Population SD
+
+    $$
+    \sigma = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (x_i - \mu)^2}
+    $$
+
+    Sample SD
+
+    $$ s = \sqrt{\frac{1}{n - 1} \sum_{i=1}^{n} (x_i - \bar{x})^2}$$
+
+    ::: callout-note
+    ## Population vs samples
+
+    The population variance ($\sigma^2$) and standard deviation ($\sigma$) are used when you have data for the **entire population** — that is, every single value of interest is included.
+
+    The sample variance ($s^2$) and standard deviation ($s$) are used when you're working with a **subset (sample)** of a larger population. It includes a correction (called **Bessel’s correction**) to account for the fact that samples tend to underestimate variability. The **sample SD** divides by $n -1$ to compensate for the fact that we use $\bar{x}$, an estimate of the true population mean ($\mu$). This correction makes the sample variance an **unbiased estimator** of the population variance.
+
+    The functions `sd`() and `var()` gives the sample standard deviation and variance.
+    :::
+
+***Exercise***
+
+2.5 Calculate spread measures for the LSAS-SR scale, what do they tell you and which ones do you think are most useful to describe the spread of the values. Motive you answer briefly!
+
+Overcourse:
+
+2.6 Caluclate the *population variance and standard deviation*. How do these differ from the ones given by the functions `sd()` and `var()`.
+
+```{r}
+#creating a function to calculate the population variance 
+pop_var <- function(x){
+  1/length(x)*sum((x-mean(x))^2)
+}
+
+# and the population sd
+pop_sd <- function(x){
+  sqrt(1/length(x)*sum((x-mean(x))^2))
+}
+```
+
+2.7 Use only the first ten participants and compare the population and the sample variance and standard deviation of LSAS-SR. What do you find, and how do the results compare to those from exercise 2.6.
+
 ### Categorical data
 
-### Numerical by categorical data
+Now we'll have a look at categorical data.
+
+First, we need to simulate some categorical data (since this is not included in the STePS dataset)
+
+```{r}
+
+#Simulating an gender variable 
+n = nrow(d_bl)
+d_bl$gender <- rbinom(n, 1, 0.7)
+d_bl$gender <- ifelse(d_bl$gender == 1, "Woman", "Man")
+
+# Simulate an education variable
+education_levels <- c("Primary", "Secondary", "University")
+education_probs <- c(0.4, 0.4, 0.2)  # Adjust probabilities as needed
+
+d_bl$education <- sample(education_levels, size = n, replace = TRUE, prob = education_probs)
+
+
+# Simulate an income variable
+income_levels <- c("Low", "Medium", "High")
+income_probs <- c(0.2, 0.6, 0.2)  # Adjust probabilities as needed
+
+d_bl$income <- sample(income_levels, size = n, replace = TRUE, prob = income_probs)
+```
+
+The `table()` function provides a quick overview of the number of values in each category
+
+```{r}
+table(d_bl$gender)
+table(d_bl$education)
+```
+
+Dived by the number of rows, it gives proportion in each category
+
+```{r}
+table(d_bl$gender)/nrow(d_bl)
+table(d_bl$education)/nrow(d_bl)
+```
+
+::: callout-note
+## Spread of categorical data
+
+We do not need spread measures for categorical data, as all information there is about the distribution in provided in the counts or proportions. We can however calculate the variance of a proportion
+:::
+
+Variance of a proportion
+
+$$
+\mathrm{Var}(\hat{p}) = \frac{p(1-p)}{n}
+$$
+
+#### Visual presentations
+
+As for numeric variables, visualizations can help get a better sense for the distribution of the data. Two common ways are **barcharts** and **piecharts**
+
+##### Barcharts
+
+The height of each bar gives the number of occurrences of each category. When you use the base function `plot()` on a factor level variable, it gives you a barchart.
+
+```{r}
+plot(as.factor(d_bl$education))
+```
+
+##### Piecharts
+
+A piechart shows the distribution of a categorical variable as a pie, with the size of each piece representing the proportion of each level of the categorical variable.
+
+```{r}
+pie(table(d_bl$education))
+```
+
+***Exercise***
+
+2.8 Calculate the counts, proportions and percentages for the simulated income categories and visualize the distribution.
+
+### Bi-variable distributions
+
+It can also be useful to investigate bi-variable distributions - i.e. the joint distribution of two variables - to get a sense of how variables in your data is related to each other.
+
+#### Numeric by numeric distributions
+
+For two numeric variables, the most common visualization is the **scatter plot.** It shows the distribution of each datapoint with one variable on the x-axis and the other on the y-axis. Using the `plot()` function with two numeric variables will give you a scatter plot.
+
+```{r}
+plot(d_bl$LSAS_Screen, d_bl$GAD_screen)
+```
+
+#### Numeric by categorical distributions
+
+The joint distribution of a numeric and a categorical variable can be visualized as a stratified boxplots. For this let's look at the distribution of LSAS scores for people with high generalized anxiety (GAD-7 ≥ 10 or more) vs low generalized anxiety (GAD-7 \< 10).
+
+```{r}
+#create a variable indicating if GAD-7 is 10 or more
+d_bl$gad7_cat <- ifelse(d_bl$GAD_screen>=10, "High anxiety", "Low anxiety")
+
+boxplot(LSAS_Screen ~ gad7_cat, data = d_bl)
+```
+
+#### Categorical by categorical distributions   
+
+All the information of the joint distribution of two categorical variables can be seen using a **cross-table**. For this let's look at the distribution of high vs low depression (PHQ-9 ≥ 10 vs PHQ-9 \<10 or less) against high vs low generalized anxiety.
+
+```{r}
+d_bl$phq_cat <- ifelse(d_bl$PHQ.9_screen>=10, "High depression", "Low depression")
+
+table(d_bl$gad7_cat, d_bl$phq_cat)
+```
+
+Although all information about the distribution is available in the crosstable, you may still want to visualize this distribution. One way is to use a **mosaic plot**, which you can get by providing cross-table to the `plot()` function.
+
+```{r}
+plot(table(d_bl$gad7_cat, d_bl$phq_cat), main="Depression and anxiety")
+```
 
 ### Using the 'tableone' package
+
+A convenient way to get descriptive statistics for a range of variables is to use the **tableone** package and the `CreateTableOne()` function. First let get some descriptives for the overall sample
+
+```{r}
+#install.packages("tableone")
+library(tableone)
+
+#define the variables you want
+vars <- c("LSAS_Screen",
+          "GAD_screen",
+          "PHQ.9_screen",
+          "BBQ_screen",
+          "SCS_screen",
+          "DMRSODF_screen",
+          "DERS.16_screen",
+          "PID.5_screen",
+          "gender",
+          "education",
+          "income")
+
+CreateTableOne(vars=vars, data=d_bl)
+```
+
+We can also do this stratified by a categorical variable using the strata argument. Let's have it by treatment group.
+
+```{r}
+CreateTableOne(vars=vars, data=d_bl, strata="Group")
+```
+
+2.9 Visualize the joint distribution of GAD-7 and PHQ-9 as numeric variables and describe what you see
+
+2.10 Visualize the distribution of of LSAS scores by income level and describe what you see
+
+2.11 Create a variable for high vs. low DERS scores and investigate the joint distribution of this variable and phq_cat (that we created in an earlier example)
+
+2.12 Create a table using the tableone package to show descriptives statistics stratified by high vs low depression levels. Briefly interpret what you see.
+
+## Sampling from a population
+
+So far we have restricted ourselves to describing the sample that we have. Often, however, we are not only interested about our sample, but want to make inferences about the **population** from which our sample came.
+
+### Central Limit Theorem (CLT):
+
+No matter what the population distribution looks like, if you take many random samples and calculate their means, those samples means will form a **normal distribution** as the sample size grows large.
+
+-   Sample means become normally distributed.
+
+-   Happens even if the original population is **not normal**.
+
+-   Works better as **sample size increases** (n ≥ 30 is a common rule).
+
+```{r}
+#| echo: false
+
+# Parameters
+population <- rnorm(10000, mean = 50, sd = 10)  # simulate a population
+sample_size <- 30
+num_samples <- 1000
+sample_means <- numeric(num_samples)
+
+par(mfrow= c(2,1))
+hist(population, xlim= c(15,85), main = "Normal population distrubution")
+
+# Draw multiple samples and compute their means
+for (i in 1:num_samples) {
+  sample_i <- sample(population, sample_size, replace = TRUE)
+  sample_means[i] <- mean(sample_i)
+}
+
+# Plot the sampling distribution of the mean
+hist(sample_means, breaks = 30, probability = TRUE,
+     main = paste("Sampling Distribution of the Mean, \n 1000 samples of n=30"),
+     xlab = "Sample Mean", col = "skyblue", border = "white", xlim= c(15,85))
+
+# Add a normal curve for comparison
+curve(dnorm(x, mean = mean(sample_means), sd = sd(sample_means)), 
+      col = "red", lwd = 2, add = TRUE)
+
+```
+
+```{r}
+#| echo: false
+
+# Parameters
+population <- runif(10000, min = 15, max = 85)  # simulate a population
+sample_size <- 30
+num_samples <- 1000
+sample_means <- numeric(num_samples)
+
+par(mfrow= c(2,1))
+hist(population, xlim= c(15,85), main = "Uniform population distrubution")
+
+# Draw multiple samples and compute their means
+for (i in 1:num_samples) {
+  sample_i <- sample(population, sample_size, replace = TRUE)
+  sample_means[i] <- mean(sample_i)
+}
+
+# Plot the sampling distribution of the mean
+hist(sample_means, breaks = 30, probability = TRUE,
+     main = paste("Sampling Distribution of the Mean, \n 1000 samples of n=30"),
+     xlab = "Sample Mean", col = "skyblue", border = "white", xlim= c(15,85))
+
+# Add a normal curve for comparison
+curve(dnorm(x, mean = mean(sample_means), sd = sd(sample_means)), 
+      col = "red", lwd = 2, add = TRUE)
+
+
+```
+
+```{r}
+#| echo: false
+
+# Parameters
+population <- c(rnorm(10000/2, mean = 65, sd = 5), rnorm(10000/2, mean = 35, sd = 5))  # simulate a population
+sample_size <- 30
+num_samples <- 1000
+sample_means <- numeric(num_samples)
+
+par(mfrow= c(2,1))
+hist(population, xlim= c(15,85), breaks=30, main = "Bi-modal population distribution")
+
+# Draw multiple samples and compute their means
+for (i in 1:num_samples) {
+  sample_i <- sample(population, sample_size, replace = TRUE)
+  sample_means[i] <- mean(sample_i)
+}
+
+# Plot the sampling distribution of the mean
+hist(sample_means, breaks = 30, probability = TRUE,
+     main = paste("Sampling Distribution of the Mean, n 1000 samples of n=30"),
+     xlab = "Sample Mean", col = "skyblue", border = "white", xlim= c(15,85))
+
+# Add a normal curve for comparison
+curve(dnorm(x, mean = mean(sample_means), sd = sd(sample_means)), 
+      col = "red", lwd = 2, add = TRUE)
+
+```
+
+### **Law of Large Numbers (LLN):**
+
+As you collect more and more observations, the **sample mean** (or proportion) will get closer and closer to the **true population mean**.
+
+-   More data = more accuracy.
+
+-   Guarantees that with enough data, **random variation** averages out.
+
+Imagine that we had the patience to flip a coin 1000 times. For each toss, we calculated the number of heads we've gotten so far and divided by the total number of tosses, to get the proportion that landed heads. Although we expect the coin to be fair, we wouldn't expect it to be 50-50 heads and tails in the beginning. In fact, at the first toss that would be impossible, As we continued, however, we would see the proportion gradually stabilizing around 0.5.
+
+```{r}
+#| echo: false
+library(ggplot2)
+# Simulate coin tosses (0 = Tails, 1 = Heads)
+num_tosses <- 1000
+tosses <- rbinom(num_tosses, 1, 0.5)
+
+# Calculate cumulative proportion of heads
+toss_data <- data.frame(
+  TossNumber = 1:num_tosses,
+  ProportionHeads = cumsum(tosses) / (1:num_tosses)
+)
+
+# Plot cumulative proportion
+ggplot(toss_data, aes(x = TossNumber, y = ProportionHeads)) +
+  geom_line(color = "steelblue", size = 1) +
+  geom_hline(yintercept = 0.5, linetype = "dashed", color = "red") +
+  labs(title = "Law of Large Numbers: Coin Toss Simulation",
+       x = "Number of Tosses",
+       y = "Proportion of Heads") +
+  theme_minimal()
+```
+
+Together the central limit theorem and the law of large numbers tells us that when sampling from a population, the sampling distribution approaches a normal distrubution as the numer of samle increases, AND the value of the sample mean $\bar{x}$ will approach the true population mean $\mu$ as the sample size increase.
+
+#### Sampling in research
+
+This is all fine and well, but you may find yourself wondering "How does this help my PhD?". You won't be able to sample repeatedly from the population, if you are lucky you'll have ONE sample to work with. But there is an upside! You can use you sample values to estimate the standard deviation of the sampling distribution, also known as the **standard error (SE).**
+
+The formula for the standard error, if we knew the population variance, $\sigma^2$ is:
+
+$$
+SE = {\sqrt{\sigma^2 / n}}
+$$
+
+However, we rarely know the population standard deviation. Luckily we can use the sample variance $s^2$ to calculate it
+
+$$
+SE = {\sqrt{s^2 / n}}
+$$
+
+Excerises:
+
+1.  Calculate the standard error of LSAS_Screen using the code formula above, and describe in words what the number means
+2.  Calculate the standard error for the proportion of men in the STePS study, and describe the meaning of this number in words
+3.  What would happen to these standard errors if the sample size had been 1000 participants?
+
+## Probability
+
+The law of large numbers brings us to the concept of **probability.** In frequentist statistics, probability is defined as the long run frequency of an event as the number of events approach infinity, $\infty$. For instance the proportion of heads in an infinite number of coin tosses will approach 0.5.
+
+### Probability, p-values and confidence intervals 
+
+#### P-values
+
+Probability - defined as the long-run frequency of an event occurring - is very much used in research to get an idea of **how probable our observed data is, given some hypothesis of interest.** In probability notation $P(Data|Hypothesis)$.
+
+For instance we might have an hypothesis the the mean of LSAS-SR is 82 in the population. We can determine how probable our data would be under this hypothesis, by investigating how often we would expect to get our **observed sample mean** if this (null)hypothesis was true.
+
+For this we would need the sampling distribution of mean LSAS-SR scores in samples of 181 people (the number of our sample), *if the true population mean was 82.* One way to get this would be to simulate say 10 000 samples of LSAS-SR scores, from a population with a true mean of 82. To simulate this, we also need to know the spread (standard deviation) of the true population. We don't know this, but let's assume it is the same as in our sample.
+
+```{r}
+n_samples <- 1e4 # the number of samples
+smp_size <- 181 # the size of our samples
+means <- rep(NA, n_samples) # a vector to contain our mean values
+
+for(i in 1:n_samples){
+  x <- rnorm(smp_size, mean = 82, sd= sd(d_bl$LSAS_Screen))
+  means[i] <- mean(x)
+} 
+
+hist(means, main="Simulated sampling distribution of LSAS means")
+```
+
+\
+We can use this simulated sampling distribution to see how probable our *observed LSAS-SR mean* is if the (null)hypothesis that the true mean is 50 would be correct. First let plot the sampling distribution again, and show the observed LSAS-SR mean as a vertical line.
+
+```{r}
+hist(means, main="Simulated sampling distribution of LSAS means")
+abline(v = mean(d_bl$LSAS_Screen), col = "red", lwd = 2, lty = 2)  # vertical line showing the observed LSAS-SR mean
+```
+
+We can also quantify the probability by calculating, ***the proportion of times that a sample mean would be equal to or greater that our observed mean, IF the true population mean was 82*****.** This quantity is the very (in)famous **p-value.**
+
+```{r}
+mean(means>= mean(d_bl$LSAS_Screen)) # proportion of simulated means that are larger than our observed mean
+```
+
+If we find this simulation exercise a bit tedious, we could also use theoretical distributions for the sample means to calculate our p-value. The **t-distribution** can be used to estimate the spread to the sample means *when the population variance is unknown and the sample variance is used to approximate it*. It is very similar to the normal distribution, but has heavier tails that accounts for the uncertainty produced by using the sample variance instead of the true population variance when estimating the sampling distribution. However, when the sample size increase, the t-distribution will come closer and closer to a normal distribution.
+
+```{r}
+# Set up the plot range
+x_range <- seq(-4, 4, length = 500)
+
+# Plot standard normal distribution
+plot(x_range, dnorm(x_range), type = "l", lwd = 2, col = "black",
+     ylab = "Density", xlab = "x", main = "t-Distribution vs Normal Distribution")
+
+# Add t-distributions with different degrees of freedom
+lines(x_range, dt(x_range, df = 1), col = "red", lwd = 2, lty = 2)
+lines(x_range, dt(x_range, df = 5), col = "blue", lwd = 2, lty = 3)
+lines(x_range, dt(x_range, df = 15), col = "darkgreen", lwd = 2, lty = 4)
+lines(x_range, dt(x_range, df = 30), col = "purple", lwd = 2, lty = 5)
+
+# Add a legend
+legend("topright", legend = c("Normal (Z)", "t (df=1)", "t (df=5)", "t (df=15)", "t (df=30)"),
+       col = c("black", "red", "blue", "darkgreen", "purple"),
+       lwd = 2, lty = 1:5, bty = "n")
+
+```
+
+The probability of getting a a sample mean that is greater or equal to our observed mean can be calculated by transforimng our observed mean to a **t-value** and compare it to the **t-distribution**.
+
+The t-value of our mean $\bar{x}$ under the nullhypothesis that the population mean is $\mu$, is given by the formula:
+
+$$
+t = \frac{\bar{x} - \mu}{SE}
+$$
+
+Replacing these greek letters with our actual values $\bar{x} = 84.75$, $\mu = 82$, and $SE=1.22$, we get:
+
+```{r}
+se <- sd(d_bl$LSAS_Screen)/ sqrt(nrow(d_bl))
+x_bar <- mean(d_bl$LSAS_Screen)
+t_value <-  (x_bar - 82) / se
+t_value
+```
+
+Now let's see the probability of getting a value larger or equal to this - **our one-sided p-value!** For this we use the `pt()` function, that provides the cumulative probability up until a given t-value. 1 minuus this cumulative probability gives the probability of values equal or above the given t-value.
+
+```{r}
+1- pt(t_value, df=180)
+```
+
+Very similar to our simulated p-value above! More conveniently, of course, we could get this p-value using the `t.test()` function.
+
+```{r}
+t.test(d_bl$LSAS_Screen, mu = 82, alternative="greater")
+```
+
+::: callout-note
+## One-sided and two-sided p-values
+
+What we have calculated, bow in three different ways, is the **one-sided** p-value. This is because we only looked at the probability to *get data equal to or greater* than our observed data, given that the null-hypothesis was true.
+
+If we wanted to see the probability of getting data equal or greater than our observed data OR equal or less than out observed data under the null-hypothesis, we would want a **two-sided** p-value.
+:::
+
+#### Confidence intervals 
+
+Using the standard error, we can also calculate the confidence interval, defined as **an interval that, if computed on a repeated set of sample, would contain the true population statistic 95% of the times.**
+
+When the sample standard deviation is used, we get the confidence intervals by taking the observed mean and adding or subtracting the *t-value* of the desired percentiles of the sampling distribution times the *standard error.*
+
+$$ \text{CI} = \bar{x} \pm t^*\ \frac{s}{\sqrt{n}}$$
+
+If we knew the *stardard error of the population,* we could substitute the sample variance $s$ for the population variance $\sigma$, and use *z-values* instead of *t-values.*
+
+$$
+\text{CI} = \bar{x} \pm z^*\frac{\sigma}{\sqrt{n}}
+$$
+
+::: callout-note
+## z-values and t-values
+
+When the sample size increases, the t-distribution approaches the z-distribution and these estimates become very similar. A general rule of thumb is that it is okey to use z-values for sample sizes larger than 200.
+:::
+
+So let's calculate the confidence interval of the mean of LSAS-SR
+
+```{r}
+t_value <- qt(1- 0.025, 180) # the t-value for a 95% confidence interval with 180 degrees of freedom
+
+se <- sd(d_bl$LSAS_Screen)/sqrt(nrow(d_bl)) # standard error of LSAS-SR
+
+ucl <- mean(d_bl$LSAS_Screen) + t_value * se # the upper confidence limit
+lcl <- mean(d_bl$LSAS_Screen) - t_value * se # the lower confidence limit
+
+print(c(lcl, ucl))
+```
+
+We can also use the t-test function to get this interval
+
+```{r}
+t.test(d_bl$LSAS_Screen, conf.level = 0.95)  # For a 99% CI
+```
+
+Let's also see what happens if we use z-values (for 95% confidence intervals, the z-value is approx 1.96)
+
+```{r}
+se <- sd(d_bl$LSAS_Screen)/sqrt(nrow(d_bl)) # standard error of LSAS-SR
+
+ucl <- mean(d_bl$LSAS_Screen) + 1.96 * se
+lcl <- mean(d_bl$LSAS_Screen) - 1.96 * se
+
+print(c(lcl, ucl))
+```
+
+### Probability rules
+
+1.  **The probability of an event ranges 0 to 1,**($0 \geq P \leq 1$) , where 0 = an impossible event and 1 = a certain event.
+
+2.  The sum of all possible events for an outcome sums to 1. Assuming that our imaginary coin cannot land on its edge, \$P(heads) + P(tails) = 1 \$.
+
+3.  **Complement Rule.** The probability of an event *not* occurring is 1 minus the probability that it will occur. The probability of the coin not landing heads is $P(notheads) = 1 - P(heads)$
+
+4.  **Addition Rule** (for two events)
+
+The probability that event ( A ) or event ( B ) occurs:
+
+$$
+P(A \cup B) = P(A) + P(B) - P(A \cap B)
+$$
+
+------------------------------------------------------------------------
+
+#### 3. Multiplication Rule (for two events)
+
+For dependent events:
+
+$$
+P(A \cap B) = P(A) \times P(B|A)
+$$
+
+For independent events:
+
+$$
+P(A \cap B) = P(A) \times P(B)
+$$
+
+------------------------------------------------------------------------
+
+#### 4. Conditional Probability
+
+The probability of ( B ) given ( A ):
+
+$$
+P(B|A) = \frac{P(A \cap B)}{P(A)}
+$$
