@@ -7,8 +7,6 @@ execute:
   warning: false
 ---
 
-## Day 2: Descriptive statistics and summary measures
-
 In today's lab we will practice calculating and interpreting descriptive statistics and summery measures using the STePS dataset.
 
 We start by loading the dataset you cleaned during yesterday's lab:
@@ -50,9 +48,9 @@ d_bl <- d %>%
          ends_with("_screen"))
 ```
 
-***Excecises***
+##### Excecise
 
-2.1 Use the functions described in yesterdays lab to get a quick overview of the dataset and give a brief summary of it.
+**2.1** Use the functions described in yesterdays lab to get a quick overview of the dataset and give a brief summary of it.
 
 ## Numeric data
 
@@ -158,11 +156,11 @@ abline(v = get_mode(d_bl$LSAS_Screen), col = "darkgreen", lwd = 2, lty = 2) # Mo
 
 ##### Exercise
 
-2.2 Visualize the distribution of the PHQ-9 scale and the PID-5 scale and provide the mean, median and mode.
+**2.2** Visualize the distribution of the PHQ-9 scale and the PID-5 scale and provide the mean, median and mode.
 
-2.3 How does the centrality measures differ and why?
+**2.3** How does the centrality measures differ and why?
 
-2.4 Reason on the pros and cons of the different centrality measures for these scales.
+**2.4** Reason on the pros and cons of the different centrality measures for these scales.
 
 #### Spread measures
 
@@ -233,25 +231,13 @@ To get a summary of the spread of the data, we use different **spread measures.*
 
 ##### Exercise
 
-2.5 Calculate spread measures for the LSAS-SR scale, what do they tell you and which ones do you think are most useful to describe the spread of the values. Motive you answer briefly!
+**2.5** Calculate spread measures for the LSAS-SR scale, what do they tell you and which ones do you think are most useful to describe the spread of the values. Motive you answer briefly!
 
 *Overcourse:*
 
-2.6 Caluclate the *population variance and standard deviation*. How do these differ from the ones given by the functions `sd()` and `var()`.
+**2.6** Caluclate the *population variance and standard deviation*. How do these differ from the ones given by the functions `sd()` and `var()`.
 
-```{r}
-#creating a function to calculate the population variance 
-pop_var <- function(x){
-  1/length(x)*sum((x-mean(x))^2)
-}
-
-# and the population sd
-pop_sd <- function(x){
-  sqrt(1/length(x)*sum((x-mean(x))^2))
-}
-```
-
-2.7 Use only the first ten participants and compare the population and the sample variance and standard deviation of LSAS-SR. What do you find, and how do the results compare to those from exercise 2.6.
+**2.7** Use only the first ten participants and compare the population and the sample variance and standard deviation of LSAS-SR. What do you find, and how do the results compare to those from exercise 2.6.
 
 ## Categorical data
 
@@ -328,7 +314,7 @@ pie(table(d_bl$education))
 
 ##### Exercise
 
-2.8 Calculate the counts, proportions and percentages for the simulated income categories and visualize the distribution.
+**2.8** Calculate the counts, proportions and percentages for the simulated income categories and visualize the distribution.
 
 ## Bi-variable distributions
 
@@ -401,13 +387,13 @@ CreateTableOne(vars=vars, data=d_bl, strata="Group", test=FALSE)
 
 ##### Exercise
 
-2.9 Visualize the joint distribution of GAD-7 and PHQ-9 as numeric variables and describe what you see
+**2.9** Visualize the joint distribution of GAD-7 and PHQ-9 as numeric variables and describe what you see
 
-2.10 Visualize the distribution of of LSAS scores by income level and describe what you see
+**2.10** Visualize the distribution of of LSAS scores by income level and describe what you see
 
-2.11 Create a variable for high vs. low DERS scores and investigate the joint distribution of this variable and phq_cat (that we created in an earlier example)
+**2.11** Create a variable for high vs. low DERS scores and investigate the joint distribution of this variable and phq_cat (that we created in an earlier example)
 
-2.12 Create a table using the tableone package to show descriptives statistics stratified by high vs low depression levels. Briefly interpret what you see.
+**2.12** Create a table using the tableone package to show descriptives statistics stratified by high vs low depression levels. Briefly interpret what you see.
 
 ## Sampling from a population
 
@@ -564,11 +550,11 @@ $$
 
 ##### Excerise
 
-2.13. Calculate the standard error of LSAS_Screen using the code formula above, and describe in words what the number means
+**2.13** Calculate the standard error of LSAS_Screen using the code formula above, and describe in words what the number means
 
-2.14. Calculate the standard error for the proportion of men in the STePS study, and describe the meaning of this number in words
+**2.14** Calculate the standard error for the proportion of men in the STePS study, and describe the meaning of this number in words
 
-2.15 What would happen to these standard errors if the sample size had been 1000 participants?
+**2.15** What would happen to these standard errors if the sample size had been 1000 participants?
 
 ## Probability
 
@@ -721,9 +707,11 @@ print(c(lcl, ucl))
 
 ##### Exercise
 
-2.16 Calculate the p-value for the null hypothesis that PHQ-9 is 9, and describe in words what this number mean.
+**2.16** Calculate the p-value for the null hypothesis that PHQ-9 is 9, and describe in words what this number mean.
 
-2.17 Calculate the 95% confidence interval for PHQ-9, and describe in words what these numbers mean.
+**2.17** Calculate the 95% confidence interval for PHQ-9, and describe in words what these numbers mean
+
+**2.18** Calculate the 95% confidence interval for the proportion of men in the dataset (using the variance for the proportion).
 
 ### Probability rules
 
