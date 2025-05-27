@@ -14,10 +14,9 @@ In today's lab we will practice calculating and interpreting descriptive statist
 We start by loading the dataset you cleaned during yesterday's lab:
 
 ```{r}
-d <- read.csv("https://raw.githubusercontent.com/rpsychologist/STePS-study/main/data/steps.csv")
+library(here)
+d <- read.csv(here("data", "steps_clean.csv"))
 ```
-
-### **Basic descriptive statistics**
 
 For this exercise, we'll start of doing some basic descriptive statistics of the baseline variables. We start by checking the variable names to identify the baseline variables .
 
@@ -51,24 +50,11 @@ d_bl <- d %>%
          ends_with("_screen"))
 ```
 
-Here are some useful functions to get a quick overview of the data:
-
-| Useful functions | What they do |
-|------------------------------------|------------------------------------|
-| `head()` | shows the *first* rows of the dataset |
-| `tail()` | shows the *last* rows of the dataset |
-| `dim()` | gives the dimensions of the dataset |
-| `str()` | gives summary information on the structure of the dataframe |
-| `names()` | gets the name of an object |
-
-```         
-```
-
 ***Excecises***
 
-2.1 Use the function to get a quick overview of the dataset and give a berif summary of it.
+2.1 Use the functions described in yesterdays lab to get a quick overview of the dataset and give a brief summary of it.
 
-### Numeric data
+## Numeric data
 
 We'll start of our descriptive statistics by examining baseline levels of the numeric outcome variable "LSAS_Screen".
 
@@ -170,7 +156,7 @@ abline(v = get_mode(d_bl$LSAS_Screen), col = "darkgreen", lwd = 2, lty = 2) # Mo
 
 ```
 
-***Exercises***
+##### Exercise
 
 2.2 Visualize the distribution of the PHQ-9 scale and the PID-5 scale and provide the mean, median and mode.
 
@@ -245,11 +231,11 @@ To get a summary of the spread of the data, we use different **spread measures.*
     The functions `sd`() and `var()` gives the sample standard deviation and variance.
     :::
 
-***Exercise***
+##### Exercise
 
 2.5 Calculate spread measures for the LSAS-SR scale, what do they tell you and which ones do you think are most useful to describe the spread of the values. Motive you answer briefly!
 
-Overcourse:
+*Overcourse:*
 
 2.6 Caluclate the *population variance and standard deviation*. How do these differ from the ones given by the functions `sd()` and `var()`.
 
@@ -267,7 +253,7 @@ pop_sd <- function(x){
 
 2.7 Use only the first ten participants and compare the population and the sample variance and standard deviation of LSAS-SR. What do you find, and how do the results compare to those from exercise 2.6.
 
-### Categorical data
+## Categorical data
 
 Now we'll have a look at categorical data.
 
@@ -320,7 +306,7 @@ $$
 \mathrm{Var}(\hat{p}) = \frac{p(1-p)}{n}
 $$
 
-#### Visual presentations
+### Visual presentations
 
 As for numeric variables, visualizations can help get a better sense for the distribution of the data. Two common ways are **barcharts** and **piecharts**
 
@@ -340,15 +326,15 @@ A piechart shows the distribution of a categorical variable as a pie, with the s
 pie(table(d_bl$education))
 ```
 
-***Exercise***
+##### Exercise
 
 2.8 Calculate the counts, proportions and percentages for the simulated income categories and visualize the distribution.
 
-### Bi-variable distributions
+## Bi-variable distributions
 
 It can also be useful to investigate bi-variable distributions - i.e. the joint distribution of two variables - to get a sense of how variables in your data is related to each other.
 
-#### Numeric by numeric distributions
+### Numeric by numeric distributions
 
 For two numeric variables, the most common visualization is the **scatter plot.** It shows the distribution of each datapoint with one variable on the x-axis and the other on the y-axis. Using the `plot()` function with two numeric variables will give you a scatter plot.
 
@@ -356,7 +342,7 @@ For two numeric variables, the most common visualization is the **scatter plot.*
 plot(d_bl$LSAS_Screen, d_bl$GAD_screen)
 ```
 
-#### Numeric by categorical distributions
+### Numeric by categorical distributions
 
 The joint distribution of a numeric and a categorical variable can be visualized as a stratified boxplots. For this let's look at the distribution of LSAS scores for people with high generalized anxiety (GAD-7 ≥ 10 or more) vs low generalized anxiety (GAD-7 \< 10).
 
@@ -367,7 +353,7 @@ d_bl$gad7_cat <- ifelse(d_bl$GAD_screen>=10, "High anxiety", "Low anxiety")
 boxplot(LSAS_Screen ~ gad7_cat, data = d_bl)
 ```
 
-#### Categorical by categorical distributions   
+### Categorical by categorical distributions
 
 All the information of the joint distribution of two categorical variables can be seen using a **cross-table**. For this let's look at the distribution of high vs low depression (PHQ-9 ≥ 10 vs PHQ-9 \<10 or less) against high vs low generalized anxiety.
 
@@ -410,8 +396,10 @@ CreateTableOne(vars=vars, data=d_bl)
 We can also do this stratified by a categorical variable using the strata argument. Let's have it by treatment group.
 
 ```{r}
-CreateTableOne(vars=vars, data=d_bl, strata="Group")
+CreateTableOne(vars=vars, data=d_bl, strata="Group", test=FALSE)
 ```
+
+##### Exercise
 
 2.9 Visualize the joint distribution of GAD-7 and PHQ-9 as numeric variables and describe what you see
 
@@ -558,7 +546,7 @@ ggplot(toss_data, aes(x = TossNumber, y = ProportionHeads)) +
 
 Together the central limit theorem and the law of large numbers tells us that when sampling from a population, the sampling distribution approaches a normal distrubution as the numer of samle increases, AND the value of the sample mean $\bar{x}$ will approach the true population mean $\mu$ as the sample size increase.
 
-#### Sampling in research
+### Sampling in research
 
 This is all fine and well, but you may find yourself wondering "How does this help my PhD?". You won't be able to sample repeatedly from the population, if you are lucky you'll have ONE sample to work with. But there is an upside! You can use you sample values to estimate the standard deviation of the sampling distribution, also known as the **standard error (SE).**
 
@@ -574,19 +562,19 @@ $$
 SE = {\sqrt{s^2 / n}}
 $$
 
-Excerises:
+##### Excerise
 
-1.  Calculate the standard error of LSAS_Screen using the code formula above, and describe in words what the number means
-2.  Calculate the standard error for the proportion of men in the STePS study, and describe the meaning of this number in words
-3.  What would happen to these standard errors if the sample size had been 1000 participants?
+2.13. Calculate the standard error of LSAS_Screen using the code formula above, and describe in words what the number means
+
+2.14. Calculate the standard error for the proportion of men in the STePS study, and describe the meaning of this number in words
+
+2.15 What would happen to these standard errors if the sample size had been 1000 participants?
 
 ## Probability
 
 The law of large numbers brings us to the concept of **probability.** In frequentist statistics, probability is defined as the long run frequency of an event as the number of events approach infinity, $\infty$. For instance the proportion of heads in an infinite number of coin tosses will approach 0.5.
 
-### Probability, p-values and confidence intervals 
-
-#### P-values
+### P-values
 
 Probability - defined as the long-run frequency of an event occurring - is very much used in research to get an idea of **how probable our observed data is, given some hypothesis of interest.** In probability notation $P(Data|Hypothesis)$.
 
@@ -681,7 +669,7 @@ What we have calculated, bow in three different ways, is the **one-sided** p-val
 If we wanted to see the probability of getting data equal or greater than our observed data OR equal or less than out observed data under the null-hypothesis, we would want a **two-sided** p-value.
 :::
 
-#### Confidence intervals 
+### Confidence intervals
 
 Using the standard error, we can also calculate the confidence interval, defined as **an interval that, if computed on a repeated set of sample, would contain the true population statistic 95% of the times.**
 
@@ -698,7 +686,7 @@ $$
 ::: callout-note
 ## z-values and t-values
 
-When the sample size increases, the t-distribution approaches the z-distribution and these estimates become very similar. A general rule of thumb is that it is okey to use z-values for sample sizes larger than 200.
+When the sample size increases, the t-distribution approaches the z-distribution and these estimates become very similar. A general rule of thumb is that it is fineto use z-values for sample sizes larger than 200.
 :::
 
 So let's calculate the confidence interval of the mean of LSAS-SR
@@ -730,6 +718,12 @@ lcl <- mean(d_bl$LSAS_Screen) - 1.96 * se
 
 print(c(lcl, ucl))
 ```
+
+##### Exercise
+
+2.16 Calculate the p-value for the null hypothesis that PHQ-9 is 9, and describe in words what this number mean.
+
+2.17 Calculate the 95% confidence interval for PHQ-9, and describe in words what these numbers mean.
 
 ### Probability rules
 
