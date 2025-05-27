@@ -31,14 +31,14 @@ Regardless of the project you are working on, you will benefit from having a wel
 ```plaintext
 biostat-labs/
 ├── data/
-├── src/
+├── R/
 ├── docs/
 ├── output/
 ├── README.md
 ```
 
 - `data/`: This folder *can* contain raw data, but if you have sensitive data you will likely store it on a secure server. It's safe to store the data you are working with in this course here, however.
-- `src/`: This folder contains the scripts you are working on. `src` stands for "source", which means the original code that you are writing.
+- `R/`: This folder contains the scripts you are working on.
 - `docs/`: This folder contains the documentation for your project. One good way to distinguish this from output is that the *docs* folder contains files and background information that is not generate by the code you are writing, for example documentation about questionnaires.
 - `output/`: This folder contains the output of your code, such as figures, tables, and reports. This is where you will save the results of your analysis. Feel free to create subfolders as needed.
 - `README.md`: This file contains information about your project, such as the purpose of the project, how to run the code, and any other relevant information. It's good practice to keep this file updated as it is often the "landing page" when others collaborate in your project.
