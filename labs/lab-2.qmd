@@ -286,10 +286,10 @@ table(d_bl$education)/nrow(d_bl)
 We do not need spread measures for categorical data, as all information there is about the distribution in provided in the counts or proportions. We can however calculate the variance of a proportion
 :::
 
-Variance of a proportion
+Sample variance of a proportion
 
 $$
-\mathrm{Var}(\hat{p}) = \frac{p(1-p)}{n}
+\mathrm{Var}(\hat{p}) = \frac{\hat{p}(1-\hat{p}))}{n}
 $$
 
 ### Visual presentations
