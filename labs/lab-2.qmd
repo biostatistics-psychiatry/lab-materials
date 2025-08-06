@@ -582,7 +582,7 @@ hist(means, main="Simulated sampling distribution of LSAS means")
 ```
 
 \
-We can use this simulated sampling distribution to see how probable our *observed LSAS-SR mean* is if the (null)hypothesis that the true mean is 50 would be correct. First let plot the sampling distribution again, and show the observed LSAS-SR mean as a vertical line.
+We can use this simulated sampling distribution to see how probable our *observed LSAS-SR mean* is if the (null)hypothesis that the true mean is 82 would be correct. First let plot the sampling distribution again, and show the observed LSAS-SR mean as a vertical line.
 
 ```{r}
 hist(means, main="Simulated sampling distribution of LSAS means")
@@ -712,6 +712,8 @@ print(c(lcl, ucl))
 **2.17** Calculate the 95% confidence interval for PHQ-9, and describe in words what these numbers mean
 
 **2.18** Calculate the 95% confidence interval for the proportion of men in the dataset (using the variance for the proportion).
+
+**2.19** Någonting om vad p-värdet faktiskt betyder
 
 ### Probability rules
 
