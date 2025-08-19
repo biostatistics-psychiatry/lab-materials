@@ -44,3 +44,4 @@ format:
   html:
     theme: flatly
     toc: true
+    toc-depth: 6

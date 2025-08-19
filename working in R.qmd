@@ -1,0 +1,20 @@
+---
+title: "working in R"
+format: html
+---
+
+# R Studio
+
+## User interface
+
+The R studio interface has four main panes.
+
+-   **Source pane (top-left)** is where you write you write and execute your code.
+
+-   **Console pane (bottom-left)**This is the interactive
+
+-   **Environment pane (top-right)**
+
+-   **Output pane (bottom-left)**
+
+## 
