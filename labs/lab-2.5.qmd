@@ -7,6 +7,14 @@ execute:
   warning: false
 ---
 
+```{r}
+#| label: load-packages
+
+library(here)
+library(tidyverse)
+d_bl <- read_rds(here("data", "steps_baseline.rds"))
+```
+
 ## Sampling from a population
 
 In yesterdays lab, we restricted ourselves to describing the sample that we have. Often, however, we are not only interested about our sample, but want to make inferences about the **population** from which our sample came.
@@ -27,13 +35,13 @@ Here is a simulation to visualize what the relation between the distribution of 
 #| echo: false
 
 # Parameters
-population <- rnorm(10000, mean = 50, sd = 10)  # simulate a population
+population <- rnorm(10000, mean = 50, sd = 10) # simulate a population
 sample_size <- 30
 num_samples <- 1000
 sample_means <- numeric(num_samples)
 
-par(mfrow= c(2,1))
-hist(population, xlim= c(15,85), main = "Normal population distrubution")
+par(mfrow = c(2, 1))
+hist(population, xlim = c(15, 85), main = "Normal population distrubution")
 
 # Draw multiple samples and compute their means
 for (i in 1:num_samples) {
@@ -42,13 +50,16 @@ for (i in 1:num_samples) {
 }
 
 # Plot the sampling distribution of the mean
-hist(sample_means, breaks = 30, probability = TRUE,
-     main = paste("Sampling Distribution of the Mean, \n 1000 samples of n=30"),
-     xlab = "Sample Mean", col = "skyblue", border = "white", xlim= c(15,85))
+hist(sample_means,
+  breaks = 30, probability = TRUE,
+  main = paste("Sampling Distribution of the Mean, \n 1000 samples of n=30"),
+  xlab = "Sample Mean", col = "skyblue", border = "white", xlim = c(15, 85)
+)
 
 # Add a normal curve for comparison
-curve(dnorm(x, mean = mean(sample_means), sd = sd(sample_means)), 
-      col = "red", lwd = 2, add = TRUE)
+curve(dnorm(x, mean = mean(sample_means), sd = sd(sample_means)),
+  col = "red", lwd = 2, add = TRUE
+)
 
 ```
 
@@ -56,13 +67,13 @@ curve(dnorm(x, mean = mean(sample_means), sd = sd(sample_means)),
 #| echo: false
 
 # Parameters
-population <- runif(10000, min = 15, max = 85)  # simulate a population
+population <- runif(10000, min = 15, max = 85) # simulate a population
 sample_size <- 30
 num_samples <- 1000
 sample_means <- numeric(num_samples)
 
-par(mfrow= c(2,1))
-hist(population, xlim= c(15,85), main = "Uniform population distrubution")
+par(mfrow = c(2, 1))
+hist(population, xlim = c(15, 85), main = "Uniform population distrubution")
 
 # Draw multiple samples and compute their means
 for (i in 1:num_samples) {
@@ -71,13 +82,16 @@ for (i in 1:num_samples) {
 }
 
 # Plot the sampling distribution of the mean
-hist(sample_means, breaks = 30, probability = TRUE,
-     main = paste("Sampling Distribution of the Mean, \n 1000 samples of n=30"),
-     xlab = "Sample Mean", col = "skyblue", border = "white", xlim= c(15,85))
+hist(sample_means,
+  breaks = 30, probability = TRUE,
+  main = paste("Sampling Distribution of the Mean, \n 1000 samples of n=30"),
+  xlab = "Sample Mean", col = "skyblue", border = "white", xlim = c(15, 85)
+)
 
 # Add a normal curve for comparison
-curve(dnorm(x, mean = mean(sample_means), sd = sd(sample_means)), 
-      col = "red", lwd = 2, add = TRUE)
+curve(dnorm(x, mean = mean(sample_means), sd = sd(sample_means)),
+  col = "red", lwd = 2, add = TRUE
+)
 
 
 ```
@@ -86,13 +100,13 @@ curve(dnorm(x, mean = mean(sample_means), sd = sd(sample_means)),
 #| echo: false
 
 # Parameters
-population <- c(rnorm(10000/2, mean = 65, sd = 5), rnorm(10000/2, mean = 35, sd = 5))  # simulate a population
+population <- c(rnorm(10000 / 2, mean = 65, sd = 5), rnorm(10000 / 2, mean = 35, sd = 5)) # simulate a population
 sample_size <- 30
 num_samples <- 1000
 sample_means <- numeric(num_samples)
 
-par(mfrow= c(2,1))
-hist(population, xlim= c(15,85), breaks=30, main = "Bi-modal population distribution")
+par(mfrow = c(2, 1))
+hist(population, xlim = c(15, 85), breaks = 30, main = "Bi-modal population distribution")
 
 # Draw multiple samples and compute their means
 for (i in 1:num_samples) {
@@ -101,13 +115,16 @@ for (i in 1:num_samples) {
 }
 
 # Plot the sampling distribution of the mean
-hist(sample_means, breaks = 30, probability = TRUE,
-     main = paste("Sampling Distribution of the Mean, n 1000 samples of n=30"),
-     xlab = "Sample Mean", col = "skyblue", border = "white", xlim= c(15,85))
+hist(sample_means,
+  breaks = 30, probability = TRUE,
+  main = paste("Sampling Distribution of the Mean, n 1000 samples of n=30"),
+  xlab = "Sample Mean", col = "skyblue", border = "white", xlim = c(15, 85)
+)
 
 # Add a normal curve for comparison
-curve(dnorm(x, mean = mean(sample_means), sd = sd(sample_means)), 
-      col = "red", lwd = 2, add = TRUE)
+curve(dnorm(x, mean = mean(sample_means), sd = sd(sample_means)),
+  col = "red", lwd = 2, add = TRUE
+)
 
 ```
 
@@ -123,7 +140,6 @@ Imagine that we had the patience to flip a coin 1000 times. For each toss, we ca
 
 ```{r}
 #| echo: false
-library(ggplot2)
 # Simulate coin tosses (0 = Tails, 1 = Heads)
 num_tosses <- 1000
 tosses <- rbinom(num_tosses, 1, 0.5)
@@ -138,9 +154,11 @@ toss_data <- data.frame(
 ggplot(toss_data, aes(x = TossNumber, y = ProportionHeads)) +
   geom_line(color = "steelblue", size = 1) +
   geom_hline(yintercept = 0.5, linetype = "dashed", color = "red") +
-  labs(title = "Law of Large Numbers: Coin Toss Simulation",
-       x = "Number of Tosses",
-       y = "Proportion of Heads") +
+  labs(
+    title = "Law of Large Numbers: Coin Toss Simulation",
+    x = "Number of Tosses",
+    y = "Proportion of Heads"
+  ) +
   theme_minimal()
 ```
 
@@ -197,26 +215,26 @@ n_samples <- 1e4 # the number of samples
 smp_size <- 181 # the size of our samples
 means <- rep(NA, n_samples) # a vector to contain our mean values
 
-for(i in 1:n_samples){
-  x <- rnorm(smp_size, mean = 82, sd= sd(d_bl$LSAS_Screen))
+for (i in 1:n_samples) {
+  x <- rnorm(smp_size, mean = 82, sd = sd(d_bl$lsas_screen))
   means[i] <- mean(x)
-} 
+}
 
-hist(means, main="Simulated sampling distribution of LSAS means")
+hist(means, main = "Simulated sampling distribution of LSAS means")
 ```
 
 \
 We can use this simulated sampling distribution to see how probable our *observed LSAS-SR mean* is if the (null)hypothesis that the true mean is 82 would be correct. First let plot the sampling distribution again, and show the observed LSAS-SR mean as a vertical line.
 
 ```{r}
-hist(means, main="Simulated sampling distribution of LSAS means")
-abline(v = mean(d_bl$LSAS_Screen), col = "red", lwd = 2, lty = 2)  # vertical line showing the observed LSAS-SR mean
+hist(means, main = "Simulated sampling distribution of LSAS means")
+abline(v = mean(d_bl$lsas_screen), col = "red", lwd = 2, lty = 2) # vertical line showing the observed LSAS-SR mean
 ```
 
 We can also quantify the probability by calculating, ***the proportion of times that a sample mean would be equal to or greater that our observed mean, IF the true population mean was 82*****.** This quantity is the very (in)famous **p-value.**
 
 ```{r}
-mean(means>= mean(d_bl$LSAS_Screen)) # proportion of simulated means that are larger than our observed mean
+mean(means >= mean(d_bl$lsas_screen)) # proportion of simulated means that are larger than our observed mean
 ```
 
 If we find this simulation exercise a bit tedious, we could also use theoretical distributions for the sample means to calculate our p-value. The **t-distribution** can be used to estimate the spread to the sample means *when the population variance is unknown and the sample variance is used to approximate it*. It is very similar to the normal distribution, but has heavier tails that accounts for the uncertainty produced by using the sample variance instead of the true population variance when estimating the standard error of the sampling distribution. However, when the sample size increase, the t-distribution will come closer and closer to a normal distribution (also known as a z-distribution when standardized to have mean=0 and sd=1).
@@ -226,8 +244,10 @@ If we find this simulation exercise a bit tedious, we could also use theoretical
 x_range <- seq(-4, 4, length = 500)
 
 # Plot standard normal distribution
-plot(x_range, dnorm(x_range), type = "l", lwd = 2, col = "black",
-     ylab = "Density", xlab = "x", main = "t-Distribution vs Normal Distribution")
+plot(x_range, dnorm(x_range),
+  type = "l", lwd = 2, col = "black",
+  ylab = "Density", xlab = "x", main = "t-Distribution vs Normal Distribution"
+)
 
 # Add t-distributions with different degrees of freedom
 lines(x_range, dt(x_range, df = 1), col = "red", lwd = 2, lty = 2)
@@ -236,9 +256,11 @@ lines(x_range, dt(x_range, df = 15), col = "darkgreen", lwd = 2, lty = 4)
 lines(x_range, dt(x_range, df = 30), col = "purple", lwd = 2, lty = 5)
 
 # Add a legend
-legend("topright", legend = c("Normal (Z)", "t (df=1)", "t (df=5)", "t (df=15)", "t (df=30)"),
-       col = c("black", "red", "blue", "darkgreen", "purple"),
-       lwd = 2, lty = 1:5, bty = "n")
+legend("topright",
+  legend = c("Normal (Z)", "t (df=1)", "t (df=5)", "t (df=15)", "t (df=30)"),
+  col = c("black", "red", "blue", "darkgreen", "purple"),
+  lwd = 2, lty = 1:5, bty = "n"
+)
 
 ```
 
@@ -253,16 +275,16 @@ $$
 Replacing these greek letters with our actual values $\bar{x} = 84.75$, $\mu = 82$, and $SE=1.22$, we get:
 
 ```{r}
-se <- sd(d_bl$LSAS_Screen)/ sqrt(nrow(d_bl))
-x_bar <- mean(d_bl$LSAS_Screen)
-t_value <-  (x_bar - 82) / se
+se <- sd(d_bl$lsas_screen) / sqrt(nrow(d_bl))
+x_bar <- mean(d_bl$lsas_screen)
+t_value <- (x_bar - 82) / se
 t_value
 ```
 
 Now let's see the probability of getting a value larger or equal to this - **our one-sided p-value!** For this we use the `pt()` function, that provides the cumulative probability up until a given t-value. 1 minus this cumulative probability gives the probability of values equal or above the given t-value.
 
 ```{r}
-1- pt(t_value, df=180)
+1 - pt(t_value, df = 180)
 ```
 
 ::: callout-note
@@ -274,13 +296,13 @@ When the sample size increases, the t-distribution approaches the z-distribution
 We could also get a very similar p-value from the z-distribution (although we would assume we have the population variance for out calculation of the standard error). If this was a proportion, a z-test would be the one to use, since we are not using any estimates when calculating the standard error.
 
 ```{r}
-1- pnorm(t_value)
+1 - pnorm(t_value)
 ```
 
 Very similar to our simulated p-value above! More conveniently, of course, we could get this p-value using the `t.test()` function.
 
 ```{r}
-t.test(d_bl$LSAS_Screen, mu = 82, alternative="greater")
+t.test(d_bl$lsas_screen, mu = 82, alternative = "greater")
 ```
 
 ::: callout-note
@@ -293,7 +315,6 @@ If we wanted to see the probability of getting data equal or greater than our ob
 
 ```{r}
 #| echo: false
-library(ggplot2)
 # Define the test statistic
 z_stat <- 1.96
 
@@ -307,8 +328,10 @@ p_one_sided <- ggplot(plot_df, aes(x = x, y = y)) +
   geom_line(color = "black") +
   geom_area(data = subset(plot_df, x >= z_stat), aes(y = y), fill = "blue", alpha = 0.5) +
   geom_vline(xintercept = z_stat, color = "blue", linetype = "dashed") +
-  labs(title = "One-sided p-value (Right Tail)",
-       x = "Z", y = "Density") +
+  labs(
+    title = "One-sided p-value (Right Tail)",
+    x = "Z", y = "Density"
+  ) +
   theme_minimal()
 
 # ---- Two-sided plot ----
@@ -317,8 +340,10 @@ p_two_sided <- ggplot(plot_df, aes(x = x, y = y)) +
   geom_area(data = subset(plot_df, x >= z_stat), aes(y = y), fill = "red", alpha = 0.5) +
   geom_area(data = subset(plot_df, x <= -z_stat), aes(y = y), fill = "red", alpha = 0.5) +
   geom_vline(xintercept = c(-z_stat, z_stat), color = "red", linetype = "dashed") +
-  labs(title = "Two-sided p-value (Both Tails)",
-       x = "Z", y = "Density") +
+  labs(
+    title = "Two-sided p-value (Both Tails)",
+    x = "Z", y = "Density"
+  ) +
   theme_minimal()
 
 # ---- Plot results ----
@@ -330,14 +355,14 @@ print(p_two_sided)
 Code for the two-sided p-value
 
 ```{r}
-#manual code
-se <- sd(d_bl$LSAS_Screen)/ sqrt(nrow(d_bl))
-x_bar <- mean(d_bl$LSAS_Screen)
-t_value <-  (x_bar - 82) / se
-(1- pt(t_value, df=180))*2
+# manual code
+se <- sd(d_bl$lsas_screen) / sqrt(nrow(d_bl))
+x_bar <- mean(d_bl$lsas_screen)
+t_value <- (x_bar - 82) / se
+(1 - pt(t_value, df = 180)) * 2
 
-#or using the t-test function
-t.test(d_bl$LSAS_Screen, mu = 82, alternative="two.sided")
+# or using the t-test function
+t.test(d_bl$lsas_screen, mu = 82, alternative = "two.sided")
 ```
 
 ##### Exercises
@@ -389,10 +414,10 @@ Now let's use these formulas to calculate the confidence interval of the mean of
 ```{r}
 t_value <- qt(1- 0.025, 180) # the t-value for a 95% confidence interval with 180 degrees of freedom
 
-se <- sd(d_bl$LSAS_Screen)/sqrt(nrow(d_bl)) # standard error of LSAS-SR
+se <- sd(d_bl$lsas_screen)/sqrt(nrow(d_bl)) # standard error of LSAS-SR
 
-ucl <- mean(d_bl$LSAS_Screen) + t_value * se # the upper confidence limit
-lcl <- mean(d_bl$LSAS_Screen) - t_value * se # the lower confidence limit
+ucl <- mean(d_bl$lsas_screen) + t_value * se # the upper confidence limit
+lcl <- mean(d_bl$lsas_screen) - t_value * se # the lower confidence limit
 
 print(c(lcl, ucl))
 ```
@@ -400,16 +425,16 @@ print(c(lcl, ucl))
 We can also use the `t.test()` function to get this interval
 
 ```{r}
-t.test(d_bl$LSAS_Screen, conf.level = 0.95)  # For a 95% CI
+t.test(d_bl$lsas_screen, conf.level = 0.95)  # For a 95% CI
 ```
 
 Let's also see what happens if we use z-values (for 95% confidence intervals, the z-value is approx 1.96)
 
 ```{r}
-se <- sd(d_bl$LSAS_Screen)/sqrt(nrow(d_bl)) # standard error of LSAS-SR
+se <- sd(d_bl$lsas_screen)/sqrt(nrow(d_bl)) # standard error of LSAS-SR
 
-ucl <- mean(d_bl$LSAS_Screen) + 1.96 * se
-lcl <- mean(d_bl$LSAS_Screen) - 1.96 * se
+ucl <- mean(d_bl$lsas_screen) + 1.96 * se
+lcl <- mean(d_bl$lsas_screen) - 1.96 * se
 
 print(c(lcl, ucl))
 ```

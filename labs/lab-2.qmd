@@ -37,8 +37,8 @@ d_bl <- d %>%
     bbq_screen,
     scs_screen,
     dmrsodf_screen,
-    ders16_screen,
-    pid5_screen
+    ders_screen,
+    pid_5_screen
   )
 ```
 
@@ -79,7 +79,7 @@ A **histogram** is a graphical representation used to visualize the **distributi
 | **Outliers**       | Bars isolated from the main group  |
 
 ```{r}
-hist(d_bl$LSAS_Screen)
+hist(d_bl$lsas_screen)
 ```
 
 #### Boxplot
@@ -95,7 +95,7 @@ A **boxplot** (also called a **box-and-whisker plot**) is a compact, visual summ
 | **Maximum**           | Largest value (excluding outliers)       |
 
 ```{r}
-boxplot(d_bl$LSAS_Screen)
+boxplot(d_bl$lsas_screen)
 ```
 
 ## Centrality measures
@@ -121,13 +121,13 @@ Now let's use R to calculate some centrality measures for LSAS at baseline.
 ### Getting the mean using `mean()`
 
 ```{r}
-mean(d_bl$LSAS_Screen)
+mean(d_bl$lsas_screen)
 ```
 
 ### Getting the median using `median()`
 
 ```{r}
-median(d_bl$LSAS_Screen)
+median(d_bl$lsas_screen)
 ```
 
 ### Getting the mode
@@ -139,13 +139,13 @@ get_mode <- function(x) {
   ux <- unique(x)
   ux[which.max(tabulate(match(x, ux)))]
 }
-get_mode(d_bl$LSAS_Screen)
+get_mode(d_bl$lsas_screen)
 ```
 
 Much of this information could also be easily found using the `summary()` function.
 
 ```{r}
-summary(d_bl$LSAS_Screen)
+summary(d_bl$lsas_screen)
 
 ```
 
@@ -154,15 +154,15 @@ summary(d_bl$LSAS_Screen)
 You could also plot the mean, median and mode over the histogram, to get a better sense of the data.
 
 ```{r}
-hist(d_bl$LSAS_Screen,
+hist(d_bl$lsas_screen,
   main = "Histogram with Mean, Median, and Mode",
   xlab = "Values", probability = TRUE
 )
 
 # Add lines for mean, median, and mode
-abline(v = mean(d_bl$LSAS_Screen), col = "blue", lwd = 2, lty = 2) # Mean
-abline(v = median(d_bl$LSAS_Screen), col = "red", lwd = 2, lty = 2) # Median
-abline(v = get_mode(d_bl$LSAS_Screen), col = "darkgreen", lwd = 2, lty = 2) # Mode
+abline(v = mean(d_bl$lsas_screen), col = "blue", lwd = 2, lty = 2) # Mean
+abline(v = median(d_bl$lsas_screen), col = "red", lwd = 2, lty = 2) # Median
+abline(v = get_mode(d_bl$lsas_screen), col = "darkgreen", lwd = 2, lty = 2) # Mode
 
 ```
 
@@ -342,7 +342,7 @@ It can also be useful to investigate bi-variable distributions - i.e. the joint 
 For two numeric variables, the most common visualization is the **scatter plot.** It shows the distribution of each datapoint with one variable on the x-axis and the other on the y-axis. Using the `plot()` function with two numeric variables will give you a scatter plot.
 
 ```{r}
-plot(d_bl$LSAS_Screen, d_bl$GAD_screen)
+plot(d_bl$lsas_screen, d_bl$gad_screen)
 ```
 
 ## Numeric by categorical distributions
@@ -351,9 +351,9 @@ The joint distribution of a numeric and a categorical variable can be visualized
 
 ```{r}
 # create a variable indicating if GAD-7 is 10 or more
-d_bl$gad7_cat <- ifelse(d_bl$GAD_screen >= 10, "High anxiety", "Low anxiety")
+d_bl$gad_cat <- ifelse(d_bl$gad_screen >= 10, "High anxiety", "Low anxiety")
 
-boxplot(LSAS_Screen ~ gad7_cat, data = d_bl)
+boxplot(lsas_screen ~ gad_cat, data = d_bl)
 ```
 
 ## Categorical by categorical distributions
@@ -361,15 +361,15 @@ boxplot(LSAS_Screen ~ gad7_cat, data = d_bl)
 All the information of the joint distribution of two categorical variables can be seen using a **cross-table**. For this let's look at the distribution of high vs low depression (PHQ-9 ≥ 10 vs PHQ-9 \<10 or less) against high vs low generalized anxiety.
 
 ```{r}
-d_bl$phq_cat <- ifelse(d_bl$PHQ.9_screen >= 10, "High depression", "Low depression")
+d_bl$phq_cat <- ifelse(d_bl$phq9_screen >= 10, "High depression", "Low depression")
 
-table(d_bl$gad7_cat, d_bl$phq_cat)
+table(d_bl$gad_cat, d_bl$phq_cat)
 ```
 
 Although all information about the distribution is available in the crosstable, you may still want to visualize this distribution. One way is to use a **mosaic plot**, which you can get by providing cross-table to the `plot()` function.
 
 ```{r}
-plot(table(d_bl$gad7_cat, d_bl$phq_cat), main = "Depression and anxiety")
+plot(table(d_bl$gad_cat, d_bl$phq_cat), main = "Depression and anxiety")
 ```
 
 ## Descriptive statistics using the 'tableone' package
@@ -382,14 +382,14 @@ library(tableone)
 
 # define the variables you want
 vars <- c(
-  "LSAS_Screen",
-  "GAD_screen",
-  "PHQ.9_screen",
-  "BBQ_screen",
-  "SCS_screen",
-  "DMRSODF_screen",
-  "DERS.16_screen",
-  "PID.5_screen",
+  "lsas_screen",
+  "gad_screen",
+  "phq9_screen",
+  "bbq_screen",
+  "scs_screen",
+  "dmrsodf_screen",
+  "ders_screen",
+  "pid_5_screen",
   "gender",
   "education",
   "income"
@@ -401,7 +401,7 @@ CreateTableOne(vars = vars, data = d_bl)
 We can also do this stratified by a categorical variable using the strata argument. Let's have it by treatment group.
 
 ```{r}
-CreateTableOne(vars = vars, data = d_bl, strata = "Group", test = FALSE)
+CreateTableOne(vars = vars, data = d_bl, strata = "group", test = FALSE)
 ```
 
 ::: {.callout-caution collapse="true"}
@@ -415,3 +415,11 @@ CreateTableOne(vars = vars, data = d_bl, strata = "Group", test = FALSE)
 
 **2.12** Create a table using the tableone package to show descriptives statistics stratified by high vs low depression levels. Briefly interpret what you see.
 :::
+
+# Save output
+
+```{r}
+#| label: save-output
+
+write_rds(d_bl, here("data", "steps_baseline.rds"))
+```
