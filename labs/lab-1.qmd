@@ -20,6 +20,8 @@ This is a dataset from the STePS study, which is a RCT comparing guided and ungu
 
 ## AnhörigSpel-study
 
+TODO
+
 # Load packages
 
 In this lab, we will be using the *tidyverse* package, which is a collection of useful packages for data manipulation and visualization. We will also use the *here* package, which helps us manage file paths in a simple way.
@@ -138,7 +140,7 @@ names(df_data)
 #| label: clean-column-names
 #| message: false
 
-df_data <- df_data |> 
+df_data <- df_data |>
   clean_names()
 ```
 
@@ -148,12 +150,11 @@ We have sorted some of the problems, but we still have inconsistent names for ti
 #| label: fix-column-inconsistencies
 #| message: false
 
-df_data <- df_data |> 
-  rename_with(~ .x |> 
-    str_replace_all("screening", "screen") |> 
-    str_replace_all("ders_16|ders16", "ders") |> 
-    str_replace_all("phq_9", "phq9")
-  )
+df_data <- df_data |>
+  rename_with(~ .x |>
+    str_replace_all("screening", "screen") |>
+    str_replace_all("ders_16|ders16", "ders") |>
+    str_replace_all("phq_9", "phq9"))
 ```
 
 ::: {.callout-tip}
@@ -189,8 +190,8 @@ Let's fix this by replacing the problematic values with `NA`. We will use the `m
 #| label: fix-missing-values
 #| message: false
 
-df_data <- df_data |> 
-  mutate(across(where(is.character), ~na_if(., "missing")))
+df_data <- df_data |>
+  mutate(across(where(is.character), ~ na_if(., "missing")))
 
 ```
 
@@ -213,7 +214,7 @@ The NA values are now correctly coded, but we still have some columns that are n
 # which columns should be numeric?
 num_cols <- c("lsas", "gad", "phq9", "bbq", "scs", "dmrsodf", "ders", "pid_5")
 
-df_data <- df_data |> 
+df_data <- df_data |>
   mutate(
     across(starts_with(num_cols), as.numeric),
     id = factor(id),
