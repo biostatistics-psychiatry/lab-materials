@@ -7,16 +7,18 @@ execute:
   warning: false
 ---
 
-In today's lab we will practice calculating and interpreting descriptive statistics and summery measures using the STePS dataset.
-
-We start by loading the dataset you cleaned during yesterday's lab:
+In this lab we will practice calculating and interpreting descriptive statistics and summary measures using the STePS dataset. We start by loading the dataset you cleaned during the previous lab:
 
 ```{r}
+#| label: load-packages
+#| message: false
 library(here)
+library(tidyverse)
+
 d <- read.csv(here("data", "steps_clean.csv"))
 ```
 
-For this exercise, we'll start of doing some basic descriptive statistics of the baseline variables. We start by checking the variable names to identify the baseline variables .
+For this exercise, we'll start of doing some basic descriptive statistics of the baseline variables. We start by checking the variable names to identify the baseline variables.
 
 ```{r}
 colnames(d)
@@ -25,42 +27,47 @@ colnames(d)
 For easy handling, we'll create a data frame containing only the baseline variables, ID, Group and all variables ending with the suffix "\_screen".
 
 ```{r}
-library(dplyr)
 d_bl <- d %>%
-  select(ID, 
-         Group,
-         LSAS_Screen,
-         GAD_screen,
-         PHQ.9_screen,
-         BBQ_screen,
-         SCS_screen,
-         DMRSODF_screen,
-         DERS.16_screen,
-         PID.5_screen)
+  select(
+    id,
+    group,
+    lsas_screen,
+    gad_screen,
+    phq9_screen,
+    bbq_screen,
+    scs_screen,
+    dmrsodf_screen,
+    ders16_screen,
+    pid5_screen
+  )
 ```
 
-Or more efficiently (if variables are correctly named) we can use the ends_with() function from the tidyselect package:
+Or more efficiently (if variables are correctly named) we can use the `ends_with()` function from the *tidyselect* package:
 
 ```{r}
 d_bl <- d %>%
-  select(ID,
-         Group, 
-         ends_with("_screen"))
+  select(
+    id,
+    group,
+    ends_with("_screen")
+  )
 ```
 
-##### Excecise
+::: {.callout-caution collapse="true"}
+## Exercise: Get an overview of the dataset
 
 **2.1** Use the functions described in yesterdays lab to get a quick overview of the dataset and give a brief summary of it.
+:::
 
-## Numeric data
+# Numeric data
 
-We'll start of our descriptive statistics by examining baseline levels of the numeric outcome variable "LSAS_Screen".
+We'll start exploring descriptive statistics by examining baseline levels of the LSAS-questionnaire, which measures symptoms of social anxiety and was used as the outcome variable in the study.
 
-#### Visual presentations
+## Visual presentations
 
 The simplest, and often most informative way, to get an overview of a variable is to produce a visual representation of its distribution. For uni-variable numeric variables, two common visualizations are histograms `hist()` and boxplots `boxplot()`.
 
-##### Histogram
+### Histogram
 
 A **histogram** is a graphical representation used to visualize the **distribution of a numeric variable**. It shows how data are **spread across intervals (bins)** and helps identify patterns such as **central tendency, variability, skewness**, and **outliers**.
 
@@ -75,7 +82,7 @@ A **histogram** is a graphical representation used to visualize the **distributi
 hist(d_bl$LSAS_Screen)
 ```
 
-##### Boxplot
+#### Boxplot
 
 A **boxplot** (also called a **box-and-whisker plot**) is a compact, visual summary of the **distribution, central tendency, and variability** of a dataset.
 
@@ -91,9 +98,9 @@ A **boxplot** (also called a **box-and-whisker plot**) is a compact, visual summ
 boxplot(d_bl$LSAS_Screen)
 ```
 
-#### Centrality measures
+## Centrality measures
 
-Sometimes we need more comprehensive summaries of our data, for this it is common to use **centrality measures**. Centrality measures are statistical summaries that describe the **center or typical value** of a dataset. They help summarize where most values lie and include:
+Sometimes we need more comprehensive summaries of our data. For this purpose, it is common to use **centrality measures**. Centrality measures are statistical summaries that describe the **center or typical value** of a dataset. They help summarize where most values lie and include:
 
 -   **Mean**: The average of all values (sum of all values divided by the number of values).
 
@@ -111,17 +118,19 @@ The mean is sensitive to outliers, while the median is not. The values \[1, 2, 3
 
 Now let's use R to calculate some centrality measures for LSAS at baseline.
 
-Getting the mean using `mean()`
+### Getting the mean using `mean()`
 
 ```{r}
 mean(d_bl$LSAS_Screen)
 ```
 
-Getting the median using `median()`
+### Getting the median using `median()`
 
 ```{r}
 median(d_bl$LSAS_Screen)
 ```
+
+### Getting the mode
 
 Unlike `mean()` and `median()`, base R does not include a built-in `mode()` function for computing the statistical mode (i.e. the most frequent value). However, you can create one.
 
@@ -133,54 +142,61 @@ get_mode <- function(x) {
 get_mode(d_bl$LSAS_Screen)
 ```
 
-Much of this information could also be easily found using the `summary()` function
+Much of this information could also be easily found using the `summary()` function.
 
 ```{r}
 summary(d_bl$LSAS_Screen)
 
 ```
 
+### Visualizing centrality measures
+
 You could also plot the mean, median and mode over the histogram, to get a better sense of the data.
 
 ```{r}
 hist(d_bl$LSAS_Screen,
-     main = "Histogram with Mean, Median, and Mode",
-     xlab = "Values", probability = TRUE)
+  main = "Histogram with Mean, Median, and Mode",
+  xlab = "Values", probability = TRUE
+)
 
 # Add lines for mean, median, and mode
-abline(v = mean(d_bl$LSAS_Screen), col = "blue", lwd = 2, lty = 2)     # Mean
-abline(v = median(d_bl$LSAS_Screen), col = "red", lwd = 2, lty = 2)    # Median
+abline(v = mean(d_bl$LSAS_Screen), col = "blue", lwd = 2, lty = 2) # Mean
+abline(v = median(d_bl$LSAS_Screen), col = "red", lwd = 2, lty = 2) # Median
 abline(v = get_mode(d_bl$LSAS_Screen), col = "darkgreen", lwd = 2, lty = 2) # Mode
 
 ```
 
-##### Exercise
+::: {.callout-caution collapse="true"}
+## Exercises: Visualize centrality measures
 
 **2.2** Visualize the distribution of the PHQ-9 scale and the PID-5 scale and provide the mean, median and mode.
 
 **2.3** How does the centrality measures differ and why?
 
 **2.4** Reason on the pros and cons of the different centrality measures for these scales.
+:::
 
-#### Spread measures
+## Spread measures
 
-Centrality measures gives information on the most typical value in the distribution, but no info on the spread of values. For example, the two distributions below have the same mean value (0), but different spread (standard deviation 0.2 vs. 1)
+Centrality measures give information on the most typical value in the distribution, but no info on the spread of values. For example, the two distributions below have the same mean value (0), but different spread (standard deviation 0.2 vs. 1).
 
 ```{r}
 #| echo: false
-par(mfrow=c(1,2))
+par(mfrow = c(1, 2))
 curve(dnorm(x, mean = 0, sd = 0.2),
-       from = -4, to = 4,
-       col = "black", lwd = 2,
-       main = "",
-       xlab = "", ylab = "")
-abline(v= 0, col="red", lwd = 2)
+  from = -4, to = 4,
+  col = "black", lwd = 2,
+  main = "",
+  xlab = "", ylab = ""
+)
+abline(v = 0, col = "red", lwd = 2)
 curve(dnorm(x, mean = 0, sd = 1),
-       from = -4, to = 4,
-       col = "black", lwd = 2,
-       main = "",
-       xlab = "", ylab = "")
-abline(v= 0, col="red", lwd = 2)
+  from = -4, to = 4,
+  col = "black", lwd = 2,
+  main = "",
+  xlab = "", ylab = ""
+)
+abline(v = 0, col = "red", lwd = 2)
 ```
 
 To get a summary of the spread of the data, we use different **spread measures.** Spread measures describe how much the data **varies or is dispersed** around a central value like the mean or median. They help you understand whether the values are tightly clustered or widely scattered. Commonly used spread measures include:
@@ -193,7 +209,7 @@ To get a summary of the spread of the data, we use different **spread measures.*
 
     $$\mathrm{IQR} = Q_3 - Q_1$$
 
--   **Variance** `var()`: The average of the squared deviations from the mean. It gives more weight to larger deviatios
+-   **Variance** `var()`: The average of the squared deviations from the mean. It gives more weight to larger deviations.
 
     Population variance
 
@@ -229,55 +245,54 @@ To get a summary of the spread of the data, we use different **spread measures.*
     The functions `sd`() and `var()` gives the sample standard deviation and variance.
     :::
 
-##### Exercise
+::: {.callout-caution collapse="true"}
+## Exercises: Calculate spread measures
 
-**2.5** Calculate spread measures for the LSAS-SR scale, what do they tell you and which ones do you think are most useful to describe the spread of the values. Motive you answer briefly!
+**2.5** Calculate spread measures for the LSAS-SR scale, what do they tell you and which ones do you think are most useful to describe the spread of the values. Motivate your answer briefly!
 
-*Overcourse:*
+**Overcourse:**
 
-**2.6** Caluclate the *population variance and standard deviation*. How do these differ from the ones given by the functions `sd()` and `var()`.
+**2.6** Calculate the *population variance and standard deviation*. How do these differ from the ones given by the functions `sd()` and `var()`.
 
 **2.7** Use only the first ten participants and compare the population and the sample variance and standard deviation of LSAS-SR. What do you find, and how do the results compare to those from exercise 2.6.
+:::
 
-## Categorical data
+# Categorical data
 
-Now we'll have a look at categorical data.
-
-First, we need to simulate some categorical data (since this is not included in the STePS dataset)
+Now we'll have a look at categorical data. First, we need to simulate some categorical data (since this is not included in the STePS dataset).
 
 ```{r}
 
-#Simulating an gender variable 
-n = nrow(d_bl)
+# Simulating a gender variable
+n <- nrow(d_bl)
 d_bl$gender <- rbinom(n, 1, 0.7)
 d_bl$gender <- ifelse(d_bl$gender == 1, "Woman", "Man")
 
 # Simulate an education variable
 education_levels <- c("Primary", "Secondary", "University")
-education_probs <- c(0.4, 0.4, 0.2)  # Adjust probabilities as needed
+education_probs <- c(0.4, 0.4, 0.2) # Adjust probabilities as needed
 
 d_bl$education <- sample(education_levels, size = n, replace = TRUE, prob = education_probs)
 
-
 # Simulate an income variable
 income_levels <- c("Low", "Medium", "High")
-income_probs <- c(0.2, 0.6, 0.2)  # Adjust probabilities as needed
+income_probs <- c(0.2, 0.6, 0.2) # Adjust probabilities as needed
 
 d_bl$income <- sample(income_levels, size = n, replace = TRUE, prob = income_probs)
 ```
 
-The `table()` function provides a quick overview of the number of values in each category
+The `table()` function provides a quick overview of the number of values in each category.
 
 ```{r}
 table(d_bl$gender)
 table(d_bl$education)
 ```
 
-Dived by the number of rows, it gives proportion in each category
+Dived by the number of rows, it gives proportion in each category.
 
 ```{r}
-table(d_bl$gender)/nrow(d_bl)
-table(d_bl$education)/nrow(d_bl)
+table(d_bl$gender) / nrow(d_bl)
+table(d_bl$education) / nrow(d_bl)
 ```
 
 ::: callout-note
@@ -292,11 +307,11 @@ $$
 \mathrm{Var}(\hat{p}) = \frac{\hat{p}(1-\hat{p}))}{n}
 $$
 
-### Visual presentations
+## Visual presentations
 
 As for numeric variables, visualizations can help get a better sense for the distribution of the data. Two common ways are **barcharts** and **piecharts**
 
-##### Barcharts
+### Barcharts
 
 The height of each bar gives the number of occurrences of each category. When you use the base function `plot()` on a factor level variable, it gives you a barchart.
 
@@ -304,7 +319,7 @@ The height of each bar gives the number of occurrences of each category. When yo
 plot(as.factor(d_bl$education))
 ```
 
-##### Piecharts
+### Piecharts
 
 A piechart shows the distribution of a categorical variable as a pie, with the size of each piece representing the proportion of each level of the categorical variable.
 
@@ -312,15 +327,17 @@ A piechart shows the distribution of a categorical variable as a pie, with the s
 pie(table(d_bl$education))
 ```
 
-##### Exercise
+::: {.callout-caution collapse="true"}
+## Exercise: Visualize categorical data
 
 **2.8** Calculate the counts, proportions and percentages for the simulated income categories and visualize the distribution.
+:::
 
-## Bi-variable distributions
+# Bi-variable distributions
 
 It can also be useful to investigate bi-variable distributions - i.e. the joint distribution of two variables - to get a sense of how variables in your data is related to each other.
 
-### Numeric by numeric distributions
+## Numeric by numeric distributions
 
 For two numeric variables, the most common visualization is the **scatter plot.** It shows the distribution of each datapoint with one variable on the x-axis and the other on the y-axis. Using the `plot()` function with two numeric variables will give you a scatter plot.
 
@@ -328,23 +345,23 @@ For two numeric variables, the most common visualization is the **scatter plot.*
 plot(d_bl$LSAS_Screen, d_bl$GAD_screen)
 ```
 
-### Numeric by categorical distributions
+## Numeric by categorical distributions
 
 The joint distribution of a numeric and a categorical variable can be visualized as a stratified boxplots. For this let's look at the distribution of LSAS scores for people with high generalized anxiety (GAD-7 ≥ 10 or more) vs low generalized anxiety (GAD-7 \< 10).
 
 ```{r}
-#create a variable indicating if GAD-7 is 10 or more
-d_bl$gad7_cat <- ifelse(d_bl$GAD_screen>=10, "High anxiety", "Low anxiety")
+# create a variable indicating if GAD-7 is 10 or more
+d_bl$gad7_cat <- ifelse(d_bl$GAD_screen >= 10, "High anxiety", "Low anxiety")
 
 boxplot(LSAS_Screen ~ gad7_cat, data = d_bl)
 ```
 
-### Categorical by categorical distributions
+## Categorical by categorical distributions
 
 All the information of the joint distribution of two categorical variables can be seen using a **cross-table**. For this let's look at the distribution of high vs low depression (PHQ-9 ≥ 10 vs PHQ-9 \<10 or less) against high vs low generalized anxiety.
 
 ```{r}
-d_bl$phq_cat <- ifelse(d_bl$PHQ.9_screen>=10, "High depression", "Low depression")
+d_bl$phq_cat <- ifelse(d_bl$PHQ.9_screen >= 10, "High depression", "Low depression")
 
 table(d_bl$gad7_cat, d_bl$phq_cat)
 ```
@@ -352,40 +369,43 @@ table(d_bl$gad7_cat, d_bl$phq_cat)
 Although all information about the distribution is available in the crosstable, you may still want to visualize this distribution. One way is to use a **mosaic plot**, which you can get by providing cross-table to the `plot()` function.
 
 ```{r}
-plot(table(d_bl$gad7_cat, d_bl$phq_cat), main="Depression and anxiety")
+plot(table(d_bl$gad7_cat, d_bl$phq_cat), main = "Depression and anxiety")
 ```
 
-### Using the 'tableone' package
+## Descriptive statistics using the 'tableone' package
 
-A convenient way to get descriptive statistics for a range of variables is to use the **tableone** package and the `CreateTableOne()` function. First let get some descriptives for the overall sample
+A convenient way to get descriptive statistics for a range of variables is to use the *tableone* package and the `CreateTableOne()` function. First let get some descriptives for the overall sample
 
 ```{r}
-#install.packages("tableone")
+# install.packages("tableone")
 library(tableone)
 
-#define the variables you want
-vars <- c("LSAS_Screen",
-          "GAD_screen",
-          "PHQ.9_screen",
-          "BBQ_screen",
-          "SCS_screen",
-          "DMRSODF_screen",
-          "DERS.16_screen",
-          "PID.5_screen",
-          "gender",
-          "education",
-          "income")
+# define the variables you want
+vars <- c(
+  "LSAS_Screen",
+  "GAD_screen",
+  "PHQ.9_screen",
+  "BBQ_screen",
+  "SCS_screen",
+  "DMRSODF_screen",
+  "DERS.16_screen",
+  "PID.5_screen",
+  "gender",
+  "education",
+  "income"
+)
 
-CreateTableOne(vars=vars, data=d_bl)
+CreateTableOne(vars = vars, data = d_bl)
 ```
 
 We can also do this stratified by a categorical variable using the strata argument. Let's have it by treatment group.
 
 ```{r}
-CreateTableOne(vars=vars, data=d_bl, strata="Group", test=FALSE)
+CreateTableOne(vars = vars, data = d_bl, strata = "Group", test = FALSE)
 ```
 
-##### Exercise
+::: {.callout-caution collapse="true"}
+## Exercises: Visualize bi-variable distributions
 
 **2.9** Visualize the joint distribution of GAD-7 and PHQ-9 as numeric variables and describe what you see
 
@@ -394,45 +414,4 @@ CreateTableOne(vars=vars, data=d_bl, strata="Group", test=FALSE)
 **2.11** Create a variable for high vs. low DERS scores and investigate the joint distribution of this variable and phq_cat (that we created in an earlier example)
 
 **2.12** Create a table using the tableone package to show descriptives statistics stratified by high vs low depression levels. Briefly interpret what you see.
-
-### Probability rules (MOVE TO OSCARS DAY 1)
-
-1.  **The probability of an event ranges 0 to 1,**($0 \geq P \leq 1$) , where 0 = an impossible event and 1 = a certain event.
-
-2.  The sum of all possible events for an outcome sums to 1. Assuming that our imaginary coin cannot land on its edge, \$P(heads) + P(tails) = 1 \$.
-
-3.  **Complement Rule.** The probability of an event *not* occurring is 1 minus the probability that it will occur. The probability of the coin not landing heads is $P(notheads) = 1 - P(heads)$
-
-4.  **Addition Rule** (for two events)
-
-The probability that event ( A ) or event ( B ) occurs:
-
-$$
-P(A \cup B) = P(A) + P(B) - P(A \cap B)
-$$
-
-------------------------------------------------------------------------
-
-#### 3. Multiplication Rule (for two events)
-
-For dependent events:
-
-$$
-P(A \cap B) = P(A) \times P(B|A)
-$$
-
-For independent events:
-
-$$
-P(A \cap B) = P(A) \times P(B)
-$$
-
-------------------------------------------------------------------------
-
-#### 4. Conditional Probability
-
-The probability of ( B ) given ( A ):
-
-$$
-P(B|A) = \frac{P(A \cap B)}{P(A)}
-$$
+:::
