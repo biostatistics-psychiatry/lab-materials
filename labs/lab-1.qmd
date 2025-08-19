@@ -2,7 +2,11 @@
 title: "Lab 1: Import and clean data"
 ---
 
-For this first lab session, we will introduce the datasets we will be using throughout the course. We will also cover how to import and perform basic cleaning of the datasets.
+For this first lab session, we will:
+
+- Introduce the datasets we will be using throughout the course
+- Import data into R
+- Perform basic cleaning of the data
 
 # Introduction to the datasets
 
@@ -15,6 +19,8 @@ These datasets have the common .csv file format, which is very popular. If you n
 This is a dataset from the STePS study, which is a RCT comparing guided and unguided internet-delivered psychodynamic therapy for social anxiety disorder. The study [is published online](https://www.nature.com/articles/s44184-024-00063-0).
 
 ## AnhörigSpel-study
+
+TODO
 
 # Load packages
 
@@ -29,7 +35,6 @@ library(here)
 library(janitor)
 ```
 
-::: callout-warning
 If you are using `R` for the first time, you have to run the following code in the **console** to install the packages (one time only!). You can then load them using the code above.
 
 ```{r}
@@ -38,7 +43,6 @@ If you are using `R` for the first time, you have to run the following code in t
 install.packages("tidyverse")
 install.packages("here")
 ```
-:::
 
 # Importing data into R
 
@@ -50,11 +54,18 @@ We also check the number of rows and columns in the dataset after importing it.
 #| label: import-steps
 #| message: false
 
-df_rawdata <- read_csv(here("data", "steps_clean.csv"))
+df_rawdata <- read_csv2(here("data", "steps_raw.csv"))
 
 row_check <- nrow(df_rawdata) # 181
 col_check <- ncol(df_rawdata) # 37
 ```
+
+::: {.callout-caution collapse="true"}
+## Exercise: Import the STePS dataset
+
+Import the STePS dataset using the `read_csv()` function. Use the `here()` function to specify the file path. Check the number of rows and columns in the dataset after importing it.
+
+:::
 
 ## Check data structure
 
@@ -76,7 +87,13 @@ Other options for checking the basic structure of the data include `head()`, `na
 - `ncol(df_rawdata)` shows the number of columns in the dataset.
 - `nrow(df_rawdata)` shows the number of rows in the dataset.
 
-Try them out!
+::: {.callout-caution collapse="true"}
+## Exercise: Check the structure of STePS
+
+use the `glimpse()` function to check the structure of the STePS data. What do you notice about the data? Are there any potential issues with the data structure?
+
+Also try calling `view()` to open the data in a spreadsheet-like view.
+:::
 
 # Data cleaning
 
@@ -104,15 +121,53 @@ df_data <- df_rawdata
 
 We will use the `clean_names()` function from the *janitor* package to clean the column names. This function replaces spaces and other problematic characters with underscores, and converts all names to lowercase. This makes it easier to work with the data later on.
 
+What's wrong with these column names? And what is the difference after `clean_names()`?
+
+::: {.callout-caution collapse="true"}
+## Exercise: Clean column names, part 1
+
+Use the `clean_names()` function to clean the column names in `df_data`. Check the names before and after cleaning. What changes do you notice? Are there any column names that are still problematic?
+:::
+
+```{r}
+#| label: bad-column-names
+#| message: false
+
+names(df_data)
+```
+
 ```{r}
 #| label: clean-column-names
 #| message: false
 
-df_data <- df_data |> 
+df_data <- df_data |>
   clean_names()
-
-names(df_data)
 ```
+
+We have sorted some of the problems, but we still have inconsistent names for time-points (*screening* and *screen*), and some questionnaires seems to have gotten inconsistent names as well (*ders_16*, *ders16*, and *ders*).
+
+```{r}
+#| label: fix-column-inconsistencies
+#| message: false
+
+df_data <- df_data |>
+  rename_with(~ .x |>
+    str_replace_all("screening", "screen") |>
+    str_replace_all("ders_16|ders16", "ders") |>
+    str_replace_all("phq_9", "phq9"))
+```
+
+::: {.callout-tip}
+## This is rarely a linear process
+
+This type of data cleaning is often a result of going back and forth between running code and checking the results. Sometimes you will come all the way to the analyses before finding that DERS-16 is missing a time-point! This is why it's helpful to design your project in a way that allows you to easily go back and forth between steps.
+:::
+
+::: {.callout-caution collapse="true"}
+## Exercise: Clean column names, part 2
+
+Use the `rename_with()` function to fix the column names of PHQ-9 in `df_data`. Check the names before and after cleaning. What changes do you notice? Are there any column names that are still problematic?
+:::
 
 ## Ensure missing values are coded as NA
 
@@ -120,8 +175,67 @@ If we are lucky, all the missing values are already coded as `NA` and R will rec
 
 Sometimes, weird labels for missing values is also the reason why some columns are not recognized as numeric.
 
+Let's check the data structure again. It looks like some columns that should be numeric are instead `<chr>`, which means they are character strings.
+
 ```{r}
 #| label: check-missing-values
 #| message: false
 
+glimpse(df_data)
+```
+
+Let's fix this by replacing the problematic values with `NA`. We will use the `mutate()` and `across()` functions from the *dplyr* package to apply the `na_if()` function to all character columns. This will replace any occurrence of "missing" with `NA`.
+
+```{r}
+#| label: fix-missing-values
+#| message: false
+
+df_data <- df_data |>
+  mutate(across(where(is.character), ~ na_if(., "missing")))
+
+```
+
+::: {.callout-caution collapse="true"}
+## Exercise: Fix missing values
+
+Check which columns have weird values for missing values. You can use the `glimpse()` function or view the data in the viewer. You can also use the `unique()` function to check which values are present in a column.
+
+Then, use the `mutate()` and `across()` functions to replace these values with `NA`. Make sure to replace all occurrences of "missing" in the character columns.
+:::
+
+## Fix column types
+
+The NA values are now correctly coded, but we still have some columns that are not numeric despite only including numbers. We can use the `mutate()` function again to convert the columns to the correct data type. In this step, we also ensure that the `id` and `group` columns are factors.
+
+```{r}
+#| label: fix-column-types
+#| message: false
+
+# which columns should be numeric?
+num_cols <- c("lsas", "gad", "phq9", "bbq", "scs", "dmrsodf", "ders", "pid_5")
+
+df_data <- df_data |>
+  mutate(
+    across(starts_with(num_cols), as.numeric),
+    id = factor(id),
+    group = factor(group)
+  )
+
+```
+
+::: {.callout-caution collapse="true"}
+## Exercise 1.5: Fix column types
+
+Let's imagine we have many columns that should be factors. How can you use the same procedure as above to convert all columns from a `fct_cols` vector to factors?
+:::
+
+# Save the cleaned data
+
+Now that we have cleaned the data, we can save it as a new CSV file. We will use the `write_csv()` function from the *readr* package to do this. The cleaned data will be saved in the `data` folder with the name `steps_clean.csv`.
+
+```{r}
+#| label: save-cleaned-data
+#| message: false
+
+write_csv(df_data, here("data", "steps_clean.csv"))
 ```
