@@ -40,8 +40,8 @@ If you are using `R` for the first time, you have to run the following code in t
 ```{r}
 #| eval: false
 
-install.packages("tidyverse")
-install.packages("here")
+if(!require(tidyverse)) install.packages("tidyverse")
+if(!require(here)) install.packages("here")
 ```
 
 # Importing data into R
