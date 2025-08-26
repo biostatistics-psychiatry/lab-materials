@@ -1,0 +1,163 @@
+---
+title: "Exercise solutions"
+format: html
+---
+
+## Lab 1
+
+## Lab 2
+
+## Lab 3
+
+**3.1** Estimate the standard error of LSAS_Screen in the STePS study using the formula above, and describe in words what the number means
+
+```{r}
+s_2 <- var(d_bl$lsas_screen)
+n <- nrow(d_bl)
+se <- sqrt(s_2/n)
+
+# or using the standard deviation
+
+se <- sd(d_bl$lsas_screen)/sqrt(n)
+```
+
+**3.2** Calculate the standard error for the proportion of men in the STePS study, and describe the meaning of this number in words
+
+```{r}
+p_hat <- mean(d_bl$gender=="Man")
+n <- nrow(d_bl)          
+se <- sqrt(p_hat*(1-p_hat)/n)
+```
+
+**3.3** Describe what would happen to these standard errors if the sample size had been 1000 participants and explain why?
+
+**3.4** Calculate the two-sided p-value for the null hypothesis that the mean PHQ-9 value in the underlying population is 9, and describe in words what this number mean.
+
+```{r}
+x_bar <- mean(d_bl$phq9_screen)
+se <- sd(d_bl$phq9_screen) / sqrt(nrow(d_bl))
+t_value <- (x_bar - 9) / se
+(1 - pt(t_value, df = 180))*2
+
+#or
+
+t.test(d_bl$phq9_screen,
+       mu=9,
+       alternative = "two.sided")
+```
+
+**3.5** Calculate the p-value for getting our observed proportion of men, $\hat{p}$, if the the true population proportion, $p$, is 40% or more using a z-test.
+
+HINT: use the standard error of the proportion: $$ \mathrm{SE}(p) = \sqrt{\frac{p(1 - p)}{n}} $$
+
+and combine with the formula for the z-scores
+
+$$ z= \frac{p - \hat{p}}{SE} $$
+
+```{r}
+p_hat <- mean(d_bl$gender=="Man")
+p <- 0.4          
+n <- nrow(d_bl)          
+se <- sqrt(p*(1-p)/n)
+z_value <- (p_hat - p) / se
+1- pnorm(abs(z_value))
+
+# or 
+prop.test(x= sum(d_bl$gender=="Man"), 
+          n= length(d_bl$gender), 
+          p=0.4,
+          alternative="less",
+          correct = FALSE)
+```
+
+**3.6** Modify the simulation code for the sampling distribution above to determine what would happen to the p-value if the sample size was 10, 100 or 1000
+
+P-value with a sample size of 10
+
+```{r}
+n_samples <- 1e4 # the number of samples
+smp_size <- 10 # the size of our samples
+means <- rep(NA, n_samples) # an empty vector to contain our mean values
+
+for (i in 1:n_samples) {
+  x <- rnorm(smp_size, mean = 82, sd = sd(d_bl$lsas_screen))
+  means[i] <- mean(x)
+}
+
+mean(means >= mean(d_bl$lsas_screen)) # proportion of simulated means that are larger than our observed mean
+
+```
+
+P-value with a sample size of 100
+
+```{r}
+n_samples <- 1e4 # the number of samples
+smp_size <- 100 # the size of our samples
+means <- rep(NA, n_samples) # an empty vector to contain our mean values
+
+for (i in 1:n_samples) {
+  x <- rnorm(smp_size, mean = 82, sd = sd(d_bl$lsas_screen))
+  means[i] <- mean(x)
+}
+
+mean(means >= mean(d_bl$lsas_screen)) # proportion of simulated means that are larger than our observed mean
+```
+
+P-value with a sample size of 10000
+
+```{r}
+n_samples <- 1e4 # the number of samples
+smp_size <- 1000 # the size of our samples
+means <- rep(NA, n_samples) # an empty vector to contain our mean values
+
+for (i in 1:n_samples) {
+  x <- rnorm(smp_size, mean = 82, sd = sd(d_bl$lsas_screen))
+  means[i] <- mean(x)
+}
+
+mean(means >= mean(d_bl$lsas_screen)) # proportion of simulated means that are larger than our observed mean
+```
+
+**3.7.** Explain why the confidence intervals calculated using z-scores are narrower that the ones using t-scores.
+
+**3.8** Calculate the 95% confidence interval for PHQ-9, and describe in words what these numbers mean.
+
+```{r}
+x_bar <- mean(d_bl$phq9_screen)
+se <- sd(d_bl$phq9_screen) / sqrt(nrow(d_bl))
+z <- 1.96
+
+#upper confidence limit
+ucl <- x_bar + z*se
+#lower confidence limit
+lcl <- x_bar - z*se
+
+print(c(lcl, ucl))
+
+#or
+t.test(d_bl$phq9_screen,
+       mu=9,
+       alternative = "two.sided")
+```
+
+**3.9** Calculate the 95% Wald confidence interval for the proportion of men in the dataset using the formula above and interpret its meaning
+
+```{r}
+p_hat <- mean(d_bl$gender=="Man")
+n = nrow(d_bl)
+se <- sqrt(p_hat*(1-p_hat)/n)
+z= 1.96
+#upper coinfidence limit
+p_hat + z*se
+#lower confidence limit
+p_hat - z*se
+
+```
+
+**3.10** Compare this to what you would obtain using the function `prop.test()` in R.
+
+```{r}
+prop.test(table(d_bl$gender))
+```
+
+**3.11** Reason about the the meaning and interpretation of the confidence intervals you have calculated in the context of how the actual STePs study was performed. The study can be found at: <https://www.nature.com/articles/s44184-024-00063-0>
