@@ -7,6 +7,110 @@ format: html
 
 ## Lab 2
 
+**2.1** Use the functions described in yesterdays lab to get a quick overview of the dataset and give a brief summary of it.
+
+```{r}
+glimpse(d_bl)
+head(d_bl)
+ncol(d_bl)
+nrow(d_bl)
+```
+
+**2.5** Calculate spread measures for the LSAS-SR scale, what do they tell you and which ones do you think are most useful to describe the spread of the values. Motivate your answer briefly!
+
+```{r}
+sd(d_bl$lsas_screen)
+var(d_bl$lsas_screen)
+range(d_bl$lsas_screen)
+IQR(d_bl$lsas_screen)
+hist(d_bl$lsas_screen)
+```
+
+**Overcourse:**
+
+**2.6** Calculate the *population variance and standard deviation*. How do these differ from the ones given by the functions `sd()` and `var()`.
+
+```{r}
+# variance
+x_bar <- mean(d_bl$lsas_screen)
+n <- nrow(d_bl)
+residuals <- d_bl$lsas_screen - x_bar
+squared_residuals <- residuals^2
+sigma_squared_residuals <- sum(squared_residuals)
+s_2 <- sigma_squared_residuals/n
+s_2 # population variance
+var(d_bl$lsas_screen) # sample variance
+
+#standard deviation
+sd <- sqrt(s_2)
+sd
+sd(d_bl$lsas_screen)
+```
+
+**2.7** Use only the first ten participants and compare the population and the sample variance and standard deviation of LSAS-SR. What do you find, and how do the results compare to those from exercise 2.6.
+
+```{r}
+d_bl_10 <- d_bl[1:10,]
+# variance
+x_bar <- mean(d_bl_10$lsas_screen)
+n <- nrow(d_bl_10)
+residuals <- d_bl_10$lsas_screen - x_bar
+squared_residuals <- residuals^2
+sigma_squared_residuals <- sum(squared_residuals)
+s_2 <- sigma_squared_residuals/n
+s_2 # population variance
+var(d_bl_10$lsas_screen) # sample variance
+
+#standard deviation
+sd <- sqrt(s_2)
+sd
+sd(d_bl_10$lsas_screen)
+```
+
+**2.9** Visualize the joint distribution of GAD-7 and PHQ-9 as numeric variables and describe what you see
+
+```{r}
+plot(d_bl$gad_screen, d_bl$phq9_screen)
+abline(lm(d_bl$gad_screen ~d_bl$phq9_screen))
+```
+
+**2.10** Visualize the distribution of of LSAS scores by income level and describe what you see
+
+```{r}
+boxplot(d_bl$lsas_screen~d_bl$income)
+```
+
+**2.11** Create a variable for high vs. low DERS scores and investigate the joint distribution of this variable and phq_cat (that we created in an earlier example)
+
+```{r}
+d_bl$ders_screen_cat <- ifelse(d_bl$ders_screen>median(d_bl$ders_screen),
+                               "High DERS",
+                               "Low DERS") 
+
+plot(table(d_bl$ders_screen_cat, d_bl$phq_cat), main = "Depression and Emotion regulation")
+```
+
+**2.12** Create a table using the tableone package to show descriptives statistics stratified by high vs low depression levels. Briefly interpret what you see.
+
+```{r}
+library(tableone)
+vars <- c(
+  "lsas_screen",
+  "gad_screen",
+  "phq9_screen",
+  "bbq_screen",
+  "scs_screen",
+  "dmrsodf_screen",
+  "ders_screen",
+  "pid_5_screen",
+  "gender",
+  "education",
+  "income"
+)
+
+CreateContTable(vars= vars, data= d_bl, strata = "phq_cat")
+```
+
 ## Lab 3
 
 **3.1** Estimate the standard error of LSAS_Screen in the STePS study using the formula above, and describe in words what the number means
