@@ -1,0 +1,136 @@
+---
+title: "Classification"
+---
+
+In this lab, we will look at how we can work with classification problems in R. You will learn how to evaluate *sensitivity*, *specificity*, *positive predictive value* (PPV), and *negative predictive value* (NPV). These measures help us understand how well a model or test can identify or predict binary outcomes (e.g., disease status, treatment response). You will not work on the models themselves; that is the topic of upcoming courses and labs.
+
+# Load packages and data
+
+We load both the outcomes and baseline data, and join them together using the `id` variable.
+
+```{r}
+#| label: load-packages
+#| message: false
+
+library(tidyverse)
+library(tidymodels)
+library(here)
+library(knitr)
+
+d_outcomes <- read_csv(here("data", "steps_clean.csv"))
+d_bl <- read_rds(here("data", "steps_baseline.rds"))
+
+d <- d_outcomes |>
+  select(
+    -group,
+    -ends_with("_screen")
+  ) |>
+  full_join(
+    d_bl,
+    by = "id"
+  )
+```
+
+For the purposes of this lab we need a binary outcome. We will use the `lsas_post` variable as our outcome of interest, and evaluate how well we can predict it using the `lsas_screen` values.
+
+```{r}
+d_nomiss <- d |>
+  filter(!is.na(lsas_post))
+
+d_nomiss <- d_nomiss |>
+  mutate(
+    lsas_post_bin = if_else(lsas_post < 50, "Low", "High"),
+    lsas_post_bin = factor(lsas_post_bin, levels = c("Low", "High"))
+  )
+```
+
+```{r}
+lsas_fit <- logistic_reg() |>
+  set_engine("glm") |>
+  set_mode("classification") |>
+  fit(lsas_post_bin ~ lsas_screen + group, data = d_nomiss)
+
+lsas_pred <- predict(lsas_fit, new_data = d_nomiss) |>
+  bind_cols(d_nomiss)
+
+lsas_conf_mat <- conf_mat(lsas_pred, truth = lsas_post_bin, estimate = .pred_class)
+
+true_pos <- lsas_conf_mat$table[[1]]
+true_neg <- lsas_conf_mat$table[[4]]
+false_pos <- lsas_conf_mat$table[[2]]
+false_neg <- lsas_conf_mat$table[[3]]
+
+lsas_conf_mat
+```
+
+# Evaluate classification manually
+
+Now that we have the confusion matrix, we can calculate the metrics of interest: sensitivity, specificity, positive predictive value, and negative predictive value.
+
+First, let's look at the prevalence of the outcome. If the outcome is rare, this will have a big impact on the classification metrics.
+
+```{r}
+prevalence <- (true_pos + false_neg) / (true_pos + false_neg + true_neg + false_pos)
+```
+
+The prevalence of having LSAS <50 after treatment is `r round(prevalence, 2)`.
+
+## Sensitivity
+
+Sensitivity is the proportion of true positives out of all **actual** positives.
+
+```{r}
+sensitivity <- true_pos / (true_pos + false_neg)
+```
+
+Sensitivity is `r round(sensitivity, 2)`.
+
+## Specificity
+
+Specificity is the proportion of true negatives out of all **actual** negatives.
+
+```{r}
+specificity <- true_neg / (true_neg + false_pos)
+```
+
+Specificity is `r round(specificity, 2)`.
+
+## Positive predictive value
+
+Positive predictive value is the proportion of true positives out of all **predicted** positives. See the difference compared to sensitivity?
+
+```{r}
+pos_pred_val <- true_pos / (true_pos + false_pos)
+```
+
+Positive predictive value is `r round(pos_pred_val, 2)`.
+
+## Negative predictive value
+
+Negative predictive value is the proportion of true negatives out of all **predicted** negatives. Again, look at the difference compared to specificity.
+
+```{r}
+neg_pred_val <- true_neg / (true_neg + false_neg)
+```
+
+Negative predictive value is `r round(neg_pred_val, 2)`.
+
+# Evaluate classification using tidymodels
+
+...of course there are built-in functions for this! But it's good practice to do it manually when you learn these concepts.
+
+```{r}
+#| label: tbl-class-metrics
+#| tbl-cap: Classification metrics
+
+class_metrics <- metric_set(accuracy, sens, spec, ppv, npv)
+
+kable(class_metrics(lsas_pred, truth = lsas_post_bin, estimate = .pred_class), digits = 2)
+```
+
+::: {.callout-important}
+## The importance of base-rate of the event
+
+Suicide is rare, PPV will always be low...
+
+:::
