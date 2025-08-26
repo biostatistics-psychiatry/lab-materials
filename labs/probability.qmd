@@ -1,0 +1,178 @@
+---
+Lab X: Probability rules
+---
+
+In this lab, we will look at how we can work with probability rules in R.
+
+# Load packages and data
+
+```{r}
+#| message: false
+
+library(tidyverse)
+library(here)
+library(knitr)
+
+d_bl <- read_rds(here("data", "steps_baseline.rds"))
+```
+
+# Probability rules
+
+Let's look at how we can implement probability rules in R and apply them to our dataset. In a previous lab, we created some categorical variables at baseline. These were just simulated, so we will not try to make sense of the results.
+
+```{r}
+d_bl |>
+  select(where(is.character)) |>
+  glimpse()
+```
+
+For this lab, we will use the "education" and "income" variables. First, we will create summaries of these variables.
+
+```{r}
+#| label: tbl-edu-summary
+#| tbl-cap: "Education levels"
+
+edu_summary <- d_bl |>
+  group_by(education) |>
+  summarise(
+    n = n(),
+    proportion = n / nrow(d_bl),
+    percent = round(proportion * 100, 1)
+  )
+
+kable(edu_summary)
+```
+
+```{r}
+#| label: tbl-income-summary
+#| tbl-cap: "Income levels"
+
+income_summary <- d_bl |>
+  group_by(income) |>
+  summarise(
+    n = n(),
+    proportion = n / nrow(d_bl),
+    percent = round(proportion * 100, 1)
+  )
+
+kable(income_summary)
+```
+
+## Check that sum of all probabilities is 1
+
+We do a quick check of the *education* variable, which has three levels: "Primary", "Secondary", and "University". When we count the proportion of each level, we get the following: 
+
+The proportion with the "Primary" level is `r edu_summary |> filter(education == "Primary") |> pull(proportion)`, the proportion with the "Secondary" level is `r edu_summary |> filter(education == "Secondary") |> pull(proportion)`, and the proportion with the "University" level is `r edu_summary |> filter(education == "University") |> pull(proportion)`. These add up to `r sum(edu_summary$proportion)`. All good!
+
+::: {.callout-tip}
+Check this on your own data. How should we understand a value other than 1? What possible causes can you think of?
+:::
+
+## Complement rule
+
+The probability of an event not occurring is 1 minus the probability that it will occur.
+
+Let's check this for the "Secondary" level.
+
+$$
+P(\text{not Secondary}) = 1 - P(\text{Secondary})
+$$
+
+```{r}
+# probability of Secondary education
+p_secondary <- edu_summary |>
+  filter(education == "Secondary") |>
+  pull(proportion)
+
+# complement rule
+p_not_secondary <- 1 - p_secondary
+
+cat("P(Secondary education) =", round(p_secondary, 4), "\n")
+cat("P(not Secondary education) =", round(p_not_secondary, 4), "\n")
+cat("Check complement rule, sum =", round(p_secondary + p_not_secondary, 4), "\n")
+```
+
+## Addition rule
+
+The probability that event A or event B occurs (or both).
+
+$$P(A \cup B) = P(A) + P(B) - P(A \cap B)$$
+
+Let's implement this using our dataset. We'll look at the probability of having either "Primary" education OR being in the "Low" income group.
+
+```{r}
+# get probabilities
+p_primary <- edu_summary |>
+  filter(education == "Primary") |>
+  pull(proportion)
+
+p_low_income <- income_summary |>
+  filter(income == "Low") |>
+  pull(proportion)
+
+# calculate probability of both Primary education AND Low income
+p_both <- d_bl |>
+  filter(education == "Primary" & income == "Low") |>
+  nrow() / nrow(d_bl)
+
+# addition rule
+p_either <- p_primary + p_low_income - p_both
+
+# results
+cat("P(Primary education) =", round(p_primary, 4), "\n")
+cat("P(Low income) =", round(p_low_income, 4), "\n")
+cat("P(Both) =", round(p_both, 4), "\n")
+cat("P(Either) =", round(p_either, 4), "\n")
+```
+
+## Multiplication rule
+
+For independent events, the probability of both events occurring is the product of their individual probabilities:
+
+$$P(A \cap B) = P(A) \times P(B)$$
+
+For dependent events, we need to account for the conditional probability:
+
+$$P(A \cap B) = P(A) \times P(B|A)$$
+
+Let's check if education and income are independent by comparing the observed joint probability with the product of marginal probabilities. We will first use `group_by()` and `summarise()` to create @tbl-edu-income.
+
+```{r}
+#| label: tbl-edu-income
+#| tbl-cap: "Joint probabilities of education and income"
+
+edu_income_table <- d_bl |>
+  group_by(education, income) |>
+  summarise(
+    n = n(),
+    proportion = n / nrow(d_bl),
+    percent = round(proportion * 100, 1),
+    .groups = "drop"
+  )
+
+kable(edu_income_table)
+```
+
+```{r}
+# Check independence for Primary education and Low income
+p_primary_indep <- p_primary * p_low_income
+p_primary_dep <- p_both
+
+cat("If independent: P(Primary ∩ Low income) =", round(p_primary_indep, 6), "\n")
+cat("Observed: P(Primary ∩ Low income) =", round(p_primary_dep, 6), "\n")
+cat("Difference =", round(abs(p_primary_indep - p_primary_dep), 6), "\n")
+```
+
+## Conditional probability
+
+The probability of event B occurring given that event A has occurred:
+
+$$P(B|A) = \frac{P(A \cap B)}{P(A)}$$
+
+Let's calculate the probability of having "Low" income given that someone has "Primary" education:
+
+```{r}
+p_low_given_primary <- p_both / p_primary
+
+cat("P(Low income | Primary education) =", round(p_low_given_primary, 4))
+```

@@ -29,6 +29,12 @@ website:
             text: Lab 1
           - href: labs/lab-2.qmd
             text: Lab 2
+          - href: labs/lab-2.5.qmd
+            text: Lab 2.5
+          - href: labs/probability.qmd
+            text: Probability lab
+          - href: labs/classification.qmd
+            text: Classification lab
       - section: "Exercises"
         contents:
           - href: exercises/lab-1-exercises.qmd
