@@ -210,10 +210,12 @@ For instance we might have an hypothesis the the mean of LSAS-SR is 82 in the po
 
 For this we would need the sampling distribution of mean LSAS-SR scores in samples of 181 people (the size, $n$, of our sample), *if the true population mean was 82.* One way to get this would be to simulate say 10 000 samples of LSAS-SR scores, from a population with a true mean of 82. To simulate this, we also need to know the spread (standard deviation) of the true population. We don't know this, but let's assume it is the same as in our sample.
 
+Below, the function `rnorm()` is used to take a random sample of 181 values from a normal distribution with a mean of 82 and a standard deviation 16.5 (same as in out sample). We use a for loop to repeat this sampling 10 000 times and save the mean values of each sample in the vector called means.
+
 ```{r}
 n_samples <- 1e4 # the number of samples
 smp_size <- 181 # the size of our samples
-means <- rep(NA, n_samples) # a vector to contain our mean values
+means <- rep(NA, n_samples) # an empty vector to contain our mean values
 
 for (i in 1:n_samples) {
   x <- rnorm(smp_size, mean = 82, sd = sd(d_bl$lsas_screen))
@@ -290,7 +292,7 @@ Now let's see the probability of getting a value larger or equal to this - **our
 ::: callout-note
 ## z-values and t-values
 
-When the sample size increases, the t-distribution approaches the z-distribution and these estimates become very similar. A general rule of thumb is that it is fine to use z-values for sample sizes larger than 200.
+When the sample size increases, the t-distribution approaches the z-distribution and these estimates become very similar. As a general rule of thumb, it is fine to use z-values rather than t-values for sample sizes larger than 200.
 :::
 
 We could also get a very similar p-value from the z-distribution (although we would assume we have the population variance for out calculation of the standard error). If this was a proportion, a z-test would be the one to use, since we are not using any estimates when calculating the standard error.
@@ -316,7 +318,8 @@ If we wanted to see the probability of getting data equal or greater than our ob
 ```{r}
 #| echo: false
 # Define the test statistic
-z_stat <- 1.96
+z_stat_one <- 1.645
+z_stat_two <- 1.96
 
 # Generate normal distribution
 x <- seq(-4, 4, length = 1000)
@@ -326,8 +329,8 @@ plot_df <- data.frame(x = x, y = y)
 # ---- One-sided plot ----
 p_one_sided <- ggplot(plot_df, aes(x = x, y = y)) +
   geom_line(color = "black") +
-  geom_area(data = subset(plot_df, x >= z_stat), aes(y = y), fill = "blue", alpha = 0.5) +
-  geom_vline(xintercept = z_stat, color = "blue", linetype = "dashed") +
+  geom_area(data = subset(plot_df, x >= z_stat_one), aes(y = y), fill = "blue", alpha = 0.5) +
+  geom_vline(xintercept = z_stat_one, color = "blue", linetype = "dashed") +
   labs(
     title = "One-sided p-value (Right Tail)",
     x = "Z", y = "Density"
@@ -337,9 +340,9 @@ p_one_sided <- ggplot(plot_df, aes(x = x, y = y)) +
 # ---- Two-sided plot ----
 p_two_sided <- ggplot(plot_df, aes(x = x, y = y)) +
   geom_line(color = "black") +
-  geom_area(data = subset(plot_df, x >= z_stat), aes(y = y), fill = "red", alpha = 0.5) +
-  geom_area(data = subset(plot_df, x <= -z_stat), aes(y = y), fill = "red", alpha = 0.5) +
-  geom_vline(xintercept = c(-z_stat, z_stat), color = "red", linetype = "dashed") +
+  geom_area(data = subset(plot_df, x >= z_stat_two), aes(y = y), fill = "red", alpha = 0.5) +
+  geom_area(data = subset(plot_df, x <= -z_stat_two), aes(y = y), fill = "red", alpha = 0.5) +
+  geom_vline(xintercept = c(-z_stat, z_stat_two), color = "red", linetype = "dashed") +
   labs(
     title = "Two-sided p-value (Both Tails)",
     x = "Z", y = "Density"
@@ -367,9 +370,9 @@ t.test(d_bl$lsas_screen, mu = 82, alternative = "two.sided")
 
 ##### Exercises
 
-**3.4** Calculate the p-value for the null hypothesis that the mean PHQ-9 value in the underlying population is 9, and describe in words what this number mean.
+**3.4** Calculate the two-sided p-value for the null hypothesis that the mean PHQ-9 value in the underlying population is 9, and describe in words what this number mean.
 
-**3.5** Calculate the p-value for getting our observed proportion of men, $\hat{p}$, if the the true population proportion, $p$, was 50% or more using a z-test.
+**3.5** Calculate the p-value for getting our observed proportion of men, $\hat{p}$, if the the true population proportion, $p$, is 40% or more using a z-test.
 
 HINT: use the standard error of the proportion: $$
 \mathrm{SE}(p) = \sqrt{\frac{p(1 - p)}{n}}
@@ -381,7 +384,7 @@ $$
 z= \frac{p - \hat{p}}{SE}
 $$
 
-**3.6** Modify the simulation code for the sampling distrubution above to determine what would happen to the p-value if the sample size was 10, 100 or 1000
+**3.6** Modify the simulation code for the sampling distribution above to determine what would happen to the p-value if the sample size was 10, 100 or 1000
 
 ### Confidence intervals
 
