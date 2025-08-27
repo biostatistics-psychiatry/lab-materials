@@ -1,13 +1,8 @@
 ---
-title: "Lab 2: Descriptive statics and summary measures"
-format: html
-editor: visual
-execute: 
-  freeze: false
-  warning: false
+title: "Descriptive statistics"
 ---
 
-In this lab we will practice calculating and interpreting descriptive statistics and summary measures using the STePS dataset. We start by loading the dataset you cleaned during the previous lab:
+In this lab we will practice calculating and interpreting descriptive statistics using the STePS dataset. We start by loading the cleaned dataset saved in the *Import and clean data* lab.
 
 ```{r}
 #| label: load-packages
@@ -15,10 +10,10 @@ In this lab we will practice calculating and interpreting descriptive statistics
 library(here)
 library(tidyverse)
 
-d <- read.csv(here("data", "steps_clean.csv"))
+d <- read_csv(here("data", "steps_clean.csv"))
 ```
 
-For this exercise, we'll start of doing some basic descriptive statistics of the baseline variables. We start by checking the variable names to identify the baseline variables.
+We'll start of doing some basic descriptive statistics of the baseline variables. We start by checking the variable names to identify the baseline variables.
 
 ```{r}
 colnames(d)

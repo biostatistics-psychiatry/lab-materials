@@ -25,16 +25,18 @@ website:
             text: R and RStudio setup
       - section: "Labs"
         contents:
-          - href: labs/lab-1.qmd
-            text: Lab 1
-          - href: labs/lab-2.qmd
-            text: Lab 2
-          - href: labs/lab-2.5.qmd
-            text: Lab 2.5
+          - href: labs/import-clean.qmd
+            text: Import and clean data
+          - href: labs/descriptive-statistics.qmd
+            text: Descriptive statistics
+          - href: labs/sampling.qmd
+            text: Sampling from a population
+          - href: labs/testing-means-proportions.qmd
+            text: Testing means and proportions
           - href: labs/probability.qmd
-            text: Probability lab
+            text: Probability
           - href: labs/classification.qmd
-            text: Classification lab
+            text: Classification
       - section: "Exercises"
         contents:
           - href: exercises/lab-1-exercises.qmd
