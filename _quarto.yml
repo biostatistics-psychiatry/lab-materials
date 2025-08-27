@@ -33,8 +33,8 @@ website:
             text: Sampling from a population
           - href: labs/testing-means-proportions.qmd
             text: Testing means and proportions
-          - href: labs/probability.qmd
-            text: Probability
+          - href: labs/probability-rules.qmd
+            text: Probability rules
           - href: labs/classification.qmd
             text: Classification
       - section: "Exercises"
