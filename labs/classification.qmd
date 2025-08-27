@@ -34,6 +34,8 @@ d <- d_outcomes |>
 For the purposes of this lab we need a binary outcome. We will use the `lsas_post` variable as our outcome of interest, and evaluate how well we can predict it using the `lsas_screen` values.
 
 ```{r}
+#| label: add-binary-outcome
+
 d_nomiss <- d |>
   filter(!is.na(lsas_post))
 
@@ -45,6 +47,8 @@ d_nomiss <- d_nomiss |>
 ```
 
 ```{r}
+#| label: fit-logistic-regression
+
 lsas_fit <- logistic_reg() |>
   set_engine("glm") |>
   set_mode("classification") |>
@@ -70,6 +74,8 @@ Now that we have the confusion matrix, we can calculate the metrics of interest:
 First, let's look at the prevalence of the outcome. If the outcome is rare, this will have a big impact on the classification metrics.
 
 ```{r}
+#| label: prevalence-calculation
+
 prevalence <- (true_pos + false_neg) / (true_pos + false_neg + true_neg + false_pos)
 ```
 
@@ -80,6 +86,8 @@ The prevalence of having LSAS <50 after treatment is `r round(prevalence, 2)`.
 Sensitivity is the proportion of true positives out of all **actual** positives.
 
 ```{r}
+#| label: sensitivity-calculation
+
 sensitivity <- true_pos / (true_pos + false_neg)
 ```
 
@@ -90,6 +98,8 @@ Sensitivity is `r round(sensitivity, 2)`.
 Specificity is the proportion of true negatives out of all **actual** negatives.
 
 ```{r}
+#| label: specificity-calculation
+
 specificity <- true_neg / (true_neg + false_pos)
 ```
 
@@ -100,6 +110,8 @@ Specificity is `r round(specificity, 2)`.
 Positive predictive value is the proportion of true positives out of all **predicted** positives. See the difference compared to sensitivity?
 
 ```{r}
+#| label: ppv-calculation
+
 pos_pred_val <- true_pos / (true_pos + false_pos)
 ```
 
@@ -110,6 +122,8 @@ Positive predictive value is `r round(pos_pred_val, 2)`.
 Negative predictive value is the proportion of true negatives out of all **predicted** negatives. Again, look at the difference compared to specificity.
 
 ```{r}
+#| label: npv-calculation
+
 neg_pred_val <- true_neg / (true_neg + false_neg)
 ```
 
