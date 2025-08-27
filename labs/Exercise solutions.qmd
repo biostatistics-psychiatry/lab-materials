@@ -316,13 +316,56 @@ Do you think the assumption of equal variance between the groups is justifies?
 
 Do you think the other assumptions of the t-test are fulfilled?
 
-How do the results differ if you use the Welch t-test instead **BONUS:** If you feel up to it, try to also calculate a z-test for the mean difference in post-treatment LSAS-scores using the formulas above
+How do the results differ if you use the Welch t-test instead
+
+```{r}
+#students t-test 
+df_data %>%
+  filter(trt != "waitlist") %>%
+  t.test(lsas_post ~ trt, data = ., var.equal = TRUE)
+
+#Welch t-test
+df_data %>%
+  filter(trt != "waitlist") %>%
+  t.test(lsas_post ~ trt, data = ., var.equal = FALSE)
+
+# very similar resluts
+```
+
+**BONUS:** If you feel up to it, try to also calculate a z-test for the mean difference in post-treatment LSAS-scores using the formulas above
 
 ```{r}
 #z-test of the differences 
 z_value <- (x_bar_wl - x_bar_tg) / se_z
 p_value <- 2 * (1 - pnorm(abs(z_value)))
 p_value
+```
+
+**BONUS:** Modify the code above to calculate the 99% confidence interval of the mean difference in LSAS-scores at post-treatment between the self-guided and the therapist-guided groups.
+
+```{r}
+z_crit <- qnorm(1-0.01/2) # finding the z-value for a 99% CI
+
+#define the components of the formula 
+x_bar_tg <- mean(df_data$lsas_post[df_data$trt=="therapist-guided"], na.rm=T)
+x_bar_sg <- mean(df_data$lsas_post[df_data$trt=="self-guided"], na.rm=T)
+s_2_tg <- var(df_data$lsas_post[df_data$trt=="therapist-guided"], na.rm=T)
+s_2_sg <- var(df_data$lsas_post[df_data$trt=="self-guided"], na.rm=T)
+n_tg <- sum(!is.na(df_data$lsas_post[df_data$trt=="therapist-guided"]))
+n_sg <- sum(!is.na(df_data$lsas_post[df_data$trt=="self-guided"]))
+se_z <- sqrt((s_2_tg/n_tg ) + (s_2_sg/n_sg )) 
+
+# and put it together with the z-value formula
+
+ucl <- (x_bar_sg - x_bar_tg) + z_crit*se_z
+lcl <- (x_bar_sg - x_bar_tg) - z_crit*se_z
+print(c(lcl, ucl))
+
+# or
+df_data %>%
+  filter(trt != "waitlist") %>%
+  t.test(lsas_post ~ trt, data = ., var.equal = TRUE, conf.level = 0.99)
+
 ```
 
 Compute a t-test for the difference in LSAS-scores between post-treatment and 12-month follow-up and provide an interpretation of its meaning
@@ -362,4 +405,28 @@ Compare the means of GAD-7 from pre- to post-treatment and interpret the results
 
 ```{r}
 t.test(df_data$gad_post, df_data$gad_screen, paired=TRUE)
+```
+
+Chi-squared tests, and other tests of significance, are sometimes used to check that important pre-treatment characteristics, such as gender or symptom level, are balanced between the treatment groups. Non-sinificant p-values are then taken as an argument that the groups are balanced. Reason about why this is a problematic approach.
+
+**Answer:** *Because a non-significant result **is not evidence of no difference.** With small samples, even large differences may be non-significant. Conversely, in large samples even the smallest difference may be statistically significant.*
+
+Create a categorical for high or low generalized anxiety and one for high and low social anxiety, and use the Chi squared test to test the null hypothesis of no association between the variables
+
+```{r}
+df_data <- df_data %>%
+  mutate(
+    gad_cat_screen = if_else(
+      gad_screen > median(gad_screen),
+      "High GAD", "Low GAD"
+    ),
+    sad_cat_screen = if_else(
+      lsas_screen > median(lsas_screen),
+      "High SAD", "Low SAD"
+    )
+  )
+
+chisq.test(df_data$gad_cat_screen, df_data$sad_cat_screen)
+chisq.test(df_data$gad_cat_screen, df_data$sad_cat_screen)$observed
+chisq.test(df_data$gad_cat_screen, df_data$sad_cat_screen)$expected
 ```

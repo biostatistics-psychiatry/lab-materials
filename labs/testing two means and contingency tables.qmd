@@ -139,7 +139,13 @@ df_data %>%
     -   Ideally, groups are randomly sampled or randomly assigned in an experiment.
 :::
 
-We can also get the confidence interval for this mean difference. As always, the confidence interval is calculated by taking the estimate of interest, in this case the mean difference $\pm$ our desired number of standard errors. For a confidence interval with large samples, the sampling distribution approaches the z-distribution (normal distribution with $\mu = 0$ and $\sigma = 1$). We can then use the z-values for the $\alpha$ covering our desired part of the distribution. To cover the middle 95% of the z-distribution, this value is $\pm 1.96$.
+We can also get the **confidence interval for this mean difference.** As always, the confidence interval is calculated by taking the estimate of interest, in this case the mean difference $\pm$ our desired number of standard errors. For a confidence interval with large samples, the sampling distribution approaches the z-distribution (normal distribution with $\mu = 0$ and $\sigma = 1$). We can then use the z-values covering the middle 95% of the z-distribution, which are $\pm 1.96$. To check that the $z_\alpha/2$ for an alpha of 0.05 is indeed $\pm 1.96$ we could use the the function `qnorm()` that gives the quantile function of the normal distribution.
+
+```{r}
+qnorm(1 - 0.05/2)
+```
+
+The formula for the confidence interval of the mean difference using z-values is:
 
 $$
 (\bar{X}_1 - \bar{X}_2) \;\pm\; z_{\alpha/2} \cdot SE_{z}
@@ -203,6 +209,7 @@ df_data %>%
 4.  Do you think the assumptions of the t-test are fulfilled?
 5.  How do the results differ if you use the Welch t-test instead
 6.  **BONUS:** If you feel up to it, try to also calculate a z-test for the mean difference in post-treatment LSAS-scores using the formulas above
+7.  **BONUS:** Modify the code above to calculate the 99% confidence interval of the mean difference in LSAS-scores at post-treatment between the self-guided and the therapist-guided groups
 :::
 
 ## Testing dependent means
@@ -249,7 +256,7 @@ t.test(df_data$lsas_post, df_data$lsas_screen, paired = TRUE)
 We can also get the confidence intervals of this difference, using a familiar formula for large samples
 
 $$
-\bar{D} \;\pm\; z_{\alpha} \cdot SE_D
+\bar{D} \;\pm\; z_{\alpha/2} \cdot SE_D
 $$
 
 For smaller samples, we need use the t-distribution and find the right t-value for our degrees of freedom and coverage interval.
@@ -298,11 +305,11 @@ t.test(df_data$lsas_post, df_data$lsas_screen, paired = TRUE)
 3.  Compare the means of GAD-7 from pre- to post-treatment and interpret the results
 :::
 
-## Contingency tables
+## Contingency tables and the Chi-squared test
 
 Say that we wanted to test the distribution of some categorical variable across two groups, the the methods presented above will not help. For this we need other tests.
 
-Say that we wanted to know if the gender distribution was similar across the three treatment groups in the the STEpS study. The first step to such an investigation would be to create a *contingency table* showing the gender distribution across the groups.
+Say that we wanted to know if the gender distribution was similar across in the self-guided as in the therapist-guided treatment group of the the STEpS study. The first step to such an investigation would be to create a *contingency table* showing the gender distribution across the groups.
 
 ```{r}
 #create a gender variable 
@@ -315,11 +322,11 @@ table(df_data$trt, df_data$gender) # number of person
 prop.table(table(df_data$trt, df_data$gender), margin = 1) # proportion in each treatment group
 ```
 
-We see that there are some differences between the groups, but will we have no statistical test of these differences.
+We see that there are some small differences between the groups, but we have no statistical test of these differences. Say that we wanted to test the null hypothesis that there is no association between gender and the treatment group you end up in. This hypothesis should hold, due to the randomization of the STEpS study.
 
-One way to test if the proportion of men and women differs between the groups would be to do a **Chi-squared test.**
+One way to test if the proportion of men and women differs between the groups is perform a **Chi-squared test (**$X^2-test$**).**
 
-The Chi-squared test statistic is defined as:
+The formula for Chi-squared test statistic is:
 
 $$
 \chi^2 = \sum_{i=1}^{r} \sum_{j=1}^{c} \frac{(O_{ij} - E_{ij})^2}{E_{ij}}
@@ -331,7 +338,7 @@ $$
 E_{ij} = \frac{(\text{row total})_i \cdot (\text{column total})_j}{\text{grand total}}
 $$
 
-What the test does is comparing the observed counts in each cell against what would be expected if values where distrubuted equally across the groups (i.e. the cells of the contingency table). Coding this formula manually is a but tricky, but here is the code for those interested.
+This test compares the observed counts in each cell against what would be expected if values where distributed equally across the groups (i.e. across the cells of the contingency table). Coding this formula manually is a bit tricky, but here is the code for those interested.
 
 ```{r}
 ## Build the contingency table
@@ -339,12 +346,13 @@ tbl <- table(trt = df_data$trt, gender = df_data$gender)
 
 ## Convert this table to matrix format for the following calculations
 O <- as.matrix(tbl)
-
+O
 ## Expected counts E_ij = (row total_i * col total_j) / grand total
 row_tot <- rowSums(O)
 col_tot <- colSums(O)
 grand   <- sum(O)
 E <- outer(row_tot, col_tot) / grand # outer is a function to multiply arayys
+E
 
 ## Chi-square statistic: sum_{i,j} (O_ij - E_ij)^2 / E_ij
 chi_sq <- sum((O - E)^2 / E)
@@ -359,16 +367,90 @@ p_value <- pchisq(chi_sq, df = df, lower.tail = FALSE)
 p_value
 ```
 
-In R, these calculations can be easily performed using the function `chisq.test()`
+In R, these calculations can be easily performed using the function `chisq.test()` that also provide tables for the observed and expected frequencies
 
 ```{r}
 chisq.test(df_data$trt, df_data$gender)
+chisq.test(df_data$trt, df_data$gender)$observed
+chisq.test(df_data$trt, df_data$gender)$expected
 ```
 
-ADD:
+Our results tells us that the null hypothesis of no association cannot be rejected. In other words, our data would not be unexpected if there was no association between gender and treatment group in the underlying population (kind of a strange though experiment, as there are only treatment variables in treatment studies, not in the underlying population).
 
--   SINGED RANK TEST
+::: callout-caution
+The **Chi-squared test** is only valid if the counts in each cell is \>5. When cell counts are lower, Fisher's exact test should be used instead. You can use the `fisher.test()` function
+:::
 
--   WILCOX TEST
+::: callout-warning
+## Exercise: Testing categorical distributions
 
--   Kruskal Wallice test
+Chi-squared tests, and other tests of significance, are sometimes used to check that important pre-treatment characteristics, such as gender or symptom level, are balanced between the treatment groups. Non-sinificant p-values are then taken as an argument that the groups are balanced. Reason about why this is a problematic approach.
+
+Create a categorical for high or low generalized anxiety and one for high and low social anxiety, and use the Chi squared test to test the null hypothesis of no association between the variables
+:::
+
+## Other non-parametric tests
+
+There are a number of other non-parametric tests that can be used if our data does not fulfill the assumptions for parametric tests, like t-tests and z-tests. We won't go through the formulas for all these, but show you how they can be implemented in R.
+
+### Sign test
+
+The sign test is used to test whether the **median** of paired differences equals a hypothesized value (often 0), using only the **signs** of differences, (i.e. + or -). This test can be used even when the sample is small, and the underlying population distribution is assumed to be non-normal.
+
+The test is performed by counting how often a difference between pairs of values are positive. If there was no systematic change, this should occur 50% of the time. We then test whether our actual proportion of positive signs is likely to come from an underlying population where 50% of the signs are positive.
+
+We could use it to test the nyll hypothesis that the median difference of LSAS-score at between pre-treatment and post-treatment is 0 (analog to our paired t-test above).
+
+```{r}
+# Paired sign test: H0 median LSAS(pre - post) = 0
+diff_pre_post <- df_data$lsas_post - df_data$lsas_screen # create differnece scores
+n <- sum(diff_pre_post != 0, na.rm=TRUE)      # exclude ties (exact zeros)
+s <- sum(diff_pre_post[diff_pre_post != 0] > 0, na.rm=TRUE) # number of positive differences (again excluding ties)
+binom.test(s, n, p = 0.5, alternative = "two.sided") # a test of the proportion
+```
+
+This null hypothesis seems very unlikely.
+
+### Wilcoxon signed rank test
+
+Tests if the **distribution of paired differences** is symmetric around 0 (often framed as median difference = 0), using magnitudes and signs.\
+
+**Assumptions:** Paired observations; differences are symmetrically distributed.
+
+**Pro's:** Unlike the t-test, it does not assume interval level data. It is also better powered that the sign test.
+
+We can use this to test the null hypothesis that the median LSAS score is the same at post-treatment as at pre-treatment.
+
+```{r}
+wilcox.test(df_data$lsas_post, df_data$lsas_screen,
+            paired = TRUE,
+            alternative = "two.sided", 
+            exact = FALSE)
+```
+
+Again, the null hypothesis seems very unlikely.
+
+### Wilcox rank-sum test
+
+This test, aslo known as the Mann-Whitney U-test, test whether two **independent** samples come from the same distribution (often interpreted as a shift in location/medians).\
+
+**Assumptions:** Independent samples; similar shapes are helpful for a “median shift” interpretation.
+
+Unlike the independent groups t-test, it does not assume interval level data. We can use this test to test the null hypothesis that LSAS scores at post-treatment have the same distribution in the self-guided and the therapist-guided treatment groups.
+
+```{r}
+# Two-sample Wilcoxon rank-sum test (unpaired)
+df_data %>%
+  filter(trt != "waitlist") %>%
+  wilcox.test(lsas_post ~ trt, data = ., paired = FALSE, exact = FALSE)
+```
+
+::: callout-warning
+## Exercise: Non-parametric tests
+
+Which of all the test performed today do you think is most appropriate for the pre-post difference in LSAS scores?
+
+And which of all tests performed is most appropriate for comparing the LSAS scores between the self-guided and the therapist-guided groups?
+
+Perform a signed test for the pre-post difference in DERS scores and interpret the results.
+:::
