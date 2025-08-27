@@ -1,5 +1,5 @@
 ---
-Lab X: Probability rules
+title: "Probability rules"
 ---
 
 In this lab, we will look at how we can work with probability rules in R.
@@ -7,6 +7,7 @@ In this lab, we will look at how we can work with probability rules in R.
 # Load packages and data
 
 ```{r}
+#| label: load-packages
 #| message: false
 
 library(tidyverse)
@@ -21,6 +22,8 @@ d_bl <- read_rds(here("data", "steps_baseline.rds"))
 Let's look at how we can implement probability rules in R and apply them to our dataset. In a previous lab, we created some categorical variables at baseline. These were just simulated, so we will not try to make sense of the results.
 
 ```{r}
+#| label: glimpse-data
+
 d_bl |>
   select(where(is.character)) |>
   glimpse()
@@ -79,6 +82,8 @@ P(\text{not Secondary}) = 1 - P(\text{Secondary})
 $$
 
 ```{r}
+#| label: complement-rule
+
 # probability of Secondary education
 p_secondary <- edu_summary |>
   filter(education == "Secondary") |>
@@ -101,6 +106,8 @@ $$P(A \cup B) = P(A) + P(B) - P(A \cap B)$$
 Let's implement this using our dataset. We'll look at the probability of having either "Primary" education OR being in the "Low" income group.
 
 ```{r}
+#| label: addition-rule
+
 # get probabilities
 p_primary <- edu_summary |>
   filter(education == "Primary") |>
@@ -154,6 +161,8 @@ kable(edu_income_table)
 ```
 
 ```{r}
+#| label: independence-check
+
 # Check independence for Primary education and Low income
 p_primary_indep <- p_primary * p_low_income
 p_primary_dep <- p_both
@@ -172,6 +181,8 @@ $$P(B|A) = \frac{P(A \cap B)}{P(A)}$$
 Let's calculate the probability of having "Low" income given that someone has "Primary" education:
 
 ```{r}
+#| label: conditional-probability
+
 p_low_given_primary <- p_both / p_primary
 
 cat("P(Low income | Primary education) =", round(p_low_given_primary, 4))
