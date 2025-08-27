@@ -1,0 +1,202 @@
+---
+title: "Sampling from a population"
+---
+
+So far, we have restricted ourselves to describing the sample that we have. Often, however, we are not only interested about our sample, but want to make inferences about the **population** from which our sample came.
+
+# Load packages and data
+
+```{r}
+#| label: load-packages
+#| message: false
+
+library(here)
+library(tidyverse)
+d_bl <- read_rds(here("data", "steps_baseline.rds"))
+```
+
+# Central Limit Theorem (CLT):
+
+No matter what the population distribution looks like, if you take many random samples and calculate their means, those samples means will form a **normal distribution** as the sample size grows large.
+
+- Sample means become normally distributed.
+- Happens even if the original population is **not normal**.
+- Works better as **sample size increases** (n ≥ 30 is a common rule).
+
+Here is a simulation to visualize what the relation between the distribution of a variable in the population and the sampling distribution of the means from that same population.
+
+```{r}
+#| echo: false
+
+# Parameters
+population <- rnorm(10000, mean = 50, sd = 10) # simulate a population
+sample_size <- 30
+num_samples <- 1000
+sample_means <- numeric(num_samples)
+
+par(mfrow = c(2, 1))
+hist(population, xlim = c(15, 85), main = "Normal population distrubution")
+
+# Draw multiple samples and compute their means
+for (i in 1:num_samples) {
+  sample_i <- sample(population, sample_size, replace = TRUE)
+  sample_means[i] <- mean(sample_i)
+}
+
+# Plot the sampling distribution of the mean
+hist(sample_means,
+  breaks = 30, probability = TRUE,
+  main = paste("Sampling Distribution of the Mean, \n 1000 samples of n=30"),
+  xlab = "Sample Mean", col = "skyblue", border = "white", xlim = c(15, 85)
+)
+
+# Add a normal curve for comparison
+curve(dnorm(x, mean = mean(sample_means), sd = sd(sample_means)),
+  col = "red", lwd = 2, add = TRUE
+)
+
+```
+
+```{r}
+#| echo: false
+
+# Parameters
+population <- runif(10000, min = 15, max = 85) # simulate a population
+sample_size <- 30
+num_samples <- 1000
+sample_means <- numeric(num_samples)
+
+par(mfrow = c(2, 1))
+hist(population, xlim = c(15, 85), main = "Uniform population distrubution")
+
+# Draw multiple samples and compute their means
+for (i in 1:num_samples) {
+  sample_i <- sample(population, sample_size, replace = TRUE)
+  sample_means[i] <- mean(sample_i)
+}
+
+# Plot the sampling distribution of the mean
+hist(sample_means,
+  breaks = 30, probability = TRUE,
+  main = paste("Sampling Distribution of the Mean, \n 1000 samples of n=30"),
+  xlab = "Sample Mean", col = "skyblue", border = "white", xlim = c(15, 85)
+)
+
+# Add a normal curve for comparison
+curve(dnorm(x, mean = mean(sample_means), sd = sd(sample_means)),
+  col = "red", lwd = 2, add = TRUE
+)
+
+```
+
+```{r}
+#| echo: false
+
+# Parameters
+population <- c(rnorm(10000 / 2, mean = 65, sd = 5), rnorm(10000 / 2, mean = 35, sd = 5)) # simulate a population
+sample_size <- 30
+num_samples <- 1000
+sample_means <- numeric(num_samples)
+
+par(mfrow = c(2, 1))
+hist(population, xlim = c(15, 85), breaks = 30, main = "Bi-modal population distribution")
+
+# Draw multiple samples and compute their means
+for (i in 1:num_samples) {
+  sample_i <- sample(population, sample_size, replace = TRUE)
+  sample_means[i] <- mean(sample_i)
+}
+
+# Plot the sampling distribution of the mean
+hist(sample_means,
+  breaks = 30, probability = TRUE,
+  main = paste("Sampling Distribution of the Mean, n 1000 samples of n=30"),
+  xlab = "Sample Mean", col = "skyblue", border = "white", xlim = c(15, 85)
+)
+
+# Add a normal curve for comparison
+curve(dnorm(x, mean = mean(sample_means), sd = sd(sample_means)),
+  col = "red", lwd = 2, add = TRUE
+)
+
+```
+
+# Law of Large Numbers (LLN):
+
+As you collect more and more observations, the **sample mean** (or proportion) will get closer and closer to the **true population mean**.
+
+- More data = more accuracy.
+- Guarantees that with enough data, **random variation** averages out.
+
+Imagine that we had the patience to flip a coin 1000 times. For each toss, we calculated the number of heads we've gotten so far and divided by the total tosses, to get the proportion that landed heads. Even if we expect the coin to be fair, we wouldn't expect it to be 50-50 heads and tails in the beginning. In fact, at the first toss that would be impossible, As we continued, however, we would see the proportion of heads gradually stabilize around 0.5.
+
+```{r}
+#| echo: false
+# Simulate coin tosses (0 = Tails, 1 = Heads)
+num_tosses <- 1000
+tosses <- rbinom(num_tosses, 1, 0.5)
+
+# Calculate cumulative proportion of heads
+toss_data <- data.frame(
+  TossNumber = 1:num_tosses,
+  ProportionHeads = cumsum(tosses) / (1:num_tosses)
+)
+
+# Plot cumulative proportion
+ggplot(toss_data, aes(x = TossNumber, y = ProportionHeads)) +
+  geom_line(color = "steelblue", linewidth = 1) +
+  geom_hline(yintercept = 0.5, linetype = "dashed", color = "red") +
+  scale_y_continuous(limits = c(0, 1)) +
+  labs(
+    title = "Law of Large Numbers: Coin Toss Simulation",
+    x = "Number of Tosses",
+    y = "Proportion of Heads"
+  ) +
+  theme_minimal()
+```
+
+Together the central limit theorem and the law of large numbers tells us that when sampling from a population 1) the sampling distribution approaches a normal distribution as the number of samples increases, AND 2) the value of the sample mean $\bar{x}$, the estimate, will approach the true population mean $\mu$ as the sample size increase.
+
+# Sampling in research
+
+This is all fine and well, but you may find yourself wondering "How does this help my PhD?". You won't be able to sample repeatedly from the population, if you are lucky you'll have ONE sample to work with. But there is an upside! You can use you sample values to estimate *the standard deviation of the sampling distribution*, also known as the **standard error (SE).**
+
+## Standard error of a mean
+
+The formula for the standard error of a mean, if we knew the population variance $\sigma^2$, is:
+
+$$
+SE = {\sqrt{\sigma^2 / n}}
+$$
+
+However, we rarely know the population standard deviation. Luckily we can use the sample variance $s^2$ to estimate it:
+
+$$
+SE = {\sqrt{s^2 / n}}
+$$
+
+## Standard error of a proportion
+
+For a proportion, the standard error for the population is calculated by the formula:
+
+$$
+\mathrm{SE}(p) = \sqrt{\frac{p(1 - p)}{n}}
+$$
+
+::: {.callout-caution collapse="true"}
+## Exercise: Standard Error of LSAS_Screen
+
+Estimate the standard error of LSAS_Screen in the STePS study using the formula above, and describe in words what the number means.
+:::
+
+::: {.callout-caution collapse="true"}
+## Exercise: Standard Error of Proportion
+
+Calculate the standard error for the proportion of men in the STePS study, and describe the meaning of this number in words.
+:::
+
+::: {.callout-caution collapse="true"}
+## Exercise: Effect of Sample Size on Standard Error
+
+Describe what would happen to these standard errors if the sample size had been 1000 participants and explain why?
+:::

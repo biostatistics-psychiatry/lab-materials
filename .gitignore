@@ -57,3 +57,6 @@ _publish.yml
 .Renviron
 
 /.quarto/
+
+# Tables
+labs/tables/*.docx
