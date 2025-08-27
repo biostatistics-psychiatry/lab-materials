@@ -12,6 +12,7 @@ In the STepS study, a primary comparison was the severity of social anxiety symp
 ```{r}
 #| label: load-packages
 #| message: false
+#| warning: false
 
 library(tidyverse)
 library(here)
@@ -56,13 +57,25 @@ We see that the therapist-guided groups has the lowest treatment scores post-tre
 
 So the mean values of LSAS-scores is 7.6 point higher in the treatment group receiving self-guided treatment compared to the group receiving therapist-guided treatment. However, we still do not know how likely this difference is to have occurred by chance. For this we need a statistical test!
 
-To test the difference between two means, we can use an independent group t-test
+To test the difference between two means, we can use the Student's independent groups t-test:
 
 $$
-t = \frac{\bar{X}_1 - \bar{X}_2}{\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}}
+t = \frac{\bar{X}_1 - \bar{X}_2}{SE_{\text{pooled}}}
 $$
 
-Rather than comparing the mean value against some value of interest, as in the one-sample t-test, here we compare the means of two groups against each other. Usually this is done under the nullhypothesis:
+Where $\bar{X_1}$ and $\bar{X_2}$ are the means of the first and second group, and where the pooled standard error is:
+
+$$
+SE_{\text{pooled}} = \sqrt{s_p^2 \left(\frac{1}{n_1} + \frac{1}{n_2}\right)}
+$$
+
+and the pooled variance is:
+
+$$
+s_p^2 = \frac{(n_1 - 1)s_1^2 + (n_2 - 1)s_2^2}{n_1 + n_2 - 2}
+$$
+
+Rather than comparing the mean value against some value of interest, as in the one-sample t-test, here we compare the means of two groups against each other. Usually this is done under the null hypothesis:
 
 $$
 H_{0}: \mu_{\text{therapist-guided}} = \mu_{\text{self-guided}}
@@ -74,7 +87,7 @@ $$
 H_{A}: \mu_{\text{therapist-guided}} \neq \mu_{\text{self-guided}}
 $$
 
-So let's use the formula above to calculate a t-value.
+This may all seem complicated, but the **t-value simply represents the mean difference, expressed in standard errors units**. In other words, the number of standard errors between the means. Let's use the formulas above to calculate a t-value.
 
 ```{r}
 # define the components of the t-test formula
@@ -84,27 +97,28 @@ s_2_tg <- var(df_data$lsas_post[df_data$trt=="therapist-guided"], na.rm=T)
 s_2_sg <- var(df_data$lsas_post[df_data$trt=="self-guided"], na.rm=T)
 n_tg <- sum(!is.na(df_data$lsas_post[df_data$trt=="therapist-guided"])) # here we only count the number of persons that provided data
 n_sg <- sum(!is.na(df_data$lsas_post[df_data$trt=="self-guided"])) # here we only count the number of persons that provided data
-
+sp2 <- ((n_tg - 1) * s_2_tg + (n_sg - 1) * s_2_sg) / (n_tg + n_sg - 2) # pooled variance
+SE_pooled <- sqrt(sp2 * (1/n_tg + 1/n_sg)) # pooled standard error
 
 # and put the together
-t_value <- (x_bar_sg - x_bar_tg) / sqrt((s_2_tg/n_tg ) + (s_2_sg/n_sg ))
+t_value <- (x_bar_sg - x_bar_tg) / SE_pooled
 t_value
 ```
 
-From the t-value, we can get the p-value in the same way as with the one-sample t-value, that we used previously.
+And use the t-distribution with $n_1 + n_2 - 2$ degrees of freedom to get the p-value for this specific t-value
 
 ```{r}
-df <- n_tg + n_sg - 2
-p_value <- 2 * (1 - pt(abs(t_value), df))
+df <- n_tg + n_sg -2 
+p_value <- 2 * (1 - pt(abs(t_value), df)) # multiplied by two to get the two-tailed p-value
 p_value
 ```
 
-Or use the `t_test()` function, and filter to using only the self-guided and therapist-guided groups
+Or use the `t.test()` function, and filter to using only the self-guided and therapist-guided groups
 
 ```{r}
 df_data %>%
   filter(trt != "waitlist") %>%
-  t.test(lsas_post ~ trt, data = ., var.equal = FALSE)
+  t.test(lsas_post ~ trt, data = ., var.equal = TRUE)
 ```
 
 ::: callout-note
@@ -120,70 +134,76 @@ df_data %>%
     -   More critical for small samples; larger samples benefit from the Central Limit Theorem.
 4.  **Homogeneity of variance**
     -   Both groups should have equal variances.
-    -   If violated, use Welch’s *t*-test instead (this is in fact the one we have calculated above)
+    -   If violated, use Welch’s *t*-test instead (set the argument var.equal = FALSE in the `t.test()` function)
 5.  **Random sampling**
     -   Ideally, groups are randomly sampled or randomly assigned in an experiment.
 :::
 
-We could also calculate the confidence interval of the mean difference between the groups, using the formula using the t-value:
+We can also get the confidence interval for this mean difference. As always, the confidence interval is calculated by taking the estimate of interest, in this case the mean difference $\pm$ our desired number of standard errors. For a confidence interval with large samples, the sampling distribution approaches the z-distribution (normal distribution with $\mu = 0$ and $\sigma = 1$). We can then use the z-values for the $\alpha$ covering our desired part of the distribution. To cover the middle 95% of the z-distribution, this value is $\pm 1.96$.
 
 $$
-\left( \, (\bar{X}_1 - \bar{X}_2) \; \pm \; t_{\alpha/2, \, df} \times 
-\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}} \, \right)
+(\bar{X}_1 - \bar{X}_2) \;\pm\; z_{\alpha/2} \cdot SE_{z}
 $$
 
-Or the z-value, id the sample is large:
+where
 
 $$
-\left( \, (\bar{X}_1 - \bar{X}_2) \; \pm \; Z_{\alpha} \times 
-\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}} \, \right)
+SE_{z} = \sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}
 $$
 
-Where the following part of the formula represents the *standard error of the mean difference.*
+If we do not have a large sample, we can use the t-distribution with the formula:
 
 $$
-\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}} 
+(\bar{X}_1 - \bar{X}_2) \;\pm\; t_{\alpha/2,\,df} \cdot SE_{\text{pooled}}
 $$
 
 Putting this together, we get the confidence interval for the mean difference.
 
 ```{r}
-#with t-values
-# define the components of the t-test formula
+#define the components of the formula 
 x_bar_tg <- mean(df_data$lsas_post[df_data$trt=="therapist-guided"], na.rm=T)
 x_bar_sg <- mean(df_data$lsas_post[df_data$trt=="self-guided"], na.rm=T)
 s_2_tg <- var(df_data$lsas_post[df_data$trt=="therapist-guided"], na.rm=T)
 s_2_sg <- var(df_data$lsas_post[df_data$trt=="self-guided"], na.rm=T)
 n_tg <- sum(!is.na(df_data$lsas_post[df_data$trt=="therapist-guided"])) # here we only count the number of persons that provided data
 n_sg <- sum(!is.na(df_data$lsas_post[df_data$trt=="self-guided"])) # here we only count the number of persons that provided data
-se_diff <- sqrt((s_2_tg/n_tg ) + (s_2_sg/n_sg )) # save the SE of the difference as a separate object for conveninence
+se_z <- sqrt((s_2_tg/n_tg ) + (s_2_sg/n_sg )) # save the SE of the difference as a separate object for conveninence
+sp2 <- ((n_tg - 1) * s_2_tg + (n_sg - 1) * s_2_sg) / (n_tg + n_sg - 2) # pooled variance
+SE_pooled <- sqrt(sp2 * (1/n_tg + 1/n_sg)) # pooled standard error
 
-# and put it together with the z-value formula, where z_values of 1.96 represents 95% confidence intervals
+# and put it together with the z-value formula
 
-ucl <- (x_bar_sg - x_bar_tg) + 1.96*se_diff
-lcl <- (x_bar_sg - x_bar_tg) - 1.96*se_diff
+ucl <- (x_bar_sg - x_bar_tg) + 1.96*se_z
+lcl <- (x_bar_sg - x_bar_tg) - 1.96*se_z
+print(c(lcl, ucl))
+
+# or the t-value formula 
+df = n_sg + n_tg - 2
+alpha= 0.05
+t_crit <- qt(1 - alpha/2, df)
+ucl <- (x_bar_sg - x_bar_tg) + t_crit*SE_pooled
+lcl <- (x_bar_sg - x_bar_tg) - t_crit*SE_pooled
 print(c(lcl, ucl))
 ```
 
-```{r}
+The confidence interval from the t-distribution is also given by the `t.test()` function.
 
+```{r}
+df_data %>%
+  filter(trt != "waitlist") %>%
+  t.test(lsas_post ~ trt, data = ., var.equal = TRUE)
 ```
 
 ::: {.callout-caution collapse="\"true"}
 ## Exercise: Testing independent group means
 
-1.  Compare the confidence intervals calculated by hand using the z-value approach to those from the `t_test()` function, and describe why they are different
-2.  Calculate the mean difference, and the associated two-sided p-value for the mean difference between the therapist-guided and the wait list group
-3.  Complement this with the 95% confidence interval.
-4.  Do you think the assumption of equal variance between the groups is justifies?
-5.  Do you think the assumptions of the t-test are fulfilled?
+1.  Calculate the mean difference in post-treatment LSAS scores, and the associated two-sided p-value for the mean difference between the therapist-guided and the wait list group
+2.  Complement this with a 95% confidence interval.
+3.  Do you think the assumption of equal variance between the groups is justifies?
+4.  Do you think the assumptions of the t-test are fulfilled?
+5.  How do the results differ if you use the Welch t-test instead
+6.  **BONUS:** If you feel up to it, try to also calculate a z-test for the mean difference in post-treatment LSAS-scores using the formulas above
 :::
-
-```{r}
-df_data %>%
-  filter(trt != "waitlist") %>%
-  t.test(lsas_post ~ trt, data = ., var.equal = FALSE)
-```
 
 ## Testing dependent means
 
@@ -192,23 +212,23 @@ The independent group t-test assumes that the groups compared are independent, w
 For a paired samples *t*-test, the statistic is:
 
 $$
-t = \frac{\bar{D}}{s_D / \sqrt{n}}
+t = \frac{\bar{D}}{SE_D}
 $$
 
 where:
 
 -   $\bar{D}$ = mean of the difference scores
--   $s_D$ = standard deviation of the difference scores
--   $n$ = number of paired observations
+-   $SE_D$ = the standard error of the difference scores calculated as $s_D/ \sqrt{n}$ = the standard error of the differences, with $s_D$ = the standard deviation of the differences and $n$ = the number of paired observations
 
-We could use this to formula to test the difference in LSAS-scores from pre-to post-treatment.
+Let's use this to formula to test the difference in LSAS-scores from pre-to post-treatment.
 
 ```{r}
 diff_pre_post <- df_data$lsas_post - df_data$lsas_screen
 mean_diff <- mean(diff_pre_post, na.rm=TRUE)
 sd_diff <- sd(diff_pre_post, na.rm=TRUE)
 n <- sum(!is.na(diff_pre_post))
-t_value <- mean_diff / (sd_diff/sqrt(n))
+se_diff <- sd_diff/sqrt(n)
+t_value <- mean_diff / se_diff
 t_value
 ```
 
@@ -220,32 +240,32 @@ p_value <- 2 * (1 - pt(abs(t_value), df))
 p_value
 ```
 
-Or using the `t_test()` function.
+Or using the `t.test()` function with the the argument `paired = TRUE`.
 
 ```{r}
 t.test(df_data$lsas_post, df_data$lsas_screen, paired = TRUE)
 ```
 
-We can also get the confidence intervals of this difference, using the formula:
+We can also get the confidence intervals of this difference, using a familiar formula for large samples
 
 $$
-\bar{D} \; \pm \; t_{\alpha/2, \, df} \cdot \frac{s_D}{\sqrt{n}}
+\bar{D} \;\pm\; z_{\alpha} \cdot SE_D
 $$
 
-Or with the z-value for large samples:
+For smaller samples, we need use the t-distribution and find the right t-value for our degrees of freedom and coverage interval.
 
 $$
-\bar{D} \; \pm \; z \cdot \frac{s_D}{\sqrt{n}}
+CI = \bar{D} \;\pm\; t_{\alpha/2, \, df} \cdot SE_D
 $$
 
-Manually, we can get the 95% confidence intervals using the z-value approach.
+And again, $SE_D = {s_D}/ {\sqrt{n}}$
 
 ```{r}
 diff_pre_post <- df_data$lsas_post - df_data$lsas_screen
 mean_diff <- mean(diff_pre_post, na.rm=TRUE)
 sd_diff <- sd(diff_pre_post, na.rm=TRUE)
 n <- sum(!is.na(diff_pre_post))
-se_diff <- (sd_diff/sqrt(n)) # saving the stadard error of the difference as a separate object for convenience
+se_diff <- (sd_diff/sqrt(n)) # saving the standard error of the difference as a separate object for convenience
 
 # and putting it together
 lcl <- mean_diff - 1.96*se_diff
@@ -253,12 +273,102 @@ ucl <- mean_diff + 1.96*se_diff
 print(c(lcl, ucl))
 ```
 
+or manually using the t-values
+
+```{r}
+df = n - 1
+alpha= 0.05
+t_crit <- qt(1 - alpha/2, df)
+lcl <- mean_diff - t_crit*se_diff
+ucl <- mean_diff + t_crit*se_diff
+print(c(lcl, ucl))
+```
+
+Or again, more conveniently using the `t.test()` function
+
+```{r}
+t.test(df_data$lsas_post, df_data$lsas_screen, paired = TRUE)
+```
+
 ::: {.callout-caution collapse="\"true"}
 ## Exercise: Testing dependent group means
 
 1.  Compute a t-test for the difference in LSAS-scores between post-treatment and 12-month follow-up and provide an interpretation of its meaning
 2.  Also calculate the 95% confidence interval for this difference, using the z-value formula and provide an interpretation of its meaning
-3.  Compare the means of GAD-7 from pre- to post-treatment present your inferences.
+3.  Compare the means of GAD-7 from pre- to post-treatment and interpret the results
 :::
 
 ## Contingency tables
+
+Say that we wanted to test the distribution of some categorical variable across two groups, the the methods presented above will not help. For this we need other tests.
+
+Say that we wanted to know if the gender distribution was similar across the three treatment groups in the the STEpS study. The first step to such an investigation would be to create a *contingency table* showing the gender distribution across the groups.
+
+```{r}
+#create a gender variable 
+df_data$gender <- rbinom(nrow(df_data), 1, 0.7)
+df_data$gender <- ifelse(df_data$gender==1, "Woman", "Man")
+```
+
+```{r}
+table(df_data$trt, df_data$gender) # number of person
+prop.table(table(df_data$trt, df_data$gender), margin = 1) # proportion in each treatment group
+```
+
+We see that there are some differences between the groups, but will we have no statistical test of these differences.
+
+One way to test if the proportion of men and women differs between the groups would be to do a **Chi-squared test.**
+
+The Chi-squared test statistic is defined as:
+
+$$
+\chi^2 = \sum_{i=1}^{r} \sum_{j=1}^{c} \frac{(O_{ij} - E_{ij})^2}{E_{ij}}
+$$
+
+where
+
+$$
+E_{ij} = \frac{(\text{row total})_i \cdot (\text{column total})_j}{\text{grand total}}
+$$
+
+What the test does is comparing the observed counts in each cell against what would be expected if values where distrubuted equally across the groups (i.e. the cells of the contingency table). Coding this formula manually is a but tricky, but here is the code for those interested.
+
+```{r}
+## Build the contingency table
+tbl <- table(trt = df_data$trt, gender = df_data$gender)
+
+## Convert this table to matrix format for the following calculations
+O <- as.matrix(tbl)
+
+## Expected counts E_ij = (row total_i * col total_j) / grand total
+row_tot <- rowSums(O)
+col_tot <- colSums(O)
+grand   <- sum(O)
+E <- outer(row_tot, col_tot) / grand # outer is a function to multiply arayys
+
+## Chi-square statistic: sum_{i,j} (O_ij - E_ij)^2 / E_ij
+chi_sq <- sum((O - E)^2 / E)
+
+## Degrees of freedom: (r - 1)(c - 1)
+r <- nrow(O)
+c <- ncol(O)
+df <- (r - 1) * (c - 1)
+
+## p-value from chi-square distribution
+p_value <- pchisq(chi_sq, df = df, lower.tail = FALSE)
+p_value
+```
+
+In R, these calculations can be easily performed using the function `chisq.test()`
+
+```{r}
+chisq.test(df_data$trt, df_data$gender)
+```
+
+ADD:
+
+-   SINGED RANK TEST
+
+-   WILCOX TEST
+
+-   Kruskal Wallice test

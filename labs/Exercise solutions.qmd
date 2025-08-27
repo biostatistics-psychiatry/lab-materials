@@ -265,3 +265,101 @@ prop.test(table(d_bl$gender))
 ```
 
 **3.11** Reason about the the meaning and interpretation of the confidence intervals you have calculated in the context of how the actual STePs study was performed. The study can be found at: <https://www.nature.com/articles/s44184-024-00063-0>
+
+## testing two means and contingency tables
+
+Calculate the mean difference in post-treatment LSAS scores, and the associated two-sided p-value, between the therapist-guided and the wait list group
+
+```{r}
+df_data %>%
+  filter(trt != "self-guided") %>%
+  t.test(lsas_post ~ trt, data = ., var.equal = TRUE)
+
+# or manually
+x_bar_tg <- mean(df_data$lsas_post[df_data$trt=="therapist-guided"], na.rm=T)
+x_bar_wl <- mean(df_data$lsas_post[df_data$trt=="waitlist"], na.rm=T)
+s_2_tg <- var(df_data$lsas_post[df_data$trt=="therapist-guided"], na.rm=T)
+s_2_wl <- var(df_data$lsas_post[df_data$trt=="waitlist"], na.rm=T)
+n_tg <- sum(!is.na(df_data$lsas_post[df_data$trt=="therapist-guided"]))
+n_wl <- sum(!is.na(df_data$lsas_post[df_data$trt=="waitlist"]))
+sp2 <- ((n_tg - 1) * s_2_tg + (n_wl - 1) * s_2_wl) / (n_tg + n_wl - 2) # pooled variance
+SE_pooled <- sqrt(sp2 * (1/n_tg + 1/n_wl)) # pooled standard error
+
+# and put the together
+t_value <- (x_bar_wl - x_bar_tg) / SE_pooled
+
+#find the p-value
+df <- n_tg + n_wl -2 
+p_value <- 2 * (1 - pt(abs(t_value), df)) # multiplied by two to get the two-tailed p-value
+p_value
+```
+
+Complement this with a 95% confidence interval
+
+```{r}
+#z-value 95% CI
+se_z <- sqrt((s_2_wl/n_wl)+(s_2_tg/n_tg))
+lcl <- (x_bar_wl - x_bar_tg) - 1.96*se_z
+ucl <- (x_bar_wl - x_bar_tg) + 1.96*se_z
+print(c(lcl, ucl))
+
+#t-value 95% CI
+df = n_wl + n_tg - 2
+alpha= 0.05
+t_crit <- qt(1 - alpha/2, df)
+lcl <- (x_bar_wl - x_bar_tg) - t_crit*SE_pooled
+ucl <- (x_bar_wl - x_bar_tg) + t_crit*SE_pooled
+print(c(lcl, ucl))
+```
+
+Do you think the assumption of equal variance between the groups is justifies?
+
+Do you think the other assumptions of the t-test are fulfilled?
+
+How do the results differ if you use the Welch t-test instead **BONUS:** If you feel up to it, try to also calculate a z-test for the mean difference in post-treatment LSAS-scores using the formulas above
+
+```{r}
+#z-test of the differences 
+z_value <- (x_bar_wl - x_bar_tg) / se_z
+p_value <- 2 * (1 - pnorm(abs(z_value)))
+p_value
+```
+
+Compute a t-test for the difference in LSAS-scores between post-treatment and 12-month follow-up and provide an interpretation of its meaning
+
+```{r}
+# using the t-test function
+t.test(df_data$lsas_fu12, df_data$lsas_post, paired = TRUE)
+
+# or manually 
+diff_post_12FU <- df_data$lsas_fu12 - df_data$lsas_post
+mean_diff <- mean(diff_post_12FU, na.rm=TRUE)
+sd_diff <- sd(diff_post_12FU, na.rm=TRUE)
+n <- sum(!is.na(diff_post_12FU))
+se_diff <- sd_diff/sqrt(n)
+t_value <- mean_diff / se_diff
+df <- n -1 
+p_value <- 2 * (1 - pt(abs(t_value), df))
+p_value
+```
+
+Also calculate the 95% confidence interval for this difference, using the z-value formula and provide an interpretation of its meaning
+
+```{r}
+diff_post_12FU <- df_data$lsas_fu12 - df_data$lsas_post
+mean_diff <- mean(diff_post_12FU, na.rm=TRUE)
+sd_diff <- sd(diff_post_12FU, na.rm=TRUE)
+n <- sum(!is.na(diff_post_12FU))
+se_diff <- sd_diff/sqrt(n)
+
+# and putting it together
+lcl <- mean_diff - 1.96*se_diff
+ucl <- mean_diff + 1.96*se_diff
+print(c(lcl, ucl))
+```
+
+Compare the means of GAD-7 from pre- to post-treatment and interpret the results
+
+```{r}
+t.test(df_data$gad_post, df_data$gad_screen, paired=TRUE)
+```
