@@ -245,4 +245,20 @@ Now that we have cleaned the data, we can save it as a new CSV file. We will use
 write_csv(df_data, here("data", "steps_clean.csv"))
 ```
 
-**TODO** info box about saving data
+::: {.callout-tip}
+## Saving data
+
+When working with data in your research projects, it's a good idea to save your data in formats that can be reused later. This is especially important if you are working with large datasets, as it can be time-consuming to re-import the data every time you want to use it.
+
+In this course we are using an open dataset, but for your own projects you may want to save your data on KI server or another secure location.
+
+Try to keep your file names readable and understandable for both machines and humans.
+
+- Avoid spaces or special characters in file names
+- Use underscores `_` or hyphens `-` to separate words
+- Use lowercase letters
+- Use date stamps when relevant (e.g., `bass_export_2024_01_15.csv`)
+- Use descriptive names (e.g., `steps_baseline.csv`)
+- Be consistent in naming
+
+:::
