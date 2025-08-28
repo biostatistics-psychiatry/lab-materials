@@ -19,7 +19,7 @@ d_bl <- read_rds(here("data", "steps_baseline.rds"))
 
 # Probability rules
 
-Let's look at how we can implement probability rules in R and apply them to our dataset. In a previous lab, we created some categorical variables at baseline. These were just simulated, so we will not try to make sense of the results.
+Let's look at how we can implement probability rules in R and apply them to our dataset. In the [Import and clean data](import-clean.qmd) lab, we created some categorical variables at baseline. These were just simulated, so we will not try to make sense of the results.
 
 ```{r}
 #| label: glimpse-data

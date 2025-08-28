@@ -2,7 +2,7 @@
 title: "Descriptive statistics"
 ---
 
-In this lab we will practice calculating and interpreting descriptive statistics using the STePS dataset. We start by loading the cleaned dataset saved in the *Import and clean data* lab.
+In this lab we will practice calculating and interpreting descriptive statistics using the STePS dataset. We start by loading the cleaned dataset saved in the [Import and clean data](import-clean.qmd) lab.
 
 ```{r}
 #| label: load-packages
@@ -51,7 +51,7 @@ d_bl <- d %>%
 ::: {.callout-caution collapse="true"}
 ## Exercise: Get an overview of the dataset
 
-**2.1** Use the functions described in yesterdays lab to get a quick overview of the dataset and give a brief summary of it.
+**2.1** Use the functions described in the [Import and clean data](import-clean.qmd) lab to get a quick overview of the dataset and give a brief summary of it.
 :::
 
 # Numeric data

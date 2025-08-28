@@ -4,7 +4,7 @@ title: "Tidy Data Manipulation"
 
 In this lab, we will learn how to manipulate and reshape data using the *tidyverse* suite of packages. Data manipulation is a crucial skill in biostatistics because raw data is rarely in the format we need for analysis or visualization.
 
-For this lab, we will continue working with the STePS dataset that we cleaned in Lab 1 and explored in Lab 2. By the end of this lab, you will be able to:
+For this lab, we will continue working with the STePS dataset that we cleaned in [Import and clean data](import-clean.qmd) and explored in [Descriptive statistics](descriptive-statistics.qmd). By the end of this lab, you will be able to:
 
 - Filter rows and select columns based on specific criteria
 - Create new variables using existing data
@@ -37,7 +37,7 @@ library(tidyverse)
 library(here)
 ```
 
-Let's load our cleaned data from Lab 1:
+Let's load our cleaned data from the [Import and clean data](import-clean.qmd) lab:
 
 ```{r}
 #| label: load-data
@@ -236,10 +236,10 @@ We can check how our created PHQ9 categories map to the raw scores:
 ```{r}
 #| label: check-phq9-categories
 
-df_with_categories |> 
-    select(phq9_screen, phq9_severity) |> 
-    distinct(phq9_screen, phq9_severity) |> 
-    arrange(phq9_screen)
+df_with_categories |>
+  select(phq9_screen, phq9_severity) |>
+  distinct(phq9_screen, phq9_severity) |>
+  arrange(phq9_screen)
 ```
 
 ::: {.callout-caution collapse="true"}
@@ -289,7 +289,7 @@ group_stats <- df_data |>
     mean_lsas = mean(lsas_screen, na.rm = TRUE),
     sd_lsas = sd(lsas_screen, na.rm = TRUE),
     median_lsas = median(lsas_screen, na.rm = TRUE),
-    .groups = 'drop'  # This removes the grouping
+    .groups = "drop" # This removes the grouping
   )
 
 group_stats
@@ -341,9 +341,9 @@ Let's focus on the LSAS measurements across time. First, let's see what LSAS col
 #| label: check-lsas-columns
 
 # Check what LSAS columns we have
-df_data |> 
-    select(starts_with("lsas")) |> 
-    names()
+df_data |>
+  select(starts_with("lsas")) |>
+  names()
 
 ```
 
@@ -355,12 +355,12 @@ All of the columns that start with "lsas" are LSAS scores at different time poin
 df_lsas_long <- df_data |>
   select(id, group, starts_with("lsas")) |>
   pivot_longer(
-    cols = starts_with("lsas"),        # Which columns to pivot
-    names_to = "time_point",           # Name for the new column with time info
-    values_to = "lsas_score"          # Name for the new column with values
+    cols = starts_with("lsas"), # Which columns to pivot
+    names_to = "time_point", # Name for the new column with time info
+    values_to = "lsas_score" # Name for the new column with values
   )
 
-head(df_lsas_long, 12) 
+head(df_lsas_long, 12)
 ```
 
 ## Cleaning the time variable
@@ -442,7 +442,7 @@ Now let's fix this by creating a properly ordered factor:
 ```{r}
 #| label: create-factors
 
-library(forcats)  # Part of tidyverse, for working with factors
+library(forcats) # Part of tidyverse, for working with factors
 
 df_lsas_long <- df_lsas_long |>
   mutate(
@@ -451,7 +451,7 @@ df_lsas_long <- df_lsas_long |>
       time_clean,
       levels = c(
         "Baseline", "Week 1", "Week 2", "Week 3", "Week 4",
-        "Week 5", "Week 6", "Week 7", "Week 8", 
+        "Week 5", "Week 6", "Week 7", "Week 8",
         "Post-treatment", "6-month follow-up", "12-month follow-up"
       )
     ),
@@ -559,11 +559,11 @@ p1 <- ggplot(plot_data, aes(x = time_clean, y = mean_lsas, color = group_factor)
   geom_point(size = 3) +
   geom_line(aes(group = group_factor)) +
   labs(title = "Character variable (alphabetical order)", x = "Time") +
-  theme_minimal() + 
+  theme_minimal() +
   theme(
     legend.position = "bottom",
     axis.text.x = element_text(angle = 45, hjust = 1)
-    )
+  )
 
 # Plot with factor variable (correct order)
 p2 <- ggplot(plot_data, aes(x = time_factor, y = mean_lsas, color = group_factor)) +
@@ -574,7 +574,7 @@ p2 <- ggplot(plot_data, aes(x = time_factor, y = mean_lsas, color = group_factor
   theme(
     legend.position = "bottom",
     axis.text.x = element_text(angle = 45, hjust = 1)
-    )
+  )
 
 
 # Display both plots
@@ -636,7 +636,7 @@ lsas_summary <- df_lsas_long |>
     mean_lsas = mean(lsas_score, na.rm = TRUE),
     sd_lsas = sd(lsas_score, na.rm = TRUE),
     .by = c(group_factor, time_factor)
-  ) 
+  )
 
 lsas_summary
 ```
@@ -667,8 +667,8 @@ lsas_wide_detailed <- lsas_summary |>
     names_sep = "_"
   )
 
-lsas_wide_detailed |> 
-    knitr::kable(digits = 2)
+lsas_wide_detailed |>
+  knitr::kable(digits = 2)
 ```
 
 ::: callout-tip
@@ -705,7 +705,7 @@ Combine everything you've learned to:
 
 ```{r}
 #| label: gt-table
-# Using gt for better table formatting 
+# Using gt for better table formatting
 library(gt)
 
 my_table <- lsas_wide_detailed |>
@@ -725,7 +725,7 @@ my_table <- lsas_wide_detailed |>
   cols_label(
     time_factor = "Time Point",
     mean_lsas_Waitlist = "M",
-    sd_lsas_Waitlist = "SD", 
+    sd_lsas_Waitlist = "SD",
     n_obs_Waitlist = "N",
     `mean_lsas_Self-guided` = "M",
     `sd_lsas_Self-guided` = "SD",
@@ -750,7 +750,7 @@ my_table <- lsas_wide_detailed |>
   tab_options(
     table.border.top.style = "solid",
     table.border.top.width = px(2),
-    table.border.bottom.style = "solid", 
+    table.border.bottom.style = "solid",
     table.border.bottom.width = px(2),
     table.border.left.style = "none",
     table.border.right.style = "none",
@@ -775,12 +775,12 @@ my_table <- lsas_wide_detailed |>
     style = cell_text(align = "center"),
     locations = cells_body(columns = -time_factor)
   ) |>
-  # Add table title and subtitle 
+  # Add table title and subtitle
   tab_header(
     title = "Table 1",
     subtitle = "LSAS Scores by Treatment Group and Time Point"
   ) |>
-  # Add table note 
+  # Add table note
   tab_source_note(
     source_note = "Note. LSAS = Liebowitz Social Anxiety Scale; M = Mean; SD = Standard Deviation; N = Sample Size."
   )
