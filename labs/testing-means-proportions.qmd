@@ -156,7 +156,7 @@ p_two_sided <- ggplot(plot_df, aes(x = x, y = y)) +
   geom_line(color = "black") +
   geom_area(data = subset(plot_df, x >= z_stat_two), aes(y = y), fill = "red", alpha = 0.5) +
   geom_area(data = subset(plot_df, x <= -z_stat_two), aes(y = y), fill = "red", alpha = 0.5) +
-  geom_vline(xintercept = c(-z_stat, z_stat_two), color = "red", linetype = "dashed") +
+  geom_vline(xintercept = c(-z_stat_one, z_stat_two), color = "red", linetype = "dashed") +
   labs(
     title = "Two-sided p-value (Both Tails)",
     x = "Z", y = "Density"

@@ -1,6 +1,5 @@
 ---
-title: "Lab 3: Tidy Data Manipulation"
-format: html
+title: "Tidy Data Manipulation"
 ---
 
 In this lab, we will learn how to manipulate and reshape data using the *tidyverse* suite of packages. Data manipulation is a crucial skill in biostatistics because raw data is rarely in the format we need for analysis or visualization.

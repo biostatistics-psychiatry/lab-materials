@@ -1,13 +1,12 @@
 ---
-title: "testing two means and contingency tables"
-format: html
+title: "Testing two means and contingency tables"
 ---
 
 In this lab we focus on testing differences between groups. Previously we have calculated p-values and confidence intervals for one-sample means and proportions. In psychiatric research, we are more often interested in comparing means between groups. For instance, the post-treatment symptom levels between the treatment group and the control group.
 
-## Testing the mean difference of two independent groups
-
 In the STepS study, a primary comparison was the severity of social anxiety symptoms post-treatment between the self-guided and the therapist-guided treatment groups. As a first check, we can load the data and calculate get some descriptive statistics for the post-treatment LSAS-scores across the treatment groups.
+
+# Load packages and data
 
 ```{r}
 #| label: load-packages
@@ -17,41 +16,32 @@ In the STepS study, a primary comparison was the severity of social anxiety symp
 library(tidyverse)
 library(here)
 library(janitor)
-```
 
-```{r}
-#| message: false
 df_data <- read_csv(here("data", "steps_clean.csv"))
 ```
 
-And create a nicer, factor-level, treatment indicator variable
-
-```{r}
-df_data$trt <- trt <- factor(df_data$group,
-              levels = c(0, 1, 2),
-              labels = c("waitlist", "self-guided", "therapist-guided"))
-
-
-```
+# Testing the mean difference of two independent groups
 
 And check the mean post-treatment LSAS-score across the groups
 
 ```{r}
-df_data %>%
-  group_by(trt) %>%
+#| label: trt-means
+df_data |>
+  group_by(trt) |>
   summarise(
     n      = n(),
     mean   = mean(lsas_post, na.rm = TRUE),
     sd     = sd(lsas_post, na.rm = TRUE)
   )
-     
+
 ```
 
 We see that the therapist-guided groups has the lowest treatment scores post-treatment. We can also do a simple check of differences in the mean values across the groups of interest.
 
 ```{r}
-  mean(df_data$lsas_post[df_data$trt=="self-guided"], na.rm=TRUE) -
-    mean(df_data$lsas_post[df_data$trt=="therapist-guided"], na.rm=TRUE) 
+#| label: mean-diff
+mean(df_data$lsas_post[df_data$trt == "self-guided"], na.rm = TRUE) -
+  mean(df_data$lsas_post[df_data$trt == "therapist-guided"], na.rm = TRUE)
 
 ```
 
@@ -90,15 +80,17 @@ $$
 This may all seem complicated, but the **t-value simply represents the mean difference, expressed in standard errors units**. In other words, the number of standard errors between the means. Let's use the formulas above to calculate a t-value.
 
 ```{r}
+#| label: t-test-formula
+
 # define the components of the t-test formula
-x_bar_tg <- mean(df_data$lsas_post[df_data$trt=="therapist-guided"], na.rm=T)
-x_bar_sg <- mean(df_data$lsas_post[df_data$trt=="self-guided"], na.rm=T)
-s_2_tg <- var(df_data$lsas_post[df_data$trt=="therapist-guided"], na.rm=T)
-s_2_sg <- var(df_data$lsas_post[df_data$trt=="self-guided"], na.rm=T)
-n_tg <- sum(!is.na(df_data$lsas_post[df_data$trt=="therapist-guided"])) # here we only count the number of persons that provided data
-n_sg <- sum(!is.na(df_data$lsas_post[df_data$trt=="self-guided"])) # here we only count the number of persons that provided data
+x_bar_tg <- mean(df_data$lsas_post[df_data$trt == "therapist-guided"], na.rm = T)
+x_bar_sg <- mean(df_data$lsas_post[df_data$trt == "self-guided"], na.rm = T)
+s_2_tg <- var(df_data$lsas_post[df_data$trt == "therapist-guided"], na.rm = T)
+s_2_sg <- var(df_data$lsas_post[df_data$trt == "self-guided"], na.rm = T)
+n_tg <- sum(!is.na(df_data$lsas_post[df_data$trt == "therapist-guided"])) # here we only count the number of persons that provided data
+n_sg <- sum(!is.na(df_data$lsas_post[df_data$trt == "self-guided"])) # here we only count the number of persons that provided data
 sp2 <- ((n_tg - 1) * s_2_tg + (n_sg - 1) * s_2_sg) / (n_tg + n_sg - 2) # pooled variance
-SE_pooled <- sqrt(sp2 * (1/n_tg + 1/n_sg)) # pooled standard error
+SE_pooled <- sqrt(sp2 * (1 / n_tg + 1 / n_sg)) # pooled standard error
 
 # and put the together
 t_value <- (x_bar_sg - x_bar_tg) / SE_pooled
@@ -108,17 +100,22 @@ t_value
 And use the t-distribution with $n_1 + n_2 - 2$ degrees of freedom to get the p-value for this specific t-value
 
 ```{r}
-df <- n_tg + n_sg -2 
+#| label: t-test-p-value
+
+df <- n_tg + n_sg - 2
 p_value <- 2 * (1 - pt(abs(t_value), df)) # multiplied by two to get the two-tailed p-value
 p_value
 ```
 
-Or use the `t.test()` function, and filter to using only the self-guided and therapist-guided groups
+Or use the `t.test()` function, and filter to remove the waitlist group.
 
 ```{r}
-df_data %>%
-  filter(trt != "waitlist") %>%
-  t.test(lsas_post ~ trt, data = ., var.equal = TRUE)
+#| label: t-test-function
+
+t.test(lsas_post ~ trt,
+  data = df_data[df_data$trt != "waitlist", ],
+  var.equal = TRUE
+)
 ```
 
 ::: callout-note
@@ -142,7 +139,9 @@ df_data %>%
 We can also get the **confidence interval for this mean difference.** As always, the confidence interval is calculated by taking the estimate of interest, in this case the mean difference $\pm$ our desired number of standard errors. For a confidence interval with large samples, the sampling distribution approaches the z-distribution (normal distribution with $\mu = 0$ and $\sigma = 1$). We can then use the z-values covering the middle 95% of the z-distribution, which are $\pm 1.96$. To check that the $z_\alpha/2$ for an alpha of 0.05 is indeed $\pm 1.96$ we could use the the function `qnorm()` that gives the quantile function of the normal distribution.
 
 ```{r}
-qnorm(1 - 0.05/2)
+#| label: z-test-formula
+
+qnorm(1 - 0.05 / 2)
 ```
 
 The formula for the confidence interval of the mean difference using z-values is:
@@ -166,38 +165,43 @@ $$
 Putting this together, we get the confidence interval for the mean difference.
 
 ```{r}
-#define the components of the formula 
-x_bar_tg <- mean(df_data$lsas_post[df_data$trt=="therapist-guided"], na.rm=T)
-x_bar_sg <- mean(df_data$lsas_post[df_data$trt=="self-guided"], na.rm=T)
-s_2_tg <- var(df_data$lsas_post[df_data$trt=="therapist-guided"], na.rm=T)
-s_2_sg <- var(df_data$lsas_post[df_data$trt=="self-guided"], na.rm=T)
-n_tg <- sum(!is.na(df_data$lsas_post[df_data$trt=="therapist-guided"])) # here we only count the number of persons that provided data
-n_sg <- sum(!is.na(df_data$lsas_post[df_data$trt=="self-guided"])) # here we only count the number of persons that provided data
-se_z <- sqrt((s_2_tg/n_tg ) + (s_2_sg/n_sg )) # save the SE of the difference as a separate object for conveninence
+#| label: t-test-ci
+
+# define the components of the formula
+x_bar_tg <- mean(df_data$lsas_post[df_data$trt == "therapist-guided"], na.rm = T)
+x_bar_sg <- mean(df_data$lsas_post[df_data$trt == "self-guided"], na.rm = T)
+s_2_tg <- var(df_data$lsas_post[df_data$trt == "therapist-guided"], na.rm = T)
+s_2_sg <- var(df_data$lsas_post[df_data$trt == "self-guided"], na.rm = T)
+n_tg <- sum(!is.na(df_data$lsas_post[df_data$trt == "therapist-guided"])) # here we only count the number of persons that provided data
+n_sg <- sum(!is.na(df_data$lsas_post[df_data$trt == "self-guided"])) # here we only count the number of persons that provided data
+se_z <- sqrt((s_2_tg / n_tg) + (s_2_sg / n_sg)) # save the SE of the difference as a separate object for conveninence
 sp2 <- ((n_tg - 1) * s_2_tg + (n_sg - 1) * s_2_sg) / (n_tg + n_sg - 2) # pooled variance
-SE_pooled <- sqrt(sp2 * (1/n_tg + 1/n_sg)) # pooled standard error
+SE_pooled <- sqrt(sp2 * (1 / n_tg + 1 / n_sg)) # pooled standard error
 
 # and put it together with the z-value formula
 
-ucl <- (x_bar_sg - x_bar_tg) + 1.96*se_z
-lcl <- (x_bar_sg - x_bar_tg) - 1.96*se_z
+ucl <- (x_bar_sg - x_bar_tg) + 1.96 * se_z
+lcl <- (x_bar_sg - x_bar_tg) - 1.96 * se_z
 print(c(lcl, ucl))
 
-# or the t-value formula 
-df = n_sg + n_tg - 2
-alpha= 0.05
-t_crit <- qt(1 - alpha/2, df)
-ucl <- (x_bar_sg - x_bar_tg) + t_crit*SE_pooled
-lcl <- (x_bar_sg - x_bar_tg) - t_crit*SE_pooled
+# or the t-value formula
+df <- n_sg + n_tg - 2
+alpha <- 0.05
+t_crit <- qt(1 - alpha / 2, df)
+ucl <- (x_bar_sg - x_bar_tg) + t_crit * SE_pooled
+lcl <- (x_bar_sg - x_bar_tg) - t_crit * SE_pooled
 print(c(lcl, ucl))
 ```
 
 The confidence interval from the t-distribution is also given by the `t.test()` function.
 
 ```{r}
-df_data %>%
-  filter(trt != "waitlist") %>%
-  t.test(lsas_post ~ trt, data = ., var.equal = TRUE)
+#| label: t-test-ci-function
+
+t.test(lsas_post ~ trt,
+  data = df_data[df_data$trt != "waitlist", ],
+  var.equal = TRUE
+)
 ```
 
 ::: {.callout-caution collapse="\"true"}
@@ -230,11 +234,13 @@ where:
 Let's use this to formula to test the difference in LSAS-scores from pre-to post-treatment.
 
 ```{r}
+#| label: paired-t-test-calculation
+
 diff_pre_post <- df_data$lsas_post - df_data$lsas_screen
-mean_diff <- mean(diff_pre_post, na.rm=TRUE)
-sd_diff <- sd(diff_pre_post, na.rm=TRUE)
+mean_diff <- mean(diff_pre_post, na.rm = TRUE)
+sd_diff <- sd(diff_pre_post, na.rm = TRUE)
 n <- sum(!is.na(diff_pre_post))
-se_diff <- sd_diff/sqrt(n)
+se_diff <- sd_diff / sqrt(n)
 t_value <- mean_diff / se_diff
 t_value
 ```
@@ -242,7 +248,9 @@ t_value
 And get the two-tailed p-value from this as before
 
 ```{r}
-df <- n -1 
+#| label: paired-t-test-p-value
+
+df <- n - 1
 p_value <- 2 * (1 - pt(abs(t_value), df))
 p_value
 ```
@@ -268,32 +276,38 @@ $$
 And again, $SE_D = {s_D}/ {\sqrt{n}}$
 
 ```{r}
+#| label: paired-t-test-ci
+
 diff_pre_post <- df_data$lsas_post - df_data$lsas_screen
-mean_diff <- mean(diff_pre_post, na.rm=TRUE)
-sd_diff <- sd(diff_pre_post, na.rm=TRUE)
+mean_diff <- mean(diff_pre_post, na.rm = TRUE)
+sd_diff <- sd(diff_pre_post, na.rm = TRUE)
 n <- sum(!is.na(diff_pre_post))
-se_diff <- (sd_diff/sqrt(n)) # saving the standard error of the difference as a separate object for convenience
+se_diff <- (sd_diff / sqrt(n)) # saving the standard error of the difference as a separate object for convenience
 
 # and putting it together
-lcl <- mean_diff - 1.96*se_diff
-ucl <- mean_diff + 1.96*se_diff
+lcl <- mean_diff - 1.96 * se_diff
+ucl <- mean_diff + 1.96 * se_diff
 print(c(lcl, ucl))
 ```
 
 or manually using the t-values
 
 ```{r}
-df = n - 1
-alpha= 0.05
-t_crit <- qt(1 - alpha/2, df)
-lcl <- mean_diff - t_crit*se_diff
-ucl <- mean_diff + t_crit*se_diff
+#| label: paired-t-test-ci-manual
+
+df <- n - 1
+alpha <- 0.05
+t_crit <- qt(1 - alpha / 2, df)
+lcl <- mean_diff - t_crit * se_diff
+ucl <- mean_diff + t_crit * se_diff
 print(c(lcl, ucl))
 ```
 
 Or again, more conveniently using the `t.test()` function
 
 ```{r}
+#| label: paired-t-test-function
+
 t.test(df_data$lsas_post, df_data$lsas_screen, paired = TRUE)
 ```
 
@@ -312,12 +326,16 @@ Say that we wanted to test the distribution of some categorical variable across 
 Say that we wanted to know if the gender distribution was similar across in the self-guided as in the therapist-guided treatment group of the the STEpS study. The first step to such an investigation would be to create a *contingency table* showing the gender distribution across the groups.
 
 ```{r}
-#create a gender variable 
+#| label: gender-variable
+
+# create a gender variable
 df_data$gender <- rbinom(nrow(df_data), 1, 0.7)
-df_data$gender <- ifelse(df_data$gender==1, "Woman", "Man")
+df_data$gender <- ifelse(df_data$gender == 1, "Woman", "Man")
 ```
 
 ```{r}
+#| label: gender-table
+
 table(df_data$trt, df_data$gender) # number of person
 prop.table(table(df_data$trt, df_data$gender), margin = 1) # proportion in each treatment group
 ```
@@ -341,6 +359,8 @@ $$
 This test compares the observed counts in each cell against what would be expected if values where distributed equally across the groups (i.e. across the cells of the contingency table). Coding this formula manually is a bit tricky, but here is the code for those interested.
 
 ```{r}
+#| label: chi-squared-test
+
 ## Build the contingency table
 tbl <- table(trt = df_data$trt, gender = df_data$gender)
 
@@ -350,7 +370,7 @@ O
 ## Expected counts E_ij = (row total_i * col total_j) / grand total
 row_tot <- rowSums(O)
 col_tot <- colSums(O)
-grand   <- sum(O)
+grand <- sum(O)
 E <- outer(row_tot, col_tot) / grand # outer is a function to multiply arayys
 E
 
@@ -370,6 +390,8 @@ p_value
 In R, these calculations can be easily performed using the function `chisq.test()` that also provide tables for the observed and expected frequencies
 
 ```{r}
+#| label: chi-squared-test-function
+
 chisq.test(df_data$trt, df_data$gender)
 chisq.test(df_data$trt, df_data$gender)$observed
 chisq.test(df_data$trt, df_data$gender)$expected
@@ -402,10 +424,12 @@ The test is performed by counting how often a difference between pairs of values
 We could use it to test the nyll hypothesis that the median difference of LSAS-score at between pre-treatment and post-treatment is 0 (analog to our paired t-test above).
 
 ```{r}
+#| label: sign-test
+
 # Paired sign test: H0 median LSAS(pre - post) = 0
 diff_pre_post <- df_data$lsas_post - df_data$lsas_screen # create differnece scores
-n <- sum(diff_pre_post != 0, na.rm=TRUE)      # exclude ties (exact zeros)
-s <- sum(diff_pre_post[diff_pre_post != 0] > 0, na.rm=TRUE) # number of positive differences (again excluding ties)
+n <- sum(diff_pre_post != 0, na.rm = TRUE) # exclude ties (exact zeros)
+s <- sum(diff_pre_post[diff_pre_post != 0] > 0, na.rm = TRUE) # number of positive differences (again excluding ties)
 binom.test(s, n, p = 0.5, alternative = "two.sided") # a test of the proportion
 ```
 
@@ -422,10 +446,13 @@ Tests if the **distribution of paired differences** is symmetric around 0 (often
 We can use this to test the null hypothesis that the median LSAS score is the same at post-treatment as at pre-treatment.
 
 ```{r}
+#| label: wilcox-test
+
 wilcox.test(df_data$lsas_post, df_data$lsas_screen,
-            paired = TRUE,
-            alternative = "two.sided", 
-            exact = FALSE)
+  paired = TRUE,
+  alternative = "two.sided",
+  exact = FALSE
+)
 ```
 
 Again, the null hypothesis seems very unlikely.
@@ -439,10 +466,14 @@ This test, aslo known as the Mann-Whitney U-test, test whether two **independent
 Unlike the independent groups t-test, it does not assume interval level data. We can use this test to test the null hypothesis that LSAS scores at post-treatment have the same distribution in the self-guided and the therapist-guided treatment groups.
 
 ```{r}
+#| label: wilcox-test-function
 # Two-sample Wilcoxon rank-sum test (unpaired)
-df_data %>%
-  filter(trt != "waitlist") %>%
-  wilcox.test(lsas_post ~ trt, data = ., paired = FALSE, exact = FALSE)
+
+wilcox.test(lsas_post ~ trt,
+  data = df_data,
+  subset = trt %in% c("self-guided", "therapist-guided"),
+  exact = FALSE
+)
 ```
 
 ::: callout-warning

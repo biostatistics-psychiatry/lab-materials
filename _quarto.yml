@@ -27,6 +27,8 @@ website:
         contents:
           - href: labs/import-clean.qmd
             text: Import and clean data
+          - href: labs/tidy-data-manipulation.qmd
+            text: Tidy data manipulation
           - href: labs/descriptive-statistics.qmd
             text: Descriptive statistics
           - href: labs/sampling.qmd
@@ -37,6 +39,8 @@ website:
             text: Probability rules
           - href: labs/classification.qmd
             text: Classification
+          - href: labs/testing-two-means.qmd
+            text: Testing two means
       - section: "Exercises"
         contents:
           - href: exercises/lab-1-exercises.qmd

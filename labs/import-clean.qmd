@@ -234,6 +234,24 @@ df_data <- df_data |>
 Let's imagine we have many columns that should be factors. How can you use the same procedure as above to convert all columns from a `fct_cols` vector to factors?
 :::
 
+# Create a treatment indicator variable
+
+Our *group* variable is coded as 0, 1, and 2. This is not very informative, and we run the risk of misinterpreting the results if we don't have clear labels for the three groups. Let's create a new variable `trt` with better labels.
+
+```{r}
+#| label: trt-factor
+
+df_data <- df_data |>
+  mutate(
+    trt = factor(
+      group,
+      levels = c(0, 1, 2),
+      labels = c("waitlist", "self-guided", "therapist-guided")
+    )
+  )
+
+```
+
 # Save the cleaned data
 
 Now that we have cleaned the data, we can save it as a new CSV file. We will use the `write_csv()` function from the *readr* package to do this. The cleaned data will be saved in the `data` folder with the name `steps_clean.csv`.
