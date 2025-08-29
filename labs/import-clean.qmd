@@ -22,7 +22,7 @@ In true open science fashion, the data is openly available online from the [Open
 
 # Load packages
 
-In this lab, we will be using the *tidyverse* package, which is a collection of useful packages for data manipulation and visualization. We will also use the *here* package, which helps us manage file paths in a simple way.
+We will be using the *tidyverse* package quite a lot in this course. *Tidyverse* is a collection of useful packages for data manipulation and visualization, such as `dplyr` and `ggplot2`. We will also use the *here* package, which helps us manage file paths in a simple way. Finally, the *janitor* package has a great function for cleaning column names.
 
 ```{r}
 #| label: load-packages
@@ -33,7 +33,7 @@ library(here)
 library(janitor)
 ```
 
-If you are using `R` for the first time, you have to run the following code in the **console** to install the packages (one time only!). You can then load them using the code above.
+If you are using `R` for the first time, you have to run the following code in the **console** to install the packages (one time only!). You can then load them using the `library()` function.
 
 ```{r}
 #| eval: false
@@ -229,10 +229,28 @@ df_data <- df_data |>
 ```
 
 ::: {.callout-caution collapse="true"}
-## Exercise 1.5: Fix column types
+## Exercise: Fix column types
 
 Let's imagine we have many columns that should be factors. How can you use the same procedure as above to convert all columns from a `fct_cols` vector to factors?
 :::
+
+# Create a treatment indicator variable
+
+Our *group* variable is coded as 0, 1, and 2. This is not very informative, and we run the risk of misinterpreting the results if we don't have clear labels for the three groups. Let's create a new variable `trt` with better labels.
+
+```{r}
+#| label: trt-factor
+
+df_data <- df_data |>
+  mutate(
+    trt = factor(
+      group,
+      levels = c(0, 1, 2),
+      labels = c("waitlist", "self-guided", "therapist-guided")
+    )
+  )
+
+```
 
 # Save the cleaned data
 
@@ -248,9 +266,7 @@ write_csv(df_data, here("data", "steps_clean.csv"))
 ::: {.callout-tip}
 ## Saving data
 
-When working with data in your research projects, it's a good idea to save your data in formats that can be reused later. This is especially important if you are working with large datasets, as it can be time-consuming to re-import the data every time you want to use it.
-
-In this course we are using an open dataset, but for your own projects you may want to save your data on KI server or another secure location.
+When working with data in your research projects, it's a good idea to save your data in formats that can be reused later. In this course we are using an open dataset, but for your own projects you may want to save your data on KI server or another secure location.
 
 Try to keep your file names readable and understandable for both machines and humans.
 

@@ -1,7 +1,18 @@
 ---
 title: "Exercise solutions"
-format: html
 ---
+
+```{r}
+#| label: setup
+#| warning: false
+#| message: false
+
+library(tidyverse)
+library(here)
+
+d_bl <- read_rds(here("data", "steps_baseline.rds"))
+df_data <- read_csv(here("data", "steps_clean.csv"))
+```
 
 ## Lab 1
 
@@ -37,11 +48,11 @@ n <- nrow(d_bl)
 residuals <- d_bl$lsas_screen - x_bar
 squared_residuals <- residuals^2
 sigma_squared_residuals <- sum(squared_residuals)
-s_2 <- sigma_squared_residuals/n
+s_2 <- sigma_squared_residuals / n
 s_2 # population variance
 var(d_bl$lsas_screen) # sample variance
 
-#standard deviation
+# standard deviation
 sd <- sqrt(s_2)
 sd
 sd(d_bl$lsas_screen)
@@ -50,18 +61,18 @@ sd(d_bl$lsas_screen)
 **2.7** Use only the first ten participants and compare the population and the sample variance and standard deviation of LSAS-SR. What do you find, and how do the results compare to those from exercise 2.6.
 
 ```{r}
-d_bl_10 <- d_bl[1:10,]
+d_bl_10 <- d_bl[1:10, ]
 # variance
 x_bar <- mean(d_bl_10$lsas_screen)
 n <- nrow(d_bl_10)
 residuals <- d_bl_10$lsas_screen - x_bar
 squared_residuals <- residuals^2
 sigma_squared_residuals <- sum(squared_residuals)
-s_2 <- sigma_squared_residuals/n
+s_2 <- sigma_squared_residuals / n
 s_2 # population variance
 var(d_bl_10$lsas_screen) # sample variance
 
-#standard deviation
+# standard deviation
 sd <- sqrt(s_2)
 sd
 sd(d_bl_10$lsas_screen)
@@ -71,21 +82,22 @@ sd(d_bl_10$lsas_screen)
 
 ```{r}
 plot(d_bl$gad_screen, d_bl$phq9_screen)
-abline(lm(d_bl$gad_screen ~d_bl$phq9_screen))
+abline(lm(d_bl$gad_screen ~ d_bl$phq9_screen))
 ```
 
 **2.10** Visualize the distribution of of LSAS scores by income level and describe what you see
 
 ```{r}
-boxplot(d_bl$lsas_screen~d_bl$income)
+boxplot(d_bl$lsas_screen ~ d_bl$income)
 ```
 
 **2.11** Create a variable for high vs. low DERS scores and investigate the joint distribution of this variable and phq_cat (that we created in an earlier example)
 
 ```{r}
-d_bl$ders_screen_cat <- ifelse(d_bl$ders_screen>median(d_bl$ders_screen),
-                               "High DERS",
-                               "Low DERS") 
+d_bl$ders_screen_cat <- ifelse(d_bl$ders_screen > median(d_bl$ders_screen),
+  "High DERS",
+  "Low DERS"
+)
 
 plot(table(d_bl$ders_screen_cat, d_bl$phq_cat), main = "Depression and Emotion regulation")
 ```
@@ -108,7 +120,7 @@ vars <- c(
   "income"
 )
 
-CreateContTable(vars= vars, data= d_bl, strata = "phq_cat")
+CreateContTable(vars = vars, data = d_bl, strata = "phq_cat")
 ```
 
 ## Lab 3
@@ -118,19 +130,19 @@ CreateContTable(vars= vars, data= d_bl, strata = "phq_cat")
 ```{r}
 s_2 <- var(d_bl$lsas_screen)
 n <- nrow(d_bl)
-se <- sqrt(s_2/n)
+se <- sqrt(s_2 / n)
 
 # or using the standard deviation
 
-se <- sd(d_bl$lsas_screen)/sqrt(n)
+se <- sd(d_bl$lsas_screen) / sqrt(n)
 ```
 
 **3.2** Calculate the standard error for the proportion of men in the STePS study, and describe the meaning of this number in words
 
 ```{r}
-p_hat <- mean(d_bl$gender=="Man")
-n <- nrow(d_bl)          
-se <- sqrt(p_hat*(1-p_hat)/n)
+p_hat <- mean(d_bl$gender == "Man")
+n <- nrow(d_bl)
+se <- sqrt(p_hat * (1 - p_hat) / n)
 ```
 
 **3.3** Describe what would happen to these standard errors if the sample size had been 1000 participants and explain why?
@@ -141,13 +153,14 @@ se <- sqrt(p_hat*(1-p_hat)/n)
 x_bar <- mean(d_bl$phq9_screen)
 se <- sd(d_bl$phq9_screen) / sqrt(nrow(d_bl))
 t_value <- (x_bar - 9) / se
-(1 - pt(t_value, df = 180))*2
+(1 - pt(t_value, df = 180)) * 2
 
-#or
+# or
 
 t.test(d_bl$phq9_screen,
-       mu=9,
-       alternative = "two.sided")
+  mu = 9,
+  alternative = "two.sided"
+)
 ```
 
 **3.5** Calculate the p-value for getting our observed proportion of men, $\hat{p}$, if the the true population proportion, $p$, is 40% or more using a z-test.
@@ -159,19 +172,21 @@ and combine with the formula for the z-scores
 $$ z= \frac{p - \hat{p}}{SE} $$
 
 ```{r}
-p_hat <- mean(d_bl$gender=="Man")
-p <- 0.4          
-n <- nrow(d_bl)          
-se <- sqrt(p*(1-p)/n)
+p_hat <- mean(d_bl$gender == "Man")
+p <- 0.4
+n <- nrow(d_bl)
+se <- sqrt(p * (1 - p) / n)
 z_value <- (p_hat - p) / se
-1- pnorm(abs(z_value))
+1 - pnorm(abs(z_value))
 
-# or 
-prop.test(x= sum(d_bl$gender=="Man"), 
-          n= length(d_bl$gender), 
-          p=0.4,
-          alternative="less",
-          correct = FALSE)
+# or
+prop.test(
+  x = sum(d_bl$gender == "Man"),
+  n = length(d_bl$gender),
+  p = 0.4,
+  alternative = "less",
+  correct = FALSE
+)
 ```
 
 **3.6** Modify the simulation code for the sampling distribution above to determine what would happen to the p-value if the sample size was 10, 100 or 1000
@@ -231,30 +246,31 @@ x_bar <- mean(d_bl$phq9_screen)
 se <- sd(d_bl$phq9_screen) / sqrt(nrow(d_bl))
 z <- 1.96
 
-#upper confidence limit
-ucl <- x_bar + z*se
-#lower confidence limit
-lcl <- x_bar - z*se
+# upper confidence limit
+ucl <- x_bar + z * se
+# lower confidence limit
+lcl <- x_bar - z * se
 
 print(c(lcl, ucl))
 
-#or
+# or
 t.test(d_bl$phq9_screen,
-       mu=9,
-       alternative = "two.sided")
+  mu = 9,
+  alternative = "two.sided"
+)
 ```
 
 **3.9** Calculate the 95% Wald confidence interval for the proportion of men in the dataset using the formula above and interpret its meaning
 
 ```{r}
-p_hat <- mean(d_bl$gender=="Man")
-n = nrow(d_bl)
-se <- sqrt(p_hat*(1-p_hat)/n)
-z= 1.96
-#upper coinfidence limit
-p_hat + z*se
-#lower confidence limit
-p_hat - z*se
+p_hat <- mean(d_bl$gender == "Man")
+n <- nrow(d_bl)
+se <- sqrt(p_hat * (1 - p_hat) / n)
+z <- 1.96
+# upper coinfidence limit
+p_hat + z * se
+# lower confidence limit
+p_hat - z * se
 
 ```
 
@@ -276,20 +292,20 @@ df_data %>%
   t.test(lsas_post ~ trt, data = ., var.equal = TRUE)
 
 # or manually
-x_bar_tg <- mean(df_data$lsas_post[df_data$trt=="therapist-guided"], na.rm=T)
-x_bar_wl <- mean(df_data$lsas_post[df_data$trt=="waitlist"], na.rm=T)
-s_2_tg <- var(df_data$lsas_post[df_data$trt=="therapist-guided"], na.rm=T)
-s_2_wl <- var(df_data$lsas_post[df_data$trt=="waitlist"], na.rm=T)
-n_tg <- sum(!is.na(df_data$lsas_post[df_data$trt=="therapist-guided"]))
-n_wl <- sum(!is.na(df_data$lsas_post[df_data$trt=="waitlist"]))
+x_bar_tg <- mean(df_data$lsas_post[df_data$trt == "therapist-guided"], na.rm = T)
+x_bar_wl <- mean(df_data$lsas_post[df_data$trt == "waitlist"], na.rm = T)
+s_2_tg <- var(df_data$lsas_post[df_data$trt == "therapist-guided"], na.rm = T)
+s_2_wl <- var(df_data$lsas_post[df_data$trt == "waitlist"], na.rm = T)
+n_tg <- sum(!is.na(df_data$lsas_post[df_data$trt == "therapist-guided"]))
+n_wl <- sum(!is.na(df_data$lsas_post[df_data$trt == "waitlist"]))
 sp2 <- ((n_tg - 1) * s_2_tg + (n_wl - 1) * s_2_wl) / (n_tg + n_wl - 2) # pooled variance
-SE_pooled <- sqrt(sp2 * (1/n_tg + 1/n_wl)) # pooled standard error
+SE_pooled <- sqrt(sp2 * (1 / n_tg + 1 / n_wl)) # pooled standard error
 
 # and put the together
 t_value <- (x_bar_wl - x_bar_tg) / SE_pooled
 
-#find the p-value
-df <- n_tg + n_wl -2 
+# find the p-value
+df <- n_tg + n_wl - 2
 p_value <- 2 * (1 - pt(abs(t_value), df)) # multiplied by two to get the two-tailed p-value
 p_value
 ```
@@ -297,18 +313,18 @@ p_value
 Complement this with a 95% confidence interval
 
 ```{r}
-#z-value 95% CI
-se_z <- sqrt((s_2_wl/n_wl)+(s_2_tg/n_tg))
-lcl <- (x_bar_wl - x_bar_tg) - 1.96*se_z
-ucl <- (x_bar_wl - x_bar_tg) + 1.96*se_z
+# z-value 95% CI
+se_z <- sqrt((s_2_wl / n_wl) + (s_2_tg / n_tg))
+lcl <- (x_bar_wl - x_bar_tg) - 1.96 * se_z
+ucl <- (x_bar_wl - x_bar_tg) + 1.96 * se_z
 print(c(lcl, ucl))
 
-#t-value 95% CI
-df = n_wl + n_tg - 2
-alpha= 0.05
-t_crit <- qt(1 - alpha/2, df)
-lcl <- (x_bar_wl - x_bar_tg) - t_crit*SE_pooled
-ucl <- (x_bar_wl - x_bar_tg) + t_crit*SE_pooled
+# t-value 95% CI
+df <- n_wl + n_tg - 2
+alpha <- 0.05
+t_crit <- qt(1 - alpha / 2, df)
+lcl <- (x_bar_wl - x_bar_tg) - t_crit * SE_pooled
+ucl <- (x_bar_wl - x_bar_tg) + t_crit * SE_pooled
 print(c(lcl, ucl))
 ```
 
@@ -319,12 +335,12 @@ Do you think the other assumptions of the t-test are fulfilled?
 How do the results differ if you use the Welch t-test instead
 
 ```{r}
-#students t-test 
+# students t-test
 df_data %>%
   filter(trt != "waitlist") %>%
   t.test(lsas_post ~ trt, data = ., var.equal = TRUE)
 
-#Welch t-test
+# Welch t-test
 df_data %>%
   filter(trt != "waitlist") %>%
   t.test(lsas_post ~ trt, data = ., var.equal = FALSE)
@@ -335,7 +351,7 @@ df_data %>%
 **BONUS:** If you feel up to it, try to also calculate a z-test for the mean difference in post-treatment LSAS-scores using the formulas above
 
 ```{r}
-#z-test of the differences 
+# z-test of the differences
 z_value <- (x_bar_wl - x_bar_tg) / se_z
 p_value <- 2 * (1 - pnorm(abs(z_value)))
 p_value
@@ -344,21 +360,21 @@ p_value
 **BONUS:** Modify the code above to calculate the 99% confidence interval of the mean difference in LSAS-scores at post-treatment between the self-guided and the therapist-guided groups.
 
 ```{r}
-z_crit <- qnorm(1-0.01/2) # finding the z-value for a 99% CI
+z_crit <- qnorm(1 - 0.01 / 2) # finding the z-value for a 99% CI
 
-#define the components of the formula 
-x_bar_tg <- mean(df_data$lsas_post[df_data$trt=="therapist-guided"], na.rm=T)
-x_bar_sg <- mean(df_data$lsas_post[df_data$trt=="self-guided"], na.rm=T)
-s_2_tg <- var(df_data$lsas_post[df_data$trt=="therapist-guided"], na.rm=T)
-s_2_sg <- var(df_data$lsas_post[df_data$trt=="self-guided"], na.rm=T)
-n_tg <- sum(!is.na(df_data$lsas_post[df_data$trt=="therapist-guided"]))
-n_sg <- sum(!is.na(df_data$lsas_post[df_data$trt=="self-guided"]))
-se_z <- sqrt((s_2_tg/n_tg ) + (s_2_sg/n_sg )) 
+# define the components of the formula
+x_bar_tg <- mean(df_data$lsas_post[df_data$trt == "therapist-guided"], na.rm = T)
+x_bar_sg <- mean(df_data$lsas_post[df_data$trt == "self-guided"], na.rm = T)
+s_2_tg <- var(df_data$lsas_post[df_data$trt == "therapist-guided"], na.rm = T)
+s_2_sg <- var(df_data$lsas_post[df_data$trt == "self-guided"], na.rm = T)
+n_tg <- sum(!is.na(df_data$lsas_post[df_data$trt == "therapist-guided"]))
+n_sg <- sum(!is.na(df_data$lsas_post[df_data$trt == "self-guided"]))
+se_z <- sqrt((s_2_tg / n_tg) + (s_2_sg / n_sg))
 
 # and put it together with the z-value formula
 
-ucl <- (x_bar_sg - x_bar_tg) + z_crit*se_z
-lcl <- (x_bar_sg - x_bar_tg) - z_crit*se_z
+ucl <- (x_bar_sg - x_bar_tg) + z_crit * se_z
+lcl <- (x_bar_sg - x_bar_tg) - z_crit * se_z
 print(c(lcl, ucl))
 
 # or
@@ -374,14 +390,14 @@ Compute a t-test for the difference in LSAS-scores between post-treatment and 12
 # using the t-test function
 t.test(df_data$lsas_fu12, df_data$lsas_post, paired = TRUE)
 
-# or manually 
+# or manually
 diff_post_12FU <- df_data$lsas_fu12 - df_data$lsas_post
-mean_diff <- mean(diff_post_12FU, na.rm=TRUE)
-sd_diff <- sd(diff_post_12FU, na.rm=TRUE)
+mean_diff <- mean(diff_post_12FU, na.rm = TRUE)
+sd_diff <- sd(diff_post_12FU, na.rm = TRUE)
 n <- sum(!is.na(diff_post_12FU))
-se_diff <- sd_diff/sqrt(n)
+se_diff <- sd_diff / sqrt(n)
 t_value <- mean_diff / se_diff
-df <- n -1 
+df <- n - 1
 p_value <- 2 * (1 - pt(abs(t_value), df))
 p_value
 ```
@@ -390,21 +406,21 @@ Also calculate the 95% confidence interval for this difference, using the z-valu
 
 ```{r}
 diff_post_12FU <- df_data$lsas_fu12 - df_data$lsas_post
-mean_diff <- mean(diff_post_12FU, na.rm=TRUE)
-sd_diff <- sd(diff_post_12FU, na.rm=TRUE)
+mean_diff <- mean(diff_post_12FU, na.rm = TRUE)
+sd_diff <- sd(diff_post_12FU, na.rm = TRUE)
 n <- sum(!is.na(diff_post_12FU))
-se_diff <- sd_diff/sqrt(n)
+se_diff <- sd_diff / sqrt(n)
 
 # and putting it together
-lcl <- mean_diff - 1.96*se_diff
-ucl <- mean_diff + 1.96*se_diff
+lcl <- mean_diff - 1.96 * se_diff
+ucl <- mean_diff + 1.96 * se_diff
 print(c(lcl, ucl))
 ```
 
 Compare the means of GAD-7 from pre- to post-treatment and interpret the results
 
 ```{r}
-t.test(df_data$gad_post, df_data$gad_screen, paired=TRUE)
+t.test(df_data$gad_post, df_data$gad_screen, paired = TRUE)
 ```
 
 Chi-squared tests, and other tests of significance, are sometimes used to check that important pre-treatment characteristics, such as gender or symptom level, are balanced between the treatment groups. Non-sinificant p-values are then taken as an argument that the groups are balanced. Reason about why this is a problematic approach.

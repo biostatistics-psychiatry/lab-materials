@@ -29,14 +29,18 @@ website:
             text: Import and clean data
           - href: labs/descriptive-statistics.qmd
             text: Descriptive statistics
+          - href: labs/tidy-data-manipulation.qmd
+            text: Tidy data manipulation
           - href: labs/sampling.qmd
             text: Sampling from a population
-          - href: labs/testing-means-proportions.qmd
-            text: Testing means and proportions
+          - href: labs/p-values-ci.qmd
+            text: P-values and confidence intervals
           - href: labs/probability-rules.qmd
             text: Probability rules
           - href: labs/classification.qmd
             text: Classification
+          - href: labs/testing-two-means.qmd
+            text: Testing two means
       - section: "Exercises"
         contents:
           - href: exercises/lab-1-exercises.qmd
