@@ -229,7 +229,7 @@ df_data <- df_data |>
 ```
 
 ::: {.callout-caution collapse="true"}
-## Exercise 1.5: Fix column types
+## Exercise: Fix column types
 
 Let's imagine we have many columns that should be factors. How can you use the same procedure as above to convert all columns from a `fct_cols` vector to factors?
 :::

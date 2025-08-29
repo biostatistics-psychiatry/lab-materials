@@ -27,14 +27,14 @@ website:
         contents:
           - href: labs/import-clean.qmd
             text: Import and clean data
-          - href: labs/tidy-data-manipulation.qmd
-            text: Tidy data manipulation
           - href: labs/descriptive-statistics.qmd
             text: Descriptive statistics
+          - href: labs/tidy-data-manipulation.qmd
+            text: Tidy data manipulation
           - href: labs/sampling.qmd
             text: Sampling from a population
-          - href: labs/testing-means-proportions.qmd
-            text: Testing means and proportions
+          - href: labs/p-values-ci.qmd
+            text: P-values and confidence intervals
           - href: labs/probability-rules.qmd
             text: Probability rules
           - href: labs/classification.qmd
