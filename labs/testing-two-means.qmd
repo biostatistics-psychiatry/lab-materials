@@ -204,7 +204,7 @@ t.test(lsas_post ~ trt,
 )
 ```
 
-::: {.callout-caution collapse="\"true"}
+::: {.callout-caution collapse="true"}
 ## Exercise: Testing independent group means
 
 1.  Calculate the mean difference in post-treatment LSAS scores, and the associated two-sided p-value for the mean difference between the therapist-guided and the wait list group
@@ -311,7 +311,7 @@ Or again, more conveniently using the `t.test()` function
 t.test(df_data$lsas_post, df_data$lsas_screen, paired = TRUE)
 ```
 
-::: {.callout-caution collapse="\"true"}
+::: {.callout-caution collapse="true"}
 ## Exercise: Testing dependent group means
 
 1.  Compute a t-test for the difference in LSAS-scores between post-treatment and 12-month follow-up and provide an interpretation of its meaning

@@ -26,6 +26,7 @@ No matter what the population distribution looks like, if you take many random s
 Here is a simulation to visualize what the relation between the distribution of a variable in the population and the sampling distribution of the means from that same population.
 
 ```{r}
+#| label: clt-normal
 #| echo: false
 
 # Parameters
@@ -58,6 +59,7 @@ curve(dnorm(x, mean = mean(sample_means), sd = sd(sample_means)),
 ```
 
 ```{r}
+#| label: clt-uniform
 #| echo: false
 
 # Parameters
@@ -90,6 +92,7 @@ curve(dnorm(x, mean = mean(sample_means), sd = sd(sample_means)),
 ```
 
 ```{r}
+#| label: clt-bimodal
 #| echo: false
 
 # Parameters
@@ -131,6 +134,7 @@ As you collect more and more observations, the **sample mean** (or proportion) w
 Imagine that we had the patience to flip a coin 1000 times. For each toss, we calculated the number of heads we've gotten so far and divided by the total tosses, to get the proportion that landed heads. Even if we expect the coin to be fair, we wouldn't expect it to be 50-50 heads and tails in the beginning. In fact, at the first toss that would be impossible, As we continued, however, we would see the proportion of heads gradually stabilize around 0.5.
 
 ```{r}
+#| label: lln-coin
 #| echo: false
 # Simulate coin tosses (0 = Tails, 1 = Heads)
 num_tosses <- 1000

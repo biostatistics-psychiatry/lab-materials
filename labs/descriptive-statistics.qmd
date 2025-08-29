@@ -16,13 +16,15 @@ d <- read_csv(here("data", "steps_clean.csv"))
 We'll start of doing some basic descriptive statistics of the baseline variables. We start by checking the variable names to identify the baseline variables.
 
 ```{r}
+#| label: colnames
 colnames(d)
 ```
 
 For easy handling, we'll create a data frame containing only the baseline variables, ID, Group and all variables ending with the suffix "\_screen".
 
 ```{r}
-d_bl <- d %>%
+#| label: select-baseline
+d_bl <- d |>
   select(
     id,
     group,
@@ -40,7 +42,8 @@ d_bl <- d %>%
 Or more efficiently (if variables are correctly named) we can use the `ends_with()` function from the *tidyselect* package:
 
 ```{r}
-d_bl <- d %>%
+#| label: ends-with-screen
+d_bl <- d |>
   select(
     id,
     group,
@@ -74,6 +77,7 @@ A **histogram** is a graphical representation used to visualize the **distributi
 | **Outliers**       | Bars isolated from the main group  |
 
 ```{r}
+#| label: hist-lsas-screen
 hist(d_bl$lsas_screen)
 ```
 
@@ -90,6 +94,7 @@ A **boxplot** (also called a **box-and-whisker plot**) is a compact, visual summ
 | **Maximum**           | Largest value (excluding outliers)       |
 
 ```{r}
+#| label: boxplot-lsas-screen
 boxplot(d_bl$lsas_screen)
 ```
 
@@ -116,12 +121,14 @@ Now let's use R to calculate some centrality measures for LSAS at baseline.
 ### Getting the mean using `mean()`
 
 ```{r}
+#| label: mean-lsas-screen
 mean(d_bl$lsas_screen)
 ```
 
 ### Getting the median using `median()`
 
 ```{r}
+#| label: median-lsas-screen
 median(d_bl$lsas_screen)
 ```
 
@@ -130,6 +137,7 @@ median(d_bl$lsas_screen)
 Unlike `mean()` and `median()`, base R does not include a built-in `mode()` function for computing the statistical mode (i.e. the most frequent value). However, you can create one.
 
 ```{r}
+#| label: mode-function
 get_mode <- function(x) {
   ux <- unique(x)
   ux[which.max(tabulate(match(x, ux)))]
@@ -140,6 +148,7 @@ get_mode(d_bl$lsas_screen)
 Much of this information could also be easily found using the `summary()` function.
 
 ```{r}
+#| label: summary-lsas-screen
 summary(d_bl$lsas_screen)
 
 ```
@@ -149,6 +158,7 @@ summary(d_bl$lsas_screen)
 You could also plot the mean, median and mode over the histogram, to get a better sense of the data.
 
 ```{r}
+#| label: hist-lsas-annotated
 hist(d_bl$lsas_screen,
   main = "Histogram with Mean, Median, and Mode",
   xlab = "Values", probability = TRUE
@@ -176,6 +186,7 @@ abline(v = get_mode(d_bl$lsas_screen), col = "darkgreen", lwd = 2, lty = 2) # Mo
 Centrality measures give information on the most typical value in the distribution, but no info on the spread of values. For example, the two distributions below have the same mean value (0), but different spread (standard deviation 0.2 vs. 1).
 
 ```{r}
+#| label: hist-lsas-spread
 #| echo: false
 par(mfrow = c(1, 2))
 curve(dnorm(x, mean = 0, sd = 0.2),
@@ -257,7 +268,7 @@ To get a summary of the spread of the data, we use different **spread measures.*
 Now we'll have a look at categorical data. First, we need to simulate some categorical data (since this is not included in the STePS dataset).
 
 ```{r}
-
+#| label: simulate-categorical
 # Simulating a gender variable
 n <- nrow(d_bl)
 d_bl$gender <- rbinom(n, 1, 0.7)
@@ -279,6 +290,7 @@ d_bl$income <- sample(income_levels, size = n, replace = TRUE, prob = income_pro
 The `table()` function provides a quick overview of the number of values in each category.
 
 ```{r}
+#| label: table-function
 table(d_bl$gender)
 table(d_bl$education)
 ```
@@ -286,6 +298,7 @@ table(d_bl$education)
 Dived by the number of rows, it gives proportion in each category.
 
 ```{r}
+#| label: table-function-prop
 table(d_bl$gender) / nrow(d_bl)
 table(d_bl$education) / nrow(d_bl)
 ```
@@ -311,6 +324,7 @@ As for numeric variables, visualizations can help get a better sense for the dis
 The height of each bar gives the number of occurrences of each category. When you use the base function `plot()` on a factor level variable, it gives you a barchart.
 
 ```{r}
+#| label: plot-education
 plot(as.factor(d_bl$education))
 ```
 
@@ -319,6 +333,7 @@ plot(as.factor(d_bl$education))
 A piechart shows the distribution of a categorical variable as a pie, with the size of each piece representing the proportion of each level of the categorical variable.
 
 ```{r}
+#| label: pie-education
 pie(table(d_bl$education))
 ```
 
@@ -337,6 +352,7 @@ It can also be useful to investigate bi-variable distributions - i.e. the joint 
 For two numeric variables, the most common visualization is the **scatter plot.** It shows the distribution of each datapoint with one variable on the x-axis and the other on the y-axis. Using the `plot()` function with two numeric variables will give you a scatter plot.
 
 ```{r}
+#| label: scatter-plot
 plot(d_bl$lsas_screen, d_bl$gad_screen)
 ```
 
@@ -344,7 +360,8 @@ plot(d_bl$lsas_screen, d_bl$gad_screen)
 
 The joint distribution of a numeric and a categorical variable can be visualized as a stratified boxplots. For this let's look at the distribution of LSAS scores for people with high generalized anxiety (GAD-7 ≥ 10 or more) vs low generalized anxiety (GAD-7 \< 10).
 
-```{r}
+```{r}  
+#| label: boxplot-lsas-gad
 # create a variable indicating if GAD-7 is 10 or more
 d_bl$gad_cat <- ifelse(d_bl$gad_screen >= 10, "High anxiety", "Low anxiety")
 
@@ -356,6 +373,7 @@ boxplot(lsas_screen ~ gad_cat, data = d_bl)
 All the information of the joint distribution of two categorical variables can be seen using a **cross-table**. For this let's look at the distribution of high vs low depression (PHQ-9 ≥ 10 vs PHQ-9 \<10 or less) against high vs low generalized anxiety.
 
 ```{r}
+#| label: crosstable
 d_bl$phq_cat <- ifelse(d_bl$phq9_screen >= 10, "High depression", "Low depression")
 
 table(d_bl$gad_cat, d_bl$phq_cat)
@@ -364,6 +382,7 @@ table(d_bl$gad_cat, d_bl$phq_cat)
 Although all information about the distribution is available in the crosstable, you may still want to visualize this distribution. One way is to use a **mosaic plot**, which you can get by providing cross-table to the `plot()` function.
 
 ```{r}
+#| label: mosaic-plot
 plot(table(d_bl$gad_cat, d_bl$phq_cat), main = "Depression and anxiety")
 ```
 
@@ -372,6 +391,7 @@ plot(table(d_bl$gad_cat, d_bl$phq_cat), main = "Depression and anxiety")
 A convenient way to get descriptive statistics for a range of variables is to use the *tableone* package and the `CreateTableOne()` function. First let get some descriptives for the overall sample
 
 ```{r}
+#| label: tableone-package
 # install.packages("tableone")
 library(tableone)
 
@@ -396,6 +416,7 @@ CreateTableOne(vars = vars, data = d_bl)
 We can also do this stratified by a categorical variable using the strata argument. Let's have it by treatment group.
 
 ```{r}
+#| label: tableone-package-strata
 CreateTableOne(vars = vars, data = d_bl, strata = "group", test = FALSE)
 ```
 
