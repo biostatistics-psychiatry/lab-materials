@@ -2,9 +2,7 @@
 title: "R and RStudio setup"
 ---
 
-# Pre-requisites
-
-We assume that you have installed R and RStudio on your computer. You can download R from [CRAN](https://cran.r-project.org/) and RStudio from [RStudio](https://www.rstudio.com/products/rstudio/download/).
+To participate in the lab sessions, you need to install R and RStudio on your computer. You can download R from [CRAN](https://cran.r-project.org/) and RStudio from [RStudio](https://www.rstudio.com/products/rstudio/download/). Both are free to use.
 
 # R setup
 
@@ -21,7 +19,7 @@ Once you have installed both R and RStudio, open up RStudio. You should see some
 
 If both R and RStudio are installed and talking to each other, you should see something like this in the *Console* pane:
 
-![R console default](images/rstudio-console-default.jpeg)
+![R console default](images/r-console-default.jpeg)
 
 Try running a simple command to see that R is working. For example, type `1 + 1` and press enter, or try `print("Hello, world!")`. If you see the output below, you are good to go! See the steps below for setting up RStudio.
 
