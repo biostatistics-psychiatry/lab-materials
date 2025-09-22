@@ -1,5 +1,5 @@
 ---
-title: "Lab 4: Power Analysis and Sample Size Planning"
+title: "Power Analysis and Sample Size Planning"
 format: 
   html:
     crossref:
