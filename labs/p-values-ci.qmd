@@ -191,14 +191,14 @@ t.test(d_bl$lsas_screen, mu = 82, alternative = "two.sided")
 ```
 
 
-::: {.callout-caution collapse="true"}
-## Exercise: P-value for PHQ-9 Mean
+::: {#exr-pvalue-phq9 .callout-caution collapse="true"}
+## P-value for PHQ-9 Mean
 
 Calculate the p-value for the null hypothesis that the mean PHQ-9 value in the underlying population is 9, and describe in words what this number means.
 :::
 
-::: {.callout-caution collapse="true"}
-## Exercise: P-value for Proportion of Men
+::: {#exr-pvalue-proportion .callout-caution collapse="true"}
+## P-value for Proportion of Men
 
 Calculate the p-value for getting our observed proportion of men, $\hat{p}$, if the true population proportion, $p$, was 50% or more using a z-test.
 
@@ -215,8 +215,8 @@ $$
 :::
 
 
-::: {.callout-caution collapse="true"}
-## Exercise: Effect of Sample Size on P-value
+::: {#exr-pvalue-sample-size .callout-caution collapse="true"}
+## Effect of Sample Size on P-value
 
 Modify the simulation code for the sampling distribution above to determine what would happen to the p-value if the sample size was 10, 100 or 1000.
 :::
@@ -280,32 +280,32 @@ lcl <- mean(d_bl$lsas_screen) - 1.96 * se
 print(c(lcl, ucl))
 ```
 
-::: {.callout-caution collapse="true"}
-## Exercise: Z-scores vs T-scores for Confidence Intervals
+::: {#exr-z-vs-t-scores .callout-caution collapse="true"}
+## Z-scores vs T-scores for Confidence Intervals
 
 Explain why the confidence intervals calculated using z-scores are narrower than the ones using t-scores.
 :::
 
-::: {.callout-caution collapse="true"}
-## Exercise: 95% Confidence Interval for PHQ-9
+::: {#exr-ci-phq9 .callout-caution collapse="true"}
+## 95% Confidence Interval for PHQ-9
 
 Calculate the 95% confidence interval for PHQ-9, and describe in words what these numbers mean.
 :::
 
-::: {.callout-caution collapse="true"}
-## Exercise: Wald Confidence Interval for Proportion of Men
+::: {#exr-wald-ci .callout-caution collapse="true"}
+## Wald Confidence Interval for Proportion of Men
 
 Calculate the 95% Wald confidence interval for the proportion of men in the dataset using the formula above and interpret its meaning.
 :::
 
-::: {.callout-caution collapse="true"}
-## Exercise: Comparing Wald vs prop.test() Confidence Intervals
+::: {#exr-compare-wald-prop .callout-caution collapse="true"}
+## Comparing Wald vs prop.test() Confidence Intervals
 
 Compare this to what you would obtain using the function `prop.test()` in R.
 :::
 
-::: {.callout-caution collapse="true"}
-## Exercise: Interpreting Confidence Intervals in Context
+::: {#exr-interpret-ci .callout-caution collapse="true"}
+## Interpreting Confidence Intervals in Context
 
 Reason about the meaning and interpretation of the confidence intervals you have calculated in the context of how the actual STePs study was performed. The study can be found at: <https://www.nature.com/articles/s44184-024-00063-0>
 :::

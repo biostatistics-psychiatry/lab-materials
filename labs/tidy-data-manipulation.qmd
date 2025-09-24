@@ -81,8 +81,8 @@ ncol(df_lsas_all)
 names(df_lsas_all)
 ```
 
-::: {.callout-caution collapse="true"}
-## Exercise 3.1: Practice selecting columns
+::: {#exr-select-columns .callout-caution collapse="true"}
+## Practice selecting columns
 
 Select only the ID, group, and all PHQ-9 variables (columns starting with "phq9") from the dataset. How many columns does your new dataset have?
 :::
@@ -125,8 +125,8 @@ nrow(df_guided_severe)
 - `!is.na()` : is not missing
 :::
 
-::: {.callout-caution collapse="true"}
-## Exercise 3.2: Practice filtering data
+::: {#exr-filter-data .callout-caution collapse="true"}
+## Practice filtering data
 
 1. Filter the data to include only participants with baseline LSAS scores between 50 and 80.
 2. Filter to include only participants in groups 1 or 2 (exclude waitlist).
@@ -242,8 +242,8 @@ df_with_categories |>
   arrange(phq9_screen)
 ```
 
-::: {.callout-caution collapse="true"}
-## Exercise 3.3: Create new variables
+::: {#exr-create-variables .callout-caution collapse="true"}
+## Create new variables
 
 1. Create a new variable called `gad_severity` that categorizes GAD-7 scores as:
    - "Minimal" (0-4)
@@ -309,8 +309,8 @@ df_data |>
   )
 ```
 
-::: {.callout-caution collapse="true"}
-## Exercise 3.4: Practice summarizing data
+::: {#exr-summarize-data .callout-caution collapse="true"}
+## Practice summarizing data
 
 1. Calculate the mean and standard deviation of GAD-7 scores by treatment group.
 2. Calculate the number of participants and percentage with high anxiety (GAD-7 ≥ 10) by treatment group.
@@ -527,8 +527,8 @@ time_summary <- df_lsas_long |>
 time_summary
 ```
 
-::: {.callout-caution collapse="true"}
-## Exercise 3.4b: Practice with factors
+::: {#exr-practice-factors .callout-caution collapse="true"}
+## Practice with factors
 
 1. Create a factor for LSAS severity levels with the order: "Mild", "Moderate", "Severe"
 2. Create a factor for depression categories using PHQ-9 scores with proper ordering
@@ -683,16 +683,16 @@ Notice how `pivot_wider()` can handle multiple value columns at once:
 This is very useful for creating comprehensive summary tables!
 :::
 
-::: {.callout-caution collapse="true"}
-## Exercise 3.5: Practice reshaping data
+::: {#exr-reshape-data .callout-caution collapse="true"}
+## Practice reshaping data
 
 1. Convert the GAD-7 data to long format (select columns starting with "gad").
 2. Calculate the mean GAD-7 score by group and time point.
 3. Create a wide format table showing GAD-7 means with time points as rows and groups as columns.
 :::
 
-::: {.callout-caution collapse="true"}
-## Exercise 3.6: Comprehensive data manipulation
+::: {#exr-comprehensive-manipulation .callout-caution collapse="true"}
+## Comprehensive data manipulation
 
 Combine everything you've learned to:
 

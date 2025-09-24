@@ -67,8 +67,8 @@ We do a quick check of the *education* variable, which has three levels: "Primar
 
 The proportion with the "Primary" level is `r edu_summary |> filter(education == "Primary") |> pull(proportion)`, the proportion with the "Secondary" level is `r edu_summary |> filter(education == "Secondary") |> pull(proportion)`, and the proportion with the "University" level is `r edu_summary |> filter(education == "University") |> pull(proportion)`. These add up to `r sum(edu_summary$proportion)`. All good!
 
-::: {.callout-caution collapse="true"}
-## Exercise: Check the sum of probabilities in the income variable
+::: {#exr-check-sum-probabilities .callout-caution collapse="true"}
+## Check the sum of probabilities in the income variable
 
 Do the numbers in our *income* variable add up to 1? You can use the `income_summary` object we created above.
 
@@ -100,8 +100,8 @@ p_not_secondary <- 1 - p_secondary
 - P(not Secondary education) = `r round(p_not_secondary, 4)`
 - Check complement rule, sum = `r round(p_secondary + p_not_secondary, 4)`
 
-::: {.callout-caution collapse="true"}
-## Exercise: Complement rule
+::: {#exr-complement-rule .callout-caution collapse="true"}
+## Complement rule
 
 Calculate the complement rule for *Medium* income.
 :::
@@ -140,8 +140,8 @@ p_either <- p_primary + p_low_income - p_both
 - P(Both) = `r round(p_both, 4)`
 - P(Either) = `r round(p_either, 4)`
 
-::: {.callout-caution collapse="true"}
-## Exercise: Addition rule
+::: {#exr-addition-rule .callout-caution collapse="true"}
+## Addition rule
 
 Calculate the probability of having either "University" education OR being in the "Medium" income group.
 :::
@@ -207,8 +207,8 @@ p_low_given_primary <- p_both / p_primary
 
 - P(Low income | Primary education) = `r round(p_low_given_primary, 4)`
 
-::: {.callout-caution collapse="true"}
-## Exercise: Conditional probability
+::: {#exr-conditional-probability .callout-caution collapse="true"}
+## Conditional probability
 
 Calculate the probability of having "Medium" income given that someone has "University" education.
 :::

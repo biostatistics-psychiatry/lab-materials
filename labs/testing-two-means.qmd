@@ -204,8 +204,8 @@ t.test(lsas_post ~ trt,
 )
 ```
 
-::: {.callout-caution collapse="true"}
-## Exercise: Testing independent group means
+::: {#exr-independent-means .callout-caution collapse="true"}
+## Testing independent group means
 
 1.  Calculate the mean difference in post-treatment LSAS scores, and the associated two-sided p-value for the mean difference between the therapist-guided and the wait list group
 2.  Complement this with a 95% confidence interval.
@@ -311,8 +311,8 @@ Or again, more conveniently using the `t.test()` function
 t.test(df_data$lsas_post, df_data$lsas_screen, paired = TRUE)
 ```
 
-::: {.callout-caution collapse="true"}
-## Exercise: Testing dependent group means
+::: {#exr-dependent-means .callout-caution collapse="true"}
+## Testing dependent group means
 
 1.  Compute a t-test for the difference in LSAS-scores between post-treatment and 12-month follow-up and provide an interpretation of its meaning
 2.  Also calculate the 95% confidence interval for this difference, using the z-value formula and provide an interpretation of its meaning
@@ -403,8 +403,8 @@ Our results tells us that the null hypothesis of no association cannot be reject
 The **Chi-squared test** is only valid if the counts in each cell is \>5. When cell counts are lower, Fisher's exact test should be used instead. You can use the `fisher.test()` function
 :::
 
-::: callout-warning
-## Exercise: Testing categorical distributions
+::: {#exr-testing-categorical-distributions .callout-warning collapse="true"}
+## Testing categorical distributions
 
 Chi-squared tests, and other tests of significance, are sometimes used to check that important pre-treatment characteristics, such as gender or symptom level, are balanced between the treatment groups. Non-sinificant p-values are then taken as an argument that the groups are balanced. Reason about why this is a problematic approach.
 
@@ -476,8 +476,8 @@ wilcox.test(lsas_post ~ trt,
 )
 ```
 
-::: callout-warning
-## Exercise: Non-parametric tests
+::: {#exr-non-parametric-tests .callout-warning collapse="true"}
+## Non-parametric tests
 
 Which of all the test performed today do you think is most appropriate for the pre-post difference in LSAS scores?
 

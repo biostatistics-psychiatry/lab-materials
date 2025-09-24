@@ -375,7 +375,7 @@ window.Quarto = {
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(means <span class="sc">&gt;=</span> <span class="fu">mean</span>(d_bl<span class="sc">$</span>lsas_screen)) <span class="co"># proportion of simulated means that are larger than our observed mean</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.0127</code></pre>
+<pre><code>[1] 0.0109</code></pre>
 </div>
 </div>
 <p>If we find this simulation exercise a bit tedious, we could also use theoretical distributions for the sample means to calculate our p-value. The <strong>t-distribution</strong> can be used to estimate the spread to the sample means <em>when the population variance is unknown and the sample variance is used to approximate it</em>. It is very similar to the normal distribution, but has heavier tails that accounts for the uncertainty produced by using the sample variance instead of the true population variance when estimating the standard error of the sampling distribution. However, when the sample size increase, the t-distribution will come closer and closer to a normal distribution (also known as a z-distribution when standardized to have mean=0 and sd=1).</p>
@@ -524,13 +524,13 @@ mean of x
  84.75138 </code></pre>
 </div>
 </div>
-<div class="callout callout-style-default callout-caution callout-titled">
+<div id="exr-pvalue-phq9" class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Exercise: P-value for PHQ-9 Mean
+Exercise&nbsp;1: P-value for PHQ-9 Mean
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -540,13 +540,13 @@ Exercise: P-value for PHQ-9 Mean
 </div>
 </div>
 </div>
-<div class="callout callout-style-default callout-caution callout-titled">
+<div id="exr-pvalue-proportion" class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Exercise: P-value for Proportion of Men
+Exercise&nbsp;2: P-value for Proportion of Men
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -563,13 +563,13 @@ z= \frac{p - \hat{p}}{SE}
 </div>
 </div>
 </div>
-<div class="callout callout-style-default callout-caution callout-titled">
+<div id="exr-pvalue-sample-size" class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Exercise: Effect of Sample Size on P-value
+Exercise&nbsp;3: Effect of Sample Size on P-value
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -652,13 +652,13 @@ mean of x
 <pre><code>[1] 82.35221 87.15055</code></pre>
 </div>
 </div>
-<div class="callout callout-style-default callout-caution callout-titled">
+<div id="exr-z-vs-t-scores" class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Exercise: Z-scores vs T-scores for Confidence Intervals
+Exercise&nbsp;4: Z-scores vs T-scores for Confidence Intervals
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -668,13 +668,13 @@ Exercise: Z-scores vs T-scores for Confidence Intervals
 </div>
 </div>
 </div>
-<div class="callout callout-style-default callout-caution callout-titled">
+<div id="exr-ci-phq9" class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Exercise: 95% Confidence Interval for PHQ-9
+Exercise&nbsp;5: 95% Confidence Interval for PHQ-9
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -684,13 +684,13 @@ Exercise: 95% Confidence Interval for PHQ-9
 </div>
 </div>
 </div>
-<div class="callout callout-style-default callout-caution callout-titled">
+<div id="exr-wald-ci" class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Exercise: Wald Confidence Interval for Proportion of Men
+Exercise&nbsp;6: Wald Confidence Interval for Proportion of Men
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -700,13 +700,13 @@ Exercise: Wald Confidence Interval for Proportion of Men
 </div>
 </div>
 </div>
-<div class="callout callout-style-default callout-caution callout-titled">
+<div id="exr-compare-wald-prop" class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Exercise: Comparing Wald vs prop.test() Confidence Intervals
+Exercise&nbsp;7: Comparing Wald vs prop.test() Confidence Intervals
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -716,13 +716,13 @@ Exercise: Comparing Wald vs prop.test() Confidence Intervals
 </div>
 </div>
 </div>
-<div class="callout callout-style-default callout-caution callout-titled">
+<div id="exr-interpret-ci" class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Exercise: Interpreting Confidence Intervals in Context
+Exercise&nbsp;8: Interpreting Confidence Intervals in Context
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
