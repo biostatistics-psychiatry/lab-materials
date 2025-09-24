@@ -59,4 +59,4 @@ _publish.yml
 labs/tables/*.docx
 
 # locally rendered files
-docs/
+/docs/
