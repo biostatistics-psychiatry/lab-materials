@@ -57,3 +57,6 @@ _publish.yml
 
 # Tables
 labs/tables/*.docx
+
+# locally rendered files
+docs/
