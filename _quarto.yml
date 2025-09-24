@@ -57,3 +57,8 @@ format:
     theme: flatly
     toc: true
     toc-depth: 6
+    crossref:
+      custom:
+        - kind: float
+          reference-prefix: "Exercise"
+          key: "exr"
