@@ -551,13 +551,13 @@ sample estimates:
                       64.91228                       57.35185 </code></pre>
 </div>
 </div>
-<div class="callout callout-style-default callout-caution callout-titled">
+<div id="exr-independent-means" class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Exercise: Testing independent group means
+Exercise&nbsp;1: Testing independent group means
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -679,13 +679,13 @@ mean difference
       -17.86982 </code></pre>
 </div>
 </div>
-<div class="callout callout-style-default callout-caution callout-titled">
+<div id="exr-dependent-means" class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Exercise: Testing dependent group means
+Exercise&nbsp;2: Testing dependent group means
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -714,17 +714,17 @@ Exercise: Testing dependent group means
 <div class="cell-output cell-output-stdout">
 <pre><code>                  
                    Man Woman
-  self-guided       19    42
-  therapist-guided  18    42
-  waitlist          18    42</code></pre>
+  self-guided       21    40
+  therapist-guided  25    35
+  waitlist          20    40</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(<span class="fu">table</span>(df_data<span class="sc">$</span>trt, df_data<span class="sc">$</span>gender), <span class="at">margin =</span> <span class="dv">1</span>) <span class="co"># proportion in each treatment group</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                  
                          Man     Woman
-  self-guided      0.3114754 0.6885246
-  therapist-guided 0.3000000 0.7000000
-  waitlist         0.3000000 0.7000000</code></pre>
+  self-guided      0.3442623 0.6557377
+  therapist-guided 0.4166667 0.5833333
+  waitlist         0.3333333 0.6666667</code></pre>
 </div>
 </div>
 <p>We see that there are some small differences between the groups, but we have no statistical test of these differences. Say that we wanted to test the null hypothesis that there is no association between gender and the treatment group you end up in. This hypothesis should hold, due to the randomization of the STEpS study.</p>
@@ -748,9 +748,9 @@ E_{ij} = \frac{(\text{row total})_i \cdot (\text{column total})_j}{\text{grand t
 <div class="cell-output cell-output-stdout">
 <pre><code>                  gender
 trt                Man Woman
-  self-guided       19    42
-  therapist-guided  18    42
-  waitlist          18    42</code></pre>
+  self-guided       21    40
+  therapist-guided  25    35
+  waitlist          20    40</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Expected counts E_ij = (row total_i * col total_j) / grand total</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>row_tot <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(O)</span>
@@ -760,9 +760,9 @@ trt                Man Woman
 <span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>E</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                      Man    Woman
-self-guided      18.53591 42.46409
-therapist-guided 18.23204 41.76796
-waitlist         18.23204 41.76796</code></pre>
+self-guided      22.24309 38.75691
+therapist-guided 21.87845 38.12155
+waitlist         21.87845 38.12155</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Chi-square statistic: sum_{i,j} (O_ij - E_ij)^2 / E_ij</span></span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>chi_sq <span class="ot">&lt;-</span> <span class="fu">sum</span>((O <span class="sc">-</span> E)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> E)</span>
@@ -776,7 +776,7 @@ waitlist         18.23204 41.76796</code></pre>
 <span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>p_value <span class="ot">&lt;-</span> <span class="fu">pchisq</span>(chi_sq, <span class="at">df =</span> df, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>p_value</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.9874907</code></pre>
+<pre><code>[1] 0.5873809</code></pre>
 </div>
 </div>
 <p>In R, these calculations can be easily performed using the function <code>chisq.test()</code> that also provide tables for the observed and expected frequencies</p>
@@ -787,23 +787,23 @@ waitlist         18.23204 41.76796</code></pre>
     Pearson's Chi-squared test
 
 data:  df_data$trt and df_data$gender
-X-squared = 0.025176, df = 2, p-value = 0.9875</code></pre>
+X-squared = 1.0642, df = 2, p-value = 0.5874</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(df_data<span class="sc">$</span>trt, df_data<span class="sc">$</span>gender)<span class="sc">$</span>observed</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                  df_data$gender
 df_data$trt        Man Woman
-  self-guided       19    42
-  therapist-guided  18    42
-  waitlist          18    42</code></pre>
+  self-guided       21    40
+  therapist-guided  25    35
+  waitlist          20    40</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(df_data<span class="sc">$</span>trt, df_data<span class="sc">$</span>gender)<span class="sc">$</span>expected</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                  df_data$gender
 df_data$trt             Man    Woman
-  self-guided      18.53591 42.46409
-  therapist-guided 18.23204 41.76796
-  waitlist         18.23204 41.76796</code></pre>
+  self-guided      22.24309 38.75691
+  therapist-guided 21.87845 38.12155
+  waitlist         21.87845 38.12155</code></pre>
 </div>
 </div>
 <p>Our results tells us that the null hypothesis of no association cannot be rejected. In other words, our data would not be unexpected if there was no association between gender and treatment group in the underlying population (kind of a strange though experiment, as there are only treatment variables in treatment studies, not in the underlying population).</p>

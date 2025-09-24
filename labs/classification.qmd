@@ -46,8 +46,8 @@ d_nomiss <- d_nomiss |>
   )
 ```
 
-::: {.callout-caution collapse="true"}
-## Exercise: Create a binary variable of PHQ-9 at post-treatment
+::: {#exr-phq9-binary .callout-caution collapse="true"}
+## Create a binary variable of PHQ-9 at post-treatment
 
 For the exercises in this lab, you will work with PHQ-9 instead of LSAS. Create a binary outcome variable `phq9_post_bin` that is "Low" if `phq9_post` is less than 10, and "High" otherwise.
 
@@ -82,8 +82,8 @@ true_neg <- lsas_conf_mat$table[[4]]
 lsas_conf_mat
 ```
 
-::: {.callout-caution collapse="true"}
-## Exercise: Fit a logistic regression model (PHQ-9)
+::: {#exr-phq9-logistic .callout-caution collapse="true"}
+## Fit a logistic regression model (PHQ-9)
 
 Fit a logistic regression model to predict `phq9_post_bin` using `phq9_screen` and `group`. Create a confusion matrix for the predictions. You can use the same code as above, but you will need to change to phq9-values. You can also use the built-in `glm()` function together with `predict()` to fit the logistic regression and predict the outcome if you prefer.
 
@@ -151,8 +151,8 @@ neg_pred_val <- true_neg / (true_neg + false_neg)
 
 Negative predictive value is `r round(neg_pred_val, 2)`.
 
-::: {.callout-caution collapse="true"}
-## Exercise: Calculate classification metrics
+::: {#exr-classification-metrics .callout-caution collapse="true"}
+## Calculate classification metrics
 
 Calculate the sensitivity, specificity, positive predictive value, and negative predictive value for the PHQ-9 predictions.
 

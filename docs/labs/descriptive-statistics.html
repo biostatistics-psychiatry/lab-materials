@@ -404,13 +404,13 @@ window.Quarto = {
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ends_with</span>(<span class="st">"_screen"</span>)</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="callout callout-style-default callout-caution callout-titled">
+<div id="exr-dataset-overview" class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Exercise: Get an overview of the dataset
+Exercise&nbsp;1: Get an overview of the dataset
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -595,13 +595,13 @@ Means, medians and outliers
 </div>
 </div>
 </div>
-<div class="callout callout-style-default callout-caution callout-titled">
+<div id="exr-visualize-centrality" class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Exercises: Visualize centrality measures
+Exercise&nbsp;2: Visualize centrality measures
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -665,13 +665,13 @@ Population vs samples
 </div>
 </div></li>
 </ul>
-<div class="callout callout-style-default callout-caution callout-titled">
+<div id="exr-calculate-spread" class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Exercises: Calculate spread measures
+Exercise&nbsp;3: Calculate spread measures
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -713,13 +713,13 @@ Exercises: Calculate spread measures
 <div class="cell-output cell-output-stdout">
 <pre><code>
   Man Woman 
-   55   126 </code></pre>
+   44   137 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(d_bl<span class="sc">$</span>education)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
    Primary  Secondary University 
-        79         59         43 </code></pre>
+        73         73         35 </code></pre>
 </div>
 </div>
 <p>Dived by the number of rows, it gives proportion in each category.</p>
@@ -728,13 +728,13 @@ Exercises: Calculate spread measures
 <div class="cell-output cell-output-stdout">
 <pre><code>
       Man     Woman 
-0.3038674 0.6961326 </code></pre>
+0.2430939 0.7569061 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(d_bl<span class="sc">$</span>education) <span class="sc">/</span> <span class="fu">nrow</span>(d_bl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
    Primary  Secondary University 
- 0.4364641  0.3259669  0.2375691 </code></pre>
+ 0.4033149  0.4033149  0.1933702 </code></pre>
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -784,13 +784,13 @@ Spread of categorical data
 </div>
 </div>
 </div>
-<div class="callout callout-style-default callout-caution callout-titled">
+<div id="exr-visualize-categorical" class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Exercise: Visualize categorical data
+Exercise&nbsp;4: Visualize categorical data
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -898,15 +898,15 @@ Exercise: Visualize categorical data
   dmrsodf_screen (mean (SD)) 267220994518069.59 (3595090797150460.50)
   ders_screen (mean (SD))                 49.20 (13.43)              
   pid_5_screen (mean (SD))                23.93 (8.51)               
-  gender = Woman (%)                        126 (69.6)               
+  gender = Woman (%)                        137 (75.7)               
   education (%)                                                      
-     Primary                                 79 (43.6)               
-     Secondary                               59 (32.6)               
-     University                              43 (23.8)               
+     Primary                                 73 (40.3)               
+     Secondary                               73 (40.3)               
+     University                              35 (19.3)               
   income (%)                                                         
-     High                                    40 (22.1)               
+     High                                    29 (16.0)               
      Low                                     39 (21.5)               
-     Medium                                 102 (56.4)               </code></pre>
+     Medium                                 113 (62.4)               </code></pre>
 </div>
 </div>
 <p>We can also do this stratified by a categorical variable using the strata argument. Let’s have it by treatment group.</p>
@@ -924,15 +924,15 @@ Exercise: Visualize categorical data
   dmrsodf_screen (mean (SD)) 806116666706155.25 (6244152850195288.00)
   ders_screen (mean (SD))                 50.70 (13.72)              
   pid_5_screen (mean (SD))                25.07 (9.46)               
-  gender = Woman (%)                         47 (78.3)               
+  gender = Woman (%)                         46 (76.7)               
   education (%)                                                      
-     Primary                                 24 (40.0)               
-     Secondary                               22 (36.7)               
-     University                              14 (23.3)               
+     Primary                                 25 (41.7)               
+     Secondary                               23 (38.3)               
+     University                              12 (20.0)               
   income (%)                                                         
-     High                                    15 (25.0)               
-     Low                                     13 (21.7)               
-     Medium                                  32 (53.3)               
+     High                                    10 (16.7)               
+     Low                                     11 (18.3)               
+     Medium                                  39 (65.0)               
                             Stratified by group
                              1                   2                  
   n                                61                  60           
@@ -944,24 +944,24 @@ Exercise: Visualize categorical data
   dmrsodf_screen (mean (SD)) 44885.95 (16035.54) 44388.20 (14850.76)
   ders_screen (mean (SD))       46.74 (13.60)       50.22 (12.83)   
   pid_5_screen (mean (SD))      22.34 (7.80)        24.40 (8.08)    
-  gender = Woman (%)               39 (63.9)           40 (66.7)    
+  gender = Woman (%)               45 (73.8)           46 (76.7)    
   education (%)                                                     
-     Primary                       28 (45.9)           27 (45.0)    
-     Secondary                     19 (31.1)           18 (30.0)    
-     University                    14 (23.0)           15 (25.0)    
+     Primary                       29 (47.5)           19 (31.7)    
+     Secondary                     21 (34.4)           29 (48.3)    
+     University                    11 (18.0)           12 (20.0)    
   income (%)                                                        
-     High                          14 (23.0)           11 (18.3)    
-     Low                           17 (27.9)            9 (15.0)    
-     Medium                        30 (49.2)           40 (66.7)    </code></pre>
+     High                           9 (14.8)           10 (16.7)    
+     Low                           16 (26.2)           12 (20.0)    
+     Medium                        36 (59.0)           38 (63.3)    </code></pre>
 </div>
 </div>
-<div class="callout callout-style-default callout-caution callout-titled">
+<div id="exr-visualize-bivariate" class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Exercises: Visualize bi-variable distributions
+Exercise&nbsp;5: Visualize bi-variable distributions
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>

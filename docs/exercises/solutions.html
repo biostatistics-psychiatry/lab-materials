@@ -354,9 +354,9 @@ $ scs_screen     &lt;dbl&gt; 25, 16, 22, 35, 29, 30, 20, 34, 21, 26, 35, 21, 32,
 $ dmrsodf_screen &lt;dbl&gt; 49178, 50727, 45074, 5381, 48444, 50899, 46923, 41428, …
 $ ders_screen    &lt;dbl&gt; 44, 73, 65, 45, 46, 49, 57, 38, 67, 45, 55, 56, 71, 36,…
 $ pid_5_screen   &lt;dbl&gt; 25, 20, 48, 17, 24, 20, 24, 26, 39, 23, 24, 26, 23, 15,…
-$ gender         &lt;chr&gt; "Woman", "Man", "Woman", "Man", "Woman", "Man", "Woman"…
-$ education      &lt;chr&gt; "Secondary", "Secondary", "University", "Primary", "Pri…
-$ income         &lt;chr&gt; "Medium", "Low", "Medium", "Medium", "Medium", "High", …
+$ gender         &lt;chr&gt; "Woman", "Woman", "Woman", "Woman", "Woman", "Man", "Wo…
+$ education      &lt;chr&gt; "Primary", "Primary", "Primary", "Primary", "University…
+$ income         &lt;chr&gt; "Medium", "Low", "Medium", "Medium", "Low", "Low", "Med…
 $ gad_cat        &lt;chr&gt; "Low anxiety", "High anxiety", "High anxiety", "Low anx…
 $ phq_cat        &lt;chr&gt; "Low depression", "High depression", "High depression",…</code></pre>
 </div>
@@ -616,7 +616,7 @@ mean of x
 <span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>z_value <span class="ot">&lt;-</span> (p_hat <span class="sc">-</span> p) <span class="sc">/</span> se</span>
 <span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="fu">abs</span>(z_value))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.004145271</code></pre>
+<pre><code>[1] 8.200845e-06</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># or</span></span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.test</span>(</span>
@@ -631,13 +631,13 @@ mean of x
     1-sample proportions test without continuity correction
 
 data:  sum(d_bl$gender == "Man") out of length(d_bl$gender), null probability 0.4
-X-squared = 6.9696, df = 1, p-value = 0.004145
+X-squared = 18.567, df = 1, p-value = 8.201e-06
 alternative hypothesis: true p is less than 0.4
 95 percent confidence interval:
- 0.0000000 0.3626461
+ 0.0000000 0.2990713
 sample estimates:
         p 
-0.3038674 </code></pre>
+0.2430939 </code></pre>
 </div>
 </div>
 <p><strong>3.6</strong> Modify the simulation code for the sampling distribution above to determine what would happen to the p-value if the sample size was 10, 100 or 1000</p>
@@ -654,7 +654,7 @@ sample estimates:
 <span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(means <span class="sc">&gt;=</span> <span class="fu">mean</span>(d_bl<span class="sc">$</span>lsas_screen)) <span class="co"># proportion of simulated means that are larger than our observed mean</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.305</code></pre>
+<pre><code>[1] 0.2962</code></pre>
 </div>
 </div>
 <p>P-value with a sample size of 100</p>
@@ -670,7 +670,7 @@ sample estimates:
 <span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(means <span class="sc">&gt;=</span> <span class="fu">mean</span>(d_bl<span class="sc">$</span>lsas_screen)) <span class="co"># proportion of simulated means that are larger than our observed mean</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.0496</code></pre>
+<pre><code>[1] 0.0487</code></pre>
 </div>
 </div>
 <p>P-value with a sample size of 10000</p>
@@ -733,12 +733,12 @@ mean of x
 <span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a><span class="co"># upper coinfidence limit</span></span>
 <span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>p_hat <span class="sc">+</span> z <span class="sc">*</span> se</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.370872</code></pre>
+<pre><code>[1] 0.305586</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="co"># lower confidence limit</span></span>
 <span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>p_hat <span class="sc">-</span> z <span class="sc">*</span> se</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.2368628</code></pre>
+<pre><code>[1] 0.1806019</code></pre>
 </div>
 </div>
 <p><strong>3.10</strong> Compare this to what you would obtain using the function <code>prop.test()</code> in R.</p>
@@ -749,13 +749,13 @@ mean of x
     1-sample proportions test with continuity correction
 
 data:  table(d_bl$gender), null probability 0.5
-X-squared = 27.072, df = 1, p-value = 1.96e-07
+X-squared = 46.762, df = 1, p-value = 8.014e-12
 alternative hypothesis: true p is not equal to 0.5
 95 percent confidence interval:
- 0.2389772 0.3772418
+ 0.1838942 0.3134373
 sample estimates:
         p 
-0.3038674 </code></pre>
+0.2430939 </code></pre>
 </div>
 </div>
 <p><strong>3.11</strong> Reason about the the meaning and interpretation of the confidence intervals you have calculated in the context of how the actual STePs study was performed. The study can be found at: <a href="https://www.nature.com/articles/s44184-024-00063-0" class="uri">https://www.nature.com/articles/s44184-024-00063-0</a></p>

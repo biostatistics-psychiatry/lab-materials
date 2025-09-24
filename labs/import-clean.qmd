@@ -65,8 +65,8 @@ row_check <- nrow(df_rawdata) # 181
 col_check <- ncol(df_rawdata) # 37
 ```
 
-::: {.callout-caution collapse="true"}
-## Exercise: Import the STePS dataset
+::: {#exr-import-steps .callout-caution collapse="true"}
+## Import the STePS dataset
 
 Import the STePS dataset using the `read_csv()` function. Use the `here()` function to specify the file path. Check the number of rows and columns in the dataset after importing it.
 
@@ -92,8 +92,8 @@ Other options for checking the basic structure of the data include `head()`, `na
 - `ncol(df_rawdata)` shows the number of columns in the dataset.
 - `nrow(df_rawdata)` shows the number of rows in the dataset.
 
-::: {.callout-caution collapse="true"}
-## Exercise: Check the structure of STePS
+::: {#exr-glimpse-data .callout-caution collapse="true"}
+## Check the structure of STePS
 
 use the `glimpse()` function to check the structure of the STePS data. What do you notice about the data? Are there any potential issues with the data structure?
 
@@ -128,8 +128,8 @@ We will use the `clean_names()` function from the *janitor* package to clean the
 
 What's wrong with these column names? And what is the difference after `clean_names()`?
 
-::: {.callout-caution collapse="true"}
-## Exercise: Clean column names, part 1
+::: {#exr-clean-names .callout-caution collapse="true"}
+##  Clean column names, part 1
 
 Use the `clean_names()` function to clean the column names in `df_data`. Check the names before and after cleaning. What changes do you notice? Are there any column names that are still problematic?
 :::
@@ -168,8 +168,8 @@ df_data <- df_data |>
 This type of data cleaning is often a result of going back and forth between running code and checking the results. Sometimes you will come all the way to the analyses before finding that DERS-16 is missing a time-point! This is why it's helpful to design your project in a way that allows you to easily go back and forth between steps.
 :::
 
-::: {.callout-caution collapse="true"}
-## Exercise: Clean column names, part 2
+::: {#exr-clean-names-2 .callout-caution collapse="true"}
+##  Clean column names, part 2
 
 Use the `rename_with()` function to fix the column names of PHQ-9 in `df_data`. Check the names before and after cleaning. What changes do you notice? Are there any column names that are still problematic?
 :::
@@ -200,8 +200,8 @@ df_data <- df_data |>
 
 ```
 
-::: {.callout-caution collapse="true"}
-## Exercise: Fix missing values
+::: {#exr-fix-missing-values .callout-caution collapse="true"}
+##  Fix missing values
 
 Check which columns have weird values for missing values. You can use the `glimpse()` function or view the data in the viewer. You can also use the `unique()` function to check which values are present in a column.
 
@@ -228,8 +228,8 @@ df_data <- df_data |>
 
 ```
 
-::: {.callout-caution collapse="true"}
-## Exercise: Fix column types
+::: {#exr-fix-column-types .callout-caution collapse="true"}
+## Fix column types
 
 Let's imagine we have many columns that should be factors. How can you use the same procedure as above to convert all columns from a `fct_cols` vector to factors?
 :::
