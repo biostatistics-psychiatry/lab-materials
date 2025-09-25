@@ -2,6 +2,9 @@ project:
   type: website
   output-dir: docs
 
+execute:
+  freeze: auto
+
 website:
   page-navigation: true
   title: "Biostatistics - Research School in Clinical Psychiatry"

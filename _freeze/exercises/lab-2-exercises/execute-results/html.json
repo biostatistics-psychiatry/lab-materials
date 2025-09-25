@@ -1,0 +1,15 @@
+{
+  "hash": "af2af4a637265ca2a31894633c70e330",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: Lab 2 exercises\n---\n\n**2.1** Use the functions described in yesterdays lab to get a quick overview of the dataset and give a brief summary of it.\n\n**2.2** Visualize the distribution of the PHQ-9 scale and the PID-5 scale and provide the mean, median and mode.\n\n**2.3** How does the centrality measures differ and why?\n\n**2.4** Reason on the pros and cons of the different centrality measures for these scales.\n\n**2.5** Calculate spread measures for the LSAS-SR scale, what do they tell you and which ones do you think are most useful to describe the spread of the values. Motive you answer briefly!\n\n**2.6** **Overcourse**. Caluclate the population variance and standard deviation. How do these differ from the ones given by the functions sd() and var().\n\n\n::: {.cell}\n\n```{.r .cell-code}\n#creating a function to calculate the population variance \npop_var <- function(x){\n  1/length(x)*sum((x-mean(x))^2)\n}\n\n# and the population sd\npop_sd <- function(x){\n  sqrt(1/length(x)*sum((x-mean(x))^2))\n}\n```\n:::\n\n\n2.7 Use only the first ten participants and compare the population and the sample variance and standard deviation of LSAS-SR. What do you find, and how do the results compare to those from exercise 2.6.\n\n2.8 Calculate the counts, proportions and percentages for the simulated income categories and visualize the distribution.\n\n2.9 Visualize the joint distribution of GAD-7 and PHQ-9 as numeric variables and describe what you see\n\n2.10 Visualize the distribution of of LSAS scores by income level and describe what you see\n\n2.11 Create a variable for high vs. low DERS scores and investigate the joint distribution of this variable and phq_cat (that we created in an earlier example)\n\n2.12 Create a table using the tableone package to show descriptives statistics stratified by high vs low depression levels. Briefly interpret what you see.\n\n2.13 Calculate the standard error of LSAS_Screen using the code formula above, and describe in words what the number means\n\n2.14 Calculate the standard error for the proportion of men in the STePS study, and describe the meaning of this number in words\n\n2.15 What would happen to these standard errors if the sample size had been 1000 participants?\n\n2.16 Calculate the p-value for the null hypothesis that PHQ-9 is 9, and describe in words what this number mean.\n\n2.17 Calculate the 95% confidence interval for PHQ-9, and describe in words what these numbers mean\n\n2.18 Calculate the 95% confidence interval for the proportion of men in the dataset (using the variance for the proportion).\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

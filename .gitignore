@@ -47,7 +47,6 @@ rsconnect/
 
 # Quarto Project files
 .quarto/
-_freeze/
 _publish.yml
 
 # R Environment files
