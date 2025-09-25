@@ -3,7 +3,7 @@ title: "Research school in clinical psychiatry"
 date: last-modified
 ---
 
-Hello world, two.
+Hello world, three.
 
 Welcome to the course materials for Biostatistics courses in the Research School in Clinical Psychiatry at Karolinska Institutet. This website contains all materials related to the afternoon lab sessions of the courses.
 
