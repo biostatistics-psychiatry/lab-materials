@@ -713,13 +713,13 @@ Exercise&nbsp;3: Calculate spread measures
 <div class="cell-output cell-output-stdout">
 <pre><code>
   Man Woman 
-   53   128 </code></pre>
+   63   118 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(d_bl<span class="sc">$</span>education)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
    Primary  Secondary University 
-        74         79         28 </code></pre>
+        89         63         29 </code></pre>
 </div>
 </div>
 <p>Dived by the number of rows, it gives proportion in each category.</p>
@@ -728,13 +728,13 @@ Exercise&nbsp;3: Calculate spread measures
 <div class="cell-output cell-output-stdout">
 <pre><code>
       Man     Woman 
-0.2928177 0.7071823 </code></pre>
+0.3480663 0.6519337 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(d_bl<span class="sc">$</span>education) <span class="sc">/</span> <span class="fu">nrow</span>(d_bl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
    Primary  Secondary University 
- 0.4088398  0.4364641  0.1546961 </code></pre>
+ 0.4917127  0.3480663  0.1602210 </code></pre>
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -898,15 +898,15 @@ Exercise&nbsp;4: Visualize categorical data
   dmrsodf_screen (mean (SD)) 267220994518069.59 (3595090797150460.50)
   ders_screen (mean (SD))                 49.20 (13.43)              
   pid_5_screen (mean (SD))                23.93 (8.51)               
-  gender = Woman (%)                        128 (70.7)               
+  gender = Woman (%)                        118 (65.2)               
   education (%)                                                      
-     Primary                                 74 (40.9)               
-     Secondary                               79 (43.6)               
-     University                              28 (15.5)               
+     Primary                                 89 (49.2)               
+     Secondary                               63 (34.8)               
+     University                              29 (16.0)               
   income (%)                                                         
-     High                                    33 (18.2)               
-     Low                                     45 (24.9)               
-     Medium                                 103 (56.9)               </code></pre>
+     High                                    31 (17.1)               
+     Low                                     44 (24.3)               
+     Medium                                 106 (58.6)               </code></pre>
 </div>
 </div>
 <p>We can also do this stratified by a categorical variable using the strata argument. Let’s have it by treatment group.</p>
@@ -924,15 +924,15 @@ Exercise&nbsp;4: Visualize categorical data
   dmrsodf_screen (mean (SD)) 806116666706155.25 (6244152850195288.00)
   ders_screen (mean (SD))                 50.70 (13.72)              
   pid_5_screen (mean (SD))                25.07 (9.46)               
-  gender = Woman (%)                         43 (71.7)               
+  gender = Woman (%)                         39 (65.0)               
   education (%)                                                      
-     Primary                                 21 (35.0)               
-     Secondary                               28 (46.7)               
-     University                              11 (18.3)               
+     Primary                                 29 (48.3)               
+     Secondary                               17 (28.3)               
+     University                              14 (23.3)               
   income (%)                                                         
-     High                                    11 (18.3)               
-     Low                                     21 (35.0)               
-     Medium                                  28 (46.7)               
+     High                                    12 (20.0)               
+     Low                                     15 (25.0)               
+     Medium                                  33 (55.0)               
                             Stratified by group
                              1                   2                  
   n                                61                  60           
@@ -944,15 +944,15 @@ Exercise&nbsp;4: Visualize categorical data
   dmrsodf_screen (mean (SD)) 44885.95 (16035.54) 44388.20 (14850.76)
   ders_screen (mean (SD))       46.74 (13.60)       50.22 (12.83)   
   pid_5_screen (mean (SD))      22.34 (7.80)        24.40 (8.08)    
-  gender = Woman (%)               43 (70.5)           42 (70.0)    
+  gender = Woman (%)               42 (68.9)           37 (61.7)    
   education (%)                                                     
-     Primary                       28 (45.9)           25 (41.7)    
-     Secondary                     26 (42.6)           25 (41.7)    
-     University                     7 (11.5)           10 (16.7)    
+     Primary                       29 (47.5)           31 (51.7)    
+     Secondary                     25 (41.0)           21 (35.0)    
+     University                     7 (11.5)            8 (13.3)    
   income (%)                                                        
-     High                          11 (18.0)           11 (18.3)    
-     Low                           14 (23.0)           10 (16.7)    
-     Medium                        36 (59.0)           39 (65.0)    </code></pre>
+     High                           7 (11.5)           12 (20.0)    
+     Low                           20 (32.8)            9 (15.0)    
+     Medium                        34 (55.7)           39 (65.0)    </code></pre>
 </div>
 </div>
 <div id="exr-visualize-bivariate" class="callout callout-style-default callout-caution callout-titled">

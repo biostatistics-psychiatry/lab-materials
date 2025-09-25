@@ -352,9 +352,9 @@ window.Quarto = {
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 181
 Columns: 5
-$ gender    &lt;chr&gt; "Woman", "Woman", "Woman", "Man", "Man", "Woman", "Woman", "…
-$ education &lt;chr&gt; "Secondary", "Secondary", "Secondary", "Secondary", "Primary…
-$ income    &lt;chr&gt; "Medium", "Medium", "Medium", "Medium", "High", "Medium", "L…
+$ gender    &lt;chr&gt; "Woman", "Woman", "Man", "Woman", "Woman", "Man", "Woman", "…
+$ education &lt;chr&gt; "Secondary", "Secondary", "University", "Secondary", "Second…
+$ income    &lt;chr&gt; "Medium", "Medium", "Low", "Medium", "Medium", "Medium", "Me…
 $ gad_cat   &lt;chr&gt; "Low anxiety", "High anxiety", "High anxiety", "Low anxiety"…
 $ phq_cat   &lt;chr&gt; "Low depression", "High depression", "High depression", "Low…</code></pre>
 </div>
@@ -389,21 +389,21 @@ Table&nbsp;1: Education levels
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Primary</td>
-<td style="text-align: right;">75</td>
-<td style="text-align: right;">0.4143646</td>
-<td style="text-align: right;">41.4</td>
+<td style="text-align: right;">74</td>
+<td style="text-align: right;">0.4088398</td>
+<td style="text-align: right;">40.9</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Secondary</td>
-<td style="text-align: right;">75</td>
-<td style="text-align: right;">0.4143646</td>
-<td style="text-align: right;">41.4</td>
+<td style="text-align: right;">79</td>
+<td style="text-align: right;">0.4364641</td>
+<td style="text-align: right;">43.6</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">University</td>
-<td style="text-align: right;">31</td>
-<td style="text-align: right;">0.1712707</td>
-<td style="text-align: right;">17.1</td>
+<td style="text-align: right;">28</td>
+<td style="text-align: right;">0.1546961</td>
+<td style="text-align: right;">15.5</td>
 </tr>
 </tbody>
 </table>
@@ -441,21 +441,21 @@ Table&nbsp;2: Income levels
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">High</td>
-<td style="text-align: right;">38</td>
-<td style="text-align: right;">0.2099448</td>
-<td style="text-align: right;">21.0</td>
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">0.1823204</td>
+<td style="text-align: right;">18.2</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Low</td>
-<td style="text-align: right;">42</td>
-<td style="text-align: right;">0.2320442</td>
-<td style="text-align: right;">23.2</td>
+<td style="text-align: right;">45</td>
+<td style="text-align: right;">0.2486188</td>
+<td style="text-align: right;">24.9</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Medium</td>
-<td style="text-align: right;">101</td>
-<td style="text-align: right;">0.5580110</td>
-<td style="text-align: right;">55.8</td>
+<td style="text-align: right;">103</td>
+<td style="text-align: right;">0.5690608</td>
+<td style="text-align: right;">56.9</td>
 </tr>
 </tbody>
 </table>
@@ -467,7 +467,7 @@ Table&nbsp;2: Income levels
 <section id="check-that-the-sum-of-all-probabilities-is-1" class="level2">
 <h2 class="anchored" data-anchor-id="check-that-the-sum-of-all-probabilities-is-1">Check that the sum of all probabilities is 1</h2>
 <p>We do a quick check of the <em>education</em> variable, which has three levels: “Primary”, “Secondary”, and “University”. When we count the proportion of each level, we get the following:</p>
-<p>The proportion with the “Primary” level is 0.4143646, the proportion with the “Secondary” level is 0.4143646, and the proportion with the “University” level is 0.1712707. These add up to 1. All good!</p>
+<p>The proportion with the “Primary” level is 0.4088398, the proportion with the “Secondary” level is 0.4364641, and the proportion with the “University” level is 0.1546961. These add up to 1. All good!</p>
 <div id="exr-check-sum-probabilities" class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -502,8 +502,8 @@ P(\text{not Secondary}) = 1 - P(\text{Secondary})
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>p_not_secondary <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> p_secondary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
-<li>P(Secondary education) = 0.4144</li>
-<li>P(not Secondary education) = 0.5856</li>
+<li>P(Secondary education) = 0.4365</li>
+<li>P(not Secondary education) = 0.5635</li>
 <li>Check complement rule, sum = 1</li>
 </ul>
 <div id="exr-complement-rule" class="callout callout-style-default callout-caution callout-titled">
@@ -547,10 +547,10 @@ Exercise&nbsp;2: Complement rule
 <span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>p_either <span class="ot">&lt;-</span> p_primary <span class="sc">+</span> p_low_income <span class="sc">-</span> p_both</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
-<li>P(Primary education) = 0.4144</li>
-<li>P(Low income) = 0.232</li>
-<li>P(Both) = 0.0773</li>
-<li>P(Either) = 0.5691</li>
+<li>P(Primary education) = 0.4088</li>
+<li>P(Low income) = 0.2486</li>
+<li>P(Both) = 0.1105</li>
+<li>P(Either) = 0.547</li>
 </ul>
 <div id="exr-addition-rule" class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
@@ -608,65 +608,65 @@ Table&nbsp;3: Joint probabilities of education and income
 <tr class="odd">
 <td style="text-align: left;">Primary</td>
 <td style="text-align: left;">High</td>
-<td style="text-align: right;">18</td>
-<td style="text-align: right;">0.0994475</td>
-<td style="text-align: right;">9.9</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">0.0662983</td>
+<td style="text-align: right;">6.6</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Primary</td>
 <td style="text-align: left;">Low</td>
-<td style="text-align: right;">14</td>
-<td style="text-align: right;">0.0773481</td>
-<td style="text-align: right;">7.7</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">0.1104972</td>
+<td style="text-align: right;">11.0</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Primary</td>
-<td style="text-align: left;">Medium</td>
-<td style="text-align: right;">43</td>
-<td style="text-align: right;">0.2375691</td>
-<td style="text-align: right;">23.8</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Secondary</td>
-<td style="text-align: left;">High</td>
-<td style="text-align: right;">14</td>
-<td style="text-align: right;">0.0773481</td>
-<td style="text-align: right;">7.7</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Secondary</td>
-<td style="text-align: left;">Low</td>
-<td style="text-align: right;">19</td>
-<td style="text-align: right;">0.1049724</td>
-<td style="text-align: right;">10.5</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Secondary</td>
 <td style="text-align: left;">Medium</td>
 <td style="text-align: right;">42</td>
 <td style="text-align: right;">0.2320442</td>
 <td style="text-align: right;">23.2</td>
 </tr>
+<tr class="even">
+<td style="text-align: left;">Secondary</td>
+<td style="text-align: left;">High</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">0.0773481</td>
+<td style="text-align: right;">7.7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Secondary</td>
+<td style="text-align: left;">Low</td>
+<td style="text-align: right;">18</td>
+<td style="text-align: right;">0.0994475</td>
+<td style="text-align: right;">9.9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Secondary</td>
+<td style="text-align: left;">Medium</td>
+<td style="text-align: right;">47</td>
+<td style="text-align: right;">0.2596685</td>
+<td style="text-align: right;">26.0</td>
+</tr>
 <tr class="odd">
 <td style="text-align: left;">University</td>
 <td style="text-align: left;">High</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">0.0331492</td>
-<td style="text-align: right;">3.3</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">0.0386740</td>
+<td style="text-align: right;">3.9</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">University</td>
 <td style="text-align: left;">Low</td>
-<td style="text-align: right;">9</td>
-<td style="text-align: right;">0.0497238</td>
-<td style="text-align: right;">5.0</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">0.0386740</td>
+<td style="text-align: right;">3.9</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">University</td>
 <td style="text-align: left;">Medium</td>
-<td style="text-align: right;">16</td>
-<td style="text-align: right;">0.0883978</td>
-<td style="text-align: right;">8.8</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">0.0773481</td>
+<td style="text-align: right;">7.7</td>
 </tr>
 </tbody>
 </table>
@@ -681,9 +681,9 @@ Table&nbsp;3: Joint probabilities of education and income
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>p_primary_dep <span class="ot">&lt;-</span> p_both</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
-<li>If independent: P(Primary ∩ Low income) = 0.096151</li>
-<li>Observed: P(Primary ∩ Low income) = 0.077348</li>
-<li>Difference = 0.018803</li>
+<li>If independent: P(Primary ∩ Low income) = 0.101645</li>
+<li>Observed: P(Primary ∩ Low income) = 0.110497</li>
+<li>Difference = 0.008852</li>
 </ul>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -708,7 +708,7 @@ Tip
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>p_low_given_primary <span class="ot">&lt;-</span> p_both <span class="sc">/</span> p_primary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
-<li>P(Low income | Primary education) = 0.1867</li>
+<li>P(Low income | Primary education) = 0.2703</li>
 </ul>
 <div id="exr-conditional-probability" class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
