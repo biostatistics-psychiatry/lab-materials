@@ -1,0 +1,160 @@
+---
+title: Lab webr descriptive statistics
+number-sections: true
+format: live-html
+engine: knitr
+webr:
+  packages:
+    - dplyr
+resources:
+  - ../data/steps_clean.csv
+---
+
+{{< include ../_extensions/r-wasm/live/_knitr.qmd >}}
+
+```{webr}
+#| setup: true
+#| exercise: ex_1
+# Load the CSV data
+library(dplyr)
+df_data <- read.csv("data/steps_clean.csv")
+```
+
+::::: panel-tabset
+## Exercise 1
+
+Use the functions described in the Import and clean data lab to get a quick overview of the dataset called `df_data`and give a brief summary of it.
+
+```{webr}
+#| exercise: ex_1
+
+
+```
+
+## Hints
+
+::: {.hint exercise="ex_1"}
+Have a look at [Import and clean data](../labs/import-clean.qmd##Check%20data%20structure)
+:::
+
+## Solution
+
+::: {.solution exercise="ex_1"}
+The full solution is:
+
+``` r
+glimpse(d_bl)
+head(d_bl)
+ncol(d_bl)
+nrow(d_bl) #<1>
+```
+:::
+:::::
+
+{{< include ../_extensions/r-wasm/live/_knitr.qmd >}}
+
+```{webr}
+#| setup: true
+#| exercise: ex_2
+# Load the CSV data
+library(dplyr)
+df_data <- read.csv("data/steps_clean.csv")
+```
+
+::::: panel-tabset
+## Exercise 2
+
+Visualize the distribution of the PHQ-9 scale and the PID-5 scale and provide the mean, median and mode.
+
+```{webr}
+#| exercise: ex_2
+#Creating a function to get the mode
+get_mode <- function(x) {
+  ux <- unique(x)
+  ux[which.max(tabulate(match(x, ux)))]
+}
+
+___(df_data$pid_5_screen)
+
+___(____phq9_screen)
+```
+
+## Hints
+
+::: {.hint exercise="ex_2"}
+Have a look at [Import and clean data](../labs/descriptive-statistics.qmd###%20Numeric%20data)
+
+
+:::
+
+## Solution
+
+::: {.solution exercise="ex_2"}
+The full solution is:
+
+``` r
+#PHQ-9
+hist(df_data$phq9_screen)
+mean(df_data$phq9_screen)
+median(df_data$phq9_screen)
+get_mode(df_data$phq9_screen)
+
+#PID-5
+hist(df_data$pid_5_screen)
+mean(df_data$pid_5_screen)
+median(df_data$pid_5_screen)
+get_mode(df_data$pid_5_screen) #<2>
+```
+:::
+:::::
+
+
+{{< include ../_extensions/r-wasm/live/_knitr.qmd >}}
+
+```{webr}
+#| setup: true
+#| exercise: ex_5
+# Load the CSV data
+library(dplyr)
+df_data <- read.csv("data/steps_clean.csv")
+```
+
+::::: panel-tabset
+## Exercise 5
+
+Calculate some spread measures for the LSAS-SR scale, what do they tell you and which ones do you think are most useful to describe the spread of the values. Motive you answer briefly!
+
+```{webr}
+#| exercise: ex_5
+
+___(df_data$lsas_screen)
+___(df_data$lsas_screen)
+___(df_data$lsas_screen)
+___(df_data$lsas_screen)
+___(df_data$lsas_screen)
+```
+
+## Hints
+
+::: {.hint exercise="ex_5"}
+Have a look at [Import and clean data](../labs/descriptive-statistics.qmd###%20Numeric%20data)
+
+
+:::
+
+## Solution
+
+::: {.solution exercise="ex_5"}
+The full solution is:
+
+``` r
+sd(df_data$lsas_screen)
+var(df_data$lsas_screen)
+range(df_data$lsas_screen)
+IQR(df_data$lsas_screen)
+hist(df_data$lsas_screen) #<5>
+```
+where the historgram helps you determine which of the spread measures is most useful
+:::
+:::::
+

@@ -360,7 +360,7 @@ plot(d_bl$lsas_screen, d_bl$gad_screen)
 
 The joint distribution of a numeric and a categorical variable can be visualized as a stratified boxplots. For this let's look at the distribution of LSAS scores for people with high generalized anxiety (GAD-7 ≥ 10 or more) vs low generalized anxiety (GAD-7 \< 10).
 
-```{r}  
+```{r}
 #| label: boxplot-lsas-gad
 # create a variable indicating if GAD-7 is 10 or more
 d_bl$gad_cat <- ifelse(d_bl$gad_screen >= 10, "High anxiety", "Low anxiety")
