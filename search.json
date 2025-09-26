@@ -14,157 +14,399 @@
     "text": "The R studio interface has four main panes.\n\nSource pane (top-left) is where you write you write and execute your code.\nConsole pane (bottom-left)This is the interactive\nEnvironment pane (top-right)\nOutput pane (bottom-left)"
   },
   {
-    "objectID": "exercises/lab-1-exercises.html",
-    "href": "exercises/lab-1-exercises.html",
-    "title": "Lab 1 exercises",
+    "objectID": "exercises/lab-webr-test-exercises.html",
+    "href": "exercises/lab-webr-test-exercises.html",
+    "title": "Lab webr test exercises",
     "section": "",
-    "text": "Tip\n\n\n\nThree underscores (___) in the code below indicate where you need to fill in the missing parts.\nWe begin by loading the necessary packages for these tasks. Do you experience any issues with loading the packages? If so, you may need to install them first using the install.packages() function in the console.\nlibrary(tidyverse)\nlibrary(here)\nlibrary(janitor)",
+    "text": "Exercise 1HintsSolution\n\n\nSelect all the columns that start with lsas and the id and group columns.\n\n\n\n\n\n\n\n\n\n\n\nUse select() and the starts_with() function.\ndf_data |&gt; \n  select(id, group, starts_with(______))\n\n\n\n\nThe full solution is:\ndf_data |&gt; \n1  select(id, group, starts_with(\"lsas\"))\n\n1\n\nSelect the id, group, and all columns that start with lsas.",
     "crumbs": [
       "Exercises",
-      "Lab 1 Exercises"
+      "Webr test exercises"
     ]
   },
   {
-    "objectID": "exercises/lab-1-exercises.html#read-steps-data",
-    "href": "exercises/lab-1-exercises.html#read-steps-data",
-    "title": "Lab 1 exercises",
-    "section": "1.1 Read STePS data",
-    "text": "1.1 Read STePS data\nComplete the code below to read the STePS dataset. We create a new object df_data where we continue with edits. The original data is stored in df_rawdata without any edits.\n\ndf_rawdata &lt;- read_csv2(here(___))\n\ndf_data &lt;- df_rawdata",
-    "crumbs": [
-      "Exercises",
-      "Lab 1 Exercises"
-    ]
-  },
-  {
-    "objectID": "exercises/lab-1-exercises.html#inspect-data-using-glimpse-and-view",
-    "href": "exercises/lab-1-exercises.html#inspect-data-using-glimpse-and-view",
-    "title": "Lab 1 exercises",
-    "section": "1.2 Inspect data using glimpse() and view()",
-    "text": "1.2 Inspect data using glimpse() and view()\nCall the glimpse() and view() functions to check the structure of the dataset. You can also use the head(), names(), ncol(), and nrow() functions.\n\nglimpse(___)\n\n\nview(___)",
-    "crumbs": [
-      "Exercises",
-      "Lab 1 Exercises"
-    ]
-  },
-  {
-    "objectID": "exercises/lab-1-exercises.html#clean-column-names-part-1",
-    "href": "exercises/lab-1-exercises.html#clean-column-names-part-1",
-    "title": "Lab 1 exercises",
-    "section": "1.3 Clean column names part 1",
-    "text": "1.3 Clean column names part 1\nAdd the clean_names() function to the code below. Compare the names before and after using the function.\n\nnames(df_data)\n\n\ndf_data &lt;- df_data |&gt; \n  ___\n\nType names(df_data) again to see the changes.",
-    "crumbs": [
-      "Exercises",
-      "Lab 1 Exercises"
-    ]
-  },
-  {
-    "objectID": "exercises/lab-1-exercises.html#clean-column-names-part-2",
-    "href": "exercises/lab-1-exercises.html#clean-column-names-part-2",
-    "title": "Lab 1 exercises",
-    "section": "1.4 Clean column names part 2",
-    "text": "1.4 Clean column names part 2\nThe clean_names() is very helpful, but it didn’t sort all of the problems. We still have some inconsistent column names from the raw data. Add a fix for the PHQ-9 inconsistencies.\n\ndf_data &lt;- df_data |&gt; \n  rename_with(~ .x |&gt; \n    str_replace_all(\"screening\", \"screen\") |&gt; \n    str_replace_all(\"ders_16|ders16\", \"ders\") |&gt; \n    str_replace_all(___)\n  )\n\nnames(df_data)",
-    "crumbs": [
-      "Exercises",
-      "Lab 1 Exercises"
-    ]
-  },
-  {
-    "objectID": "exercises/lab-1-exercises.html#fix-missing-values",
-    "href": "exercises/lab-1-exercises.html#fix-missing-values",
-    "title": "Lab 1 exercises",
-    "section": "1.5 Fix missing values",
-    "text": "1.5 Fix missing values\nCheck which columns have weird values for missing values. You can use the glimpse() function or view the data in the viewer. You can also use the unique() function to check which values are present in a column.\n\ndf_data &lt;- df_data |&gt; \n  mutate(across(c(___), ~na_if(., \"missing\")))",
-    "crumbs": [
-      "Exercises",
-      "Lab 1 Exercises"
-    ]
-  },
-  {
-    "objectID": "exercises/lab-1-exercises.html#fix-column-types",
-    "href": "exercises/lab-1-exercises.html#fix-column-types",
-    "title": "Lab 1 exercises",
-    "section": "1.6 Fix column types",
-    "text": "1.6 Fix column types\nIn the demonstration, we showed how to change column types to numeric. Replicate the same thing here, but for factor columns instead. Use the mutate() and across() functions.\n\n# which columns should be numeric?\nnum_cols &lt;- c(\"lsas\", \"gad\", \"phq9\", \"bbq\", \"scs\", \"dmrsodf\", \"ders\", \"pid_5\")\n\n# which columns should be factors?\nfct_cols &lt;- c(___)\n\ndf_data &lt;- df_data |&gt; \n  mutate(\n    across(starts_with(num_cols), as.numeric),\n    # INSERT FACTOR FIX HERE\n    ___\n  )\n\nUse the glimpse() function to check that it worked.\n\n___",
-    "crumbs": [
-      "Exercises",
-      "Lab 1 Exercises"
-    ]
-  },
-  {
-    "objectID": "exercises/lab-1-exercises.html#save-cleaned-data",
-    "href": "exercises/lab-1-exercises.html#save-cleaned-data",
-    "title": "Lab 1 exercises",
-    "section": "1.7 Save cleaned data",
-    "text": "1.7 Save cleaned data\nFinally, save the cleaned data to a new CSV file called steps_clean.csv in the /data folder. Use the write_csv() function from the readr package along with here(), just like we did in the beginning of this script.\n\n___",
-    "crumbs": [
-      "Exercises",
-      "Lab 1 Exercises"
-    ]
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Research school in clinical psychiatry",
+    "objectID": "exercises/lab-2-exercises.html",
+    "href": "exercises/lab-2-exercises.html",
+    "title": "Lab 2 exercises",
     "section": "",
-    "text": "Welcome to the course materials for Biostatistics courses in the Research School in Clinical Psychiatry at Karolinska Institutet. This website contains all materials related to the afternoon lab sessions of the courses.\n\n\n\n\n\n\nNoteUsing AI tools\n\n\n\nWe will not police your use of generative AI tools (ChatGPT, Claude, Co-pilot etc) in these lab sessions. They are useful for generating code that works, but you are still responsible for making sure that it is the correct code. We use some of these tools in our own day-to-day work and find them useful. However, we often have to correct subtle errors that are not immediately obvious. So please use them with care.\n\n\n\nTeaching team\nThe course director is Matteo Bottai, Professor of Biostatistics at Karolinska Institutet. Course leaders are Kristoffer Magnusson, Fred Johansson and Oskar Flygare, all researchers at Centre for Psychiatry Research, Karolinska Institutet.",
+    "text": "2.1 Use the functions described in yesterdays lab to get a quick overview of the dataset and give a brief summary of it.\n2.2 Visualize the distribution of the PHQ-9 scale and the PID-5 scale and provide the mean, median and mode.\n2.3 How does the centrality measures differ and why?\n2.4 Reason on the pros and cons of the different centrality measures for these scales.\n2.5 Calculate spread measures for the LSAS-SR scale, what do they tell you and which ones do you think are most useful to describe the spread of the values. Motive you answer briefly!\n2.6 Overcourse. Caluclate the population variance and standard deviation. How do these differ from the ones given by the functions sd() and var().\n\n#creating a function to calculate the population variance \npop_var &lt;- function(x){\n  1/length(x)*sum((x-mean(x))^2)\n}\n\n# and the population sd\npop_sd &lt;- function(x){\n  sqrt(1/length(x)*sum((x-mean(x))^2))\n}\n\n2.7 Use only the first ten participants and compare the population and the sample variance and standard deviation of LSAS-SR. What do you find, and how do the results compare to those from exercise 2.6.\n2.8 Calculate the counts, proportions and percentages for the simulated income categories and visualize the distribution.\n2.9 Visualize the joint distribution of GAD-7 and PHQ-9 as numeric variables and describe what you see\n2.10 Visualize the distribution of of LSAS scores by income level and describe what you see\n2.11 Create a variable for high vs. low DERS scores and investigate the joint distribution of this variable and phq_cat (that we created in an earlier example)\n2.12 Create a table using the tableone package to show descriptives statistics stratified by high vs low depression levels. Briefly interpret what you see.\n2.13 Calculate the standard error of LSAS_Screen using the code formula above, and describe in words what the number means\n2.14 Calculate the standard error for the proportion of men in the STePS study, and describe the meaning of this number in words\n2.15 What would happen to these standard errors if the sample size had been 1000 participants?\n2.16 Calculate the p-value for the null hypothesis that PHQ-9 is 9, and describe in words what this number mean.\n2.17 Calculate the 95% confidence interval for PHQ-9, and describe in words what these numbers mean\n2.18 Calculate the 95% confidence interval for the proportion of men in the dataset (using the variance for the proportion).",
+    "crumbs": [
+      "Exercises",
+      "Lab 2 Exercises"
+    ]
+  },
+  {
+    "objectID": "labs/probability-rules.html",
+    "href": "labs/probability-rules.html",
+    "title": "Probability rules",
+    "section": "",
+    "text": "In this lab, we will look at how we can work with probability rules in R.",
+    "crumbs": [
+      "Labs",
+      "Probability rules"
+    ]
+  },
+  {
+    "objectID": "labs/probability-rules.html#check-that-the-sum-of-all-probabilities-is-1",
+    "href": "labs/probability-rules.html#check-that-the-sum-of-all-probabilities-is-1",
+    "title": "Probability rules",
+    "section": "Check that the sum of all probabilities is 1",
+    "text": "Check that the sum of all probabilities is 1\nWe do a quick check of the education variable, which has three levels: “Primary”, “Secondary”, and “University”. When we count the proportion of each level, we get the following:\nThe proportion with the “Primary” level is 0.4917127, the proportion with the “Secondary” level is 0.3480663, and the proportion with the “University” level is 0.160221. These add up to 1. All good!\n\n\n\n\n\n\nExercise 1: Check the sum of probabilities in the income variable\n\n\n\n\n\nDo the numbers in our income variable add up to 1? You can use the income_summary object we created above.",
+    "crumbs": [
+      "Labs",
+      "Probability rules"
+    ]
+  },
+  {
+    "objectID": "labs/probability-rules.html#complement-rule",
+    "href": "labs/probability-rules.html#complement-rule",
+    "title": "Probability rules",
+    "section": "Complement rule",
+    "text": "Complement rule\nThe probability of an event not occurring is 1 minus the probability that it will occur.\nLet’s check this for the “Secondary” level.\n\\[\nP(\\text{not Secondary}) = 1 - P(\\text{Secondary})\n\\]\n\n# probability of Secondary education\np_secondary &lt;- edu_summary |&gt;\n  filter(education == \"Secondary\") |&gt;\n  pull(proportion)\n\n# complement rule\np_not_secondary &lt;- 1 - p_secondary\n\n\nP(Secondary education) = 0.3481\nP(not Secondary education) = 0.6519\nCheck complement rule, sum = 1\n\n\n\n\n\n\n\nExercise 2: Complement rule\n\n\n\n\n\nCalculate the complement rule for Medium income.",
+    "crumbs": [
+      "Labs",
+      "Probability rules"
+    ]
+  },
+  {
+    "objectID": "labs/probability-rules.html#addition-rule",
+    "href": "labs/probability-rules.html#addition-rule",
+    "title": "Probability rules",
+    "section": "Addition rule",
+    "text": "Addition rule\nThe probability that event A or event B occurs (or both).\n\\[P(A \\cup B) = P(A) + P(B) - P(A \\cap B)\\]\nLet’s implement this using our dataset. We’ll look at the probability of having either “Primary” education OR being in the “Low” income group.\n\n# get probabilities\np_primary &lt;- edu_summary |&gt;\n  filter(education == \"Primary\") |&gt;\n  pull(proportion)\n\np_low_income &lt;- income_summary |&gt;\n  filter(income == \"Low\") |&gt;\n  pull(proportion)\n\n# calculate probability of both Primary education AND Low income\np_both &lt;- d_bl |&gt;\n  filter(education == \"Primary\" & income == \"Low\") |&gt;\n  nrow() / nrow(d_bl)\n\n# addition rule\np_either &lt;- p_primary + p_low_income - p_both\n\n\nP(Primary education) = 0.4917\nP(Low income) = 0.2431\nP(Both) = 0.1215\nP(Either) = 0.6133\n\n\n\n\n\n\n\nExercise 3: Addition rule\n\n\n\n\n\nCalculate the probability of having either “University” education OR being in the “Medium” income group.",
+    "crumbs": [
+      "Labs",
+      "Probability rules"
+    ]
+  },
+  {
+    "objectID": "labs/probability-rules.html#multiplication-rule",
+    "href": "labs/probability-rules.html#multiplication-rule",
+    "title": "Probability rules",
+    "section": "Multiplication rule",
+    "text": "Multiplication rule\nFor independent events, the probability of both events occurring is the product of their individual probabilities:\n\\[P(A \\cap B) = P(A) \\times P(B)\\]\nFor dependent events, we need to account for the conditional probability:\n\\[P(A \\cap B) = P(A) \\times P(B|A)\\]\nLet’s check if education and income are independent by comparing the observed joint probability with the product of marginal probabilities. We will first use group_by() and summarise() to create Table 3.\n\nedu_income_table &lt;- d_bl |&gt;\n  group_by(education, income) |&gt;\n  summarise(\n    n = n(),\n    proportion = n / nrow(d_bl),\n    percent = round(proportion * 100, 1),\n    .groups = \"drop\"\n  )\n\nkable(edu_income_table)\n\n\n\nTable 3: Joint probabilities of education and income\n\n\n\n\n\n\neducation\nincome\nn\nproportion\npercent\n\n\n\n\nPrimary\nHigh\n15\n0.0828729\n8.3\n\n\nPrimary\nLow\n22\n0.1215470\n12.2\n\n\nPrimary\nMedium\n52\n0.2872928\n28.7\n\n\nSecondary\nHigh\n9\n0.0497238\n5.0\n\n\nSecondary\nLow\n16\n0.0883978\n8.8\n\n\nSecondary\nMedium\n38\n0.2099448\n21.0\n\n\nUniversity\nHigh\n7\n0.0386740\n3.9\n\n\nUniversity\nLow\n6\n0.0331492\n3.3\n\n\nUniversity\nMedium\n16\n0.0883978\n8.8\n\n\n\n\n\n\n\n\n\n# Check independence for Primary education and Low income\np_primary_indep &lt;- p_primary * p_low_income\np_primary_dep &lt;- p_both\n\n\nIf independent: P(Primary ∩ Low income) = 0.119532\nObserved: P(Primary ∩ Low income) = 0.121547\nDifference = 0.002015\n\n\n\n\n\n\n\nTip\n\n\n\nKeep in mind that this is simulated data, so the numbers may not represent the real world. Nonetheless, if we observed a result like this, what would we conclude?",
+    "crumbs": [
+      "Labs",
+      "Probability rules"
+    ]
+  },
+  {
+    "objectID": "labs/probability-rules.html#conditional-probability",
+    "href": "labs/probability-rules.html#conditional-probability",
+    "title": "Probability rules",
+    "section": "Conditional probability",
+    "text": "Conditional probability\nThe probability of event B occurring given that event A has occurred:\n\\[P(B|A) = \\frac{P(A \\cap B)}{P(A)}\\]\nLet’s calculate the probability of having “Low” income given that someone has “Primary” education:\n\np_low_given_primary &lt;- p_both / p_primary\n\n\nP(Low income | Primary education) = 0.2472\n\n\n\n\n\n\n\nExercise 4: Conditional probability\n\n\n\n\n\nCalculate the probability of having “Medium” income given that someone has “University” education.",
+    "crumbs": [
+      "Labs",
+      "Probability rules"
+    ]
+  },
+  {
+    "objectID": "labs/import-clean.html",
+    "href": "labs/import-clean.html",
+    "title": "Import and clean data",
+    "section": "",
+    "text": "For this first lab session, we will:",
+    "crumbs": [
+      "Labs",
+      "Import and clean data"
+    ]
+  },
+  {
+    "objectID": "labs/import-clean.html#steps-study",
+    "href": "labs/import-clean.html#steps-study",
+    "title": "Import and clean data",
+    "section": "STePS-study",
+    "text": "STePS-study\nThis is a dataset from the STePS study, which is a RCT comparing guided and unguided internet-delivered psychodynamic therapy for social anxiety disorder. The study is published online.\nIn true open science fashion, the data is openly available online from the Open Science Framework.",
+    "crumbs": [
+      "Labs",
+      "Import and clean data"
+    ]
+  },
+  {
+    "objectID": "labs/import-clean.html#check-data-structure",
+    "href": "labs/import-clean.html#check-data-structure",
+    "title": "Import and clean data",
+    "section": "Check data structure",
+    "text": "Check data structure\nAfter importing the data, we can check the structure of the dataset using the glimpse() function. This function provides a quick overview of the dataset, including the number of rows and columns, as well as the data types of each column. Does it look as expected?\nYour object df_rawdata should contain 181 rows and 37 columns. We can see that the first column is named ID, which is the unique identifier for each participant. The second column is named Group, which indicates the group assignment: unguided treatment, guided treatment, or waitlist. The rest seem to be various questionnaires and scales.\n\nglimpse(df_rawdata)\n\nRows: 181\nColumns: 37\n$ ID               &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16…\n$ Group            &lt;dbl&gt; 2, 1, 0, 2, 2, 2, 2, 2, 1, 1, 1, 1, 0, 2, 1, 1, 2, 0,…\n$ `LSAS Screening` &lt;dbl&gt; 63, 71, 98, 63, 74, 81, 67, 76, 88, 73, 86, 78, 97, 7…\n$ GAD_screen       &lt;dbl&gt; 7, 17, 18, 8, 14, 11, 5, 8, 14, 5, 15, 16, 17, 13, 10…\n$ `PHQ-9 screen`   &lt;dbl&gt; 6, 13, 19, 4, 18, 8, 9, 8, 14, 3, 5, 11, 12, 18, 10, …\n$ BBQ_screen       &lt;dbl&gt; 60, 66, 4, 50, 22, 23, 47, 52, 31, 46, 67, 24, 57, 40…\n$ SCS_screen       &lt;dbl&gt; 25, 16, 22, 35, 29, 30, 20, 34, 21, 26, 35, 21, 32, 3…\n$ DMRSODF_screen   &lt;dbl&gt; 49178, 50727, 45074, 5381, 48444, 50899, 46923, 41428…\n$ `DERS-16_screen` &lt;dbl&gt; 44, 73, 65, 45, 46, 49, 57, 38, 67, 45, 55, 56, 71, 3…\n$ `PID-5_screen`   &lt;dbl&gt; 25, 20, 48, 17, 24, 20, 24, 26, 39, 23, 24, 26, 23, 1…\n$ LSAS_V1          &lt;chr&gt; \"72\", \"missing\", \"81\", \"44\", \"39\", \"65\", \"68\", \"69\", …\n$ LSAS_V2          &lt;chr&gt; \"64\", \"missing\", \"89\", \"33\", \"115\", \"64\", NA, \"70\", \"…\n$ LSAS_V3          &lt;chr&gt; \"72\", \"missing\", \"73\", \"36\", \"missing\", \"63\", NA, \"71…\n$ LSAS_V4          &lt;chr&gt; \"61\", \"missing\", \"94\", \"44\", \"missing\", \"60\", NA, \"51…\n$ LSAS_V5          &lt;chr&gt; \"61\", NA, \"93\", \"21\", \"missing\", \"55\", NA, \"55\", NA, …\n$ LSAS_V6          &lt;chr&gt; \"46\", NA, \"88\", \"20\", \"missing\", \"46\", NA, \"56\", \"93\"…\n$ LSAS_V7          &lt;dbl&gt; 55, NA, NA, 18, NA, 45, NA, 64, NA, 54, 101, NA, 89, …\n$ LSAS_V8          &lt;dbl&gt; 49, NA, NA, 17, NA, 44, NA, 52, NA, 61, 84, NA, 89, N…\n$ LSAS_POST        &lt;dbl&gt; 50, NA, 77, 22, NA, 52, 75, 45, 79, 64, 80, 89, 83, 4…\n$ GAD_POST         &lt;dbl&gt; 4, NA, 19, 6, NA, 9, 4, 3, 10, 7, 15, 7, 11, 11, 11, …\n$ `PHQ-9_POST`     &lt;dbl&gt; 3, NA, 22, 4, NA, 6, 11, 2, 14, 4, 8, 7, 8, 8, 13, 4,…\n$ BBQ_POST         &lt;chr&gt; \"76\", NA, \"68\", \"57\", \"missing\", \"14\", \"46\", \"70\", \"3…\n$ SCS_POST         &lt;dbl&gt; 34, NA, 34, 34, NA, 30, 19, 34, 23, 23, 31, 37, 34, 3…\n$ DMRSODF_POST     &lt;dbl&gt; 50776, NA, 42809, 52069, NA, 51758, 49, 50235, 47978,…\n$ `DERS-16_POST`   &lt;dbl&gt; 36, NA, 78, 38, NA, 54, 61, 26, 56, 51, 52, 25, 37, 3…\n$ LSAS_FU6         &lt;dbl&gt; 33, NA, NA, 14, 6, 60, 64, 49, NA, 45, 85, 74, NA, 58…\n$ GAD_FU6          &lt;dbl&gt; 0, NA, NA, 0, NA, 14, 6, 4, NA, 5, 16, NA, NA, 11, 8,…\n$ PHQ9_FU6         &lt;dbl&gt; 3, NA, NA, 2, NA, 6, 8, 3, NA, 6, 22, NA, NA, 6, 5, 1…\n$ BBQ_FU6          &lt;dbl&gt; 77, NA, NA, 68, NA, 9, 56, 64, NA, 48, 36, NA, NA, 39…\n$ SCS_FU6          &lt;chr&gt; \"28\", NA, NA, \"41\", \"missing\", \"24\", \"29\", \"33\", \"mis…\n$ DERS_FU6         &lt;dbl&gt; 35, NA, NA, 36, NA, 72, 61, 26, NA, 37, 67, NA, NA, 3…\n$ LSAS_FU12        &lt;dbl&gt; 27, NA, NA, 16, 39, 75, 66, 43, NA, 51, 79, NA, NA, 5…\n$ GAD_FU12         &lt;dbl&gt; 5, NA, NA, 0, 11, 7, 6, 4, NA, 4, 14, NA, NA, 8, 19, …\n$ `PHQ-9_FU12`     &lt;dbl&gt; 5, NA, NA, 2, 19, 9, 14, 3, NA, 5, 15, NA, NA, 8, 18,…\n$ BBQ_FU12         &lt;dbl&gt; 76, NA, NA, 62, 12, 22, 52, 54, NA, 47, 25, NA, NA, 3…\n$ SCS_FU12         &lt;dbl&gt; 38, NA, NA, 40, 28, 33, 26, 34, NA, 21, 30, NA, NA, 3…\n$ DERS16_FU12      &lt;dbl&gt; 35, NA, NA, 32, 46, 65, 42, 27, NA, 53, 52, NA, NA, 3…\n\n\nOther options for checking the basic structure of the data include head(), names(), ncol(), and nrow().\n\nhead(df_rawdata) shows the first few rows of the dataset.\nnames(df_rawdata) shows the names of the columns.\nncol(df_rawdata) shows the number of columns in the dataset.\nnrow(df_rawdata) shows the number of rows in the dataset.\n\n\n\n\n\n\n\nExercise 2: Check the structure of STePS\n\n\n\n\n\nuse the glimpse() function to check the structure of the STePS data. What do you notice about the data? Are there any potential issues with the data structure?\nAlso try calling view() to open the data in a spreadsheet-like view.",
+    "crumbs": [
+      "Labs",
+      "Import and clean data"
+    ]
+  },
+  {
+    "objectID": "labs/import-clean.html#clean-column-names",
+    "href": "labs/import-clean.html#clean-column-names",
+    "title": "Import and clean data",
+    "section": "Clean column names",
+    "text": "Clean column names\nWe will use the clean_names() function from the janitor package to clean the column names. This function replaces spaces and other problematic characters with underscores, and converts all names to lowercase. This makes it easier to work with the data later on.\nWhat’s wrong with these column names? And what is the difference after clean_names()?\n\n\n\n\n\n\nExercise 3: Clean column names, part 1\n\n\n\n\n\nUse the clean_names() function to clean the column names in df_data. Check the names before and after cleaning. What changes do you notice? Are there any column names that are still problematic?\n\n\n\n\nnames(df_data)\n\n [1] \"ID\"             \"Group\"          \"LSAS Screening\" \"GAD_screen\"    \n [5] \"PHQ-9 screen\"   \"BBQ_screen\"     \"SCS_screen\"     \"DMRSODF_screen\"\n [9] \"DERS-16_screen\" \"PID-5_screen\"   \"LSAS_V1\"        \"LSAS_V2\"       \n[13] \"LSAS_V3\"        \"LSAS_V4\"        \"LSAS_V5\"        \"LSAS_V6\"       \n[17] \"LSAS_V7\"        \"LSAS_V8\"        \"LSAS_POST\"      \"GAD_POST\"      \n[21] \"PHQ-9_POST\"     \"BBQ_POST\"       \"SCS_POST\"       \"DMRSODF_POST\"  \n[25] \"DERS-16_POST\"   \"LSAS_FU6\"       \"GAD_FU6\"        \"PHQ9_FU6\"      \n[29] \"BBQ_FU6\"        \"SCS_FU6\"        \"DERS_FU6\"       \"LSAS_FU12\"     \n[33] \"GAD_FU12\"       \"PHQ-9_FU12\"     \"BBQ_FU12\"       \"SCS_FU12\"      \n[37] \"DERS16_FU12\"   \n\n\n\ndf_data &lt;- df_data |&gt;\n  clean_names()\n\nWe have sorted some of the problems, but we still have inconsistent names for time-points (screening and screen), and some questionnaires seems to have gotten inconsistent names as well (ders_16, ders16, and ders).\n\ndf_data &lt;- df_data |&gt;\n  rename_with(~ .x |&gt;\n    str_replace_all(\"screening\", \"screen\") |&gt;\n    str_replace_all(\"ders_16|ders16\", \"ders\") |&gt;\n    str_replace_all(\"phq_9\", \"phq9\"))\n\n\n\n\n\n\n\nTipThis is rarely a linear process\n\n\n\nThis type of data cleaning is often a result of going back and forth between running code and checking the results. Sometimes you will come all the way to the analyses before finding that DERS-16 is missing a time-point! This is why it’s helpful to design your project in a way that allows you to easily go back and forth between steps.\n\n\n\n\n\n\n\n\nExercise 4: Clean column names, part 2\n\n\n\n\n\nUse the rename_with() function to fix the column names of PHQ-9 in df_data. Check the names before and after cleaning. What changes do you notice? Are there any column names that are still problematic?",
+    "crumbs": [
+      "Labs",
+      "Import and clean data"
+    ]
+  },
+  {
+    "objectID": "labs/import-clean.html#ensure-missing-values-are-coded-as-na",
+    "href": "labs/import-clean.html#ensure-missing-values-are-coded-as-na",
+    "title": "Import and clean data",
+    "section": "Ensure missing values are coded as NA",
+    "text": "Ensure missing values are coded as NA\nIf we are lucky, all the missing values are already coded as NA and R will recognize them as missing. More often, however, is that the missing values are coded as \"\", -99, or other values. This can cause problems later, so we need to ensure that all missing values are coded as NA.\nSometimes, weird labels for missing values is also the reason why some columns are not recognized as numeric.\nLet’s check the data structure again. It looks like some columns that should be numeric are instead &lt;chr&gt;, which means they are character strings.\n\nglimpse(df_data)\n\nRows: 181\nColumns: 37\n$ id             &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, …\n$ group          &lt;dbl&gt; 2, 1, 0, 2, 2, 2, 2, 2, 1, 1, 1, 1, 0, 2, 1, 1, 2, 0, 1…\n$ lsas_screen    &lt;dbl&gt; 63, 71, 98, 63, 74, 81, 67, 76, 88, 73, 86, 78, 97, 72,…\n$ gad_screen     &lt;dbl&gt; 7, 17, 18, 8, 14, 11, 5, 8, 14, 5, 15, 16, 17, 13, 10, …\n$ phq9_screen    &lt;dbl&gt; 6, 13, 19, 4, 18, 8, 9, 8, 14, 3, 5, 11, 12, 18, 10, 4,…\n$ bbq_screen     &lt;dbl&gt; 60, 66, 4, 50, 22, 23, 47, 52, 31, 46, 67, 24, 57, 40, …\n$ scs_screen     &lt;dbl&gt; 25, 16, 22, 35, 29, 30, 20, 34, 21, 26, 35, 21, 32, 33,…\n$ dmrsodf_screen &lt;dbl&gt; 49178, 50727, 45074, 5381, 48444, 50899, 46923, 41428, …\n$ ders_screen    &lt;dbl&gt; 44, 73, 65, 45, 46, 49, 57, 38, 67, 45, 55, 56, 71, 36,…\n$ pid_5_screen   &lt;dbl&gt; 25, 20, 48, 17, 24, 20, 24, 26, 39, 23, 24, 26, 23, 15,…\n$ lsas_v1        &lt;chr&gt; \"72\", \"missing\", \"81\", \"44\", \"39\", \"65\", \"68\", \"69\", NA…\n$ lsas_v2        &lt;chr&gt; \"64\", \"missing\", \"89\", \"33\", \"115\", \"64\", NA, \"70\", \"97…\n$ lsas_v3        &lt;chr&gt; \"72\", \"missing\", \"73\", \"36\", \"missing\", \"63\", NA, \"71\",…\n$ lsas_v4        &lt;chr&gt; \"61\", \"missing\", \"94\", \"44\", \"missing\", \"60\", NA, \"51\",…\n$ lsas_v5        &lt;chr&gt; \"61\", NA, \"93\", \"21\", \"missing\", \"55\", NA, \"55\", NA, \"6…\n$ lsas_v6        &lt;chr&gt; \"46\", NA, \"88\", \"20\", \"missing\", \"46\", NA, \"56\", \"93\", …\n$ lsas_v7        &lt;dbl&gt; 55, NA, NA, 18, NA, 45, NA, 64, NA, 54, 101, NA, 89, 43…\n$ lsas_v8        &lt;dbl&gt; 49, NA, NA, 17, NA, 44, NA, 52, NA, 61, 84, NA, 89, NA,…\n$ lsas_post      &lt;dbl&gt; 50, NA, 77, 22, NA, 52, 75, 45, 79, 64, 80, 89, 83, 45,…\n$ gad_post       &lt;dbl&gt; 4, NA, 19, 6, NA, 9, 4, 3, 10, 7, 15, 7, 11, 11, 11, 1,…\n$ phq9_post      &lt;dbl&gt; 3, NA, 22, 4, NA, 6, 11, 2, 14, 4, 8, 7, 8, 8, 13, 4, 1…\n$ bbq_post       &lt;chr&gt; \"76\", NA, \"68\", \"57\", \"missing\", \"14\", \"46\", \"70\", \"36\"…\n$ scs_post       &lt;dbl&gt; 34, NA, 34, 34, NA, 30, 19, 34, 23, 23, 31, 37, 34, 34,…\n$ dmrsodf_post   &lt;dbl&gt; 50776, NA, 42809, 52069, NA, 51758, 49, 50235, 47978, 4…\n$ ders_post      &lt;dbl&gt; 36, NA, 78, 38, NA, 54, 61, 26, 56, 51, 52, 25, 37, 33,…\n$ lsas_fu6       &lt;dbl&gt; 33, NA, NA, 14, 6, 60, 64, 49, NA, 45, 85, 74, NA, 58, …\n$ gad_fu6        &lt;dbl&gt; 0, NA, NA, 0, NA, 14, 6, 4, NA, 5, 16, NA, NA, 11, 8, 8…\n$ phq9_fu6       &lt;dbl&gt; 3, NA, NA, 2, NA, 6, 8, 3, NA, 6, 22, NA, NA, 6, 5, 12,…\n$ bbq_fu6        &lt;dbl&gt; 77, NA, NA, 68, NA, 9, 56, 64, NA, 48, 36, NA, NA, 39, …\n$ scs_fu6        &lt;chr&gt; \"28\", NA, NA, \"41\", \"missing\", \"24\", \"29\", \"33\", \"missi…\n$ ders_fu6       &lt;dbl&gt; 35, NA, NA, 36, NA, 72, 61, 26, NA, 37, 67, NA, NA, 36,…\n$ lsas_fu12      &lt;dbl&gt; 27, NA, NA, 16, 39, 75, 66, 43, NA, 51, 79, NA, NA, 55,…\n$ gad_fu12       &lt;dbl&gt; 5, NA, NA, 0, 11, 7, 6, 4, NA, 4, 14, NA, NA, 8, 19, 12…\n$ phq9_fu12      &lt;dbl&gt; 5, NA, NA, 2, 19, 9, 14, 3, NA, 5, 15, NA, NA, 8, 18, 3…\n$ bbq_fu12       &lt;dbl&gt; 76, NA, NA, 62, 12, 22, 52, 54, NA, 47, 25, NA, NA, 33,…\n$ scs_fu12       &lt;dbl&gt; 38, NA, NA, 40, 28, 33, 26, 34, NA, 21, 30, NA, NA, 32,…\n$ ders_fu12      &lt;dbl&gt; 35, NA, NA, 32, 46, 65, 42, 27, NA, 53, 52, NA, NA, 36,…\n\n\nLet’s fix this by replacing the problematic values with NA. We will use the mutate() and across() functions from the dplyr package to apply the na_if() function to all character columns. This will replace any occurrence of “missing” with NA.\n\ndf_data &lt;- df_data |&gt;\n  mutate(across(where(is.character), ~ na_if(., \"missing\")))\n\n\n\n\n\n\n\nExercise 5: Fix missing values\n\n\n\n\n\nCheck which columns have weird values for missing values. You can use the glimpse() function or view the data in the viewer. You can also use the unique() function to check which values are present in a column.\nThen, use the mutate() and across() functions to replace these values with NA. Make sure to replace all occurrences of “missing” in the character columns.",
+    "crumbs": [
+      "Labs",
+      "Import and clean data"
+    ]
+  },
+  {
+    "objectID": "labs/import-clean.html#fix-column-types",
+    "href": "labs/import-clean.html#fix-column-types",
+    "title": "Import and clean data",
+    "section": "Fix column types",
+    "text": "Fix column types\nThe NA values are now correctly coded, but we still have some columns that are not numeric despite only including numbers. We can use the mutate() function again to convert the columns to the correct data type. In this step, we also ensure that the id and group columns are factors.\n\n# which columns should be numeric?\nnum_cols &lt;- c(\"lsas\", \"gad\", \"phq9\", \"bbq\", \"scs\", \"dmrsodf\", \"ders\", \"pid_5\")\n\ndf_data &lt;- df_data |&gt;\n  mutate(\n    across(starts_with(num_cols), as.numeric),\n    id = factor(id),\n    group = factor(group)\n  )\n\n\n\n\n\n\n\nExercise 6: Fix column types\n\n\n\n\n\nLet’s imagine we have many columns that should be factors. How can you use the same procedure as above to convert all columns from a fct_cols vector to factors?",
+    "crumbs": [
+      "Labs",
+      "Import and clean data"
+    ]
+  },
+  {
+    "objectID": "labs/descriptive-statistics.html",
+    "href": "labs/descriptive-statistics.html",
+    "title": "Descriptive statistics",
+    "section": "",
+    "text": "In this lab we will practice calculating and interpreting descriptive statistics using the STePS dataset. We start by loading the cleaned dataset saved in the Import and clean data lab.\nlibrary(here)\nlibrary(tidyverse)\n\nd &lt;- read_csv(here(\"data\", \"steps_clean.csv\"))\nWe’ll start of doing some basic descriptive statistics of the baseline variables. We start by checking the variable names to identify the baseline variables.\ncolnames(d)\n\n [1] \"id\"             \"group\"          \"lsas_screen\"    \"gad_screen\"    \n [5] \"phq9_screen\"    \"bbq_screen\"     \"scs_screen\"     \"dmrsodf_screen\"\n [9] \"ders_screen\"    \"pid_5_screen\"   \"lsas_v1\"        \"lsas_v2\"       \n[13] \"lsas_v3\"        \"lsas_v4\"        \"lsas_v5\"        \"lsas_v6\"       \n[17] \"lsas_v7\"        \"lsas_v8\"        \"lsas_post\"      \"gad_post\"      \n[21] \"phq9_post\"      \"bbq_post\"       \"scs_post\"       \"dmrsodf_post\"  \n[25] \"ders_post\"      \"lsas_fu6\"       \"gad_fu6\"        \"phq9_fu6\"      \n[29] \"bbq_fu6\"        \"scs_fu6\"        \"ders_fu6\"       \"lsas_fu12\"     \n[33] \"gad_fu12\"       \"phq9_fu12\"      \"bbq_fu12\"       \"scs_fu12\"      \n[37] \"ders_fu12\"      \"trt\"\nFor easy handling, we’ll create a data frame containing only the baseline variables, ID, Group and all variables ending with the suffix “_screen”.\nd_bl &lt;- d |&gt;\n  select(\n    id,\n    group,\n    lsas_screen,\n    gad_screen,\n    phq9_screen,\n    bbq_screen,\n    scs_screen,\n    dmrsodf_screen,\n    ders_screen,\n    pid_5_screen\n  )\nOr more efficiently (if variables are correctly named) we can use the ends_with() function from the tidyselect package:\nd_bl &lt;- d |&gt;\n  select(\n    id,\n    group,\n    ends_with(\"_screen\")\n  )",
+    "crumbs": [
+      "Labs",
+      "Descriptive statistics"
+    ]
+  },
+  {
+    "objectID": "labs/descriptive-statistics.html#visual-presentations",
+    "href": "labs/descriptive-statistics.html#visual-presentations",
+    "title": "Descriptive statistics",
+    "section": "Visual presentations",
+    "text": "Visual presentations\nThe simplest, and often most informative way, to get an overview of a variable is to produce a visual representation of its distribution. For uni-variable numeric variables, two common visualizations are histograms hist() and boxplots boxplot().\n\nHistogram\nA histogram is a graphical representation used to visualize the distribution of a numeric variable. It shows how data are spread across intervals (bins) and helps identify patterns such as central tendency, variability, skewness, and outliers.\n\n\n\nFeature\nWhat It Tells You\n\n\n\n\nHeight of bars\nNumber of observations in each bin\n\n\nWidth of bars\nRange of values grouped together\n\n\nShape\nSymmetry, skewness, modality\n\n\nOutliers\nBars isolated from the main group\n\n\n\n\nhist(d_bl$lsas_screen)\n\n\n\n\n\n\n\n\n\nBoxplot\nA boxplot (also called a box-and-whisker plot) is a compact, visual summary of the distribution, central tendency, and variability of a dataset.\n\n\n\nComponent\nDescription\n\n\n\n\nMinimum\nSmallest value (excluding outliers)\n\n\nQ1 (1st Quartile)\n25th percentile (lower hinge of the box)\n\n\nMedian (Q2)\n50th percentile (line inside the box)\n\n\nQ3 (3rd Quartile)\n75th percentile (upper hinge of the box)\n\n\nMaximum\nLargest value (excluding outliers)\n\n\n\n\nboxplot(d_bl$lsas_screen)",
+    "crumbs": [
+      "Labs",
+      "Descriptive statistics"
+    ]
+  },
+  {
+    "objectID": "labs/descriptive-statistics.html#centrality-measures",
+    "href": "labs/descriptive-statistics.html#centrality-measures",
+    "title": "Descriptive statistics",
+    "section": "Centrality measures",
+    "text": "Centrality measures\nSometimes we need more comprehensive summaries of our data. For this purpose, it is common to use centrality measures. Centrality measures are statistical summaries that describe the center or typical value of a dataset. They help summarize where most values lie and include:\n\nMean: The average of all values (sum of all values divided by the number of values).\nMedian: The middle value when data is ordered (or the average of the two middle numbers if the length of the vector is an even number).\nMode: The most frequently occurring value.\n\nThese measures provide insight into the distribution’s central tendency, helping you understand the “typical” case in your data.\n\n\n\n\n\n\nNoteMeans, medians and outliers\n\n\n\nThe mean is sensitive to outliers, while the median is not. The values [1, 2, 3, 100] has a mean of 26.5. and a median of 2.5. None of them are “wrong”, but the usefulness of each measure depends on what you want your centrality measures to tell. However, with highly skewed variables (e.g. income), the median is usually viewed as more informative.\n\n\nNow let’s use R to calculate some centrality measures for LSAS at baseline.\n\nGetting the mean using mean()\n\nmean(d_bl$lsas_screen)\n\n[1] 84.75138\n\n\n\n\nGetting the median using median()\n\nmedian(d_bl$lsas_screen)\n\n[1] 82\n\n\n\n\nGetting the mode\nUnlike mean() and median(), base R does not include a built-in mode() function for computing the statistical mode (i.e. the most frequent value). However, you can create one.\n\nget_mode &lt;- function(x) {\n  ux &lt;- unique(x)\n  ux[which.max(tabulate(match(x, ux)))]\n}\nget_mode(d_bl$lsas_screen)\n\n[1] 74\n\n\nMuch of this information could also be easily found using the summary() function.\n\nsummary(d_bl$lsas_screen)\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. \n  60.00   72.00   82.00   84.75   93.00  134.00 \n\n\n\n\nVisualizing centrality measures\nYou could also plot the mean, median and mode over the histogram, to get a better sense of the data.\n\nhist(d_bl$lsas_screen,\n  main = \"Histogram with Mean, Median, and Mode\",\n  xlab = \"Values\", probability = TRUE\n)\n\n# Add lines for mean, median, and mode\nabline(v = mean(d_bl$lsas_screen), col = \"blue\", lwd = 2, lty = 2) # Mean\nabline(v = median(d_bl$lsas_screen), col = \"red\", lwd = 2, lty = 2) # Median\nabline(v = get_mode(d_bl$lsas_screen), col = \"darkgreen\", lwd = 2, lty = 2) # Mode\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nExercise 2: Visualize centrality measures\n\n\n\n\n\n2.2 Visualize the distribution of the PHQ-9 scale and the PID-5 scale and provide the mean, median and mode.\n2.3 How does the centrality measures differ and why?\n2.4 Reason on the pros and cons of the different centrality measures for these scales.",
+    "crumbs": [
+      "Labs",
+      "Descriptive statistics"
+    ]
+  },
+  {
+    "objectID": "labs/descriptive-statistics.html#spread-measures",
+    "href": "labs/descriptive-statistics.html#spread-measures",
+    "title": "Descriptive statistics",
+    "section": "Spread measures",
+    "text": "Spread measures\nCentrality measures give information on the most typical value in the distribution, but no info on the spread of values. For example, the two distributions below have the same mean value (0), but different spread (standard deviation 0.2 vs. 1).\n\n\n\n\n\n\n\n\n\nTo get a summary of the spread of the data, we use different spread measures. Spread measures describe how much the data varies or is dispersed around a central value like the mean or median. They help you understand whether the values are tightly clustered or widely scattered. Commonly used spread measures include:\n\nRange range(): The difference between the maximum and minimum values. Simple but sensitive to outliers.\n\\[\\text{Range} = \\max(X) - \\min(X)\\]\nInterquartile Range (IQR) IQR(): The range of the middle 50% of data (Q3 − Q1). More robust against extreme values.\n\\[\\mathrm{IQR} = Q_3 - Q_1\\]\nVariance var(): The average of the squared deviations from the mean. It gives more weight to larger deviations.\nPopulation variance\n\\[\n\\sigma^2 = \\frac{1}{n} \\sum_{i=1}^{n} (x_i - \\mu)^2\n\\]\nSample variance\n\\[\ns^2 = \\frac{1}{n-1} \\sum_{i=1}^{n} (x_i - \\bar{x})^2\n\\]\nStandard Deviation (SD) sd(): The square root of variance. It measures average distance from the mean and is widely used in statistics.\nPopulation SD\n\\[\n\\sigma = \\sqrt{\\frac{1}{n} \\sum_{i=1}^{n} (x_i - \\mu)^2}\n\\]\nSample SD\n\\[ s = \\sqrt{\\frac{1}{n - 1} \\sum_{i=1}^{n} (x_i - \\bar{x})^2}\\]\n\n\n\n\n\n\nNotePopulation vs samples\n\n\n\nThe population variance (\\(\\sigma^2\\)) and standard deviation (\\(\\sigma\\)) are used when you have data for the entire population — that is, every single value of interest is included.\nThe sample variance (\\(s^2\\)) and standard deviation (\\(s\\)) are used when you’re working with a subset (sample) of a larger population. It includes a correction (called Bessel’s correction) to account for the fact that samples tend to underestimate variability. The sample SD divides by \\(n -1\\) to compensate for the fact that we use \\(\\bar{x}\\), an estimate of the true population mean (\\(\\mu\\)). This correction makes the sample variance an unbiased estimator of the population variance.\nThe functions sd() and var() gives the sample standard deviation and variance.\n\n\n\n\n\n\n\n\n\nExercise 3: Calculate spread measures\n\n\n\n\n\n2.5 Calculate spread measures for the LSAS-SR scale, what do they tell you and which ones do you think are most useful to describe the spread of the values. Motivate your answer briefly!\nOvercourse:\n2.6 Calculate the population variance and standard deviation. How do these differ from the ones given by the functions sd() and var().\n2.7 Use only the first ten participants and compare the population and the sample variance and standard deviation of LSAS-SR. What do you find, and how do the results compare to those from exercise 2.6.",
+    "crumbs": [
+      "Labs",
+      "Descriptive statistics"
+    ]
+  },
+  {
+    "objectID": "labs/descriptive-statistics.html#visual-presentations-1",
+    "href": "labs/descriptive-statistics.html#visual-presentations-1",
+    "title": "Descriptive statistics",
+    "section": "Visual presentations",
+    "text": "Visual presentations\nAs for numeric variables, visualizations can help get a better sense for the distribution of the data. Two common ways are barcharts and piecharts\n\nBarcharts\nThe height of each bar gives the number of occurrences of each category. When you use the base function plot() on a factor level variable, it gives you a barchart.\n\nplot(as.factor(d_bl$education))\n\n\n\n\n\n\n\n\n\n\nPiecharts\nA piechart shows the distribution of a categorical variable as a pie, with the size of each piece representing the proportion of each level of the categorical variable.\n\npie(table(d_bl$education))\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nExercise 4: Visualize categorical data\n\n\n\n\n\n2.8 Calculate the counts, proportions and percentages for the simulated income categories and visualize the distribution.",
+    "crumbs": [
+      "Labs",
+      "Descriptive statistics"
+    ]
+  },
+  {
+    "objectID": "labs/descriptive-statistics.html#numeric-by-numeric-distributions",
+    "href": "labs/descriptive-statistics.html#numeric-by-numeric-distributions",
+    "title": "Descriptive statistics",
+    "section": "Numeric by numeric distributions",
+    "text": "Numeric by numeric distributions\nFor two numeric variables, the most common visualization is the scatter plot. It shows the distribution of each datapoint with one variable on the x-axis and the other on the y-axis. Using the plot() function with two numeric variables will give you a scatter plot.\n\nplot(d_bl$lsas_screen, d_bl$gad_screen)",
+    "crumbs": [
+      "Labs",
+      "Descriptive statistics"
+    ]
+  },
+  {
+    "objectID": "labs/descriptive-statistics.html#numeric-by-categorical-distributions",
+    "href": "labs/descriptive-statistics.html#numeric-by-categorical-distributions",
+    "title": "Descriptive statistics",
+    "section": "Numeric by categorical distributions",
+    "text": "Numeric by categorical distributions\nThe joint distribution of a numeric and a categorical variable can be visualized as a stratified boxplots. For this let’s look at the distribution of LSAS scores for people with high generalized anxiety (GAD-7 ≥ 10 or more) vs low generalized anxiety (GAD-7 &lt; 10).\n\n# create a variable indicating if GAD-7 is 10 or more\nd_bl$gad_cat &lt;- ifelse(d_bl$gad_screen &gt;= 10, \"High anxiety\", \"Low anxiety\")\n\nboxplot(lsas_screen ~ gad_cat, data = d_bl)",
+    "crumbs": [
+      "Labs",
+      "Descriptive statistics"
+    ]
+  },
+  {
+    "objectID": "labs/descriptive-statistics.html#categorical-by-categorical-distributions",
+    "href": "labs/descriptive-statistics.html#categorical-by-categorical-distributions",
+    "title": "Descriptive statistics",
+    "section": "Categorical by categorical distributions",
+    "text": "Categorical by categorical distributions\nAll the information of the joint distribution of two categorical variables can be seen using a cross-table. For this let’s look at the distribution of high vs low depression (PHQ-9 ≥ 10 vs PHQ-9 &lt;10 or less) against high vs low generalized anxiety.\n\nd_bl$phq_cat &lt;- ifelse(d_bl$phq9_screen &gt;= 10, \"High depression\", \"Low depression\")\n\ntable(d_bl$gad_cat, d_bl$phq_cat)\n\n              \n               High depression Low depression\n  High anxiety              62             42\n  Low anxiety               20             57\n\n\nAlthough all information about the distribution is available in the crosstable, you may still want to visualize this distribution. One way is to use a mosaic plot, which you can get by providing cross-table to the plot() function.\n\nplot(table(d_bl$gad_cat, d_bl$phq_cat), main = \"Depression and anxiety\")",
+    "crumbs": [
+      "Labs",
+      "Descriptive statistics"
+    ]
+  },
+  {
+    "objectID": "labs/descriptive-statistics.html#descriptive-statistics-using-the-tableone-package",
+    "href": "labs/descriptive-statistics.html#descriptive-statistics-using-the-tableone-package",
+    "title": "Descriptive statistics",
+    "section": "Descriptive statistics using the ‘tableone’ package",
+    "text": "Descriptive statistics using the ‘tableone’ package\nA convenient way to get descriptive statistics for a range of variables is to use the tableone package and the CreateTableOne() function. First let get some descriptives for the overall sample\n\n# install.packages(\"tableone\")\nlibrary(tableone)\n\n# define the variables you want\nvars &lt;- c(\n  \"lsas_screen\",\n  \"gad_screen\",\n  \"phq9_screen\",\n  \"bbq_screen\",\n  \"scs_screen\",\n  \"dmrsodf_screen\",\n  \"ders_screen\",\n  \"pid_5_screen\",\n  \"gender\",\n  \"education\",\n  \"income\"\n)\n\nCreateTableOne(vars = vars, data = d_bl)\n\n                            \n                             Overall                                 \n  n                                         181                      \n  lsas_screen (mean (SD))                 84.75 (16.47)              \n  gad_screen (mean (SD))                  10.86 (4.51)               \n  phq9_screen (mean (SD))                  9.61 (4.37)               \n  bbq_screen (mean (SD))                  39.64 (16.48)              \n  scs_screen (mean (SD))                  27.66 (7.03)               \n  dmrsodf_screen (mean (SD)) 267220994518069.59 (3595090797150460.50)\n  ders_screen (mean (SD))                 49.20 (13.43)              \n  pid_5_screen (mean (SD))                23.93 (8.51)               \n  gender = Woman (%)                        134 (74.0)               \n  education (%)                                                      \n     Primary                                 70 (38.7)               \n     Secondary                               72 (39.8)               \n     University                              39 (21.5)               \n  income (%)                                                         \n     High                                    37 (20.4)               \n     Low                                     37 (20.4)               \n     Medium                                 107 (59.1)               \n\n\nWe can also do this stratified by a categorical variable using the strata argument. Let’s have it by treatment group.\n\nCreateTableOne(vars = vars, data = d_bl, strata = \"group\", test = FALSE)\n\n                            Stratified by group\n                             0                                       \n  n                                          60                      \n  lsas_screen (mean (SD))                 86.98 (18.99)              \n  gad_screen (mean (SD))                  11.18 (4.50)               \n  phq9_screen (mean (SD))                 10.35 (4.63)               \n  bbq_screen (mean (SD))                  37.38 (17.10)              \n  scs_screen (mean (SD))                  27.37 (7.04)               \n  dmrsodf_screen (mean (SD)) 806116666706155.25 (6244152850195288.00)\n  ders_screen (mean (SD))                 50.70 (13.72)              \n  pid_5_screen (mean (SD))                25.07 (9.46)               \n  gender = Woman (%)                         45 (75.0)               \n  education (%)                                                      \n     Primary                                 30 (50.0)               \n     Secondary                               21 (35.0)               \n     University                               9 (15.0)               \n  income (%)                                                         \n     High                                    11 (18.3)               \n     Low                                     14 (23.3)               \n     Medium                                  35 (58.3)               \n                            Stratified by group\n                             1                   2                  \n  n                                61                  60           \n  lsas_screen (mean (SD))       83.08 (12.97)       84.22 (16.95)   \n  gad_screen (mean (SD))        10.97 (4.44)        10.42 (4.63)    \n  phq9_screen (mean (SD))        9.15 (4.05)         9.35 (4.40)    \n  bbq_screen (mean (SD))        42.03 (17.09)       39.45 (15.10)   \n  scs_screen (mean (SD))        27.15 (7.31)        28.48 (6.76)    \n  dmrsodf_screen (mean (SD)) 44885.95 (16035.54) 44388.20 (14850.76)\n  ders_screen (mean (SD))       46.74 (13.60)       50.22 (12.83)   \n  pid_5_screen (mean (SD))      22.34 (7.80)        24.40 (8.08)    \n  gender = Woman (%)               44 (72.1)           45 (75.0)    \n  education (%)                                                     \n     Primary                       21 (34.4)           19 (31.7)    \n     Secondary                     24 (39.3)           27 (45.0)    \n     University                    16 (26.2)           14 (23.3)    \n  income (%)                                                        \n     High                          10 (16.4)           16 (26.7)    \n     Low                           14 (23.0)            9 (15.0)    \n     Medium                        37 (60.7)           35 (58.3)    \n\n\n\n\n\n\n\n\nExercise 5: Visualize bi-variable distributions\n\n\n\n\n\n2.9 Visualize the joint distribution of GAD-7 and PHQ-9 as numeric variables and describe what you see\n2.10 Visualize the distribution of of LSAS scores by income level and describe what you see\n2.11 Create a variable for high vs. low DERS scores and investigate the joint distribution of this variable and phq_cat (that we created in an earlier example)\n2.12 Create a table using the tableone package to show descriptives statistics stratified by high vs low depression levels. Briefly interpret what you see.",
+    "crumbs": [
+      "Labs",
+      "Descriptive statistics"
+    ]
+  },
+  {
+    "objectID": "labs/classification.html",
+    "href": "labs/classification.html",
+    "title": "Classification",
+    "section": "",
+    "text": "In this lab, we will look at how we can work with classification problems in R. You will learn how to evaluate sensitivity, specificity, positive predictive value (PPV), and negative predictive value (NPV). These measures help us understand how well a model or test can identify or predict binary outcomes (e.g., disease status, treatment response). You will not work on the models themselves; that is the topic of upcoming courses and labs.",
+    "crumbs": [
+      "Labs",
+      "Classification"
+    ]
+  },
+  {
+    "objectID": "labs/classification.html#sensitivity",
+    "href": "labs/classification.html#sensitivity",
+    "title": "Classification",
+    "section": "Sensitivity",
+    "text": "Sensitivity\nSensitivity is the proportion of true positives out of all actual positives.\n\nsensitivity &lt;- true_pos / (true_pos + false_neg)\n\nSensitivity is 0.37.",
+    "crumbs": [
+      "Labs",
+      "Classification"
+    ]
+  },
+  {
+    "objectID": "labs/classification.html#specificity",
+    "href": "labs/classification.html#specificity",
+    "title": "Classification",
+    "section": "Specificity",
+    "text": "Specificity\nSpecificity is the proportion of true negatives out of all actual negatives.\n\nspecificity &lt;- true_neg / (true_neg + false_pos)\n\nSpecificity is 0.94.",
+    "crumbs": [
+      "Labs",
+      "Classification"
+    ]
+  },
+  {
+    "objectID": "labs/classification.html#positive-predictive-value",
+    "href": "labs/classification.html#positive-predictive-value",
+    "title": "Classification",
+    "section": "Positive predictive value",
+    "text": "Positive predictive value\nPositive predictive value is the proportion of true positives out of all predicted positives. See the difference compared to sensitivity?\n\npos_pred_val &lt;- true_pos / (true_pos + false_pos)\n\nPositive predictive value is 0.7.",
+    "crumbs": [
+      "Labs",
+      "Classification"
+    ]
+  },
+  {
+    "objectID": "labs/classification.html#negative-predictive-value",
+    "href": "labs/classification.html#negative-predictive-value",
+    "title": "Classification",
+    "section": "Negative predictive value",
+    "text": "Negative predictive value\nNegative predictive value is the proportion of true negatives out of all predicted negatives. Again, look at the difference compared to specificity.\n\nneg_pred_val &lt;- true_neg / (true_neg + false_neg)\n\nNegative predictive value is 0.82.\n\n\n\n\n\n\nExercise 3: Calculate classification metrics\n\n\n\n\n\nCalculate the sensitivity, specificity, positive predictive value, and negative predictive value for the PHQ-9 predictions.",
+    "crumbs": [
+      "Labs",
+      "Classification"
+    ]
+  },
+  {
+    "objectID": "r-setup.html",
+    "href": "r-setup.html",
+    "title": "R and RStudio setup",
+    "section": "",
+    "text": "To participate in the lab sessions, you need to install R and RStudio on your computer. You can download R from CRAN and RStudio from RStudio. Both are free to use.",
     "crumbs": [
       "Course information",
-      "Overview"
+      "R and RStudio setup"
     ]
   },
   {
-    "objectID": "labs/testing-two-means.html",
-    "href": "labs/testing-two-means.html",
-    "title": "Testing two means and contingency tables",
+    "objectID": "r-setup.html#execute-a-test-command-in-the-r-console",
+    "href": "r-setup.html#execute-a-test-command-in-the-r-console",
+    "title": "R and RStudio setup",
+    "section": "Execute a test command in the R console",
+    "text": "Execute a test command in the R console\nIf both R and RStudio are installed and talking to each other, you should see something like this in the Console pane:\n\n\n\nR console default\n\n\nTry running a simple command to see that R is working. For example, type 1 + 1 and press enter, or try print(\"Hello, world!\"). If you see the output below, you are good to go! See the steps below for setting up RStudio.",
+    "crumbs": [
+      "Course information",
+      "R and RStudio setup"
+    ]
+  },
+  {
+    "objectID": "r-setup.html#disable-saving-workspace-and-history",
+    "href": "r-setup.html#disable-saving-workspace-and-history",
+    "title": "R and RStudio setup",
+    "section": "Disable saving workspace and history",
+    "text": "Disable saving workspace and history\nThere are a few things we want you to change in the default RStudio settings. To access the settings in RStudio, go to Tools -&gt; Global Options... in the menu bar or press Cmd + , (Mac) or Ctrl + , (Windows/Linux). Then navigate to the General tab. Make sure to set the options according to the image below:\n\nThe purpose of these settings is to ensure that you do not save the workspace image or history when you close RStudio, since we do not want to keep any temporary objects or commands that you have used during the session. This is important for reproducibility and to avoid cluttering your workspace with unnecessary files.",
+    "crumbs": [
+      "Course information",
+      "R and RStudio setup"
+    ]
+  },
+  {
+    "objectID": "r-setup.html#working-in-projects",
+    "href": "r-setup.html#working-in-projects",
+    "title": "R and RStudio setup",
+    "section": "Working in projects",
+    "text": "Working in projects\nRStudio projects are a great way to organize your work. They allow you to keep all your files, data, and code in one place, making it easier to manage your projects. To create a new project, go to the upper right corner where it says “Project: (None)”. Then choose a location for your project and give it a name (maybe biostat-labs 🤓).",
+    "crumbs": [
+      "Course information",
+      "R and RStudio setup"
+    ]
+  },
+  {
+    "objectID": "r-setup.html#folder-structure",
+    "href": "r-setup.html#folder-structure",
+    "title": "R and RStudio setup",
+    "section": "Folder structure",
+    "text": "Folder structure\nRegardless of the project you are working on, you will benefit from having a well-organized folder structure. The needs may vary depending on the project, but a good starting point is to have separate folders for data, scripts, documentation, and output. This will help you keep your files organized and make it easier to find what you need later on. In this course, we will be assuming you have the following folder structure:\nbiostat-labs/\n├── data/\n├── R/\n├── docs/\n├── output/\n├── README.md\n\ndata/: This folder can contain raw data, but if you have sensitive data you will likely store it on a secure server. It’s safe to store the data you are working with in this course here, however.\nR/: This folder contains the scripts you are working on.\ndocs/: This folder contains the documentation for your project. One good way to distinguish this from output is that the docs folder contains files and background information that is not generate by the code you are writing, for example documentation about questionnaires.\noutput/: This folder contains the output of your code, such as figures, tables, and reports. This is where you will save the results of your analysis. Feel free to create subfolders as needed.\nREADME.md: This file contains information about your project, such as the purpose of the project, how to run the code, and any other relevant information. It’s good practice to keep this file updated as it is often the “landing page” when others collaborate in your project.",
+    "crumbs": [
+      "Course information",
+      "R and RStudio setup"
+    ]
+  },
+  {
+    "objectID": "labs/sampling.html",
+    "href": "labs/sampling.html",
+    "title": "Sampling from a population",
     "section": "",
-    "text": "In this lab we focus on testing differences between groups. Previously we have calculated p-values and confidence intervals for one-sample means and proportions. In psychiatric research, we are more often interested in comparing means between groups. For instance, the post-treatment symptom levels between the treatment group and the control group.\nIn the STepS study, a primary comparison was the severity of social anxiety symptoms post-treatment between the self-guided and the therapist-guided treatment groups. As a first check, we can load the data and calculate get some descriptive statistics for the post-treatment LSAS-scores across the treatment groups.",
+    "text": "So far, we have restricted ourselves to describing the sample that we have. Often, however, we are not only interested about our sample, but want to make inferences about the population from which our sample came.",
     "crumbs": [
       "Labs",
-      "Testing two means"
+      "Sampling from a population"
     ]
   },
   {
-    "objectID": "labs/testing-two-means.html#testing-dependent-means",
-    "href": "labs/testing-two-means.html#testing-dependent-means",
-    "title": "Testing two means and contingency tables",
-    "section": "Testing dependent means",
-    "text": "Testing dependent means\nThe independent group t-test assumes that the groups compared are independent, which is the case for the two treatment groups. Sometimes, however, we want to compare the means of dependent groups. This could be for instance the difference in means between two time-point of the same group. Then we can use a paired-sample t-test.\nFor a paired samples t-test, the statistic is:\n\\[\nt = \\frac{\\bar{D}}{SE_D}\n\\]\nwhere:\n\n\\(\\bar{D}\\) = mean of the difference scores\n\\(SE_D\\) = the standard error of the difference scores calculated as \\(s_D/ \\sqrt{n}\\) = the standard error of the differences, with \\(s_D\\) = the standard deviation of the differences and \\(n\\) = the number of paired observations\n\nLet’s use this to formula to test the difference in LSAS-scores from pre-to post-treatment.\n\ndiff_pre_post &lt;- df_data$lsas_post - df_data$lsas_screen\nmean_diff &lt;- mean(diff_pre_post, na.rm = TRUE)\nsd_diff &lt;- sd(diff_pre_post, na.rm = TRUE)\nn &lt;- sum(!is.na(diff_pre_post))\nse_diff &lt;- sd_diff / sqrt(n)\nt_value &lt;- mean_diff / se_diff\nt_value\n\n[1] -11.07385\n\n\nAnd get the two-tailed p-value from this as before\n\ndf &lt;- n - 1\np_value &lt;- 2 * (1 - pt(abs(t_value), df))\np_value\n\n[1] 0\n\n\nOr using the t.test() function with the the argument paired = TRUE.\n\nt.test(df_data$lsas_post, df_data$lsas_screen, paired = TRUE)\n\n\n    Paired t-test\n\ndata:  df_data$lsas_post and df_data$lsas_screen\nt = -11.074, df = 168, p-value &lt; 2.2e-16\nalternative hypothesis: true mean difference is not equal to 0\n95 percent confidence interval:\n -21.05556 -14.68409\nsample estimates:\nmean difference \n      -17.86982 \n\n\nWe can also get the confidence intervals of this difference, using a familiar formula for large samples\n\\[\n\\bar{D} \\;\\pm\\; z_{\\alpha/2} \\cdot SE_D\n\\]\nFor smaller samples, we need use the t-distribution and find the right t-value for our degrees of freedom and coverage interval.\n\\[\nCI = \\bar{D} \\;\\pm\\; t_{\\alpha/2, \\, df} \\cdot SE_D\n\\]\nAnd again, \\(SE_D = {s_D}/ {\\sqrt{n}}\\)\n\ndiff_pre_post &lt;- df_data$lsas_post - df_data$lsas_screen\nmean_diff &lt;- mean(diff_pre_post, na.rm = TRUE)\nsd_diff &lt;- sd(diff_pre_post, na.rm = TRUE)\nn &lt;- sum(!is.na(diff_pre_post))\nse_diff &lt;- (sd_diff / sqrt(n)) # saving the standard error of the difference as a separate object for convenience\n\n# and putting it together\nlcl &lt;- mean_diff - 1.96 * se_diff\nucl &lt;- mean_diff + 1.96 * se_diff\nprint(c(lcl, ucl))\n\n[1] -21.03267 -14.70698\n\n\nor manually using the t-values\n\ndf &lt;- n - 1\nalpha &lt;- 0.05\nt_crit &lt;- qt(1 - alpha / 2, df)\nlcl &lt;- mean_diff - t_crit * se_diff\nucl &lt;- mean_diff + t_crit * se_diff\nprint(c(lcl, ucl))\n\n[1] -21.05556 -14.68409\n\n\nOr again, more conveniently using the t.test() function\n\nt.test(df_data$lsas_post, df_data$lsas_screen, paired = TRUE)\n\n\n    Paired t-test\n\ndata:  df_data$lsas_post and df_data$lsas_screen\nt = -11.074, df = 168, p-value &lt; 2.2e-16\nalternative hypothesis: true mean difference is not equal to 0\n95 percent confidence interval:\n -21.05556 -14.68409\nsample estimates:\nmean difference \n      -17.86982 \n\n\n\n\n\n\n\n\nExercise 2: Testing dependent group means\n\n\n\n\n\n\nCompute a t-test for the difference in LSAS-scores between post-treatment and 12-month follow-up and provide an interpretation of its meaning\nAlso calculate the 95% confidence interval for this difference, using the z-value formula and provide an interpretation of its meaning\nCompare the means of GAD-7 from pre- to post-treatment and interpret the results",
+    "objectID": "labs/sampling.html#standard-error-of-a-mean",
+    "href": "labs/sampling.html#standard-error-of-a-mean",
+    "title": "Sampling from a population",
+    "section": "Standard error of a mean",
+    "text": "Standard error of a mean\nThe formula for the standard error of a mean, if we knew the population variance \\(\\sigma^2\\), is:\n\\[\nSE = {\\sqrt{\\sigma^2 / n}}\n\\]\nHowever, we rarely know the population standard deviation. Luckily we can use the sample variance \\(s^2\\) to estimate it:\n\\[\nSE = {\\sqrt{s^2 / n}}\n\\]",
     "crumbs": [
       "Labs",
-      "Testing two means"
+      "Sampling from a population"
     ]
   },
   {
-    "objectID": "labs/testing-two-means.html#contingency-tables-and-the-chi-squared-test",
-    "href": "labs/testing-two-means.html#contingency-tables-and-the-chi-squared-test",
-    "title": "Testing two means and contingency tables",
-    "section": "Contingency tables and the Chi-squared test",
-    "text": "Contingency tables and the Chi-squared test\nSay that we wanted to test the distribution of some categorical variable across two groups, the the methods presented above will not help. For this we need other tests.\nSay that we wanted to know if the gender distribution was similar across in the self-guided as in the therapist-guided treatment group of the the STEpS study. The first step to such an investigation would be to create a contingency table showing the gender distribution across the groups.\n\n# create a gender variable\ndf_data$gender &lt;- rbinom(nrow(df_data), 1, 0.7)\ndf_data$gender &lt;- ifelse(df_data$gender == 1, \"Woman\", \"Man\")\n\n\ntable(df_data$trt, df_data$gender) # number of person\n\n                  \n                   Man Woman\n  self-guided       14    47\n  therapist-guided  23    37\n  waitlist          20    40\n\nprop.table(table(df_data$trt, df_data$gender), margin = 1) # proportion in each treatment group\n\n                  \n                         Man     Woman\n  self-guided      0.2295082 0.7704918\n  therapist-guided 0.3833333 0.6166667\n  waitlist         0.3333333 0.6666667\n\n\nWe see that there are some small differences between the groups, but we have no statistical test of these differences. Say that we wanted to test the null hypothesis that there is no association between gender and the treatment group you end up in. This hypothesis should hold, due to the randomization of the STEpS study.\nOne way to test if the proportion of men and women differs between the groups is perform a Chi-squared test (\\(X^2-test\\)).\nThe formula for Chi-squared test statistic is:\n\\[\n\\chi^2 = \\sum_{i=1}^{r} \\sum_{j=1}^{c} \\frac{(O_{ij} - E_{ij})^2}{E_{ij}}\n\\]\nwhere\n\\[\nE_{ij} = \\frac{(\\text{row total})_i \\cdot (\\text{column total})_j}{\\text{grand total}}\n\\]\nThis test compares the observed counts in each cell against what would be expected if values where distributed equally across the groups (i.e. across the cells of the contingency table). Coding this formula manually is a bit tricky, but here is the code for those interested.\n\n## Build the contingency table\ntbl &lt;- table(trt = df_data$trt, gender = df_data$gender)\n\n## Convert this table to matrix format for the following calculations\nO &lt;- as.matrix(tbl)\nO\n\n                  gender\ntrt                Man Woman\n  self-guided       14    47\n  therapist-guided  23    37\n  waitlist          20    40\n\n## Expected counts E_ij = (row total_i * col total_j) / grand total\nrow_tot &lt;- rowSums(O)\ncol_tot &lt;- colSums(O)\ngrand &lt;- sum(O)\nE &lt;- outer(row_tot, col_tot) / grand # outer is a function to multiply arayys\nE\n\n                      Man    Woman\nself-guided      19.20994 41.79006\ntherapist-guided 18.89503 41.10497\nwaitlist         18.89503 41.10497\n\n## Chi-square statistic: sum_{i,j} (O_ij - E_ij)^2 / E_ij\nchi_sq &lt;- sum((O - E)^2 / E)\n\n## Degrees of freedom: (r - 1)(c - 1)\nr &lt;- nrow(O)\nc &lt;- ncol(O)\ndf &lt;- (r - 1) * (c - 1)\n\n## p-value from chi-square distribution\np_value &lt;- pchisq(chi_sq, df = df, lower.tail = FALSE)\np_value\n\n[1] 0.1774092\n\n\nIn R, these calculations can be easily performed using the function chisq.test() that also provide tables for the observed and expected frequencies\n\nchisq.test(df_data$trt, df_data$gender)\n\n\n    Pearson's Chi-squared test\n\ndata:  df_data$trt and df_data$gender\nX-squared = 3.4586, df = 2, p-value = 0.1774\n\nchisq.test(df_data$trt, df_data$gender)$observed\n\n                  df_data$gender\ndf_data$trt        Man Woman\n  self-guided       14    47\n  therapist-guided  23    37\n  waitlist          20    40\n\nchisq.test(df_data$trt, df_data$gender)$expected\n\n                  df_data$gender\ndf_data$trt             Man    Woman\n  self-guided      19.20994 41.79006\n  therapist-guided 18.89503 41.10497\n  waitlist         18.89503 41.10497\n\n\nOur results tells us that the null hypothesis of no association cannot be rejected. In other words, our data would not be unexpected if there was no association between gender and treatment group in the underlying population (kind of a strange though experiment, as there are only treatment variables in treatment studies, not in the underlying population).\n\n\n\n\n\n\nCaution\n\n\n\nThe Chi-squared test is only valid if the counts in each cell is &gt;5. When cell counts are lower, Fisher’s exact test should be used instead. You can use the fisher.test() function\n\n\n\n\n\n\n\n\nExercise 3: Testing categorical distributions\n\n\n\n\n\nChi-squared tests, and other tests of significance, are sometimes used to check that important pre-treatment characteristics, such as gender or symptom level, are balanced between the treatment groups. Non-sinificant p-values are then taken as an argument that the groups are balanced. Reason about why this is a problematic approach.\nCreate a categorical for high or low generalized anxiety and one for high and low social anxiety, and use the Chi squared test to test the null hypothesis of no association between the variables",
+    "objectID": "labs/sampling.html#standard-error-of-a-proportion",
+    "href": "labs/sampling.html#standard-error-of-a-proportion",
+    "title": "Sampling from a population",
+    "section": "Standard error of a proportion",
+    "text": "Standard error of a proportion\nFor a proportion, the standard error for the population is calculated by the formula:\n\\[\n\\mathrm{SE}(p) = \\sqrt{\\frac{p(1 - p)}{n}}\n\\]\n\n\n\n\n\n\nExercise 1: Standard Error of LSAS_Screen\n\n\n\n\n\nEstimate the standard error of LSAS_Screen in the STePS study using the formula above, and describe in words what the number means.\n\n\n\n\n\n\n\n\n\nExercise 2: Standard Error of Proportion\n\n\n\n\n\nCalculate the standard error for the proportion of men in the STePS study, and describe the meaning of this number in words.\n\n\n\n\n\n\n\n\n\nExercise 3: Effect of Sample Size on Standard Error\n\n\n\n\n\nDescribe what would happen to these standard errors if the sample size had been 1000 participants and explain why?",
     "crumbs": [
       "Labs",
-      "Testing two means"
-    ]
-  },
-  {
-    "objectID": "labs/testing-two-means.html#other-non-parametric-tests",
-    "href": "labs/testing-two-means.html#other-non-parametric-tests",
-    "title": "Testing two means and contingency tables",
-    "section": "Other non-parametric tests",
-    "text": "Other non-parametric tests\nThere are a number of other non-parametric tests that can be used if our data does not fulfill the assumptions for parametric tests, like t-tests and z-tests. We won’t go through the formulas for all these, but show you how they can be implemented in R.\n\nSign test\nThe sign test is used to test whether the median of paired differences equals a hypothesized value (often 0), using only the signs of differences, (i.e. + or -). This test can be used even when the sample is small, and the underlying population distribution is assumed to be non-normal.\nThe test is performed by counting how often a difference between pairs of values are positive. If there was no systematic change, this should occur 50% of the time. We then test whether our actual proportion of positive signs is likely to come from an underlying population where 50% of the signs are positive.\nWe could use it to test the nyll hypothesis that the median difference of LSAS-score at between pre-treatment and post-treatment is 0 (analog to our paired t-test above).\n\n# Paired sign test: H0 median LSAS(pre - post) = 0\ndiff_pre_post &lt;- df_data$lsas_post - df_data$lsas_screen # create differnece scores\nn &lt;- sum(diff_pre_post != 0, na.rm = TRUE) # exclude ties (exact zeros)\ns &lt;- sum(diff_pre_post[diff_pre_post != 0] &gt; 0, na.rm = TRUE) # number of positive differences (again excluding ties)\nbinom.test(s, n, p = 0.5, alternative = \"two.sided\") # a test of the proportion\n\n\n    Exact binomial test\n\ndata:  s and n\nnumber of successes = 24, number of trials = 167, p-value &lt; 2.2e-16\nalternative hypothesis: true probability of success is not equal to 0.5\n95 percent confidence interval:\n 0.0943006 0.2062463\nsample estimates:\nprobability of success \n             0.1437126 \n\n\nThis null hypothesis seems very unlikely.\n\n\nWilcoxon signed rank test\nTests if the distribution of paired differences is symmetric around 0 (often framed as median difference = 0), using magnitudes and signs.\n\nAssumptions: Paired observations; differences are symmetrically distributed.\nPro’s: Unlike the t-test, it does not assume interval level data. It is also better powered that the sign test.\nWe can use this to test the null hypothesis that the median LSAS score is the same at post-treatment as at pre-treatment.\n\nwilcox.test(df_data$lsas_post, df_data$lsas_screen,\n  paired = TRUE,\n  alternative = \"two.sided\",\n  exact = FALSE\n)\n\n\n    Wilcoxon signed rank test with continuity correction\n\ndata:  df_data$lsas_post and df_data$lsas_screen\nV = 1310, p-value &lt; 2.2e-16\nalternative hypothesis: true location shift is not equal to 0\n\n\nAgain, the null hypothesis seems very unlikely.\n\n\nWilcox rank-sum test\nThis test, aslo known as the Mann-Whitney U-test, test whether two independent samples come from the same distribution (often interpreted as a shift in location/medians).\n\nAssumptions: Independent samples; similar shapes are helpful for a “median shift” interpretation.\nUnlike the independent groups t-test, it does not assume interval level data. We can use this test to test the null hypothesis that LSAS scores at post-treatment have the same distribution in the self-guided and the therapist-guided treatment groups.\n\n# Two-sample Wilcoxon rank-sum test (unpaired)\n\nwilcox.test(lsas_post ~ trt,\n  data = df_data,\n  subset = trt %in% c(\"self-guided\", \"therapist-guided\"),\n  exact = FALSE\n)\n\n\n    Wilcoxon rank sum test with continuity correction\n\ndata:  lsas_post by trt\nW = 1872, p-value = 0.04974\nalternative hypothesis: true location shift is not equal to 0\n\n\n\n\n\n\n\n\nExercise 4: Non-parametric tests\n\n\n\n\n\nWhich of all the test performed today do you think is most appropriate for the pre-post difference in LSAS scores?\nAnd which of all tests performed is most appropriate for comparing the LSAS scores between the self-guided and the therapist-guided groups?\nPerform a signed test for the pre-post difference in DERS scores and interpret the results.",
-    "crumbs": [
-      "Labs",
-      "Testing two means"
-    ]
-  },
-  {
-    "objectID": "labs/p-values-ci.html",
-    "href": "labs/p-values-ci.html",
-    "title": "P-values and confidence intervals",
-    "section": "",
-    "text": "Load packages and data\n\nlibrary(here)\nlibrary(tidyverse)\nd_bl &lt;- read_rds(here(\"data\", \"steps_baseline.rds\"))\n\nThe law of large numbers brings us to the concept of probability. In frequentist statistics, probability is defined as the long run frequency of an event as the number of events approach infinity, \\(\\infty\\). For instance the proportion of heads in an infinite number of coin tosses will approach 0.5.\n\n\nP-values\nProbability - defined as the long-run frequency of an event occurring - is very much used in research to get an idea of how probable our observed data is, given some hypothesis of interest. In probability notation \\(P(Data|Hypothesis)\\).\nFor instance we might have an hypothesis the the mean of LSAS-SR is 82 in the population. We can determine how probable our data would be under this hypothesis, by investigating how often we would expect to get our observed sample mean if this (null)hypothesis was true.\nFor this we would need the sampling distribution of mean LSAS-SR scores in samples of 181 people (the size, \\(n\\), of our sample), if the true population mean was 82. One way to get this would be to simulate say 10 000 samples of LSAS-SR scores, from a population with a true mean of 82. To simulate this, we also need to know the spread (standard deviation) of the true population. We don’t know this, but let’s assume it is the same as in our sample.\nBelow, the function rnorm() is used to take a random sample of 181 values from a normal distribution with a mean of 82 and a standard deviation 16.5 (same as in out sample). We use a for loop to repeat this sampling 10 000 times and save the mean values of each sample in the vector called means.\n\nn_samples &lt;- 1e4 # the number of samples\nsmp_size &lt;- 181 # the size of our samples\nmeans &lt;- rep(NA, n_samples) # an empty vector to contain our mean values\n\nfor (i in 1:n_samples) {\n  x &lt;- rnorm(smp_size, mean = 82, sd = sd(d_bl$lsas_screen))\n  means[i] &lt;- mean(x)\n}\n\nhist(means, main = \"Simulated sampling distribution of LSAS means\")\n\n\n\n\n\n\n\n\nWe can use this simulated sampling distribution to see how probable our observed LSAS-SR mean is if the (null)hypothesis that the true mean is 82 would be correct. First let plot the sampling distribution again, and show the observed LSAS-SR mean as a vertical line.\n\nhist(means, main = \"Simulated sampling distribution of LSAS means\")\nabline(v = mean(d_bl$lsas_screen), col = \"red\", lwd = 2, lty = 2) # vertical line showing the observed LSAS-SR mean\n\n\n\n\n\n\n\n\nWe can also quantify the probability by calculating, the proportion of times that a sample mean would be equal to or greater that our observed mean, IF the true population mean was 82. This quantity is the very (in)famous p-value.\n\nmean(means &gt;= mean(d_bl$lsas_screen)) # proportion of simulated means that are larger than our observed mean\n\n[1] 0.0134\n\n\nIf we find this simulation exercise a bit tedious, we could also use theoretical distributions for the sample means to calculate our p-value. The t-distribution can be used to estimate the spread to the sample means when the population variance is unknown and the sample variance is used to approximate it. It is very similar to the normal distribution, but has heavier tails that accounts for the uncertainty produced by using the sample variance instead of the true population variance when estimating the standard error of the sampling distribution. However, when the sample size increase, the t-distribution will come closer and closer to a normal distribution (also known as a z-distribution when standardized to have mean=0 and sd=1).\n\n# Set up the plot range\nx_range &lt;- seq(-4, 4, length = 500)\n\n# Plot standard normal distribution\nplot(x_range, dnorm(x_range),\n  type = \"l\", lwd = 2, col = \"black\",\n  ylab = \"Density\", xlab = \"x\", main = \"t-Distribution vs Normal Distribution\"\n)\n\n# Add t-distributions with different degrees of freedom\nlines(x_range, dt(x_range, df = 1), col = \"red\", lwd = 2, lty = 2)\nlines(x_range, dt(x_range, df = 5), col = \"blue\", lwd = 2, lty = 3)\nlines(x_range, dt(x_range, df = 15), col = \"darkgreen\", lwd = 2, lty = 4)\nlines(x_range, dt(x_range, df = 30), col = \"purple\", lwd = 2, lty = 5)\n\n# Add a legend\nlegend(\"topright\",\n  legend = c(\"Normal (Z)\", \"t (df=1)\", \"t (df=5)\", \"t (df=15)\", \"t (df=30)\"),\n  col = c(\"black\", \"red\", \"blue\", \"darkgreen\", \"purple\"),\n  lwd = 2, lty = 1:5, bty = \"n\"\n)\n\n\n\n\n\n\n\n\nThe probability of getting a a sample mean that is greater or equal to our observed mean can be calculated by transforming our observed mean to a t-value and compare it to the t-distribution.\nThe t-value of our mean \\(\\bar{x}\\) under the null hypothesis that the population mean is \\(\\mu\\), is given by the formula:\n\\[\nt = \\frac{\\bar{x} - \\mu}{SE}\n\\]\nReplacing these greek letters with our actual values \\(\\bar{x} = 84.75\\), \\(\\mu = 82\\), and \\(SE=1.22\\), we get:\n\nse &lt;- sd(d_bl$lsas_screen) / sqrt(nrow(d_bl))\nx_bar &lt;- mean(d_bl$lsas_screen)\nt_value &lt;- (x_bar - 82) / se\nt_value\n\n[1] 2.24774\n\n\nNow let’s see the probability of getting a value larger or equal to this - our one-sided p-value! For this we use the pt() function, that provides the cumulative probability up until a given t-value. 1 minus this cumulative probability gives the probability of values equal or above the given t-value.\n\n1 - pt(t_value, df = 180)\n\n[1] 0.01290324\n\n\n\n\n\n\n\n\nNotez-values and t-values\n\n\n\nWhen the sample size increases, the t-distribution approaches the z-distribution and these estimates become very similar. As a general rule of thumb, it is fine to use z-values rather than t-values for sample sizes larger than 200.\n\n\nWe could also get a very similar p-value from the z-distribution (although we would assume we have the population variance for out calculation of the standard error). If this was a proportion, a z-test would be the one to use, since we are not using any estimates when calculating the standard error.\n\n1 - pnorm(t_value)\n\n[1] 0.01229639\n\n\nVery similar to our simulated p-value above! More conveniently, of course, we could get this p-value using the t.test() function.\n\nt.test(d_bl$lsas_screen, mu = 82, alternative = \"greater\")\n\n\n    One Sample t-test\n\ndata:  d_bl$lsas_screen\nt = 2.2477, df = 180, p-value = 0.0129\nalternative hypothesis: true mean is greater than 82\n95 percent confidence interval:\n 82.72756      Inf\nsample estimates:\nmean of x \n 84.75138 \n\n\n\n\n\n\n\n\nNoteOne-sided and two-sided p-values\n\n\n\nWhat we have calculated, bow in three different ways, is the one-sided p-value. This is because we only looked at the probability to get data equal to or greater than our observed data, given that the null-hypothesis was true.\nIf we wanted to see the probability of getting data equal or greater than our observed data OR equal or less than out observed data under the null-hypothesis, we would want a two-sided p-value. Since the sampling distribution is symmetrical, we could get this by multiplying of one-sided p-value by 2.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCode for the two-sided p-value\n\n# manual code\nse &lt;- sd(d_bl$lsas_screen) / sqrt(nrow(d_bl))\nx_bar &lt;- mean(d_bl$lsas_screen)\nt_value &lt;- (x_bar - 82) / se\n(1 - pt(t_value, df = 180)) * 2\n\n[1] 0.02580648\n\n# or using the t-test function\nt.test(d_bl$lsas_screen, mu = 82, alternative = \"two.sided\")\n\n\n    One Sample t-test\n\ndata:  d_bl$lsas_screen\nt = 2.2477, df = 180, p-value = 0.02581\nalternative hypothesis: true mean is not equal to 82\n95 percent confidence interval:\n 82.33602 87.16675\nsample estimates:\nmean of x \n 84.75138 \n\n\n\n\n\n\n\n\nExercise 1: P-value for PHQ-9 Mean\n\n\n\n\n\nCalculate the p-value for the null hypothesis that the mean PHQ-9 value in the underlying population is 9, and describe in words what this number means.\n\n\n\n\n\n\n\n\n\nExercise 2: P-value for Proportion of Men\n\n\n\n\n\nCalculate the p-value for getting our observed proportion of men, \\(\\hat{p}\\), if the true population proportion, \\(p\\), was 50% or more using a z-test.\nHINT: use the standard error of the proportion: \\[\n\\mathrm{SE}(p) = \\sqrt{\\frac{p(1 - p)}{n}}\n\\]\nand combine with the formula for the z-scores\n\\[\nz= \\frac{p - \\hat{p}}{SE}\n\\]\n\n\n\n\n\n\n\n\n\nExercise 3: Effect of Sample Size on P-value\n\n\n\n\n\nModify the simulation code for the sampling distribution above to determine what would happen to the p-value if the sample size was 10, 100 or 1000.\n\n\n\n\n\nConfidence intervals\nUsing the standard error, we can also calculate the confidence interval, defined as an interval that, if computed on a repeated set of samples, would contain the true population statistic 95% of the times.\nWhen the sample standard deviation is used, we get the confidence intervals by taking the observed mean and adding or subtracting the t-value of the desired percentiles of the sampling distribution (indicated by the asterix) times the standard error.\n\\[ \\text{CI} = \\bar{x} \\pm t^*\\ \\frac{s}{\\sqrt{n}}\\]\nIf we knew the stardard error of the population, we could substitute the sample variance \\(s\\) for the population variance \\(\\sigma\\), and use z-values instead of t-values. For 95% confidence intervals, the z-value is 1.96.\n\\[\n\\text{CI} = \\bar{x} \\pm z^*\\frac{\\sigma}{\\sqrt{n}}\n\\]\nFor a proportion, the confidence intervals becomes:\n\\[\n\\hat{p} \\pm z^* \\sqrt{\\frac{\\hat{p}(1 - \\hat{p})}{n}}\n\\]\n\n\n\n\n\n\nTipConfidence intervals for proportions\n\n\n\n\n\nThis confidence intervals for proportion, known as Wald confidence intervals, is easy to compute. However, since it uses the sample proportion to estimate the population proportion, they can be erratic, especially when \\(\\hat{p}\\) approach 0 or 1. We therefore recommend using more advanced confidence intervals, calculated by statistical software, for instance using the function prop.test().\n\n\n\nNow let’s use these formulas to calculate the confidence interval of the mean of LSAS-SR\n\nt_value &lt;- qt(1 - 0.025, 180) # the t-value for a 95% confidence interval with 180 degrees of freedom\n\nse &lt;- sd(d_bl$lsas_screen) / sqrt(nrow(d_bl)) # standard error of LSAS-SR\n\nucl &lt;- mean(d_bl$lsas_screen) + t_value * se # the upper confidence limit\nlcl &lt;- mean(d_bl$lsas_screen) - t_value * se # the lower confidence limit\n\nprint(c(lcl, ucl))\n\n[1] 82.33602 87.16675\n\n\nWe can also use the t.test() function to get this interval\n\nt.test(d_bl$lsas_screen, conf.level = 0.95) # For a 95% CI\n\n\n    One Sample t-test\n\ndata:  d_bl$lsas_screen\nt = 69.238, df = 180, p-value &lt; 2.2e-16\nalternative hypothesis: true mean is not equal to 0\n95 percent confidence interval:\n 82.33602 87.16675\nsample estimates:\nmean of x \n 84.75138 \n\n\nLet’s also see what happens if we use z-values (for 95% confidence intervals, the z-value is approx 1.96)\n\nse &lt;- sd(d_bl$lsas_screen) / sqrt(nrow(d_bl)) # standard error of LSAS-SR\n\nucl &lt;- mean(d_bl$lsas_screen) + 1.96 * se\nlcl &lt;- mean(d_bl$lsas_screen) - 1.96 * se\n\nprint(c(lcl, ucl))\n\n[1] 82.35221 87.15055\n\n\n\n\n\n\n\n\nExercise 4: Z-scores vs T-scores for Confidence Intervals\n\n\n\n\n\nExplain why the confidence intervals calculated using z-scores are narrower than the ones using t-scores.\n\n\n\n\n\n\n\n\n\nExercise 5: 95% Confidence Interval for PHQ-9\n\n\n\n\n\nCalculate the 95% confidence interval for PHQ-9, and describe in words what these numbers mean.\n\n\n\n\n\n\n\n\n\nExercise 6: Wald Confidence Interval for Proportion of Men\n\n\n\n\n\nCalculate the 95% Wald confidence interval for the proportion of men in the dataset using the formula above and interpret its meaning.\n\n\n\n\n\n\n\n\n\nExercise 7: Comparing Wald vs prop.test() Confidence Intervals\n\n\n\n\n\nCompare this to what you would obtain using the function prop.test() in R.\n\n\n\n\n\n\n\n\n\nExercise 8: Interpreting Confidence Intervals in Context\n\n\n\n\n\nReason about the meaning and interpretation of the confidence intervals you have calculated in the context of how the actual STePs study was performed. The study can be found at: https://www.nature.com/articles/s44184-024-00063-0",
-    "crumbs": [
-      "Labs",
-      "P-values and confidence intervals"
+      "Sampling from a population"
     ]
   },
   {
@@ -311,388 +553,157 @@
     ]
   },
   {
-    "objectID": "labs/sampling.html",
-    "href": "labs/sampling.html",
-    "title": "Sampling from a population",
+    "objectID": "labs/p-values-ci.html",
+    "href": "labs/p-values-ci.html",
+    "title": "P-values and confidence intervals",
     "section": "",
-    "text": "So far, we have restricted ourselves to describing the sample that we have. Often, however, we are not only interested about our sample, but want to make inferences about the population from which our sample came.",
+    "text": "Load packages and data\n\nlibrary(here)\nlibrary(tidyverse)\nd_bl &lt;- read_rds(here(\"data\", \"steps_baseline.rds\"))\n\nThe law of large numbers brings us to the concept of probability. In frequentist statistics, probability is defined as the long run frequency of an event as the number of events approach infinity, \\(\\infty\\). For instance the proportion of heads in an infinite number of coin tosses will approach 0.5.\n\n\nP-values\nProbability - defined as the long-run frequency of an event occurring - is very much used in research to get an idea of how probable our observed data is, given some hypothesis of interest. In probability notation \\(P(Data|Hypothesis)\\).\nFor instance we might have an hypothesis the the mean of LSAS-SR is 82 in the population. We can determine how probable our data would be under this hypothesis, by investigating how often we would expect to get our observed sample mean if this (null)hypothesis was true.\nFor this we would need the sampling distribution of mean LSAS-SR scores in samples of 181 people (the size, \\(n\\), of our sample), if the true population mean was 82. One way to get this would be to simulate say 10 000 samples of LSAS-SR scores, from a population with a true mean of 82. To simulate this, we also need to know the spread (standard deviation) of the true population. We don’t know this, but let’s assume it is the same as in our sample.\nBelow, the function rnorm() is used to take a random sample of 181 values from a normal distribution with a mean of 82 and a standard deviation 16.5 (same as in out sample). We use a for loop to repeat this sampling 10 000 times and save the mean values of each sample in the vector called means.\n\nn_samples &lt;- 1e4 # the number of samples\nsmp_size &lt;- 181 # the size of our samples\nmeans &lt;- rep(NA, n_samples) # an empty vector to contain our mean values\n\nfor (i in 1:n_samples) {\n  x &lt;- rnorm(smp_size, mean = 82, sd = sd(d_bl$lsas_screen))\n  means[i] &lt;- mean(x)\n}\n\nhist(means, main = \"Simulated sampling distribution of LSAS means\")\n\n\n\n\n\n\n\n\nWe can use this simulated sampling distribution to see how probable our observed LSAS-SR mean is if the (null)hypothesis that the true mean is 82 would be correct. First let plot the sampling distribution again, and show the observed LSAS-SR mean as a vertical line.\n\nhist(means, main = \"Simulated sampling distribution of LSAS means\")\nabline(v = mean(d_bl$lsas_screen), col = \"red\", lwd = 2, lty = 2) # vertical line showing the observed LSAS-SR mean\n\n\n\n\n\n\n\n\nWe can also quantify the probability by calculating, the proportion of times that a sample mean would be equal to or greater that our observed mean, IF the true population mean was 82. This quantity is the very (in)famous p-value.\n\nmean(means &gt;= mean(d_bl$lsas_screen)) # proportion of simulated means that are larger than our observed mean\n\n[1] 0.0134\n\n\nIf we find this simulation exercise a bit tedious, we could also use theoretical distributions for the sample means to calculate our p-value. The t-distribution can be used to estimate the spread to the sample means when the population variance is unknown and the sample variance is used to approximate it. It is very similar to the normal distribution, but has heavier tails that accounts for the uncertainty produced by using the sample variance instead of the true population variance when estimating the standard error of the sampling distribution. However, when the sample size increase, the t-distribution will come closer and closer to a normal distribution (also known as a z-distribution when standardized to have mean=0 and sd=1).\n\n# Set up the plot range\nx_range &lt;- seq(-4, 4, length = 500)\n\n# Plot standard normal distribution\nplot(x_range, dnorm(x_range),\n  type = \"l\", lwd = 2, col = \"black\",\n  ylab = \"Density\", xlab = \"x\", main = \"t-Distribution vs Normal Distribution\"\n)\n\n# Add t-distributions with different degrees of freedom\nlines(x_range, dt(x_range, df = 1), col = \"red\", lwd = 2, lty = 2)\nlines(x_range, dt(x_range, df = 5), col = \"blue\", lwd = 2, lty = 3)\nlines(x_range, dt(x_range, df = 15), col = \"darkgreen\", lwd = 2, lty = 4)\nlines(x_range, dt(x_range, df = 30), col = \"purple\", lwd = 2, lty = 5)\n\n# Add a legend\nlegend(\"topright\",\n  legend = c(\"Normal (Z)\", \"t (df=1)\", \"t (df=5)\", \"t (df=15)\", \"t (df=30)\"),\n  col = c(\"black\", \"red\", \"blue\", \"darkgreen\", \"purple\"),\n  lwd = 2, lty = 1:5, bty = \"n\"\n)\n\n\n\n\n\n\n\n\nThe probability of getting a a sample mean that is greater or equal to our observed mean can be calculated by transforming our observed mean to a t-value and compare it to the t-distribution.\nThe t-value of our mean \\(\\bar{x}\\) under the null hypothesis that the population mean is \\(\\mu\\), is given by the formula:\n\\[\nt = \\frac{\\bar{x} - \\mu}{SE}\n\\]\nReplacing these greek letters with our actual values \\(\\bar{x} = 84.75\\), \\(\\mu = 82\\), and \\(SE=1.22\\), we get:\n\nse &lt;- sd(d_bl$lsas_screen) / sqrt(nrow(d_bl))\nx_bar &lt;- mean(d_bl$lsas_screen)\nt_value &lt;- (x_bar - 82) / se\nt_value\n\n[1] 2.24774\n\n\nNow let’s see the probability of getting a value larger or equal to this - our one-sided p-value! For this we use the pt() function, that provides the cumulative probability up until a given t-value. 1 minus this cumulative probability gives the probability of values equal or above the given t-value.\n\n1 - pt(t_value, df = 180)\n\n[1] 0.01290324\n\n\n\n\n\n\n\n\nNotez-values and t-values\n\n\n\nWhen the sample size increases, the t-distribution approaches the z-distribution and these estimates become very similar. As a general rule of thumb, it is fine to use z-values rather than t-values for sample sizes larger than 200.\n\n\nWe could also get a very similar p-value from the z-distribution (although we would assume we have the population variance for out calculation of the standard error). If this was a proportion, a z-test would be the one to use, since we are not using any estimates when calculating the standard error.\n\n1 - pnorm(t_value)\n\n[1] 0.01229639\n\n\nVery similar to our simulated p-value above! More conveniently, of course, we could get this p-value using the t.test() function.\n\nt.test(d_bl$lsas_screen, mu = 82, alternative = \"greater\")\n\n\n    One Sample t-test\n\ndata:  d_bl$lsas_screen\nt = 2.2477, df = 180, p-value = 0.0129\nalternative hypothesis: true mean is greater than 82\n95 percent confidence interval:\n 82.72756      Inf\nsample estimates:\nmean of x \n 84.75138 \n\n\n\n\n\n\n\n\nNoteOne-sided and two-sided p-values\n\n\n\nWhat we have calculated, bow in three different ways, is the one-sided p-value. This is because we only looked at the probability to get data equal to or greater than our observed data, given that the null-hypothesis was true.\nIf we wanted to see the probability of getting data equal or greater than our observed data OR equal or less than out observed data under the null-hypothesis, we would want a two-sided p-value. Since the sampling distribution is symmetrical, we could get this by multiplying of one-sided p-value by 2.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCode for the two-sided p-value\n\n# manual code\nse &lt;- sd(d_bl$lsas_screen) / sqrt(nrow(d_bl))\nx_bar &lt;- mean(d_bl$lsas_screen)\nt_value &lt;- (x_bar - 82) / se\n(1 - pt(t_value, df = 180)) * 2\n\n[1] 0.02580648\n\n# or using the t-test function\nt.test(d_bl$lsas_screen, mu = 82, alternative = \"two.sided\")\n\n\n    One Sample t-test\n\ndata:  d_bl$lsas_screen\nt = 2.2477, df = 180, p-value = 0.02581\nalternative hypothesis: true mean is not equal to 82\n95 percent confidence interval:\n 82.33602 87.16675\nsample estimates:\nmean of x \n 84.75138 \n\n\n\n\n\n\n\n\nExercise 1: P-value for PHQ-9 Mean\n\n\n\n\n\nCalculate the p-value for the null hypothesis that the mean PHQ-9 value in the underlying population is 9, and describe in words what this number means.\n\n\n\n\n\n\n\n\n\nExercise 2: P-value for Proportion of Men\n\n\n\n\n\nCalculate the p-value for getting our observed proportion of men, \\(\\hat{p}\\), if the true population proportion, \\(p\\), was 50% or more using a z-test.\nHINT: use the standard error of the proportion: \\[\n\\mathrm{SE}(p) = \\sqrt{\\frac{p(1 - p)}{n}}\n\\]\nand combine with the formula for the z-scores\n\\[\nz= \\frac{p - \\hat{p}}{SE}\n\\]\n\n\n\n\n\n\n\n\n\nExercise 3: Effect of Sample Size on P-value\n\n\n\n\n\nModify the simulation code for the sampling distribution above to determine what would happen to the p-value if the sample size was 10, 100 or 1000.\n\n\n\n\n\nConfidence intervals\nUsing the standard error, we can also calculate the confidence interval, defined as an interval that, if computed on a repeated set of samples, would contain the true population statistic 95% of the times.\nWhen the sample standard deviation is used, we get the confidence intervals by taking the observed mean and adding or subtracting the t-value of the desired percentiles of the sampling distribution (indicated by the asterix) times the standard error.\n\\[ \\text{CI} = \\bar{x} \\pm t^*\\ \\frac{s}{\\sqrt{n}}\\]\nIf we knew the stardard error of the population, we could substitute the sample variance \\(s\\) for the population variance \\(\\sigma\\), and use z-values instead of t-values. For 95% confidence intervals, the z-value is 1.96.\n\\[\n\\text{CI} = \\bar{x} \\pm z^*\\frac{\\sigma}{\\sqrt{n}}\n\\]\nFor a proportion, the confidence intervals becomes:\n\\[\n\\hat{p} \\pm z^* \\sqrt{\\frac{\\hat{p}(1 - \\hat{p})}{n}}\n\\]\n\n\n\n\n\n\nTipConfidence intervals for proportions\n\n\n\n\n\nThis confidence intervals for proportion, known as Wald confidence intervals, is easy to compute. However, since it uses the sample proportion to estimate the population proportion, they can be erratic, especially when \\(\\hat{p}\\) approach 0 or 1. We therefore recommend using more advanced confidence intervals, calculated by statistical software, for instance using the function prop.test().\n\n\n\nNow let’s use these formulas to calculate the confidence interval of the mean of LSAS-SR\n\nt_value &lt;- qt(1 - 0.025, 180) # the t-value for a 95% confidence interval with 180 degrees of freedom\n\nse &lt;- sd(d_bl$lsas_screen) / sqrt(nrow(d_bl)) # standard error of LSAS-SR\n\nucl &lt;- mean(d_bl$lsas_screen) + t_value * se # the upper confidence limit\nlcl &lt;- mean(d_bl$lsas_screen) - t_value * se # the lower confidence limit\n\nprint(c(lcl, ucl))\n\n[1] 82.33602 87.16675\n\n\nWe can also use the t.test() function to get this interval\n\nt.test(d_bl$lsas_screen, conf.level = 0.95) # For a 95% CI\n\n\n    One Sample t-test\n\ndata:  d_bl$lsas_screen\nt = 69.238, df = 180, p-value &lt; 2.2e-16\nalternative hypothesis: true mean is not equal to 0\n95 percent confidence interval:\n 82.33602 87.16675\nsample estimates:\nmean of x \n 84.75138 \n\n\nLet’s also see what happens if we use z-values (for 95% confidence intervals, the z-value is approx 1.96)\n\nse &lt;- sd(d_bl$lsas_screen) / sqrt(nrow(d_bl)) # standard error of LSAS-SR\n\nucl &lt;- mean(d_bl$lsas_screen) + 1.96 * se\nlcl &lt;- mean(d_bl$lsas_screen) - 1.96 * se\n\nprint(c(lcl, ucl))\n\n[1] 82.35221 87.15055\n\n\n\n\n\n\n\n\nExercise 4: Z-scores vs T-scores for Confidence Intervals\n\n\n\n\n\nExplain why the confidence intervals calculated using z-scores are narrower than the ones using t-scores.\n\n\n\n\n\n\n\n\n\nExercise 5: 95% Confidence Interval for PHQ-9\n\n\n\n\n\nCalculate the 95% confidence interval for PHQ-9, and describe in words what these numbers mean.\n\n\n\n\n\n\n\n\n\nExercise 6: Wald Confidence Interval for Proportion of Men\n\n\n\n\n\nCalculate the 95% Wald confidence interval for the proportion of men in the dataset using the formula above and interpret its meaning.\n\n\n\n\n\n\n\n\n\nExercise 7: Comparing Wald vs prop.test() Confidence Intervals\n\n\n\n\n\nCompare this to what you would obtain using the function prop.test() in R.\n\n\n\n\n\n\n\n\n\nExercise 8: Interpreting Confidence Intervals in Context\n\n\n\n\n\nReason about the meaning and interpretation of the confidence intervals you have calculated in the context of how the actual STePs study was performed. The study can be found at: https://www.nature.com/articles/s44184-024-00063-0",
     "crumbs": [
       "Labs",
-      "Sampling from a population"
+      "P-values and confidence intervals"
     ]
   },
   {
-    "objectID": "labs/sampling.html#standard-error-of-a-mean",
-    "href": "labs/sampling.html#standard-error-of-a-mean",
-    "title": "Sampling from a population",
-    "section": "Standard error of a mean",
-    "text": "Standard error of a mean\nThe formula for the standard error of a mean, if we knew the population variance \\(\\sigma^2\\), is:\n\\[\nSE = {\\sqrt{\\sigma^2 / n}}\n\\]\nHowever, we rarely know the population standard deviation. Luckily we can use the sample variance \\(s^2\\) to estimate it:\n\\[\nSE = {\\sqrt{s^2 / n}}\n\\]",
-    "crumbs": [
-      "Labs",
-      "Sampling from a population"
-    ]
-  },
-  {
-    "objectID": "labs/sampling.html#standard-error-of-a-proportion",
-    "href": "labs/sampling.html#standard-error-of-a-proportion",
-    "title": "Sampling from a population",
-    "section": "Standard error of a proportion",
-    "text": "Standard error of a proportion\nFor a proportion, the standard error for the population is calculated by the formula:\n\\[\n\\mathrm{SE}(p) = \\sqrt{\\frac{p(1 - p)}{n}}\n\\]\n\n\n\n\n\n\nExercise 1: Standard Error of LSAS_Screen\n\n\n\n\n\nEstimate the standard error of LSAS_Screen in the STePS study using the formula above, and describe in words what the number means.\n\n\n\n\n\n\n\n\n\nExercise 2: Standard Error of Proportion\n\n\n\n\n\nCalculate the standard error for the proportion of men in the STePS study, and describe the meaning of this number in words.\n\n\n\n\n\n\n\n\n\nExercise 3: Effect of Sample Size on Standard Error\n\n\n\n\n\nDescribe what would happen to these standard errors if the sample size had been 1000 participants and explain why?",
-    "crumbs": [
-      "Labs",
-      "Sampling from a population"
-    ]
-  },
-  {
-    "objectID": "r-setup.html",
-    "href": "r-setup.html",
-    "title": "R and RStudio setup",
+    "objectID": "labs/testing-two-means.html",
+    "href": "labs/testing-two-means.html",
+    "title": "Testing two means and contingency tables",
     "section": "",
-    "text": "To participate in the lab sessions, you need to install R and RStudio on your computer. You can download R from CRAN and RStudio from RStudio. Both are free to use.",
+    "text": "In this lab we focus on testing differences between groups. Previously we have calculated p-values and confidence intervals for one-sample means and proportions. In psychiatric research, we are more often interested in comparing means between groups. For instance, the post-treatment symptom levels between the treatment group and the control group.\nIn the STepS study, a primary comparison was the severity of social anxiety symptoms post-treatment between the self-guided and the therapist-guided treatment groups. As a first check, we can load the data and calculate get some descriptive statistics for the post-treatment LSAS-scores across the treatment groups.",
+    "crumbs": [
+      "Labs",
+      "Testing two means"
+    ]
+  },
+  {
+    "objectID": "labs/testing-two-means.html#testing-dependent-means",
+    "href": "labs/testing-two-means.html#testing-dependent-means",
+    "title": "Testing two means and contingency tables",
+    "section": "Testing dependent means",
+    "text": "Testing dependent means\nThe independent group t-test assumes that the groups compared are independent, which is the case for the two treatment groups. Sometimes, however, we want to compare the means of dependent groups. This could be for instance the difference in means between two time-point of the same group. Then we can use a paired-sample t-test.\nFor a paired samples t-test, the statistic is:\n\\[\nt = \\frac{\\bar{D}}{SE_D}\n\\]\nwhere:\n\n\\(\\bar{D}\\) = mean of the difference scores\n\\(SE_D\\) = the standard error of the difference scores calculated as \\(s_D/ \\sqrt{n}\\) = the standard error of the differences, with \\(s_D\\) = the standard deviation of the differences and \\(n\\) = the number of paired observations\n\nLet’s use this to formula to test the difference in LSAS-scores from pre-to post-treatment.\n\ndiff_pre_post &lt;- df_data$lsas_post - df_data$lsas_screen\nmean_diff &lt;- mean(diff_pre_post, na.rm = TRUE)\nsd_diff &lt;- sd(diff_pre_post, na.rm = TRUE)\nn &lt;- sum(!is.na(diff_pre_post))\nse_diff &lt;- sd_diff / sqrt(n)\nt_value &lt;- mean_diff / se_diff\nt_value\n\n[1] -11.07385\n\n\nAnd get the two-tailed p-value from this as before\n\ndf &lt;- n - 1\np_value &lt;- 2 * (1 - pt(abs(t_value), df))\np_value\n\n[1] 0\n\n\nOr using the t.test() function with the the argument paired = TRUE.\n\nt.test(df_data$lsas_post, df_data$lsas_screen, paired = TRUE)\n\n\n    Paired t-test\n\ndata:  df_data$lsas_post and df_data$lsas_screen\nt = -11.074, df = 168, p-value &lt; 2.2e-16\nalternative hypothesis: true mean difference is not equal to 0\n95 percent confidence interval:\n -21.05556 -14.68409\nsample estimates:\nmean difference \n      -17.86982 \n\n\nWe can also get the confidence intervals of this difference, using a familiar formula for large samples\n\\[\n\\bar{D} \\;\\pm\\; z_{\\alpha/2} \\cdot SE_D\n\\]\nFor smaller samples, we need use the t-distribution and find the right t-value for our degrees of freedom and coverage interval.\n\\[\nCI = \\bar{D} \\;\\pm\\; t_{\\alpha/2, \\, df} \\cdot SE_D\n\\]\nAnd again, \\(SE_D = {s_D}/ {\\sqrt{n}}\\)\n\ndiff_pre_post &lt;- df_data$lsas_post - df_data$lsas_screen\nmean_diff &lt;- mean(diff_pre_post, na.rm = TRUE)\nsd_diff &lt;- sd(diff_pre_post, na.rm = TRUE)\nn &lt;- sum(!is.na(diff_pre_post))\nse_diff &lt;- (sd_diff / sqrt(n)) # saving the standard error of the difference as a separate object for convenience\n\n# and putting it together\nlcl &lt;- mean_diff - 1.96 * se_diff\nucl &lt;- mean_diff + 1.96 * se_diff\nprint(c(lcl, ucl))\n\n[1] -21.03267 -14.70698\n\n\nor manually using the t-values\n\ndf &lt;- n - 1\nalpha &lt;- 0.05\nt_crit &lt;- qt(1 - alpha / 2, df)\nlcl &lt;- mean_diff - t_crit * se_diff\nucl &lt;- mean_diff + t_crit * se_diff\nprint(c(lcl, ucl))\n\n[1] -21.05556 -14.68409\n\n\nOr again, more conveniently using the t.test() function\n\nt.test(df_data$lsas_post, df_data$lsas_screen, paired = TRUE)\n\n\n    Paired t-test\n\ndata:  df_data$lsas_post and df_data$lsas_screen\nt = -11.074, df = 168, p-value &lt; 2.2e-16\nalternative hypothesis: true mean difference is not equal to 0\n95 percent confidence interval:\n -21.05556 -14.68409\nsample estimates:\nmean difference \n      -17.86982 \n\n\n\n\n\n\n\n\nExercise 2: Testing dependent group means\n\n\n\n\n\n\nCompute a t-test for the difference in LSAS-scores between post-treatment and 12-month follow-up and provide an interpretation of its meaning\nAlso calculate the 95% confidence interval for this difference, using the z-value formula and provide an interpretation of its meaning\nCompare the means of GAD-7 from pre- to post-treatment and interpret the results",
+    "crumbs": [
+      "Labs",
+      "Testing two means"
+    ]
+  },
+  {
+    "objectID": "labs/testing-two-means.html#contingency-tables-and-the-chi-squared-test",
+    "href": "labs/testing-two-means.html#contingency-tables-and-the-chi-squared-test",
+    "title": "Testing two means and contingency tables",
+    "section": "Contingency tables and the Chi-squared test",
+    "text": "Contingency tables and the Chi-squared test\nSay that we wanted to test the distribution of some categorical variable across two groups, the the methods presented above will not help. For this we need other tests.\nSay that we wanted to know if the gender distribution was similar across in the self-guided as in the therapist-guided treatment group of the the STEpS study. The first step to such an investigation would be to create a contingency table showing the gender distribution across the groups.\n\n# create a gender variable\ndf_data$gender &lt;- rbinom(nrow(df_data), 1, 0.7)\ndf_data$gender &lt;- ifelse(df_data$gender == 1, \"Woman\", \"Man\")\n\n\ntable(df_data$trt, df_data$gender) # number of person\n\n                  \n                   Man Woman\n  self-guided       14    47\n  therapist-guided  23    37\n  waitlist          20    40\n\nprop.table(table(df_data$trt, df_data$gender), margin = 1) # proportion in each treatment group\n\n                  \n                         Man     Woman\n  self-guided      0.2295082 0.7704918\n  therapist-guided 0.3833333 0.6166667\n  waitlist         0.3333333 0.6666667\n\n\nWe see that there are some small differences between the groups, but we have no statistical test of these differences. Say that we wanted to test the null hypothesis that there is no association between gender and the treatment group you end up in. This hypothesis should hold, due to the randomization of the STEpS study.\nOne way to test if the proportion of men and women differs between the groups is perform a Chi-squared test (\\(X^2-test\\)).\nThe formula for Chi-squared test statistic is:\n\\[\n\\chi^2 = \\sum_{i=1}^{r} \\sum_{j=1}^{c} \\frac{(O_{ij} - E_{ij})^2}{E_{ij}}\n\\]\nwhere\n\\[\nE_{ij} = \\frac{(\\text{row total})_i \\cdot (\\text{column total})_j}{\\text{grand total}}\n\\]\nThis test compares the observed counts in each cell against what would be expected if values where distributed equally across the groups (i.e. across the cells of the contingency table). Coding this formula manually is a bit tricky, but here is the code for those interested.\n\n## Build the contingency table\ntbl &lt;- table(trt = df_data$trt, gender = df_data$gender)\n\n## Convert this table to matrix format for the following calculations\nO &lt;- as.matrix(tbl)\nO\n\n                  gender\ntrt                Man Woman\n  self-guided       14    47\n  therapist-guided  23    37\n  waitlist          20    40\n\n## Expected counts E_ij = (row total_i * col total_j) / grand total\nrow_tot &lt;- rowSums(O)\ncol_tot &lt;- colSums(O)\ngrand &lt;- sum(O)\nE &lt;- outer(row_tot, col_tot) / grand # outer is a function to multiply arayys\nE\n\n                      Man    Woman\nself-guided      19.20994 41.79006\ntherapist-guided 18.89503 41.10497\nwaitlist         18.89503 41.10497\n\n## Chi-square statistic: sum_{i,j} (O_ij - E_ij)^2 / E_ij\nchi_sq &lt;- sum((O - E)^2 / E)\n\n## Degrees of freedom: (r - 1)(c - 1)\nr &lt;- nrow(O)\nc &lt;- ncol(O)\ndf &lt;- (r - 1) * (c - 1)\n\n## p-value from chi-square distribution\np_value &lt;- pchisq(chi_sq, df = df, lower.tail = FALSE)\np_value\n\n[1] 0.1774092\n\n\nIn R, these calculations can be easily performed using the function chisq.test() that also provide tables for the observed and expected frequencies\n\nchisq.test(df_data$trt, df_data$gender)\n\n\n    Pearson's Chi-squared test\n\ndata:  df_data$trt and df_data$gender\nX-squared = 3.4586, df = 2, p-value = 0.1774\n\nchisq.test(df_data$trt, df_data$gender)$observed\n\n                  df_data$gender\ndf_data$trt        Man Woman\n  self-guided       14    47\n  therapist-guided  23    37\n  waitlist          20    40\n\nchisq.test(df_data$trt, df_data$gender)$expected\n\n                  df_data$gender\ndf_data$trt             Man    Woman\n  self-guided      19.20994 41.79006\n  therapist-guided 18.89503 41.10497\n  waitlist         18.89503 41.10497\n\n\nOur results tells us that the null hypothesis of no association cannot be rejected. In other words, our data would not be unexpected if there was no association between gender and treatment group in the underlying population (kind of a strange though experiment, as there are only treatment variables in treatment studies, not in the underlying population).\n\n\n\n\n\n\nCaution\n\n\n\nThe Chi-squared test is only valid if the counts in each cell is &gt;5. When cell counts are lower, Fisher’s exact test should be used instead. You can use the fisher.test() function\n\n\n\n\n\n\n\n\nExercise 3: Testing categorical distributions\n\n\n\n\n\nChi-squared tests, and other tests of significance, are sometimes used to check that important pre-treatment characteristics, such as gender or symptom level, are balanced between the treatment groups. Non-sinificant p-values are then taken as an argument that the groups are balanced. Reason about why this is a problematic approach.\nCreate a categorical for high or low generalized anxiety and one for high and low social anxiety, and use the Chi squared test to test the null hypothesis of no association between the variables",
+    "crumbs": [
+      "Labs",
+      "Testing two means"
+    ]
+  },
+  {
+    "objectID": "labs/testing-two-means.html#other-non-parametric-tests",
+    "href": "labs/testing-two-means.html#other-non-parametric-tests",
+    "title": "Testing two means and contingency tables",
+    "section": "Other non-parametric tests",
+    "text": "Other non-parametric tests\nThere are a number of other non-parametric tests that can be used if our data does not fulfill the assumptions for parametric tests, like t-tests and z-tests. We won’t go through the formulas for all these, but show you how they can be implemented in R.\n\nSign test\nThe sign test is used to test whether the median of paired differences equals a hypothesized value (often 0), using only the signs of differences, (i.e. + or -). This test can be used even when the sample is small, and the underlying population distribution is assumed to be non-normal.\nThe test is performed by counting how often a difference between pairs of values are positive. If there was no systematic change, this should occur 50% of the time. We then test whether our actual proportion of positive signs is likely to come from an underlying population where 50% of the signs are positive.\nWe could use it to test the nyll hypothesis that the median difference of LSAS-score at between pre-treatment and post-treatment is 0 (analog to our paired t-test above).\n\n# Paired sign test: H0 median LSAS(pre - post) = 0\ndiff_pre_post &lt;- df_data$lsas_post - df_data$lsas_screen # create differnece scores\nn &lt;- sum(diff_pre_post != 0, na.rm = TRUE) # exclude ties (exact zeros)\ns &lt;- sum(diff_pre_post[diff_pre_post != 0] &gt; 0, na.rm = TRUE) # number of positive differences (again excluding ties)\nbinom.test(s, n, p = 0.5, alternative = \"two.sided\") # a test of the proportion\n\n\n    Exact binomial test\n\ndata:  s and n\nnumber of successes = 24, number of trials = 167, p-value &lt; 2.2e-16\nalternative hypothesis: true probability of success is not equal to 0.5\n95 percent confidence interval:\n 0.0943006 0.2062463\nsample estimates:\nprobability of success \n             0.1437126 \n\n\nThis null hypothesis seems very unlikely.\n\n\nWilcoxon signed rank test\nTests if the distribution of paired differences is symmetric around 0 (often framed as median difference = 0), using magnitudes and signs.\n\nAssumptions: Paired observations; differences are symmetrically distributed.\nPro’s: Unlike the t-test, it does not assume interval level data. It is also better powered that the sign test.\nWe can use this to test the null hypothesis that the median LSAS score is the same at post-treatment as at pre-treatment.\n\nwilcox.test(df_data$lsas_post, df_data$lsas_screen,\n  paired = TRUE,\n  alternative = \"two.sided\",\n  exact = FALSE\n)\n\n\n    Wilcoxon signed rank test with continuity correction\n\ndata:  df_data$lsas_post and df_data$lsas_screen\nV = 1310, p-value &lt; 2.2e-16\nalternative hypothesis: true location shift is not equal to 0\n\n\nAgain, the null hypothesis seems very unlikely.\n\n\nWilcox rank-sum test\nThis test, aslo known as the Mann-Whitney U-test, test whether two independent samples come from the same distribution (often interpreted as a shift in location/medians).\n\nAssumptions: Independent samples; similar shapes are helpful for a “median shift” interpretation.\nUnlike the independent groups t-test, it does not assume interval level data. We can use this test to test the null hypothesis that LSAS scores at post-treatment have the same distribution in the self-guided and the therapist-guided treatment groups.\n\n# Two-sample Wilcoxon rank-sum test (unpaired)\n\nwilcox.test(lsas_post ~ trt,\n  data = df_data,\n  subset = trt %in% c(\"self-guided\", \"therapist-guided\"),\n  exact = FALSE\n)\n\n\n    Wilcoxon rank sum test with continuity correction\n\ndata:  lsas_post by trt\nW = 1872, p-value = 0.04974\nalternative hypothesis: true location shift is not equal to 0\n\n\n\n\n\n\n\n\nExercise 4: Non-parametric tests\n\n\n\n\n\nWhich of all the test performed today do you think is most appropriate for the pre-post difference in LSAS scores?\nAnd which of all tests performed is most appropriate for comparing the LSAS scores between the self-guided and the therapist-guided groups?\nPerform a signed test for the pre-post difference in DERS scores and interpret the results.",
+    "crumbs": [
+      "Labs",
+      "Testing two means"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Research school in clinical psychiatry",
+    "section": "",
+    "text": "Welcome to the course materials for Biostatistics courses in the Research School in Clinical Psychiatry at Karolinska Institutet. This website contains all materials related to the afternoon lab sessions of the courses.\n\n\n\n\n\n\nNoteUsing AI tools\n\n\n\nWe will not police your use of generative AI tools (ChatGPT, Claude, Co-pilot etc) in these lab sessions. They are useful for generating code that works, but you are still responsible for making sure that it is the correct code. We use some of these tools in our own day-to-day work and find them useful. However, we often have to correct subtle errors that are not immediately obvious. So please use them with care.\n\n\n\nTeaching team\nThe course director is Matteo Bottai, Professor of Biostatistics at Karolinska Institutet. Course leaders are Kristoffer Magnusson, Fred Johansson and Oskar Flygare, all researchers at Centre for Psychiatry Research, Karolinska Institutet.",
     "crumbs": [
       "Course information",
-      "R and RStudio setup"
+      "Overview"
     ]
   },
   {
-    "objectID": "r-setup.html#execute-a-test-command-in-the-r-console",
-    "href": "r-setup.html#execute-a-test-command-in-the-r-console",
-    "title": "R and RStudio setup",
-    "section": "Execute a test command in the R console",
-    "text": "Execute a test command in the R console\nIf both R and RStudio are installed and talking to each other, you should see something like this in the Console pane:\n\n\n\nR console default\n\n\nTry running a simple command to see that R is working. For example, type 1 + 1 and press enter, or try print(\"Hello, world!\"). If you see the output below, you are good to go! See the steps below for setting up RStudio.",
-    "crumbs": [
-      "Course information",
-      "R and RStudio setup"
-    ]
-  },
-  {
-    "objectID": "r-setup.html#disable-saving-workspace-and-history",
-    "href": "r-setup.html#disable-saving-workspace-and-history",
-    "title": "R and RStudio setup",
-    "section": "Disable saving workspace and history",
-    "text": "Disable saving workspace and history\nThere are a few things we want you to change in the default RStudio settings. To access the settings in RStudio, go to Tools -&gt; Global Options... in the menu bar or press Cmd + , (Mac) or Ctrl + , (Windows/Linux). Then navigate to the General tab. Make sure to set the options according to the image below:\n\nThe purpose of these settings is to ensure that you do not save the workspace image or history when you close RStudio, since we do not want to keep any temporary objects or commands that you have used during the session. This is important for reproducibility and to avoid cluttering your workspace with unnecessary files.",
-    "crumbs": [
-      "Course information",
-      "R and RStudio setup"
-    ]
-  },
-  {
-    "objectID": "r-setup.html#working-in-projects",
-    "href": "r-setup.html#working-in-projects",
-    "title": "R and RStudio setup",
-    "section": "Working in projects",
-    "text": "Working in projects\nRStudio projects are a great way to organize your work. They allow you to keep all your files, data, and code in one place, making it easier to manage your projects. To create a new project, go to the upper right corner where it says “Project: (None)”. Then choose a location for your project and give it a name (maybe biostat-labs 🤓).",
-    "crumbs": [
-      "Course information",
-      "R and RStudio setup"
-    ]
-  },
-  {
-    "objectID": "r-setup.html#folder-structure",
-    "href": "r-setup.html#folder-structure",
-    "title": "R and RStudio setup",
-    "section": "Folder structure",
-    "text": "Folder structure\nRegardless of the project you are working on, you will benefit from having a well-organized folder structure. The needs may vary depending on the project, but a good starting point is to have separate folders for data, scripts, documentation, and output. This will help you keep your files organized and make it easier to find what you need later on. In this course, we will be assuming you have the following folder structure:\nbiostat-labs/\n├── data/\n├── R/\n├── docs/\n├── output/\n├── README.md\n\ndata/: This folder can contain raw data, but if you have sensitive data you will likely store it on a secure server. It’s safe to store the data you are working with in this course here, however.\nR/: This folder contains the scripts you are working on.\ndocs/: This folder contains the documentation for your project. One good way to distinguish this from output is that the docs folder contains files and background information that is not generate by the code you are writing, for example documentation about questionnaires.\noutput/: This folder contains the output of your code, such as figures, tables, and reports. This is where you will save the results of your analysis. Feel free to create subfolders as needed.\nREADME.md: This file contains information about your project, such as the purpose of the project, how to run the code, and any other relevant information. It’s good practice to keep this file updated as it is often the “landing page” when others collaborate in your project.",
-    "crumbs": [
-      "Course information",
-      "R and RStudio setup"
-    ]
-  },
-  {
-    "objectID": "labs/classification.html",
-    "href": "labs/classification.html",
-    "title": "Classification",
+    "objectID": "exercises/lab-1-exercises.html",
+    "href": "exercises/lab-1-exercises.html",
+    "title": "Lab 1 exercises",
     "section": "",
-    "text": "In this lab, we will look at how we can work with classification problems in R. You will learn how to evaluate sensitivity, specificity, positive predictive value (PPV), and negative predictive value (NPV). These measures help us understand how well a model or test can identify or predict binary outcomes (e.g., disease status, treatment response). You will not work on the models themselves; that is the topic of upcoming courses and labs.",
-    "crumbs": [
-      "Labs",
-      "Classification"
-    ]
-  },
-  {
-    "objectID": "labs/classification.html#sensitivity",
-    "href": "labs/classification.html#sensitivity",
-    "title": "Classification",
-    "section": "Sensitivity",
-    "text": "Sensitivity\nSensitivity is the proportion of true positives out of all actual positives.\n\nsensitivity &lt;- true_pos / (true_pos + false_neg)\n\nSensitivity is 0.37.",
-    "crumbs": [
-      "Labs",
-      "Classification"
-    ]
-  },
-  {
-    "objectID": "labs/classification.html#specificity",
-    "href": "labs/classification.html#specificity",
-    "title": "Classification",
-    "section": "Specificity",
-    "text": "Specificity\nSpecificity is the proportion of true negatives out of all actual negatives.\n\nspecificity &lt;- true_neg / (true_neg + false_pos)\n\nSpecificity is 0.94.",
-    "crumbs": [
-      "Labs",
-      "Classification"
-    ]
-  },
-  {
-    "objectID": "labs/classification.html#positive-predictive-value",
-    "href": "labs/classification.html#positive-predictive-value",
-    "title": "Classification",
-    "section": "Positive predictive value",
-    "text": "Positive predictive value\nPositive predictive value is the proportion of true positives out of all predicted positives. See the difference compared to sensitivity?\n\npos_pred_val &lt;- true_pos / (true_pos + false_pos)\n\nPositive predictive value is 0.7.",
-    "crumbs": [
-      "Labs",
-      "Classification"
-    ]
-  },
-  {
-    "objectID": "labs/classification.html#negative-predictive-value",
-    "href": "labs/classification.html#negative-predictive-value",
-    "title": "Classification",
-    "section": "Negative predictive value",
-    "text": "Negative predictive value\nNegative predictive value is the proportion of true negatives out of all predicted negatives. Again, look at the difference compared to specificity.\n\nneg_pred_val &lt;- true_neg / (true_neg + false_neg)\n\nNegative predictive value is 0.82.\n\n\n\n\n\n\nExercise 3: Calculate classification metrics\n\n\n\n\n\nCalculate the sensitivity, specificity, positive predictive value, and negative predictive value for the PHQ-9 predictions.",
-    "crumbs": [
-      "Labs",
-      "Classification"
-    ]
-  },
-  {
-    "objectID": "labs/descriptive-statistics.html",
-    "href": "labs/descriptive-statistics.html",
-    "title": "Descriptive statistics",
-    "section": "",
-    "text": "In this lab we will practice calculating and interpreting descriptive statistics using the STePS dataset. We start by loading the cleaned dataset saved in the Import and clean data lab.\nlibrary(here)\nlibrary(tidyverse)\n\nd &lt;- read_csv(here(\"data\", \"steps_clean.csv\"))\nWe’ll start of doing some basic descriptive statistics of the baseline variables. We start by checking the variable names to identify the baseline variables.\ncolnames(d)\n\n [1] \"id\"             \"group\"          \"lsas_screen\"    \"gad_screen\"    \n [5] \"phq9_screen\"    \"bbq_screen\"     \"scs_screen\"     \"dmrsodf_screen\"\n [9] \"ders_screen\"    \"pid_5_screen\"   \"lsas_v1\"        \"lsas_v2\"       \n[13] \"lsas_v3\"        \"lsas_v4\"        \"lsas_v5\"        \"lsas_v6\"       \n[17] \"lsas_v7\"        \"lsas_v8\"        \"lsas_post\"      \"gad_post\"      \n[21] \"phq9_post\"      \"bbq_post\"       \"scs_post\"       \"dmrsodf_post\"  \n[25] \"ders_post\"      \"lsas_fu6\"       \"gad_fu6\"        \"phq9_fu6\"      \n[29] \"bbq_fu6\"        \"scs_fu6\"        \"ders_fu6\"       \"lsas_fu12\"     \n[33] \"gad_fu12\"       \"phq9_fu12\"      \"bbq_fu12\"       \"scs_fu12\"      \n[37] \"ders_fu12\"      \"trt\"\nFor easy handling, we’ll create a data frame containing only the baseline variables, ID, Group and all variables ending with the suffix “_screen”.\nd_bl &lt;- d |&gt;\n  select(\n    id,\n    group,\n    lsas_screen,\n    gad_screen,\n    phq9_screen,\n    bbq_screen,\n    scs_screen,\n    dmrsodf_screen,\n    ders_screen,\n    pid_5_screen\n  )\nOr more efficiently (if variables are correctly named) we can use the ends_with() function from the tidyselect package:\nd_bl &lt;- d |&gt;\n  select(\n    id,\n    group,\n    ends_with(\"_screen\")\n  )",
-    "crumbs": [
-      "Labs",
-      "Descriptive statistics"
-    ]
-  },
-  {
-    "objectID": "labs/descriptive-statistics.html#visual-presentations",
-    "href": "labs/descriptive-statistics.html#visual-presentations",
-    "title": "Descriptive statistics",
-    "section": "Visual presentations",
-    "text": "Visual presentations\nThe simplest, and often most informative way, to get an overview of a variable is to produce a visual representation of its distribution. For uni-variable numeric variables, two common visualizations are histograms hist() and boxplots boxplot().\n\nHistogram\nA histogram is a graphical representation used to visualize the distribution of a numeric variable. It shows how data are spread across intervals (bins) and helps identify patterns such as central tendency, variability, skewness, and outliers.\n\n\n\nFeature\nWhat It Tells You\n\n\n\n\nHeight of bars\nNumber of observations in each bin\n\n\nWidth of bars\nRange of values grouped together\n\n\nShape\nSymmetry, skewness, modality\n\n\nOutliers\nBars isolated from the main group\n\n\n\n\nhist(d_bl$lsas_screen)\n\n\n\n\n\n\n\n\n\nBoxplot\nA boxplot (also called a box-and-whisker plot) is a compact, visual summary of the distribution, central tendency, and variability of a dataset.\n\n\n\nComponent\nDescription\n\n\n\n\nMinimum\nSmallest value (excluding outliers)\n\n\nQ1 (1st Quartile)\n25th percentile (lower hinge of the box)\n\n\nMedian (Q2)\n50th percentile (line inside the box)\n\n\nQ3 (3rd Quartile)\n75th percentile (upper hinge of the box)\n\n\nMaximum\nLargest value (excluding outliers)\n\n\n\n\nboxplot(d_bl$lsas_screen)",
-    "crumbs": [
-      "Labs",
-      "Descriptive statistics"
-    ]
-  },
-  {
-    "objectID": "labs/descriptive-statistics.html#centrality-measures",
-    "href": "labs/descriptive-statistics.html#centrality-measures",
-    "title": "Descriptive statistics",
-    "section": "Centrality measures",
-    "text": "Centrality measures\nSometimes we need more comprehensive summaries of our data. For this purpose, it is common to use centrality measures. Centrality measures are statistical summaries that describe the center or typical value of a dataset. They help summarize where most values lie and include:\n\nMean: The average of all values (sum of all values divided by the number of values).\nMedian: The middle value when data is ordered (or the average of the two middle numbers if the length of the vector is an even number).\nMode: The most frequently occurring value.\n\nThese measures provide insight into the distribution’s central tendency, helping you understand the “typical” case in your data.\n\n\n\n\n\n\nNoteMeans, medians and outliers\n\n\n\nThe mean is sensitive to outliers, while the median is not. The values [1, 2, 3, 100] has a mean of 26.5. and a median of 2.5. None of them are “wrong”, but the usefulness of each measure depends on what you want your centrality measures to tell. However, with highly skewed variables (e.g. income), the median is usually viewed as more informative.\n\n\nNow let’s use R to calculate some centrality measures for LSAS at baseline.\n\nGetting the mean using mean()\n\nmean(d_bl$lsas_screen)\n\n[1] 84.75138\n\n\n\n\nGetting the median using median()\n\nmedian(d_bl$lsas_screen)\n\n[1] 82\n\n\n\n\nGetting the mode\nUnlike mean() and median(), base R does not include a built-in mode() function for computing the statistical mode (i.e. the most frequent value). However, you can create one.\n\nget_mode &lt;- function(x) {\n  ux &lt;- unique(x)\n  ux[which.max(tabulate(match(x, ux)))]\n}\nget_mode(d_bl$lsas_screen)\n\n[1] 74\n\n\nMuch of this information could also be easily found using the summary() function.\n\nsummary(d_bl$lsas_screen)\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. \n  60.00   72.00   82.00   84.75   93.00  134.00 \n\n\n\n\nVisualizing centrality measures\nYou could also plot the mean, median and mode over the histogram, to get a better sense of the data.\n\nhist(d_bl$lsas_screen,\n  main = \"Histogram with Mean, Median, and Mode\",\n  xlab = \"Values\", probability = TRUE\n)\n\n# Add lines for mean, median, and mode\nabline(v = mean(d_bl$lsas_screen), col = \"blue\", lwd = 2, lty = 2) # Mean\nabline(v = median(d_bl$lsas_screen), col = \"red\", lwd = 2, lty = 2) # Median\nabline(v = get_mode(d_bl$lsas_screen), col = \"darkgreen\", lwd = 2, lty = 2) # Mode\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nExercise 2: Visualize centrality measures\n\n\n\n\n\n2.2 Visualize the distribution of the PHQ-9 scale and the PID-5 scale and provide the mean, median and mode.\n2.3 How does the centrality measures differ and why?\n2.4 Reason on the pros and cons of the different centrality measures for these scales.",
-    "crumbs": [
-      "Labs",
-      "Descriptive statistics"
-    ]
-  },
-  {
-    "objectID": "labs/descriptive-statistics.html#spread-measures",
-    "href": "labs/descriptive-statistics.html#spread-measures",
-    "title": "Descriptive statistics",
-    "section": "Spread measures",
-    "text": "Spread measures\nCentrality measures give information on the most typical value in the distribution, but no info on the spread of values. For example, the two distributions below have the same mean value (0), but different spread (standard deviation 0.2 vs. 1).\n\n\n\n\n\n\n\n\n\nTo get a summary of the spread of the data, we use different spread measures. Spread measures describe how much the data varies or is dispersed around a central value like the mean or median. They help you understand whether the values are tightly clustered or widely scattered. Commonly used spread measures include:\n\nRange range(): The difference between the maximum and minimum values. Simple but sensitive to outliers.\n\\[\\text{Range} = \\max(X) - \\min(X)\\]\nInterquartile Range (IQR) IQR(): The range of the middle 50% of data (Q3 − Q1). More robust against extreme values.\n\\[\\mathrm{IQR} = Q_3 - Q_1\\]\nVariance var(): The average of the squared deviations from the mean. It gives more weight to larger deviations.\nPopulation variance\n\\[\n\\sigma^2 = \\frac{1}{n} \\sum_{i=1}^{n} (x_i - \\mu)^2\n\\]\nSample variance\n\\[\ns^2 = \\frac{1}{n-1} \\sum_{i=1}^{n} (x_i - \\bar{x})^2\n\\]\nStandard Deviation (SD) sd(): The square root of variance. It measures average distance from the mean and is widely used in statistics.\nPopulation SD\n\\[\n\\sigma = \\sqrt{\\frac{1}{n} \\sum_{i=1}^{n} (x_i - \\mu)^2}\n\\]\nSample SD\n\\[ s = \\sqrt{\\frac{1}{n - 1} \\sum_{i=1}^{n} (x_i - \\bar{x})^2}\\]\n\n\n\n\n\n\nNotePopulation vs samples\n\n\n\nThe population variance (\\(\\sigma^2\\)) and standard deviation (\\(\\sigma\\)) are used when you have data for the entire population — that is, every single value of interest is included.\nThe sample variance (\\(s^2\\)) and standard deviation (\\(s\\)) are used when you’re working with a subset (sample) of a larger population. It includes a correction (called Bessel’s correction) to account for the fact that samples tend to underestimate variability. The sample SD divides by \\(n -1\\) to compensate for the fact that we use \\(\\bar{x}\\), an estimate of the true population mean (\\(\\mu\\)). This correction makes the sample variance an unbiased estimator of the population variance.\nThe functions sd() and var() gives the sample standard deviation and variance.\n\n\n\n\n\n\n\n\n\nExercise 3: Calculate spread measures\n\n\n\n\n\n2.5 Calculate spread measures for the LSAS-SR scale, what do they tell you and which ones do you think are most useful to describe the spread of the values. Motivate your answer briefly!\nOvercourse:\n2.6 Calculate the population variance and standard deviation. How do these differ from the ones given by the functions sd() and var().\n2.7 Use only the first ten participants and compare the population and the sample variance and standard deviation of LSAS-SR. What do you find, and how do the results compare to those from exercise 2.6.",
-    "crumbs": [
-      "Labs",
-      "Descriptive statistics"
-    ]
-  },
-  {
-    "objectID": "labs/descriptive-statistics.html#visual-presentations-1",
-    "href": "labs/descriptive-statistics.html#visual-presentations-1",
-    "title": "Descriptive statistics",
-    "section": "Visual presentations",
-    "text": "Visual presentations\nAs for numeric variables, visualizations can help get a better sense for the distribution of the data. Two common ways are barcharts and piecharts\n\nBarcharts\nThe height of each bar gives the number of occurrences of each category. When you use the base function plot() on a factor level variable, it gives you a barchart.\n\nplot(as.factor(d_bl$education))\n\n\n\n\n\n\n\n\n\n\nPiecharts\nA piechart shows the distribution of a categorical variable as a pie, with the size of each piece representing the proportion of each level of the categorical variable.\n\npie(table(d_bl$education))\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nExercise 4: Visualize categorical data\n\n\n\n\n\n2.8 Calculate the counts, proportions and percentages for the simulated income categories and visualize the distribution.",
-    "crumbs": [
-      "Labs",
-      "Descriptive statistics"
-    ]
-  },
-  {
-    "objectID": "labs/descriptive-statistics.html#numeric-by-numeric-distributions",
-    "href": "labs/descriptive-statistics.html#numeric-by-numeric-distributions",
-    "title": "Descriptive statistics",
-    "section": "Numeric by numeric distributions",
-    "text": "Numeric by numeric distributions\nFor two numeric variables, the most common visualization is the scatter plot. It shows the distribution of each datapoint with one variable on the x-axis and the other on the y-axis. Using the plot() function with two numeric variables will give you a scatter plot.\n\nplot(d_bl$lsas_screen, d_bl$gad_screen)",
-    "crumbs": [
-      "Labs",
-      "Descriptive statistics"
-    ]
-  },
-  {
-    "objectID": "labs/descriptive-statistics.html#numeric-by-categorical-distributions",
-    "href": "labs/descriptive-statistics.html#numeric-by-categorical-distributions",
-    "title": "Descriptive statistics",
-    "section": "Numeric by categorical distributions",
-    "text": "Numeric by categorical distributions\nThe joint distribution of a numeric and a categorical variable can be visualized as a stratified boxplots. For this let’s look at the distribution of LSAS scores for people with high generalized anxiety (GAD-7 ≥ 10 or more) vs low generalized anxiety (GAD-7 &lt; 10).\n\n# create a variable indicating if GAD-7 is 10 or more\nd_bl$gad_cat &lt;- ifelse(d_bl$gad_screen &gt;= 10, \"High anxiety\", \"Low anxiety\")\n\nboxplot(lsas_screen ~ gad_cat, data = d_bl)",
-    "crumbs": [
-      "Labs",
-      "Descriptive statistics"
-    ]
-  },
-  {
-    "objectID": "labs/descriptive-statistics.html#categorical-by-categorical-distributions",
-    "href": "labs/descriptive-statistics.html#categorical-by-categorical-distributions",
-    "title": "Descriptive statistics",
-    "section": "Categorical by categorical distributions",
-    "text": "Categorical by categorical distributions\nAll the information of the joint distribution of two categorical variables can be seen using a cross-table. For this let’s look at the distribution of high vs low depression (PHQ-9 ≥ 10 vs PHQ-9 &lt;10 or less) against high vs low generalized anxiety.\n\nd_bl$phq_cat &lt;- ifelse(d_bl$phq9_screen &gt;= 10, \"High depression\", \"Low depression\")\n\ntable(d_bl$gad_cat, d_bl$phq_cat)\n\n              \n               High depression Low depression\n  High anxiety              62             42\n  Low anxiety               20             57\n\n\nAlthough all information about the distribution is available in the crosstable, you may still want to visualize this distribution. One way is to use a mosaic plot, which you can get by providing cross-table to the plot() function.\n\nplot(table(d_bl$gad_cat, d_bl$phq_cat), main = \"Depression and anxiety\")",
-    "crumbs": [
-      "Labs",
-      "Descriptive statistics"
-    ]
-  },
-  {
-    "objectID": "labs/descriptive-statistics.html#descriptive-statistics-using-the-tableone-package",
-    "href": "labs/descriptive-statistics.html#descriptive-statistics-using-the-tableone-package",
-    "title": "Descriptive statistics",
-    "section": "Descriptive statistics using the ‘tableone’ package",
-    "text": "Descriptive statistics using the ‘tableone’ package\nA convenient way to get descriptive statistics for a range of variables is to use the tableone package and the CreateTableOne() function. First let get some descriptives for the overall sample\n\n# install.packages(\"tableone\")\nlibrary(tableone)\n\n# define the variables you want\nvars &lt;- c(\n  \"lsas_screen\",\n  \"gad_screen\",\n  \"phq9_screen\",\n  \"bbq_screen\",\n  \"scs_screen\",\n  \"dmrsodf_screen\",\n  \"ders_screen\",\n  \"pid_5_screen\",\n  \"gender\",\n  \"education\",\n  \"income\"\n)\n\nCreateTableOne(vars = vars, data = d_bl)\n\n                            \n                             Overall                                 \n  n                                         181                      \n  lsas_screen (mean (SD))                 84.75 (16.47)              \n  gad_screen (mean (SD))                  10.86 (4.51)               \n  phq9_screen (mean (SD))                  9.61 (4.37)               \n  bbq_screen (mean (SD))                  39.64 (16.48)              \n  scs_screen (mean (SD))                  27.66 (7.03)               \n  dmrsodf_screen (mean (SD)) 267220994518069.59 (3595090797150460.50)\n  ders_screen (mean (SD))                 49.20 (13.43)              \n  pid_5_screen (mean (SD))                23.93 (8.51)               \n  gender = Woman (%)                        134 (74.0)               \n  education (%)                                                      \n     Primary                                 70 (38.7)               \n     Secondary                               72 (39.8)               \n     University                              39 (21.5)               \n  income (%)                                                         \n     High                                    37 (20.4)               \n     Low                                     37 (20.4)               \n     Medium                                 107 (59.1)               \n\n\nWe can also do this stratified by a categorical variable using the strata argument. Let’s have it by treatment group.\n\nCreateTableOne(vars = vars, data = d_bl, strata = \"group\", test = FALSE)\n\n                            Stratified by group\n                             0                                       \n  n                                          60                      \n  lsas_screen (mean (SD))                 86.98 (18.99)              \n  gad_screen (mean (SD))                  11.18 (4.50)               \n  phq9_screen (mean (SD))                 10.35 (4.63)               \n  bbq_screen (mean (SD))                  37.38 (17.10)              \n  scs_screen (mean (SD))                  27.37 (7.04)               \n  dmrsodf_screen (mean (SD)) 806116666706155.25 (6244152850195288.00)\n  ders_screen (mean (SD))                 50.70 (13.72)              \n  pid_5_screen (mean (SD))                25.07 (9.46)               \n  gender = Woman (%)                         45 (75.0)               \n  education (%)                                                      \n     Primary                                 30 (50.0)               \n     Secondary                               21 (35.0)               \n     University                               9 (15.0)               \n  income (%)                                                         \n     High                                    11 (18.3)               \n     Low                                     14 (23.3)               \n     Medium                                  35 (58.3)               \n                            Stratified by group\n                             1                   2                  \n  n                                61                  60           \n  lsas_screen (mean (SD))       83.08 (12.97)       84.22 (16.95)   \n  gad_screen (mean (SD))        10.97 (4.44)        10.42 (4.63)    \n  phq9_screen (mean (SD))        9.15 (4.05)         9.35 (4.40)    \n  bbq_screen (mean (SD))        42.03 (17.09)       39.45 (15.10)   \n  scs_screen (mean (SD))        27.15 (7.31)        28.48 (6.76)    \n  dmrsodf_screen (mean (SD)) 44885.95 (16035.54) 44388.20 (14850.76)\n  ders_screen (mean (SD))       46.74 (13.60)       50.22 (12.83)   \n  pid_5_screen (mean (SD))      22.34 (7.80)        24.40 (8.08)    \n  gender = Woman (%)               44 (72.1)           45 (75.0)    \n  education (%)                                                     \n     Primary                       21 (34.4)           19 (31.7)    \n     Secondary                     24 (39.3)           27 (45.0)    \n     University                    16 (26.2)           14 (23.3)    \n  income (%)                                                        \n     High                          10 (16.4)           16 (26.7)    \n     Low                           14 (23.0)            9 (15.0)    \n     Medium                        37 (60.7)           35 (58.3)    \n\n\n\n\n\n\n\n\nExercise 5: Visualize bi-variable distributions\n\n\n\n\n\n2.9 Visualize the joint distribution of GAD-7 and PHQ-9 as numeric variables and describe what you see\n2.10 Visualize the distribution of of LSAS scores by income level and describe what you see\n2.11 Create a variable for high vs. low DERS scores and investigate the joint distribution of this variable and phq_cat (that we created in an earlier example)\n2.12 Create a table using the tableone package to show descriptives statistics stratified by high vs low depression levels. Briefly interpret what you see.",
-    "crumbs": [
-      "Labs",
-      "Descriptive statistics"
-    ]
-  },
-  {
-    "objectID": "labs/import-clean.html",
-    "href": "labs/import-clean.html",
-    "title": "Import and clean data",
-    "section": "",
-    "text": "For this first lab session, we will:",
-    "crumbs": [
-      "Labs",
-      "Import and clean data"
-    ]
-  },
-  {
-    "objectID": "labs/import-clean.html#steps-study",
-    "href": "labs/import-clean.html#steps-study",
-    "title": "Import and clean data",
-    "section": "STePS-study",
-    "text": "STePS-study\nThis is a dataset from the STePS study, which is a RCT comparing guided and unguided internet-delivered psychodynamic therapy for social anxiety disorder. The study is published online.\nIn true open science fashion, the data is openly available online from the Open Science Framework.",
-    "crumbs": [
-      "Labs",
-      "Import and clean data"
-    ]
-  },
-  {
-    "objectID": "labs/import-clean.html#check-data-structure",
-    "href": "labs/import-clean.html#check-data-structure",
-    "title": "Import and clean data",
-    "section": "Check data structure",
-    "text": "Check data structure\nAfter importing the data, we can check the structure of the dataset using the glimpse() function. This function provides a quick overview of the dataset, including the number of rows and columns, as well as the data types of each column. Does it look as expected?\nYour object df_rawdata should contain 181 rows and 37 columns. We can see that the first column is named ID, which is the unique identifier for each participant. The second column is named Group, which indicates the group assignment: unguided treatment, guided treatment, or waitlist. The rest seem to be various questionnaires and scales.\n\nglimpse(df_rawdata)\n\nRows: 181\nColumns: 37\n$ ID               &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16…\n$ Group            &lt;dbl&gt; 2, 1, 0, 2, 2, 2, 2, 2, 1, 1, 1, 1, 0, 2, 1, 1, 2, 0,…\n$ `LSAS Screening` &lt;dbl&gt; 63, 71, 98, 63, 74, 81, 67, 76, 88, 73, 86, 78, 97, 7…\n$ GAD_screen       &lt;dbl&gt; 7, 17, 18, 8, 14, 11, 5, 8, 14, 5, 15, 16, 17, 13, 10…\n$ `PHQ-9 screen`   &lt;dbl&gt; 6, 13, 19, 4, 18, 8, 9, 8, 14, 3, 5, 11, 12, 18, 10, …\n$ BBQ_screen       &lt;dbl&gt; 60, 66, 4, 50, 22, 23, 47, 52, 31, 46, 67, 24, 57, 40…\n$ SCS_screen       &lt;dbl&gt; 25, 16, 22, 35, 29, 30, 20, 34, 21, 26, 35, 21, 32, 3…\n$ DMRSODF_screen   &lt;dbl&gt; 49178, 50727, 45074, 5381, 48444, 50899, 46923, 41428…\n$ `DERS-16_screen` &lt;dbl&gt; 44, 73, 65, 45, 46, 49, 57, 38, 67, 45, 55, 56, 71, 3…\n$ `PID-5_screen`   &lt;dbl&gt; 25, 20, 48, 17, 24, 20, 24, 26, 39, 23, 24, 26, 23, 1…\n$ LSAS_V1          &lt;chr&gt; \"72\", \"missing\", \"81\", \"44\", \"39\", \"65\", \"68\", \"69\", …\n$ LSAS_V2          &lt;chr&gt; \"64\", \"missing\", \"89\", \"33\", \"115\", \"64\", NA, \"70\", \"…\n$ LSAS_V3          &lt;chr&gt; \"72\", \"missing\", \"73\", \"36\", \"missing\", \"63\", NA, \"71…\n$ LSAS_V4          &lt;chr&gt; \"61\", \"missing\", \"94\", \"44\", \"missing\", \"60\", NA, \"51…\n$ LSAS_V5          &lt;chr&gt; \"61\", NA, \"93\", \"21\", \"missing\", \"55\", NA, \"55\", NA, …\n$ LSAS_V6          &lt;chr&gt; \"46\", NA, \"88\", \"20\", \"missing\", \"46\", NA, \"56\", \"93\"…\n$ LSAS_V7          &lt;dbl&gt; 55, NA, NA, 18, NA, 45, NA, 64, NA, 54, 101, NA, 89, …\n$ LSAS_V8          &lt;dbl&gt; 49, NA, NA, 17, NA, 44, NA, 52, NA, 61, 84, NA, 89, N…\n$ LSAS_POST        &lt;dbl&gt; 50, NA, 77, 22, NA, 52, 75, 45, 79, 64, 80, 89, 83, 4…\n$ GAD_POST         &lt;dbl&gt; 4, NA, 19, 6, NA, 9, 4, 3, 10, 7, 15, 7, 11, 11, 11, …\n$ `PHQ-9_POST`     &lt;dbl&gt; 3, NA, 22, 4, NA, 6, 11, 2, 14, 4, 8, 7, 8, 8, 13, 4,…\n$ BBQ_POST         &lt;chr&gt; \"76\", NA, \"68\", \"57\", \"missing\", \"14\", \"46\", \"70\", \"3…\n$ SCS_POST         &lt;dbl&gt; 34, NA, 34, 34, NA, 30, 19, 34, 23, 23, 31, 37, 34, 3…\n$ DMRSODF_POST     &lt;dbl&gt; 50776, NA, 42809, 52069, NA, 51758, 49, 50235, 47978,…\n$ `DERS-16_POST`   &lt;dbl&gt; 36, NA, 78, 38, NA, 54, 61, 26, 56, 51, 52, 25, 37, 3…\n$ LSAS_FU6         &lt;dbl&gt; 33, NA, NA, 14, 6, 60, 64, 49, NA, 45, 85, 74, NA, 58…\n$ GAD_FU6          &lt;dbl&gt; 0, NA, NA, 0, NA, 14, 6, 4, NA, 5, 16, NA, NA, 11, 8,…\n$ PHQ9_FU6         &lt;dbl&gt; 3, NA, NA, 2, NA, 6, 8, 3, NA, 6, 22, NA, NA, 6, 5, 1…\n$ BBQ_FU6          &lt;dbl&gt; 77, NA, NA, 68, NA, 9, 56, 64, NA, 48, 36, NA, NA, 39…\n$ SCS_FU6          &lt;chr&gt; \"28\", NA, NA, \"41\", \"missing\", \"24\", \"29\", \"33\", \"mis…\n$ DERS_FU6         &lt;dbl&gt; 35, NA, NA, 36, NA, 72, 61, 26, NA, 37, 67, NA, NA, 3…\n$ LSAS_FU12        &lt;dbl&gt; 27, NA, NA, 16, 39, 75, 66, 43, NA, 51, 79, NA, NA, 5…\n$ GAD_FU12         &lt;dbl&gt; 5, NA, NA, 0, 11, 7, 6, 4, NA, 4, 14, NA, NA, 8, 19, …\n$ `PHQ-9_FU12`     &lt;dbl&gt; 5, NA, NA, 2, 19, 9, 14, 3, NA, 5, 15, NA, NA, 8, 18,…\n$ BBQ_FU12         &lt;dbl&gt; 76, NA, NA, 62, 12, 22, 52, 54, NA, 47, 25, NA, NA, 3…\n$ SCS_FU12         &lt;dbl&gt; 38, NA, NA, 40, 28, 33, 26, 34, NA, 21, 30, NA, NA, 3…\n$ DERS16_FU12      &lt;dbl&gt; 35, NA, NA, 32, 46, 65, 42, 27, NA, 53, 52, NA, NA, 3…\n\n\nOther options for checking the basic structure of the data include head(), names(), ncol(), and nrow().\n\nhead(df_rawdata) shows the first few rows of the dataset.\nnames(df_rawdata) shows the names of the columns.\nncol(df_rawdata) shows the number of columns in the dataset.\nnrow(df_rawdata) shows the number of rows in the dataset.\n\n\n\n\n\n\n\nExercise 2: Check the structure of STePS\n\n\n\n\n\nuse the glimpse() function to check the structure of the STePS data. What do you notice about the data? Are there any potential issues with the data structure?\nAlso try calling view() to open the data in a spreadsheet-like view.",
-    "crumbs": [
-      "Labs",
-      "Import and clean data"
-    ]
-  },
-  {
-    "objectID": "labs/import-clean.html#clean-column-names",
-    "href": "labs/import-clean.html#clean-column-names",
-    "title": "Import and clean data",
-    "section": "Clean column names",
-    "text": "Clean column names\nWe will use the clean_names() function from the janitor package to clean the column names. This function replaces spaces and other problematic characters with underscores, and converts all names to lowercase. This makes it easier to work with the data later on.\nWhat’s wrong with these column names? And what is the difference after clean_names()?\n\n\n\n\n\n\nExercise 3: Clean column names, part 1\n\n\n\n\n\nUse the clean_names() function to clean the column names in df_data. Check the names before and after cleaning. What changes do you notice? Are there any column names that are still problematic?\n\n\n\n\nnames(df_data)\n\n [1] \"ID\"             \"Group\"          \"LSAS Screening\" \"GAD_screen\"    \n [5] \"PHQ-9 screen\"   \"BBQ_screen\"     \"SCS_screen\"     \"DMRSODF_screen\"\n [9] \"DERS-16_screen\" \"PID-5_screen\"   \"LSAS_V1\"        \"LSAS_V2\"       \n[13] \"LSAS_V3\"        \"LSAS_V4\"        \"LSAS_V5\"        \"LSAS_V6\"       \n[17] \"LSAS_V7\"        \"LSAS_V8\"        \"LSAS_POST\"      \"GAD_POST\"      \n[21] \"PHQ-9_POST\"     \"BBQ_POST\"       \"SCS_POST\"       \"DMRSODF_POST\"  \n[25] \"DERS-16_POST\"   \"LSAS_FU6\"       \"GAD_FU6\"        \"PHQ9_FU6\"      \n[29] \"BBQ_FU6\"        \"SCS_FU6\"        \"DERS_FU6\"       \"LSAS_FU12\"     \n[33] \"GAD_FU12\"       \"PHQ-9_FU12\"     \"BBQ_FU12\"       \"SCS_FU12\"      \n[37] \"DERS16_FU12\"   \n\n\n\ndf_data &lt;- df_data |&gt;\n  clean_names()\n\nWe have sorted some of the problems, but we still have inconsistent names for time-points (screening and screen), and some questionnaires seems to have gotten inconsistent names as well (ders_16, ders16, and ders).\n\ndf_data &lt;- df_data |&gt;\n  rename_with(~ .x |&gt;\n    str_replace_all(\"screening\", \"screen\") |&gt;\n    str_replace_all(\"ders_16|ders16\", \"ders\") |&gt;\n    str_replace_all(\"phq_9\", \"phq9\"))\n\n\n\n\n\n\n\nTipThis is rarely a linear process\n\n\n\nThis type of data cleaning is often a result of going back and forth between running code and checking the results. Sometimes you will come all the way to the analyses before finding that DERS-16 is missing a time-point! This is why it’s helpful to design your project in a way that allows you to easily go back and forth between steps.\n\n\n\n\n\n\n\n\nExercise 4: Clean column names, part 2\n\n\n\n\n\nUse the rename_with() function to fix the column names of PHQ-9 in df_data. Check the names before and after cleaning. What changes do you notice? Are there any column names that are still problematic?",
-    "crumbs": [
-      "Labs",
-      "Import and clean data"
-    ]
-  },
-  {
-    "objectID": "labs/import-clean.html#ensure-missing-values-are-coded-as-na",
-    "href": "labs/import-clean.html#ensure-missing-values-are-coded-as-na",
-    "title": "Import and clean data",
-    "section": "Ensure missing values are coded as NA",
-    "text": "Ensure missing values are coded as NA\nIf we are lucky, all the missing values are already coded as NA and R will recognize them as missing. More often, however, is that the missing values are coded as \"\", -99, or other values. This can cause problems later, so we need to ensure that all missing values are coded as NA.\nSometimes, weird labels for missing values is also the reason why some columns are not recognized as numeric.\nLet’s check the data structure again. It looks like some columns that should be numeric are instead &lt;chr&gt;, which means they are character strings.\n\nglimpse(df_data)\n\nRows: 181\nColumns: 37\n$ id             &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, …\n$ group          &lt;dbl&gt; 2, 1, 0, 2, 2, 2, 2, 2, 1, 1, 1, 1, 0, 2, 1, 1, 2, 0, 1…\n$ lsas_screen    &lt;dbl&gt; 63, 71, 98, 63, 74, 81, 67, 76, 88, 73, 86, 78, 97, 72,…\n$ gad_screen     &lt;dbl&gt; 7, 17, 18, 8, 14, 11, 5, 8, 14, 5, 15, 16, 17, 13, 10, …\n$ phq9_screen    &lt;dbl&gt; 6, 13, 19, 4, 18, 8, 9, 8, 14, 3, 5, 11, 12, 18, 10, 4,…\n$ bbq_screen     &lt;dbl&gt; 60, 66, 4, 50, 22, 23, 47, 52, 31, 46, 67, 24, 57, 40, …\n$ scs_screen     &lt;dbl&gt; 25, 16, 22, 35, 29, 30, 20, 34, 21, 26, 35, 21, 32, 33,…\n$ dmrsodf_screen &lt;dbl&gt; 49178, 50727, 45074, 5381, 48444, 50899, 46923, 41428, …\n$ ders_screen    &lt;dbl&gt; 44, 73, 65, 45, 46, 49, 57, 38, 67, 45, 55, 56, 71, 36,…\n$ pid_5_screen   &lt;dbl&gt; 25, 20, 48, 17, 24, 20, 24, 26, 39, 23, 24, 26, 23, 15,…\n$ lsas_v1        &lt;chr&gt; \"72\", \"missing\", \"81\", \"44\", \"39\", \"65\", \"68\", \"69\", NA…\n$ lsas_v2        &lt;chr&gt; \"64\", \"missing\", \"89\", \"33\", \"115\", \"64\", NA, \"70\", \"97…\n$ lsas_v3        &lt;chr&gt; \"72\", \"missing\", \"73\", \"36\", \"missing\", \"63\", NA, \"71\",…\n$ lsas_v4        &lt;chr&gt; \"61\", \"missing\", \"94\", \"44\", \"missing\", \"60\", NA, \"51\",…\n$ lsas_v5        &lt;chr&gt; \"61\", NA, \"93\", \"21\", \"missing\", \"55\", NA, \"55\", NA, \"6…\n$ lsas_v6        &lt;chr&gt; \"46\", NA, \"88\", \"20\", \"missing\", \"46\", NA, \"56\", \"93\", …\n$ lsas_v7        &lt;dbl&gt; 55, NA, NA, 18, NA, 45, NA, 64, NA, 54, 101, NA, 89, 43…\n$ lsas_v8        &lt;dbl&gt; 49, NA, NA, 17, NA, 44, NA, 52, NA, 61, 84, NA, 89, NA,…\n$ lsas_post      &lt;dbl&gt; 50, NA, 77, 22, NA, 52, 75, 45, 79, 64, 80, 89, 83, 45,…\n$ gad_post       &lt;dbl&gt; 4, NA, 19, 6, NA, 9, 4, 3, 10, 7, 15, 7, 11, 11, 11, 1,…\n$ phq9_post      &lt;dbl&gt; 3, NA, 22, 4, NA, 6, 11, 2, 14, 4, 8, 7, 8, 8, 13, 4, 1…\n$ bbq_post       &lt;chr&gt; \"76\", NA, \"68\", \"57\", \"missing\", \"14\", \"46\", \"70\", \"36\"…\n$ scs_post       &lt;dbl&gt; 34, NA, 34, 34, NA, 30, 19, 34, 23, 23, 31, 37, 34, 34,…\n$ dmrsodf_post   &lt;dbl&gt; 50776, NA, 42809, 52069, NA, 51758, 49, 50235, 47978, 4…\n$ ders_post      &lt;dbl&gt; 36, NA, 78, 38, NA, 54, 61, 26, 56, 51, 52, 25, 37, 33,…\n$ lsas_fu6       &lt;dbl&gt; 33, NA, NA, 14, 6, 60, 64, 49, NA, 45, 85, 74, NA, 58, …\n$ gad_fu6        &lt;dbl&gt; 0, NA, NA, 0, NA, 14, 6, 4, NA, 5, 16, NA, NA, 11, 8, 8…\n$ phq9_fu6       &lt;dbl&gt; 3, NA, NA, 2, NA, 6, 8, 3, NA, 6, 22, NA, NA, 6, 5, 12,…\n$ bbq_fu6        &lt;dbl&gt; 77, NA, NA, 68, NA, 9, 56, 64, NA, 48, 36, NA, NA, 39, …\n$ scs_fu6        &lt;chr&gt; \"28\", NA, NA, \"41\", \"missing\", \"24\", \"29\", \"33\", \"missi…\n$ ders_fu6       &lt;dbl&gt; 35, NA, NA, 36, NA, 72, 61, 26, NA, 37, 67, NA, NA, 36,…\n$ lsas_fu12      &lt;dbl&gt; 27, NA, NA, 16, 39, 75, 66, 43, NA, 51, 79, NA, NA, 55,…\n$ gad_fu12       &lt;dbl&gt; 5, NA, NA, 0, 11, 7, 6, 4, NA, 4, 14, NA, NA, 8, 19, 12…\n$ phq9_fu12      &lt;dbl&gt; 5, NA, NA, 2, 19, 9, 14, 3, NA, 5, 15, NA, NA, 8, 18, 3…\n$ bbq_fu12       &lt;dbl&gt; 76, NA, NA, 62, 12, 22, 52, 54, NA, 47, 25, NA, NA, 33,…\n$ scs_fu12       &lt;dbl&gt; 38, NA, NA, 40, 28, 33, 26, 34, NA, 21, 30, NA, NA, 32,…\n$ ders_fu12      &lt;dbl&gt; 35, NA, NA, 32, 46, 65, 42, 27, NA, 53, 52, NA, NA, 36,…\n\n\nLet’s fix this by replacing the problematic values with NA. We will use the mutate() and across() functions from the dplyr package to apply the na_if() function to all character columns. This will replace any occurrence of “missing” with NA.\n\ndf_data &lt;- df_data |&gt;\n  mutate(across(where(is.character), ~ na_if(., \"missing\")))\n\n\n\n\n\n\n\nExercise 5: Fix missing values\n\n\n\n\n\nCheck which columns have weird values for missing values. You can use the glimpse() function or view the data in the viewer. You can also use the unique() function to check which values are present in a column.\nThen, use the mutate() and across() functions to replace these values with NA. Make sure to replace all occurrences of “missing” in the character columns.",
-    "crumbs": [
-      "Labs",
-      "Import and clean data"
-    ]
-  },
-  {
-    "objectID": "labs/import-clean.html#fix-column-types",
-    "href": "labs/import-clean.html#fix-column-types",
-    "title": "Import and clean data",
-    "section": "Fix column types",
-    "text": "Fix column types\nThe NA values are now correctly coded, but we still have some columns that are not numeric despite only including numbers. We can use the mutate() function again to convert the columns to the correct data type. In this step, we also ensure that the id and group columns are factors.\n\n# which columns should be numeric?\nnum_cols &lt;- c(\"lsas\", \"gad\", \"phq9\", \"bbq\", \"scs\", \"dmrsodf\", \"ders\", \"pid_5\")\n\ndf_data &lt;- df_data |&gt;\n  mutate(\n    across(starts_with(num_cols), as.numeric),\n    id = factor(id),\n    group = factor(group)\n  )\n\n\n\n\n\n\n\nExercise 6: Fix column types\n\n\n\n\n\nLet’s imagine we have many columns that should be factors. How can you use the same procedure as above to convert all columns from a fct_cols vector to factors?",
-    "crumbs": [
-      "Labs",
-      "Import and clean data"
-    ]
-  },
-  {
-    "objectID": "labs/probability-rules.html",
-    "href": "labs/probability-rules.html",
-    "title": "Probability rules",
-    "section": "",
-    "text": "In this lab, we will look at how we can work with probability rules in R.",
-    "crumbs": [
-      "Labs",
-      "Probability rules"
-    ]
-  },
-  {
-    "objectID": "labs/probability-rules.html#check-that-the-sum-of-all-probabilities-is-1",
-    "href": "labs/probability-rules.html#check-that-the-sum-of-all-probabilities-is-1",
-    "title": "Probability rules",
-    "section": "Check that the sum of all probabilities is 1",
-    "text": "Check that the sum of all probabilities is 1\nWe do a quick check of the education variable, which has three levels: “Primary”, “Secondary”, and “University”. When we count the proportion of each level, we get the following:\nThe proportion with the “Primary” level is 0.4917127, the proportion with the “Secondary” level is 0.3480663, and the proportion with the “University” level is 0.160221. These add up to 1. All good!\n\n\n\n\n\n\nExercise 1: Check the sum of probabilities in the income variable\n\n\n\n\n\nDo the numbers in our income variable add up to 1? You can use the income_summary object we created above.",
-    "crumbs": [
-      "Labs",
-      "Probability rules"
-    ]
-  },
-  {
-    "objectID": "labs/probability-rules.html#complement-rule",
-    "href": "labs/probability-rules.html#complement-rule",
-    "title": "Probability rules",
-    "section": "Complement rule",
-    "text": "Complement rule\nThe probability of an event not occurring is 1 minus the probability that it will occur.\nLet’s check this for the “Secondary” level.\n\\[\nP(\\text{not Secondary}) = 1 - P(\\text{Secondary})\n\\]\n\n# probability of Secondary education\np_secondary &lt;- edu_summary |&gt;\n  filter(education == \"Secondary\") |&gt;\n  pull(proportion)\n\n# complement rule\np_not_secondary &lt;- 1 - p_secondary\n\n\nP(Secondary education) = 0.3481\nP(not Secondary education) = 0.6519\nCheck complement rule, sum = 1\n\n\n\n\n\n\n\nExercise 2: Complement rule\n\n\n\n\n\nCalculate the complement rule for Medium income.",
-    "crumbs": [
-      "Labs",
-      "Probability rules"
-    ]
-  },
-  {
-    "objectID": "labs/probability-rules.html#addition-rule",
-    "href": "labs/probability-rules.html#addition-rule",
-    "title": "Probability rules",
-    "section": "Addition rule",
-    "text": "Addition rule\nThe probability that event A or event B occurs (or both).\n\\[P(A \\cup B) = P(A) + P(B) - P(A \\cap B)\\]\nLet’s implement this using our dataset. We’ll look at the probability of having either “Primary” education OR being in the “Low” income group.\n\n# get probabilities\np_primary &lt;- edu_summary |&gt;\n  filter(education == \"Primary\") |&gt;\n  pull(proportion)\n\np_low_income &lt;- income_summary |&gt;\n  filter(income == \"Low\") |&gt;\n  pull(proportion)\n\n# calculate probability of both Primary education AND Low income\np_both &lt;- d_bl |&gt;\n  filter(education == \"Primary\" & income == \"Low\") |&gt;\n  nrow() / nrow(d_bl)\n\n# addition rule\np_either &lt;- p_primary + p_low_income - p_both\n\n\nP(Primary education) = 0.4917\nP(Low income) = 0.2431\nP(Both) = 0.1215\nP(Either) = 0.6133\n\n\n\n\n\n\n\nExercise 3: Addition rule\n\n\n\n\n\nCalculate the probability of having either “University” education OR being in the “Medium” income group.",
-    "crumbs": [
-      "Labs",
-      "Probability rules"
-    ]
-  },
-  {
-    "objectID": "labs/probability-rules.html#multiplication-rule",
-    "href": "labs/probability-rules.html#multiplication-rule",
-    "title": "Probability rules",
-    "section": "Multiplication rule",
-    "text": "Multiplication rule\nFor independent events, the probability of both events occurring is the product of their individual probabilities:\n\\[P(A \\cap B) = P(A) \\times P(B)\\]\nFor dependent events, we need to account for the conditional probability:\n\\[P(A \\cap B) = P(A) \\times P(B|A)\\]\nLet’s check if education and income are independent by comparing the observed joint probability with the product of marginal probabilities. We will first use group_by() and summarise() to create Table 3.\n\nedu_income_table &lt;- d_bl |&gt;\n  group_by(education, income) |&gt;\n  summarise(\n    n = n(),\n    proportion = n / nrow(d_bl),\n    percent = round(proportion * 100, 1),\n    .groups = \"drop\"\n  )\n\nkable(edu_income_table)\n\n\n\nTable 3: Joint probabilities of education and income\n\n\n\n\n\n\neducation\nincome\nn\nproportion\npercent\n\n\n\n\nPrimary\nHigh\n15\n0.0828729\n8.3\n\n\nPrimary\nLow\n22\n0.1215470\n12.2\n\n\nPrimary\nMedium\n52\n0.2872928\n28.7\n\n\nSecondary\nHigh\n9\n0.0497238\n5.0\n\n\nSecondary\nLow\n16\n0.0883978\n8.8\n\n\nSecondary\nMedium\n38\n0.2099448\n21.0\n\n\nUniversity\nHigh\n7\n0.0386740\n3.9\n\n\nUniversity\nLow\n6\n0.0331492\n3.3\n\n\nUniversity\nMedium\n16\n0.0883978\n8.8\n\n\n\n\n\n\n\n\n\n# Check independence for Primary education and Low income\np_primary_indep &lt;- p_primary * p_low_income\np_primary_dep &lt;- p_both\n\n\nIf independent: P(Primary ∩ Low income) = 0.119532\nObserved: P(Primary ∩ Low income) = 0.121547\nDifference = 0.002015\n\n\n\n\n\n\n\nTip\n\n\n\nKeep in mind that this is simulated data, so the numbers may not represent the real world. Nonetheless, if we observed a result like this, what would we conclude?",
-    "crumbs": [
-      "Labs",
-      "Probability rules"
-    ]
-  },
-  {
-    "objectID": "labs/probability-rules.html#conditional-probability",
-    "href": "labs/probability-rules.html#conditional-probability",
-    "title": "Probability rules",
-    "section": "Conditional probability",
-    "text": "Conditional probability\nThe probability of event B occurring given that event A has occurred:\n\\[P(B|A) = \\frac{P(A \\cap B)}{P(A)}\\]\nLet’s calculate the probability of having “Low” income given that someone has “Primary” education:\n\np_low_given_primary &lt;- p_both / p_primary\n\n\nP(Low income | Primary education) = 0.2472\n\n\n\n\n\n\n\nExercise 4: Conditional probability\n\n\n\n\n\nCalculate the probability of having “Medium” income given that someone has “University” education.",
-    "crumbs": [
-      "Labs",
-      "Probability rules"
-    ]
-  },
-  {
-    "objectID": "exercises/lab-2-exercises.html",
-    "href": "exercises/lab-2-exercises.html",
-    "title": "Lab 2 exercises",
-    "section": "",
-    "text": "2.1 Use the functions described in yesterdays lab to get a quick overview of the dataset and give a brief summary of it.\n2.2 Visualize the distribution of the PHQ-9 scale and the PID-5 scale and provide the mean, median and mode.\n2.3 How does the centrality measures differ and why?\n2.4 Reason on the pros and cons of the different centrality measures for these scales.\n2.5 Calculate spread measures for the LSAS-SR scale, what do they tell you and which ones do you think are most useful to describe the spread of the values. Motive you answer briefly!\n2.6 Overcourse. Caluclate the population variance and standard deviation. How do these differ from the ones given by the functions sd() and var().\n\n#creating a function to calculate the population variance \npop_var &lt;- function(x){\n  1/length(x)*sum((x-mean(x))^2)\n}\n\n# and the population sd\npop_sd &lt;- function(x){\n  sqrt(1/length(x)*sum((x-mean(x))^2))\n}\n\n2.7 Use only the first ten participants and compare the population and the sample variance and standard deviation of LSAS-SR. What do you find, and how do the results compare to those from exercise 2.6.\n2.8 Calculate the counts, proportions and percentages for the simulated income categories and visualize the distribution.\n2.9 Visualize the joint distribution of GAD-7 and PHQ-9 as numeric variables and describe what you see\n2.10 Visualize the distribution of of LSAS scores by income level and describe what you see\n2.11 Create a variable for high vs. low DERS scores and investigate the joint distribution of this variable and phq_cat (that we created in an earlier example)\n2.12 Create a table using the tableone package to show descriptives statistics stratified by high vs low depression levels. Briefly interpret what you see.\n2.13 Calculate the standard error of LSAS_Screen using the code formula above, and describe in words what the number means\n2.14 Calculate the standard error for the proportion of men in the STePS study, and describe the meaning of this number in words\n2.15 What would happen to these standard errors if the sample size had been 1000 participants?\n2.16 Calculate the p-value for the null hypothesis that PHQ-9 is 9, and describe in words what this number mean.\n2.17 Calculate the 95% confidence interval for PHQ-9, and describe in words what these numbers mean\n2.18 Calculate the 95% confidence interval for the proportion of men in the dataset (using the variance for the proportion).",
+    "text": "Tip\n\n\n\nThree underscores (___) in the code below indicate where you need to fill in the missing parts.\nWe begin by loading the necessary packages for these tasks. Do you experience any issues with loading the packages? If so, you may need to install them first using the install.packages() function in the console.\nlibrary(tidyverse)\nlibrary(here)\nlibrary(janitor)",
     "crumbs": [
       "Exercises",
-      "Lab 2 Exercises"
+      "Lab 1 Exercises"
+    ]
+  },
+  {
+    "objectID": "exercises/lab-1-exercises.html#read-steps-data",
+    "href": "exercises/lab-1-exercises.html#read-steps-data",
+    "title": "Lab 1 exercises",
+    "section": "1.1 Read STePS data",
+    "text": "1.1 Read STePS data\nComplete the code below to read the STePS dataset. We create a new object df_data where we continue with edits. The original data is stored in df_rawdata without any edits.\n\ndf_rawdata &lt;- read_csv2(here(___))\n\ndf_data &lt;- df_rawdata",
+    "crumbs": [
+      "Exercises",
+      "Lab 1 Exercises"
+    ]
+  },
+  {
+    "objectID": "exercises/lab-1-exercises.html#inspect-data-using-glimpse-and-view",
+    "href": "exercises/lab-1-exercises.html#inspect-data-using-glimpse-and-view",
+    "title": "Lab 1 exercises",
+    "section": "1.2 Inspect data using glimpse() and view()",
+    "text": "1.2 Inspect data using glimpse() and view()\nCall the glimpse() and view() functions to check the structure of the dataset. You can also use the head(), names(), ncol(), and nrow() functions.\n\nglimpse(___)\n\n\nview(___)",
+    "crumbs": [
+      "Exercises",
+      "Lab 1 Exercises"
+    ]
+  },
+  {
+    "objectID": "exercises/lab-1-exercises.html#clean-column-names-part-1",
+    "href": "exercises/lab-1-exercises.html#clean-column-names-part-1",
+    "title": "Lab 1 exercises",
+    "section": "1.3 Clean column names part 1",
+    "text": "1.3 Clean column names part 1\nAdd the clean_names() function to the code below. Compare the names before and after using the function.\n\nnames(df_data)\n\n\ndf_data &lt;- df_data |&gt; \n  ___\n\nType names(df_data) again to see the changes.",
+    "crumbs": [
+      "Exercises",
+      "Lab 1 Exercises"
+    ]
+  },
+  {
+    "objectID": "exercises/lab-1-exercises.html#clean-column-names-part-2",
+    "href": "exercises/lab-1-exercises.html#clean-column-names-part-2",
+    "title": "Lab 1 exercises",
+    "section": "1.4 Clean column names part 2",
+    "text": "1.4 Clean column names part 2\nThe clean_names() is very helpful, but it didn’t sort all of the problems. We still have some inconsistent column names from the raw data. Add a fix for the PHQ-9 inconsistencies.\n\ndf_data &lt;- df_data |&gt; \n  rename_with(~ .x |&gt; \n    str_replace_all(\"screening\", \"screen\") |&gt; \n    str_replace_all(\"ders_16|ders16\", \"ders\") |&gt; \n    str_replace_all(___)\n  )\n\nnames(df_data)",
+    "crumbs": [
+      "Exercises",
+      "Lab 1 Exercises"
+    ]
+  },
+  {
+    "objectID": "exercises/lab-1-exercises.html#fix-missing-values",
+    "href": "exercises/lab-1-exercises.html#fix-missing-values",
+    "title": "Lab 1 exercises",
+    "section": "1.5 Fix missing values",
+    "text": "1.5 Fix missing values\nCheck which columns have weird values for missing values. You can use the glimpse() function or view the data in the viewer. You can also use the unique() function to check which values are present in a column.\n\ndf_data &lt;- df_data |&gt; \n  mutate(across(c(___), ~na_if(., \"missing\")))",
+    "crumbs": [
+      "Exercises",
+      "Lab 1 Exercises"
+    ]
+  },
+  {
+    "objectID": "exercises/lab-1-exercises.html#fix-column-types",
+    "href": "exercises/lab-1-exercises.html#fix-column-types",
+    "title": "Lab 1 exercises",
+    "section": "1.6 Fix column types",
+    "text": "1.6 Fix column types\nIn the demonstration, we showed how to change column types to numeric. Replicate the same thing here, but for factor columns instead. Use the mutate() and across() functions.\n\n# which columns should be numeric?\nnum_cols &lt;- c(\"lsas\", \"gad\", \"phq9\", \"bbq\", \"scs\", \"dmrsodf\", \"ders\", \"pid_5\")\n\n# which columns should be factors?\nfct_cols &lt;- c(___)\n\ndf_data &lt;- df_data |&gt; \n  mutate(\n    across(starts_with(num_cols), as.numeric),\n    # INSERT FACTOR FIX HERE\n    ___\n  )\n\nUse the glimpse() function to check that it worked.\n\n___",
+    "crumbs": [
+      "Exercises",
+      "Lab 1 Exercises"
+    ]
+  },
+  {
+    "objectID": "exercises/lab-1-exercises.html#save-cleaned-data",
+    "href": "exercises/lab-1-exercises.html#save-cleaned-data",
+    "title": "Lab 1 exercises",
+    "section": "1.7 Save cleaned data",
+    "text": "1.7 Save cleaned data\nFinally, save the cleaned data to a new CSV file called steps_clean.csv in the /data folder. Use the write_csv() function from the readr package along with here(), just like we did in the beginning of this script.\n\n___",
+    "crumbs": [
+      "Exercises",
+      "Lab 1 Exercises"
     ]
   },
   {
