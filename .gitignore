@@ -39,9 +39,6 @@ vignettes/*.pdf
 # R Environment Variables
 .Renviron
 
-# pkgdown site
-docs/
-
 # translation temp files
 po/*~
 
@@ -50,7 +47,6 @@ rsconnect/
 
 # Quarto Project files
 .quarto/
-_freeze/
 _publish.yml
 
 # R Environment files
@@ -60,3 +56,6 @@ _publish.yml
 
 # Tables
 labs/tables/*.docx
+
+# locally rendered files
+/docs/

@@ -2,8 +2,14 @@
 title: "Research school in clinical psychiatry"
 date: last-modified
 ---
-
 Welcome to the course materials for Biostatistics courses in the Research School in Clinical Psychiatry at Karolinska Institutet. This website contains all materials related to the afternoon lab sessions of the courses.
+
+::: {.callout-note}
+## Using AI tools
+
+We will not police your use of generative AI tools (ChatGPT, Claude, Co-pilot etc) in these lab sessions. They are useful for generating code that *works*, but you are still responsible for making sure that it is the *correct* code. We use some of these tools in our own day-to-day work and find them useful. However, we often have to correct subtle errors that are not immediately obvious. So please use them with care.
+
+:::
 
 # Teaching team
 

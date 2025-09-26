@@ -1,5 +1,5 @@
 ---
-title: "Testing means and proportions"
+title: "P-values and confidence intervals"
 ---
 
 # Load packages and data
@@ -13,11 +13,9 @@ library(tidyverse)
 d_bl <- read_rds(here("data", "steps_baseline.rds"))
 ```
 
-# Probability
-
 The law of large numbers brings us to the concept of **probability.** In frequentist statistics, probability is defined as the long run frequency of an event as the number of events approach infinity, $\infty$. For instance the proportion of heads in an infinite number of coin tosses will approach 0.5.
 
-## P-values
+# P-values
 
 Probability - defined as the long-run frequency of an event occurring - is very much used in research to get an idea of **how probable our observed data is, given some hypothesis of interest.** In probability notation $P(Data|Hypothesis)$.
 
@@ -28,6 +26,7 @@ For this we would need the sampling distribution of mean LSAS-SR scores in sampl
 Below, the function `rnorm()` is used to take a random sample of 181 values from a normal distribution with a mean of 82 and a standard deviation 16.5 (same as in out sample). We use a for loop to repeat this sampling 10 000 times and save the mean values of each sample in the vector called means.
 
 ```{r}
+#| label: simulate-sampling-distribution
 n_samples <- 1e4 # the number of samples
 smp_size <- 181 # the size of our samples
 means <- rep(NA, n_samples) # an empty vector to contain our mean values
@@ -43,6 +42,7 @@ hist(means, main = "Simulated sampling distribution of LSAS means")
 We can use this simulated sampling distribution to see how probable our *observed LSAS-SR mean* is if the (null)hypothesis that the true mean is 82 would be correct. First let plot the sampling distribution again, and show the observed LSAS-SR mean as a vertical line.
 
 ```{r}
+#| label: hist-means
 hist(means, main = "Simulated sampling distribution of LSAS means")
 abline(v = mean(d_bl$lsas_screen), col = "red", lwd = 2, lty = 2) # vertical line showing the observed LSAS-SR mean
 ```
@@ -50,12 +50,14 @@ abline(v = mean(d_bl$lsas_screen), col = "red", lwd = 2, lty = 2) # vertical lin
 We can also quantify the probability by calculating, ***the proportion of times that a sample mean would be equal to or greater that our observed mean, IF the true population mean was 82*****.** This quantity is the very (in)famous **p-value.**
 
 ```{r}
+#| label: sim-obs-diff
 mean(means >= mean(d_bl$lsas_screen)) # proportion of simulated means that are larger than our observed mean
 ```
 
 If we find this simulation exercise a bit tedious, we could also use theoretical distributions for the sample means to calculate our p-value. The **t-distribution** can be used to estimate the spread to the sample means *when the population variance is unknown and the sample variance is used to approximate it*. It is very similar to the normal distribution, but has heavier tails that accounts for the uncertainty produced by using the sample variance instead of the true population variance when estimating the standard error of the sampling distribution. However, when the sample size increase, the t-distribution will come closer and closer to a normal distribution (also known as a z-distribution when standardized to have mean=0 and sd=1).
 
 ```{r}
+#| label: t-dist-plot
 # Set up the plot range
 x_range <- seq(-4, 4, length = 500)
 
@@ -91,6 +93,7 @@ $$
 Replacing these greek letters with our actual values $\bar{x} = 84.75$, $\mu = 82$, and $SE=1.22$, we get:
 
 ```{r}
+#| label: t-value-calculation
 se <- sd(d_bl$lsas_screen) / sqrt(nrow(d_bl))
 x_bar <- mean(d_bl$lsas_screen)
 t_value <- (x_bar - 82) / se
@@ -100,6 +103,7 @@ t_value
 Now let's see the probability of getting a value larger or equal to this - **our one-sided p-value!** For this we use the `pt()` function, that provides the cumulative probability up until a given t-value. 1 minus this cumulative probability gives the probability of values equal or above the given t-value.
 
 ```{r}
+#| label: p-value-calculation
 1 - pt(t_value, df = 180)
 ```
 
@@ -112,12 +116,14 @@ When the sample size increases, the t-distribution approaches the z-distribution
 We could also get a very similar p-value from the z-distribution (although we would assume we have the population variance for out calculation of the standard error). If this was a proportion, a z-test would be the one to use, since we are not using any estimates when calculating the standard error.
 
 ```{r}
+#| label: pnorm
 1 - pnorm(t_value)
 ```
 
 Very similar to our simulated p-value above! More conveniently, of course, we could get this p-value using the `t.test()` function.
 
 ```{r}
+#| label: t-test-function
 t.test(d_bl$lsas_screen, mu = 82, alternative = "greater")
 ```
 
@@ -130,6 +136,7 @@ If we wanted to see the probability of getting data equal or greater than our ob
 :::
 
 ```{r}
+#| label: p-value-plot
 #| echo: false
 # Define the test statistic
 z_stat_one <- 1.645
@@ -156,7 +163,7 @@ p_two_sided <- ggplot(plot_df, aes(x = x, y = y)) +
   geom_line(color = "black") +
   geom_area(data = subset(plot_df, x >= z_stat_two), aes(y = y), fill = "red", alpha = 0.5) +
   geom_area(data = subset(plot_df, x <= -z_stat_two), aes(y = y), fill = "red", alpha = 0.5) +
-  geom_vline(xintercept = c(-z_stat, z_stat_two), color = "red", linetype = "dashed") +
+  geom_vline(xintercept = c(-z_stat_one, z_stat_two), color = "red", linetype = "dashed") +
   labs(
     title = "Two-sided p-value (Both Tails)",
     x = "Z", y = "Density"
@@ -172,6 +179,7 @@ print(p_two_sided)
 Code for the two-sided p-value
 
 ```{r}
+#| label: p-value-two-sided
 # manual code
 se <- sd(d_bl$lsas_screen) / sqrt(nrow(d_bl))
 x_bar <- mean(d_bl$lsas_screen)
@@ -183,14 +191,14 @@ t.test(d_bl$lsas_screen, mu = 82, alternative = "two.sided")
 ```
 
 
-::: {.callout-caution collapse="true"}
-## Exercise: P-value for PHQ-9 Mean
+::: {#exr-pvalue-phq9 .callout-caution collapse="true"}
+## P-value for PHQ-9 Mean
 
 Calculate the p-value for the null hypothesis that the mean PHQ-9 value in the underlying population is 9, and describe in words what this number means.
 :::
 
-::: {.callout-caution collapse="true"}
-## Exercise: P-value for Proportion of Men
+::: {#exr-pvalue-proportion .callout-caution collapse="true"}
+## P-value for Proportion of Men
 
 Calculate the p-value for getting our observed proportion of men, $\hat{p}$, if the true population proportion, $p$, was 50% or more using a z-test.
 
@@ -207,8 +215,8 @@ $$
 :::
 
 
-::: {.callout-caution collapse="true"}
-## Exercise: Effect of Sample Size on P-value
+::: {#exr-pvalue-sample-size .callout-caution collapse="true"}
+## Effect of Sample Size on P-value
 
 Modify the simulation code for the sampling distribution above to determine what would happen to the p-value if the sample size was 10, 100 or 1000.
 :::
@@ -242,6 +250,7 @@ This confidence intervals for proportion, known as Wald confidence intervals, is
 Now let's use these formulas to calculate the confidence interval of the mean of LSAS-SR
 
 ```{r}
+#| label: ci-lsas-screen
 t_value <- qt(1 - 0.025, 180) # the t-value for a 95% confidence interval with 180 degrees of freedom
 
 se <- sd(d_bl$lsas_screen) / sqrt(nrow(d_bl)) # standard error of LSAS-SR
@@ -255,12 +264,14 @@ print(c(lcl, ucl))
 We can also use the `t.test()` function to get this interval
 
 ```{r}
+#| label: t-test-ci
 t.test(d_bl$lsas_screen, conf.level = 0.95) # For a 95% CI
 ```
 
 Let's also see what happens if we use z-values (for 95% confidence intervals, the z-value is approx 1.96)
 
 ```{r}
+#| label: z-ci-lsas-screen
 se <- sd(d_bl$lsas_screen) / sqrt(nrow(d_bl)) # standard error of LSAS-SR
 
 ucl <- mean(d_bl$lsas_screen) + 1.96 * se
@@ -269,32 +280,32 @@ lcl <- mean(d_bl$lsas_screen) - 1.96 * se
 print(c(lcl, ucl))
 ```
 
-::: {.callout-caution collapse="true"}
-## Exercise: Z-scores vs T-scores for Confidence Intervals
+::: {#exr-z-vs-t-scores .callout-caution collapse="true"}
+## Z-scores vs T-scores for Confidence Intervals
 
 Explain why the confidence intervals calculated using z-scores are narrower than the ones using t-scores.
 :::
 
-::: {.callout-caution collapse="true"}
-## Exercise: 95% Confidence Interval for PHQ-9
+::: {#exr-ci-phq9 .callout-caution collapse="true"}
+## 95% Confidence Interval for PHQ-9
 
 Calculate the 95% confidence interval for PHQ-9, and describe in words what these numbers mean.
 :::
 
-::: {.callout-caution collapse="true"}
-## Exercise: Wald Confidence Interval for Proportion of Men
+::: {#exr-wald-ci .callout-caution collapse="true"}
+## Wald Confidence Interval for Proportion of Men
 
 Calculate the 95% Wald confidence interval for the proportion of men in the dataset using the formula above and interpret its meaning.
 :::
 
-::: {.callout-caution collapse="true"}
-## Exercise: Comparing Wald vs prop.test() Confidence Intervals
+::: {#exr-compare-wald-prop .callout-caution collapse="true"}
+## Comparing Wald vs prop.test() Confidence Intervals
 
 Compare this to what you would obtain using the function `prop.test()` in R.
 :::
 
-::: {.callout-caution collapse="true"}
-## Exercise: Interpreting Confidence Intervals in Context
+::: {#exr-interpret-ci .callout-caution collapse="true"}
+## Interpreting Confidence Intervals in Context
 
 Reason about the meaning and interpretation of the confidence intervals you have calculated in the context of how the actual STePs study was performed. The study can be found at: <https://www.nature.com/articles/s44184-024-00063-0>
 :::
