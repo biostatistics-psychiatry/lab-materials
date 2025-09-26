@@ -18,6 +18,7 @@ We begin by loading the necessary packages for these tasks. Do you experience an
 ```{r}
 #| label: load-packages
 #| message: false
+#| warning: false
 
 library(tidyverse)
 library(here)
