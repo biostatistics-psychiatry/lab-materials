@@ -1,0 +1,17 @@
+{
+  "hash": "673f0984f01f3f2be976382dd31b816f",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: Lab webr test exercises\nnumber-sections: true\nformat: live-html\nengine: knitr\nwebr:\n  packages:\n    - dplyr\nresources:\n  - ../data/steps_clean.csv\n---\n\n::: {.cell}\n\n:::\n\n::: {.cell setup='true' exercise='ex_1'}\n```{webr}\n#| setup: true\n#| exercise: ex_1\n# Load the CSV data\nlibrary(dplyr)\ndf_data <- read.csv(\"data/steps_clean.csv\")\n```\n:::\n\n\n\n\n\n:::: {.panel-tabset}\n## Exercise 1\n\nSelect all the columns that start with `lsas` and the `id` and `group` columns.\n\n\n\n\n::: {.cell exercise='ex_1'}\n```{webr}\n#| exercise: ex_1\n\ndf_data |>\n  select(______)\n```\n:::\n\n\n\n\n## Hints \n\n::: { .hint exercise=\"ex_1\"}\n\nUse `select()` and the `starts_with()` function.\n\n```r\ndf_data |> \n  select(id, group, starts_with(______))\n```\n:::\n\n## Solution\n\n::: { .solution exercise=\"ex_1\" }\n\nThe full solution is:\n\n```r\ndf_data |> \n  select(id, group, starts_with(\"lsas\")) #<1>\n\n```\n1. Select the `id`, `group`, and all columns that start with `lsas`.\n\n:::\n\n::::",
+    "supporting": [
+      "lab-webr-test-exercises_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

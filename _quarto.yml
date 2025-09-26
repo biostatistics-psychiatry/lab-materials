@@ -54,6 +54,8 @@ website:
             text: Lab 3 exercises
           - href: exercises/lab-4-exercises.qmd
             text: Lab 4 exercises
+          - href: exercises/lab-webr-test-exercises.qmd
+            text: Webr test exercises
 
 format:
   html:
