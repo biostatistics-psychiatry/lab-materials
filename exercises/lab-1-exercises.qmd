@@ -79,6 +79,10 @@ Type `names(df_data)` again to see the changes.
 The `clean_names()` is very helpful, but it didn't sort all of the problems. We still have some inconsistent column names from the raw data. Add a fix for the PHQ-9 inconsistencies.
 
 ```{r}
+rnorm(10)
+```
+
+```{r}
 #| label: rename-columns
 
 df_data <- df_data |> 
