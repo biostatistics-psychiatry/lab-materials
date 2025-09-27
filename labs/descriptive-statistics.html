@@ -719,13 +719,13 @@ Exercise&nbsp;3: Calculate spread measures
 <div class="cell-output cell-output-stdout">
 <pre><code>
   Man Woman 
-   47   134 </code></pre>
+   53   128 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(d_bl<span class="sc">$</span>education)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
    Primary  Secondary University 
-        70         72         39 </code></pre>
+        67         79         35 </code></pre>
 </div>
 </div>
 <p>Dived by the number of rows, it gives proportion in each category.</p>
@@ -734,13 +734,13 @@ Exercise&nbsp;3: Calculate spread measures
 <div class="cell-output cell-output-stdout">
 <pre><code>
       Man     Woman 
-0.2596685 0.7403315 </code></pre>
+0.2928177 0.7071823 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(d_bl<span class="sc">$</span>education) <span class="sc">/</span> <span class="fu">nrow</span>(d_bl)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
    Primary  Secondary University 
- 0.3867403  0.3977901  0.2154696 </code></pre>
+ 0.3701657  0.4364641  0.1933702 </code></pre>
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -901,18 +901,18 @@ Exercise&nbsp;4: Visualize categorical data
   phq9_screen (mean (SD))                  9.61 (4.37)               
   bbq_screen (mean (SD))                  39.64 (16.48)              
   scs_screen (mean (SD))                  27.66 (7.03)               
-  dmrsodf_screen (mean (SD)) 267220994518069.59 (3595090797150460.50)
+  dmrsodf_screen (mean (SD)) 267220994518069.88 (3595090797150460.50)
   ders_screen (mean (SD))                 49.20 (13.43)              
   pid_5_screen (mean (SD))                23.93 (8.51)               
-  gender = Woman (%)                        134 (74.0)               
+  gender = Woman (%)                        128 (70.7)               
   education (%)                                                      
-     Primary                                 70 (38.7)               
-     Secondary                               72 (39.8)               
-     University                              39 (21.5)               
+     Primary                                 67 (37.0)               
+     Secondary                               79 (43.6)               
+     University                              35 (19.3)               
   income (%)                                                         
-     High                                    37 (20.4)               
+     High                                    41 (22.7)               
      Low                                     37 (20.4)               
-     Medium                                 107 (59.1)               </code></pre>
+     Medium                                 103 (56.9)               </code></pre>
 </div>
 </div>
 <p>We can also do this stratified by a categorical variable using the strata argument. Let’s have it by treatment group.</p>
@@ -927,18 +927,18 @@ Exercise&nbsp;4: Visualize categorical data
   phq9_screen (mean (SD))                 10.35 (4.63)               
   bbq_screen (mean (SD))                  37.38 (17.10)              
   scs_screen (mean (SD))                  27.37 (7.04)               
-  dmrsodf_screen (mean (SD)) 806116666706155.25 (6244152850195288.00)
+  dmrsodf_screen (mean (SD)) 806116666706155.25 (6244152850195287.00)
   ders_screen (mean (SD))                 50.70 (13.72)              
   pid_5_screen (mean (SD))                25.07 (9.46)               
-  gender = Woman (%)                         45 (75.0)               
+  gender = Woman (%)                         42 (70.0)               
   education (%)                                                      
-     Primary                                 30 (50.0)               
-     Secondary                               21 (35.0)               
-     University                               9 (15.0)               
+     Primary                                 18 (30.0)               
+     Secondary                               30 (50.0)               
+     University                              12 (20.0)               
   income (%)                                                         
-     High                                    11 (18.3)               
+     High                                    12 (20.0)               
      Low                                     14 (23.3)               
-     Medium                                  35 (58.3)               
+     Medium                                  34 (56.7)               
                             Stratified by group
                              1                   2                  
   n                                61                  60           
@@ -950,15 +950,15 @@ Exercise&nbsp;4: Visualize categorical data
   dmrsodf_screen (mean (SD)) 44885.95 (16035.54) 44388.20 (14850.76)
   ders_screen (mean (SD))       46.74 (13.60)       50.22 (12.83)   
   pid_5_screen (mean (SD))      22.34 (7.80)        24.40 (8.08)    
-  gender = Woman (%)               44 (72.1)           45 (75.0)    
+  gender = Woman (%)               45 (73.8)           41 (68.3)    
   education (%)                                                     
-     Primary                       21 (34.4)           19 (31.7)    
-     Secondary                     24 (39.3)           27 (45.0)    
-     University                    16 (26.2)           14 (23.3)    
+     Primary                       22 (36.1)           27 (45.0)    
+     Secondary                     27 (44.3)           22 (36.7)    
+     University                    12 (19.7)           11 (18.3)    
   income (%)                                                        
-     High                          10 (16.4)           16 (26.7)    
-     Low                           14 (23.0)            9 (15.0)    
-     Medium                        37 (60.7)           35 (58.3)    </code></pre>
+     High                          12 (19.7)           17 (28.3)    
+     Low                           12 (19.7)           11 (18.3)    
+     Medium                        37 (60.7)           32 (53.3)    </code></pre>
 </div>
 </div>
 <div id="exr-visualize-bivariate" class="callout callout-style-default callout-caution callout-titled">
