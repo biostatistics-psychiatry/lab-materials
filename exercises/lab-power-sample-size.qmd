@@ -1,0 +1,1164 @@
+---
+title: "Lab: Power and Sample Size"
+number-sections: true
+format: live-html
+engine: knitr
+webr:
+  packages:
+    - dplyr
+    - tidyr
+    - purrr
+    - pwr
+    - ggplot2
+---
+
+{{< include ../_extensions/r-wasm/live/_knitr.qmd >}}
+{{< include ../_extensions/r-wasm/live/_gradethis.qmd >}}
+
+In this lab, we'll explore the basics of power analysis. We'll use the `pwr` package to calculate power for a planned study.
+
+::: {.callout-tip}
+While you can complete all the exercises in your browser, we recommend also practicing in RStudio. Using an editor like RStudio will help you build real-world skills for writing, running, and saving your R code.
+:::
+
+
+# Calculate power for a planned study using the `pwr` package
+
+The `pwr` package provides functions for power analysis. For two-group t-tests, we use `pwr.t.test()`.
+
+:::: {.panel-tabset}
+
+## Problem 
+
+Suppose you're planning a study comparing two groups with:
+
+- Sample size of 30 per group (`n = 30`)
+- Expected Cohen's d effect size of 0.5
+- Significance level of 0.05 (`sig.level = 0.05`)
+- Two-sided test (`alternative = "two.sided"`)
+
+Use `pwr.t.test()` to calculate the statistical power.
+
+```{webr}
+#| label: ex-1
+#| exercise: ex_1
+library(pwr)
+
+# Calculate power
+result <- pwr.t.test(
+  n = ______,
+  d = ______,
+  sig.level = ______,
+  alternative = ______
+)
+
+# Print the result
+result
+```
+
+## Hints 
+
+::: {.hint exercise="ex_1"}
+
+The `pwr.t.test()` function takes these arguments:
+
+- `n`: sample size per group
+- `d`: Cohen's d effect size
+- `sig.level`: alpha level
+- `alternative`: "two.sided", "greater", or "less"
+
+Leave `power` blank - that's what you're calculating!
+
+```r
+pwr.t.test(
+  n = 30,
+  d = 0.5,
+  sig.level = ______,
+  alternative = "two.sided"
+)
+```
+:::
+
+## Solution
+
+::: {.solution exercise="ex_1"}
+
+```{webr}
+#| exercise: ex_1
+#| label: ex-1-solution
+#| solution: true
+library(pwr)
+
+# Calculate power
+result <- pwr.t.test(
+  n = 30,           #<1>
+  d = 0.5,          #<2>
+  sig.level = 0.05, #<3>
+  alternative = "two.sided" #<4>
+)
+
+# Print the result
+result
+```
+1. Sample size per group
+2. Expected Cohen's d effect size (medium effect)
+3. Significance level (alpha = 0.05)
+4. Two-sided hypothesis test
+
+With these parameters, the power is approximately 0.47 (47%), which is below the conventional 0.80 threshold.
+
+:::
+
+```{webr}
+#| exercise: ex_1
+#| label: ex-1-gradethis
+#| check: true
+gradethis::grade_this_code()
+```
+
+::::
+
+# Sample Size Calculation
+
+Often, we want to determine how many participants we need to achieve adequate power (typically 80%).
+
+::: {#exr-sample-size}
+## Calculate required sample size
+:::
+
+:::: {.panel-tabset}
+## Problem
+
+For the same study design (Cohen's d = 0.5, alpha = 0.05, two-sided test), calculate the sample size needed to achieve 80% power.
+
+This time, leave `n` blank and specify `power = 0.80`.
+
+```{webr}
+#| label: ex-2
+#| exercise: ex_2
+library(pwr)
+
+# Calculate required sample size
+result <- pwr.t.test(
+  d = ______,
+  sig.level = ______,
+  power = ______,
+  alternative = "two.sided"
+)
+
+# Print the result
+result
+```
+
+## Hints 
+
+::: {.hint exercise="ex_2"}
+
+Now you're solving for `n` instead of `power`, so:
+
+- Leave `n` out completely
+- Add `power = 0.80`
+- Keep the other parameters the same
+
+:::
+
+## Solution
+
+::: {.solution exercise="ex_2"}
+
+```{webr}
+#| label: ex-2-solution
+#| exercise: ex_2
+#| solution: true
+library(pwr)
+
+# Calculate required sample size
+result <- pwr.t.test(
+  d = 0.5,          #<1>
+  sig.level = 0.05,
+  power = 0.80,     #<2>
+  alternative = "two.sided"
+)
+
+# Print the result
+result
+```
+1. Expected Cohen's d effect size
+2. Desired power (80%)
+
+You need approximately 64 participants per group (128 total) to achieve 80% power for detecting a medium effect size.
+
+:::
+
+```{webr}
+#| label: ex-2-gradethis
+#| exercise: ex_2
+#| check: true
+gradethis::grade_this_code()
+```
+
+::::
+
+# How Effect Size Changes Power
+
+Effect size is a critical factor in power analysis. Cohen's d describes the standardized difference between two groups:
+
+- **Small effect**: d = 0.2
+- **Medium effect**: d = 0.5
+- **Large effect**: d = 0.8
+
+Let's explore how effect size impacts power when sample size is held constant.
+
+::: {#exr-effect-compare}
+## Compare power across different effect sizes
+:::
+
+:::: {.panel-tabset}
+## Problem
+
+Calculate the power for detecting small (d = 0.2), medium (d = 0.5), and large (d = 0.8) effects with:
+
+- Sample size: 50 per group
+- Significance level: 0.05
+- Two-sided test
+
+Store the results in variables and compare them.
+
+```{webr}
+#| label: ex-3a
+#| exercise: ex_3a
+library(pwr)
+
+# Calculate power for small effect
+power_small <- pwr.t.test(
+  n = 50,
+  d = ______,
+  sig.level = 0.05,
+  alternative = "two.sided"
+)$power
+
+# Calculate power for medium effect
+power_medium <- pwr.t.test(
+  n = 50,
+  d = ______,
+  sig.level = 0.05,
+  alternative = "two.sided"
+)$power
+
+# Calculate power for large effect
+power_large <- pwr.t.test(
+  n = 50,
+  d = ______,
+  sig.level = 0.05,
+  alternative = "two.sided"
+)$power
+
+# Display results
+cat("Power for small effect (d = 0.2):", round(power_small, 3), "\n")
+cat("Power for medium effect (d = 0.5):", round(power_medium, 3), "\n")
+cat("Power for large effect (d = 0.8):", round(power_large, 3), "\n")
+```
+
+## Hints 
+
+::: {.hint exercise="ex_3a"}
+
+Use Cohen's conventional effect sizes:
+
+- Small: d = 0.2
+- Medium: d = 0.5
+- Large: d = 0.8
+
+Each `pwr.t.test()` call should only differ in the `d` parameter.
+
+:::
+
+## Solution
+
+::: {.solution exercise="ex_3a"}
+
+```{webr}
+#| label: ex-3a-solution
+#| exercise: ex_3a
+#| solution: true
+library(pwr)
+
+# Calculate power for small effect
+power_small <- pwr.t.test(
+  n = 50,
+  d = 0.2,  #<1>
+  sig.level = 0.05,
+  alternative = "two.sided"
+)$power
+
+# Calculate power for medium effect
+power_medium <- pwr.t.test(
+  n = 50,
+  d = 0.5,  #<2>
+  sig.level = 0.05,
+  alternative = "two.sided"
+)$power
+
+# Calculate power for large effect
+power_large <- pwr.t.test(
+  n = 50,
+  d = 0.8,  #<3>
+  sig.level = 0.05,
+  alternative = "two.sided"
+)$power
+
+# Display results
+cat("Power for small effect (d = 0.2):", round(power_small, 3), "\n")
+cat("Power for medium effect (d = 0.5):", round(power_medium, 3), "\n")
+cat("Power for large effect (d = 0.8):", round(power_large, 3), "\n")
+```
+1. Small effect size (d = 0.2) - only ~29% power
+2. Medium effect size (d = 0.5) - ~70% power
+3. Large effect size (d = 0.8) - ~95% power
+
+Notice how dramatically power increases with effect size! With n=50, we have excellent power for large effects, decent power for medium effects, but poor power for small effects.
+
+:::
+
+```{webr}
+#| label: ex-3a-gradethis
+#| exercise: ex_3a
+#| check: true
+gradethis::grade_this_code()
+```
+
+::::
+
+::: {#exr-effect-visualize}
+## Visualize effect size and power relationship
+:::
+
+:::: {.panel-tabset}
+## Problem
+
+Create a plot showing how power changes across a range of effect sizes (d = 0.1 to 1.0) for a fixed sample size of 50 per group.
+
+```{webr}
+#| label: ex-3b
+#| exercise: ex_3b
+library(pwr)
+library(ggplot2)
+library(purrr)
+
+# Create a sequence of effect sizes
+effect_sizes <- seq(0.1, 1.0, by = 0.05)
+
+# Calculate power for each effect size and create data frame
+power_df <- map(
+  effect_sizes,
+  \(d) {
+    result <- pwr.t.test(
+      n = ______,
+      d = ______,
+      sig.level = 0.05,
+      alternative = "two.sided"
+    )
+    data.frame(
+      effect_size = d,
+      power = result$power
+    )
+  }
+) |> list_rbind()
+
+# Plot
+ggplot(power_df, aes(x = effect_size, y = power)) +
+  geom_line(color = "darkgreen", linewidth = 1) +
+  geom_hline(yintercept = 0.80, linetype = "dashed", color = "red") +
+  geom_vline(xintercept = c(0.2, 0.5, 0.8), linetype = "dotted", alpha = 0.5) +
+  annotate("text", x = 0.2, y = 0.05, label = "Small", size = 3) +
+  annotate("text", x = 0.5, y = 0.05, label = "Medium", size = 3) +
+  annotate("text", x = 0.8, y = 0.05, label = "Large", size = 3) +
+  labs(
+    title = "Power vs Effect Size (n = 50 per group)",
+    x = "Cohen's d (Effect Size)",
+    y = "Statistical Power"
+  ) +
+  theme_minimal()
+```
+
+## Hints 
+
+::: {.hint exercise="ex_3b"}
+
+In the `map()` function, `d` is the iterator variable representing each effect size. The sample size should be 50.
+
+```r
+power_df <- map(
+  effect_sizes,
+  \(d) {
+    result <- pwr.t.test(
+      n = 50,
+      d = d,  # Use the iterator variable
+      sig.level = 0.05,
+      alternative = "two.sided"
+    )
+    data.frame(
+      effect_size = d,
+      power = result$power
+    )
+  }
+) |> list_rbind()
+```
+:::
+
+## Solution
+
+::: {.solution exercise="ex_3b"}
+
+```{webr}
+#| label: ex-3b-solution
+#| exercise: ex_3b
+#| solution: true
+library(pwr)
+library(ggplot2)
+library(purrr)
+
+# Create a sequence of effect sizes
+effect_sizes <- seq(0.1, 1.0, by = 0.05)
+
+# Calculate power for each effect size and create data frame
+power_df <- map(
+  effect_sizes,
+  \(d) {
+    result <- pwr.t.test(
+      n = 50,   #<1>
+      d = d,    #<2>
+      sig.level = 0.05,
+      alternative = "two.sided"
+    )
+    data.frame(
+      effect_size = d,
+      power = result$power
+    )
+  }
+) |> list_rbind()  #<3>
+
+# Plot
+ggplot(power_df, aes(x = effect_size, y = power)) +
+  geom_line(color = "darkgreen", linewidth = 1) +
+  geom_hline(yintercept = 0.80, linetype = "dashed", color = "red") +
+  geom_vline(xintercept = c(0.2, 0.5, 0.8), linetype = "dotted", alpha = 0.5) +
+  annotate("text", x = 0.2, y = 0.05, label = "Small", size = 3) +
+  annotate("text", x = 0.5, y = 0.05, label = "Medium", size = 3) +
+  annotate("text", x = 0.8, y = 0.05, label = "Large", size = 3) +
+  labs(
+    title = "Power vs Effect Size (n = 50 per group)",
+    x = "Cohen's d (Effect Size)",
+    y = "Statistical Power"
+  ) +
+  theme_minimal()
+```
+1. Fixed sample size of 50 per group
+2. Effect size varies from the sequence
+3. Combine list of data frames into a single data frame
+
+The plot shows that with n=50, you cross the 80% power threshold (red dashed line) at approximately d = 0.57 (between medium and large effects). The vertical dotted lines show conventional effect size benchmarks.
+
+:::
+
+```{webr}
+#| label: ex-3b-gradethis
+#| exercise: ex_3b
+#| check: true
+gradethis::grade_this_code()
+```
+
+::::
+
+# Power Curves
+
+A power curve shows how power changes with sample size for a given effect size.
+
+::: {#exr-power-curve}
+## Create a power curve
+:::
+
+:::: {.panel-tabset}
+## Problem
+
+Calculate power for sample sizes ranging from 10 to 100 (per group) for Cohen's d = 0.5, then create a plot.
+
+```{webr}
+#| label: ex-3
+#| exercise: ex_3
+library(pwr)
+library(ggplot2)
+library(purrr)
+
+# Create a sequence of sample sizes
+sample_sizes <- seq(10, 100, by = 5)
+
+# Calculate power for each sample size and create data frame
+power_df <- map(
+  sample_sizes,
+  \(n) {
+    result <- pwr.t.test(
+      n = ______,
+      d = ______,
+      sig.level = 0.05,
+      alternative = "two.sided"
+    )
+    data.frame(
+      n = n,
+      power = result$power
+    )
+  }
+) |> list_rbind()
+
+# Plot
+ggplot(power_df, aes(x = n, y = power)) +
+  geom_line(color = "blue", linewidth = 1) +
+  geom_hline(yintercept = 0.80, linetype = "dashed", color = "red") +
+  labs(
+    title = "Power Curve for Two-Sample t-test",
+    x = "Sample Size per Group",
+    y = "Statistical Power"
+  ) +
+  theme_minimal()
+```
+
+## Hints 
+
+::: {.hint exercise="ex_3"}
+
+In the `map()` function, `n` is the iterator variable from the function, so use it directly. The effect size should be 0.5.
+
+```r
+power_df <- map(
+  sample_sizes,
+  \(n) {
+    result <- pwr.t.test(
+      n = n,
+      d = 0.5,
+      sig.level = 0.05,
+      alternative = "two.sided"
+    )
+    data.frame(
+      n = n,
+      power = result$power
+    )
+  }
+) |> list_rbind()
+```
+:::
+
+## Solution
+
+::: {.solution exercise="ex_3"}
+
+```{webr}
+#| label: ex-3-solution
+#| exercise: ex_3
+#| solution: true
+library(pwr)
+library(ggplot2)
+library(purrr)
+
+# Create a sequence of sample sizes
+sample_sizes <- seq(10, 100, by = 5)
+
+# Calculate power for each sample size and create data frame
+power_df <- map(
+  sample_sizes,
+  \(n) {
+    result <- pwr.t.test(
+      n = n,            #<1>
+      d = 0.5,          #<2>
+      sig.level = 0.05,
+      alternative = "two.sided"
+    )
+    data.frame(
+      n = n,
+      power = result$power
+    )
+  }
+) |> list_rbind()  #<3>
+
+# Plot
+ggplot(power_df, aes(x = n, y = power)) +
+  geom_line(color = "blue", linewidth = 1) +
+  geom_hline(yintercept = 0.80, linetype = "dashed", color = "red") +
+  labs(
+    title = "Power Curve for Two-Sample t-test",
+    x = "Sample Size per Group",
+    y = "Statistical Power"
+  ) +
+  theme_minimal()
+```
+1. Use the sample size from the iterator
+2. Cohen's d effect size
+3. Combine list of data frames into a single data frame
+
+The red dashed line shows 80% power. Notice how power increases with sample size!
+
+:::
+
+```{webr}
+#| label: ex-3-gradethis
+#| exercise: ex_3
+#| check: true
+gradethis::grade_this_code()
+```
+
+::::
+
+::: {#exr-power-comparison}
+## Compare power curves across multiple effect sizes
+:::
+
+:::: {.panel-tabset}
+## Problem
+
+Create a plot showing power curves for small (0.2), medium (0.5), and large (0.8) effect sizes simultaneously. Vary sample size from 10 to 150 (by 5) for each effect size.
+
+Use `expand_grid()` to create all combinations of effect sizes and sample sizes, then use `map2_dbl()` to calculate power for each combination.
+
+```{webr}
+#| label: ex-3c
+#| exercise: ex_3c
+library(pwr)
+library(ggplot2)
+library(purrr)
+
+# Define effect sizes and sample sizes
+effect_sizes <- c(0.2, 0.5, 0.8)
+sample_sizes <- seq(10, 150, by = 5)
+
+# Create all combinations and calculate power
+power_comparison <- expand_grid(
+  n = ______,
+  d = ______
+) |>
+  mutate(
+    power = map2_dbl(
+      d, n,
+      \(d, n) {
+        pwr.t.test(
+          d = ______,
+          n = ______,
+          sig.level = 0.05,
+          alternative = "two.sided"
+        )$power
+      }
+    ),
+    effect_label = factor(
+      d,
+      levels = c(0.2, 0.5, 0.8),
+      labels = c("Small (d=0.2)", "Medium (d=0.5)", "Large (d=0.8)")
+    )
+  )
+
+# Create the comparison plot
+ggplot(power_comparison, aes(x = n, y = power, color = effect_label)) +
+  geom_line(linewidth = 1) +
+  geom_hline(yintercept = 0.8, linetype = "dashed", alpha = 0.7) +
+  labs(
+    title = "Power Curves for Different Effect Sizes",
+    subtitle = "Two-sample t-test, α = 0.05",
+    x = "Sample Size per Group",
+    y = "Statistical Power",
+    color = "Effect Size"
+  ) +
+  theme_minimal() +
+  scale_y_continuous(limits = c(0, 1))
+```
+
+## Hints 
+
+::: {.hint exercise="ex_3c"}
+
+`expand_grid()` creates all combinations of the vectors you provide.
+
+In `map2_dbl()`, the first two arguments are the vectors to iterate over in parallel. Use the function parameters `d` and `n` in the `pwr.t.test()` call.
+
+```r
+power_comparison <- expand_grid(
+  n = sample_sizes,
+  d = effect_sizes
+) |>
+  mutate(
+    power = map2_dbl(
+      d, n,
+      \(d, n) {
+        pwr.t.test(
+          d = d,  # Use the iterator variable
+          n = n,  # Use the iterator variable
+          sig.level = 0.05,
+          alternative = "two.sided"
+        )$power
+      }
+    ),
+    # ... rest of code
+```
+:::
+
+## Solution
+
+::: {.solution exercise="ex_3c"}
+
+```{webr}
+#| label: ex-3c-solution
+#| exercise: ex_3c
+#| solution: true
+library(pwr)
+library(ggplot2)
+library(purrr)
+
+# Define effect sizes and sample sizes
+effect_sizes <- c(0.2, 0.5, 0.8)
+sample_sizes <- seq(10, 150, by = 5)
+
+# Create all combinations and calculate power
+power_comparison <- expand_grid(
+  n = sample_sizes,   #<1>
+  d = effect_sizes    #<2>
+) |>
+  mutate(
+    power = map2_dbl(
+      d, n,             #<3>
+      \(d, n) {
+        pwr.t.test(
+          d = d,        #<4>
+          n = n,        #<5>
+          sig.level = 0.05,
+          alternative = "two.sided"
+        )$power
+      }
+    ),
+    effect_label = factor(
+      d,
+      levels = c(0.2, 0.5, 0.8),
+      labels = c("Small (d=0.2)", "Medium (d=0.5)", "Large (d=0.8)")
+    )
+  )
+
+# Create the comparison plot
+ggplot(power_comparison, aes(x = n, y = power, color = effect_label)) +
+  geom_line(linewidth = 1) +
+  geom_hline(yintercept = 0.8, linetype = "dashed", alpha = 0.7) +
+  labs(
+    title = "Power Curves for Different Effect Sizes",
+    subtitle = "Two-sample t-test, α = 0.05",
+    x = "Sample Size per Group",
+    y = "Statistical Power",
+    color = "Effect Size"
+  ) +
+  theme_minimal() +
+  scale_y_continuous(limits = c(0, 1))
+```
+1. Sample sizes to iterate over
+2. Effect sizes to iterate over
+3. `map2_dbl()` iterates over two vectors in parallel
+4. Use effect size from the iterator
+5. Use sample size from the iterator
+
+The plot shows three power curves, one for each effect size. Key insights:
+
+- Small effects require much larger samples to achieve 80% power (n ≈ 393 per group)
+- Medium effects need n ≈ 64 per group for 80% power
+- Large effects only need n ≈ 26 per group for 80% power
+
+The dashed line at 0.8 helps identify the minimum sample size needed for adequate power for each effect size.
+
+:::
+
+```{webr}
+#| label: ex-3c-gradethis
+#| exercise: ex_3c
+#| check: true
+gradethis::grade_this_code()
+```
+
+::::
+
+# Simulation-Based Power Analysis
+
+Analytical formulas (like `pwr.t.test()`) are great, but sometimes we need to verify power through simulation. This is especially useful for complex designs or when assumptions may be violated. Simulation is also useful for checking your understanding of the concepts.
+
+## Understanding the Simulation Approach
+
+Instead of using formulas, we can:
+
+1. Simulate many datasets under specific conditions (effect size, sample size)
+2. Run a t-test on each simulated dataset
+3. Save key statistics (p-value, confidence interval, effect size, etc.)
+4. Calculate power = proportion of significant tests
+
+::: {#exr-simulate}
+## Create a simulation function
+:::
+
+:::: {.panel-tabset}
+## Problem
+
+Create a function that runs many simulated studies and captures comprehensive results from each one. The function should:
+
+- Generate data for two groups with specified sample size and effect size
+- Run a t-test on each simulated dataset
+- Store p-values, confidence intervals, effect sizes, and other statistics
+
+```{webr}
+#| label: ex-4
+#| exercise: ex_4
+#| envir: sim_env
+#| timelimit: 300
+#| persist: true
+# Function to simulate a single study
+simulate_study <- function(n_per_group, effect_size) {
+  data.frame(
+    group = rep(c("Control", "Treatment"), each = n_per_group),
+    score = c(
+      rnorm(n_per_group, mean = 0, sd = 1),
+      rnorm(n_per_group, mean = ______, sd = 1)
+    )
+  )
+}
+
+# Function to run many simulated studies
+run_power_simulation <- function(
+    n_per_group,
+    effect_size,
+    n_simulations = 1000,
+    alpha = 0.05) {
+  
+  # Create storage for results
+  results <- data.frame(
+    simulation = 1:n_simulations,
+    p_value = numeric(n_simulations),
+    ci_lower = numeric(n_simulations),
+    ci_upper = numeric(n_simulations),
+    significant = logical(n_simulations),
+    effect = numeric(n_simulations)
+  )
+  
+  # Run many simulated studies
+  for (i in 1:n_simulations) {
+    # Simulate data
+    study_data <- simulate_study(n_per_group, effect_size)
+    
+    # Run t-test
+    test_result <- t.test(score ~ group, data = study_data, var.equal = TRUE)
+    
+    # Store results
+    results$p_value[i] <- test_result$______
+    results$ci_lower[i] <- test_result$conf.int[1]
+    results$ci_upper[i] <- test_result$conf.int[2]
+    results$significant[i] <- test_result$p.value < alpha
+    results$effect[i] <- diff(test_result$estimate)
+  }
+  
+  return(results)
+}
+
+# Test the function
+set.seed(123)
+sim_results <- run_power_simulation(
+  n_per_group = 30,
+  effect_size = 0.5,
+  n_simulations = 10  # Using fewer for speed
+)
+
+# Show first few results
+head(sim_results)
+```
+
+## Hints 
+
+::: {.hint exercise="ex_4"}
+
+In `simulate_study()`, the treatment group should have a mean equal to the effect_size (since control has mean 0 and SD = 1).
+
+The p-value from a t-test is accessed with `$p.value`.
+
+```r
+simulate_study <- function(n_per_group, effect_size) {
+  data.frame(
+    group = rep(c("Control", "Treatment"), each = n_per_group),
+    score = c(
+      rnorm(n_per_group, mean = 0, sd = 1),
+      rnorm(n_per_group, mean = effect_size, sd = 1)
+    )
+  )
+}
+
+# In run_power_simulation:
+results$p_value[i] <- test_result$p.value
+```
+:::
+
+## Solution
+
+::: {.solution exercise="ex_4"}
+
+```{webr}
+#| label: ex-4-solution
+#| exercise: ex_4
+#| solution: true
+# Function to simulate a single study
+simulate_study <- function(n_per_group, effect_size) {
+  data.frame(
+    group = rep(c("Control", "Treatment"), each = n_per_group),
+    score = c(
+      rnorm(n_per_group, mean = 0, sd = 1),
+      rnorm(n_per_group, mean = effect_size, sd = 1) #<1>
+    )
+  )
+}
+
+# Function to run many simulated studies
+run_power_simulation <- function(
+    n_per_group,
+    effect_size,
+    n_simulations = 1000,
+    alpha = 0.05) {
+  
+  # Create storage for results
+  results <- data.frame(
+    simulation = 1:n_simulations,
+    p_value = numeric(n_simulations),
+    ci_lower = numeric(n_simulations),
+    ci_upper = numeric(n_simulations),
+    significant = logical(n_simulations),
+    effect = numeric(n_simulations)
+  )
+  
+  # Run many simulated studies
+  for (i in 1:n_simulations) {
+    # Simulate data
+    study_data <- simulate_study(n_per_group, effect_size)
+    
+    # Run t-test
+    test_result <- t.test(score ~ group, data = study_data, var.equal = TRUE)
+    
+    # Store results
+    results$p_value[i] <- test_result$p.value #<2>
+    results$ci_lower[i] <- test_result$conf.int[1]
+    results$ci_upper[i] <- test_result$conf.int[2]
+    results$significant[i] <- test_result$p.value < alpha
+    results$effect[i] <- diff(test_result$estimate)
+  }
+  
+  return(results)
+}
+
+# Test the function
+set.seed(123)
+sim_results <- run_power_simulation(
+  n_per_group = 30,
+  effect_size = 0.5,
+  n_simulations = 10  # Using fewer for speed
+)
+
+# Show first few results
+head(sim_results)
+```
+1. Treatment group has mean = effect_size (Cohen's d = 0.5 when SD = 1)
+2. Extract p-value from the t-test result
+
+This function returns a data frame with comprehensive information about each simulated study, making it easy to analyze power and other properties.
+
+:::
+
+```{webr}
+#| label: ex-4-gradethis
+#| exercise: ex_4
+#| check: true
+gradethis::grade_this_code()
+```
+
+::::
+
+::: {#exr-simulate-power}
+## Analyze simulation results and calculate power
+:::
+
+:::: {.panel-tabset}
+## Problem
+
+Now use the simulation function to run 1000 studies and analyze the results. Calculate the statistical power and create visualizations showing the distribution of p-values and confidence intervals.
+
+```{webr}
+#| label: ex-5
+#| exercise: ex_5
+#| envir: sim_env
+#| timelimit: 300
+#| persist: true
+library(ggplot2)
+
+# Run simulation
+set.seed(123)
+sim_results <- run_power_simulation(
+  n_per_group = 30,
+  effect_size = 0.5,
+  n_simulations = 1000
+)
+
+# Calculate power (proportion of p-values < 0.05)
+simulated_power <- mean(sim_results$______ < ______)
+
+cat("Simulated power:", round(simulated_power, 3), "\n")
+
+# Compare to analytical power
+analytical_power <- pwr.t.test(
+  n = 30,
+  d = 0.5,
+  sig.level = 0.05,
+  alternative = "two.sided"
+)$power
+
+cat("Analytical power:", round(analytical_power, 3), "\n")
+```
+
+## Hints 
+
+::: {.hint exercise="ex_5"}
+
+The `sim_results` data frame has a column called `p_value` with the p-value from each simulation.
+
+To calculate power:
+- Compare each p-value to 0.05
+- Take the mean of the TRUE/FALSE values (TRUE = 1, FALSE = 0)
+
+```r
+simulated_power <- mean(sim_results$p_value < 0.05)
+```
+:::
+
+## Solution
+
+::: {.solution exercise="ex_5"}
+
+```{webr}
+#| label: ex-5-solution
+#| exercise: ex_5
+#| solution: true
+library(ggplot2)
+
+# Run simulation
+set.seed(123)
+sim_results <- run_power_simulation(
+  n_per_group = 30,
+  effect_size = 0.5,
+  n_simulations = 1000
+)
+
+# Calculate power (proportion of p-values < 0.05)
+simulated_power <- mean(sim_results$p_value < 0.05) #<1>
+
+cat("Simulated power:", round(simulated_power, 3), "\n")
+
+# Compare to analytical power
+analytical_power <- pwr.t.test(
+  n = 30,
+  d = 0.5,
+  sig.level = 0.05,
+  alternative = "two.sided"
+)$power
+
+cat("Analytical power:", round(analytical_power, 3), "\n")
+```
+1. Calculate proportion of p-values below 0.05 (mean of TRUE/FALSE values)
+
+The simulated power should be very close to the analytical power (~0.47). This means about 47% of our simulated studies correctly detected the effect (had p < 0.05).
+
+:::
+
+```{webr}
+#| label: ex-5-gradethis
+#| exercise: ex_5
+#| check: true
+gradethis::grade_this_code()
+```
+
+::::
+
+::: {#exr-simulate-ci}
+## Calculate power using confidence intervals
+:::
+
+:::: {.panel-tabset}
+## Problem
+
+Another way to calculate power is through confidence intervals! A study detects an effect when the 95% CI excludes zero (the null hypothesis value). Calculate power by determining what proportion of confidence intervals do NOT contain zero.
+
+```{webr}
+#| label: ex-6
+#| exercise: ex_6
+#| persist: true
+#| envir: sim_env
+
+# Calculate power from confidence intervals
+# A CI that excludes 0 means we reject the null hypothesis
+ci_excludes_zero <- sim_results$ci_lower > ______ | sim_results$ci_upper < ______
+power_from_ci <- mean(ci_excludes_zero)
+
+cat("Power from p-values:", round(simulated_power, 3), "\n")
+cat("Power from CIs:     ", round(power_from_ci, 3), "\n")
+cat("These should be identical!\n")
+```
+
+## Hints 
+
+::: {.hint exercise="ex_6"}
+
+A confidence interval excludes zero if:
+- The lower bound is above 0 (positive effect), OR
+- The upper bound is below 0 (negative effect)
+
+This is equivalent to rejecting the null hypothesis (H₀: difference = 0).
+
+```r
+ci_excludes_zero <- sim_results$ci_lower > 0 | sim_results$ci_upper < 0
+```
+:::
+
+## Solution
+
+::: {.solution exercise="ex_6"}
+
+```{webr}
+#| label: ex-6-solution
+#| exercise: ex_6
+#| solution: true
+
+# Calculate power from confidence intervals
+# A CI that excludes 0 means we reject the null hypothesis
+ci_excludes_zero <- sim_results$ci_lower > 0 | sim_results$ci_upper < 0  #<1>
+power_from_ci <- mean(ci_excludes_zero)
+
+cat("Power from p-values:", round(simulated_power, 3), "\n")
+cat("Power from CIs:     ", round(power_from_ci, 3), "\n")
+cat("These should be identical!\n")
+```
+1. CI excludes 0 if lower bound > 0 OR upper bound < 0
+
+**Key insight**: Power can be calculated two equivalent ways:
+- **From p-values**: Proportion where p < 0.05
+- **From confidence intervals**: Proportion where CI excludes 0
+
+These give identical results because they're testing the same hypothesis! A 95% CI that excludes 0 corresponds exactly to p < 0.05.
+
+:::
+
+```{webr}
+#| label: ex-6-gradethis
+#| exercise: ex_6
+#| check: true
+gradethis::grade_this_code()
+```
+
+::::
+
+# Summary
+
+In this lab, you learned:
+
+1. **Power analysis basics**: The relationship between power, sample size, effect size, and significance level
+2. **Using `pwr` package**: How to calculate power or required sample size analytically
+3. **Power curves**: Visualizing how power changes with sample size
+4. **Simulation-based power**: Be basics of estimating power by simulating many studies
