@@ -13,8 +13,6 @@ library(tidyverse)
 d_bl <- read_rds(here("data", "steps_baseline.rds"))
 ```
 
-The law of large numbers brings us to the concept of **probability.** In frequentist statistics, probability is defined as the long run frequency of an event as the number of events approach infinity, $\infty$. For instance the proportion of heads in an infinite number of coin tosses will approach 0.5.
-
 # P-values
 
 Probability - defined as the long-run frequency of an event occurring - is very much used in research to get an idea of **how probable our observed data is, given some hypothesis of interest.** In probability notation $P(Data|Hypothesis)$.
@@ -82,7 +80,7 @@ legend("topright",
 
 ```
 
-The probability of getting a a sample mean that is greater or equal to our observed mean can be calculated by transforming our observed mean to a **t-value** and compare it to the **t-distribution**.
+The probability of getting a a sample mean that is greater or equal to our observed mean, given some true population mean, $\mu$, can be calculated by transforming our observed mean to a **t-value** and compare it to the **t-distribution**.
 
 The t-value of our mean $\bar{x}$ under the null hypothesis that the population mean is $\mu$, is given by the formula:
 
@@ -90,7 +88,7 @@ $$
 t = \frac{\bar{x} - \mu}{SE}
 $$
 
-Replacing these greek letters with our actual values $\bar{x} = 84.75$, $\mu = 82$, and $SE=1.22$, we get:
+Replacing these Greek letters with our actual values $\bar{x} = 84.75$, $\mu = 82$, and $SE=1.22$, we get:
 
 ```{r}
 #| label: t-value-calculation
@@ -100,7 +98,7 @@ t_value <- (x_bar - 82) / se
 t_value
 ```
 
-Now let's see the probability of getting a value larger or equal to this - **our one-sided p-value!** For this we use the `pt()` function, that provides the cumulative probability up until a given t-value. 1 minus this cumulative probability gives the probability of values equal or above the given t-value.
+Now let's find the probability of getting a t-value larger or equal to this - **our one-sided p-value!** For this we use the `pt()` function, that provides the cumulative probability up until a given t-value. 1 minus this cumulative probability gives the probability of values equal or above the given t-value.
 
 ```{r}
 #| label: p-value-calculation
@@ -113,14 +111,14 @@ Now let's see the probability of getting a value larger or equal to this - **our
 When the sample size increases, the t-distribution approaches the z-distribution and these estimates become very similar. As a general rule of thumb, it is fine to use z-values rather than t-values for sample sizes larger than 200.
 :::
 
-We could also get a very similar p-value from the z-distribution (although we would assume we have the population variance for out calculation of the standard error). If this was a proportion, a z-test would be the one to use, since we are not using any estimates when calculating the standard error.
+We could also get a very similar p-value from the z-distribution (although we would assume we know the population variance for out calculation of the standard error). The `pnorm()` function gives the cumulative probability up to some specific value for the normal distribution, which when the mean is 0 and the SD is 1 is also called the z-distribution.
 
 ```{r}
 #| label: pnorm
 1 - pnorm(t_value)
 ```
 
-Very similar to our simulated p-value above! More conveniently, of course, we could get this p-value using the `t.test()` function.
+Sinnce our sample is quite large, the p-value from the t-distribution and the z-distribution are very similar. Also very similar to our simulated p-value above! More conveniently, of course, we could get this p-value using the `t.test()` function.
 
 ```{r}
 #| label: t-test-function
@@ -130,9 +128,9 @@ t.test(d_bl$lsas_screen, mu = 82, alternative = "greater")
 ::: callout-note
 ## One-sided and two-sided p-values
 
-What we have calculated, bow in three different ways, is the **one-sided** p-value. This is because we only looked at the probability to *get data equal to or greater* than our observed data, given that the null-hypothesis was true.
+What we have now calculated in three different ways is the **one-sided** p-value. It's one-sided since we only looked at the probability to *get data equal to or greater* than our observed data, given that the null-hypothesis was true.
 
-If we wanted to see the probability of getting data equal or greater than our observed data OR equal or less than out observed data under the null-hypothesis, we would want a **two-sided** p-value. Since the sampling distribution is symmetrical, we could get this by multiplying of one-sided p-value by 2.
+If we wanted to see the probability of getting data equal or greater than our observed data OR equal or less than out observed data under the null-hypothesis, we would want a **two-sided** **p-value.** Since the sampling distribution is symmetrical, we could get this by multiplying of one-sided p-value by 2.
 :::
 
 ```{r}
@@ -176,7 +174,7 @@ print(p_two_sided)
 
 ```
 
-Code for the two-sided p-value
+Code for two-sided p-values
 
 ```{r}
 #| label: p-value-two-sided
@@ -190,62 +188,21 @@ t_value <- (x_bar - 82) / se
 t.test(d_bl$lsas_screen, mu = 82, alternative = "two.sided")
 ```
 
-
-::: {#exr-pvalue-phq9 .callout-caution collapse="true"}
-## P-value for PHQ-9 Mean
-
-Calculate the p-value for the null hypothesis that the mean PHQ-9 value in the underlying population is 9, and describe in words what this number means.
-:::
-
-::: {#exr-pvalue-proportion .callout-caution collapse="true"}
-## P-value for Proportion of Men
-
-Calculate the p-value for getting our observed proportion of men, $\hat{p}$, if the true population proportion, $p$, was 50% or more using a z-test.
-
-**HINT:** use the standard error of the proportion:
-$$
-\mathrm{SE}(p) = \sqrt{\frac{p(1 - p)}{n}}
-$$
-
-and combine with the formula for the z-scores
-
-$$
-z= \frac{p - \hat{p}}{SE}
-$$
-:::
-
-
-::: {#exr-pvalue-sample-size .callout-caution collapse="true"}
-## Effect of Sample Size on P-value
-
-Modify the simulation code for the sampling distribution above to determine what would happen to the p-value if the sample size was 10, 100 or 1000.
-:::
-
 # Confidence intervals
 
 Using the standard error, we can also calculate the confidence interval, defined as **an interval that, if computed on a repeated set of samples, would contain the true population statistic 95% of the times.**
 
-When the sample standard deviation is used, we get the confidence intervals by taking the observed mean and adding or subtracting the *t-value* of the desired percentiles of the sampling distribution (indicated by the asterix) times the *standard error.*
+## Numeric variables
+
+When the sample variance, $s$, is used, we get the confidence intervals by taking the observed mean and adding or subtracting the *t-value* of the desired percentiles of the sampling distribution (indicated by the asterix) times the *standard error,* $\frac{s}{\sqrt{n}}$
 
 $$ \text{CI} = \bar{x} \pm t^*\ \frac{s}{\sqrt{n}}$$
 
-If we knew the *stardard error of the population,* we could substitute the sample variance $s$ for the population variance $\sigma$, and use *z*-values instead of *t-values.* For 95% confidence intervals, the z-value is 1.96.
+If we knew the *variance of the population,* we could substitute the sample variance $s$ for the population variance $\sigma$, and use *z*-values instead of *t-values.* For 95% confidence intervals, the z-value is 1.96.
 
 $$
 \text{CI} = \bar{x} \pm z^*\frac{\sigma}{\sqrt{n}}
 $$
-
-For a proportion, the confidence intervals becomes:
-
-$$
-\hat{p} \pm z^* \sqrt{\frac{\hat{p}(1 - \hat{p})}{n}}
-$$
-
-::: {.callout-tip collapse="true"}
-## Confidence intervals for proportions
-
-This confidence intervals for proportion, known as Wald confidence intervals, is easy to compute. However, since it uses the sample proportion to estimate the population proportion, they can be erratic, especially when $\hat{p}$ approach 0 or 1. We therefore recommend using more advanced confidence intervals, calculated by statistical software, for instance using the function `prop.test()`.
-:::
 
 Now let's use these formulas to calculate the confidence interval of the mean of LSAS-SR
 
@@ -280,32 +237,22 @@ lcl <- mean(d_bl$lsas_screen) - 1.96 * se
 print(c(lcl, ucl))
 ```
 
-::: {#exr-z-vs-t-scores .callout-caution collapse="true"}
-## Z-scores vs T-scores for Confidence Intervals
+## Proportions
 
-Explain why the confidence intervals calculated using z-scores are narrower than the ones using t-scores.
+The logic of confidence intervals are the same for proportions, we take our observed value $\pm$ z times the standard error
+
+For a proportion, the confidence intervals therefore becomes:
+
+$$ \hat{p} \pm z^* \sqrt{\frac{\hat{p}(1 - \hat{p})}{n}} $$
+
+::: {.callout-tip collapse="true"}
+## Confidence intervals for proportions
+
+This confidence intervals for proportion, known as Wald confidence intervals, is easy to compute. However, since it uses the sample proportion to estimate the population proportion, they can be erratic, especially when $\hat{p}$ approach 0 or 1. We therefore recommend using more advanced confidence intervals, calculated by statistical software, for instance using the function `prop.test()`.
 :::
 
-::: {#exr-ci-phq9 .callout-caution collapse="true"}
-## 95% Confidence Interval for PHQ-9
+If we want to get a confidence interval for a proportion in R, we can get this using the `prop.test()` function. We have no categorical variables in the STePs data, but let's simulate a gender variable and get the confidence interval for the proportion.
 
-Calculate the 95% confidence interval for PHQ-9, and describe in words what these numbers mean.
-:::
+```{r}
 
-::: {#exr-wald-ci .callout-caution collapse="true"}
-## Wald Confidence Interval for Proportion of Men
-
-Calculate the 95% Wald confidence interval for the proportion of men in the dataset using the formula above and interpret its meaning.
-:::
-
-::: {#exr-compare-wald-prop .callout-caution collapse="true"}
-## Comparing Wald vs prop.test() Confidence Intervals
-
-Compare this to what you would obtain using the function `prop.test()` in R.
-:::
-
-::: {#exr-interpret-ci .callout-caution collapse="true"}
-## Interpreting Confidence Intervals in Context
-
-Reason about the meaning and interpretation of the confidence intervals you have calculated in the context of how the actual STePs study was performed. The study can be found at: <https://www.nature.com/articles/s44184-024-00063-0>
-:::
+```
