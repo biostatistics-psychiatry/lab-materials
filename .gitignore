@@ -55,7 +55,7 @@ _publish.yml
 /.quarto/
 
 # Tables
-labs/tables/*.docx
+chapters/tables/*.docx
 
 # locally rendered files
 /docs/
