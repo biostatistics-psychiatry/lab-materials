@@ -294,6 +294,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#importing-data-into-r" id="toc-importing-data-into-r" class="nav-link" data-scroll-target="#importing-data-into-r">Importing data into R</a>
   <ul>
   <li><a href="#check-data-structure" id="toc-check-data-structure" class="nav-link" data-scroll-target="#check-data-structure">Check data structure</a></li>
+  <li><a href="#types-of-data" id="toc-types-of-data" class="nav-link" data-scroll-target="#types-of-data">Types of data</a></li>
   </ul></li>
   <li><a href="#data-cleaning" id="toc-data-cleaning" class="nav-link" data-scroll-target="#data-cleaning">Data cleaning</a>
   <ul>
@@ -328,7 +329,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>For this first lab session, we will:</p>
+<p>In this chapter, we will:</p>
 <ul>
 <li>Introduce the datasets we will be using throughout the course</li>
 <li>Import data into R</li>
@@ -480,6 +481,20 @@ Exercise&nbsp;2: Check the structure of STePS
 </div>
 </div>
 </div>
+</section>
+<section id="types-of-data" class="level2">
+<h2 class="anchored" data-anchor-id="types-of-data">Types of data</h2>
+<p>It’s good practice to check and verify the type of data in each column after importing the data. For example, if you have a variable that should be numeric, but is instead character, you need to fix this before you can do any analyses. You will learn more about manipulating data types in the <a href="../labs/tidy-data-manipulation.html">Tidy data manipulation</a> chapter.</p>
+<p>The most common types of columns you will work with are:</p>
+<ul>
+<li><code>chr</code>: character strings</li>
+<li><code>int</code>: integers</li>
+<li><code>dbl</code>: numeric values</li>
+<li><code>lgl</code>: logical (TRUE/FALSE)</li>
+<li><code>fct</code>: factors</li>
+<li><code>date</code>: dates</li>
+</ul>
+<p>Our dataset is fairly clean, but there are problems with some variables. You can see from the <code>glimpse()</code> call above that some variables for LSAS and other questionnaires are coded as <code>&lt;chr&gt;</code> even though they should only have numbers. We will address these issues below.</p>
 </section>
 </section>
 <section id="data-cleaning" class="level1">
