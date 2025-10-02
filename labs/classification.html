@@ -258,6 +258,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../exercises/lab-webr-classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Classification</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../exercises/lab-webr-descriptive-statistics.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Descriptive statistics</span></a>
   </div>
@@ -320,7 +326,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>In this lab, we will look at how we can work with classification problems in R. You will learn how to evaluate <em>sensitivity</em>, <em>specificity</em>, <em>positive predictive value</em> (PPV), and <em>negative predictive value</em> (NPV). These measures help us understand how well a model or test can identify or predict binary outcomes (e.g., disease status, treatment response). You will not work on the models themselves; that is the topic of upcoming courses and labs.</p>
+<p>In this chapter, we will look at how we can work with classification problems in R. You will learn how to evaluate <em>sensitivity</em>, <em>specificity</em>, <em>positive predictive value</em> (PPV), and <em>negative predictive value</em> (NPV). These measures help us understand how well a model or test can identify or predict binary outcomes (e.g., disease status, treatment response). You will not work on the models themselves; that is the topic of upcoming courses and chapters.</p>
 <section id="load-packages-and-data" class="level1">
 <h1>Load packages and data</h1>
 <p>We load both the outcomes and baseline data, and join them together using the <code>id</code> variable.</p>
@@ -343,7 +349,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="st">"id"</span></span>
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>For the purposes of this lab we need a binary outcome. We will use the <code>lsas_post</code> variable as our outcome of interest, and evaluate how well we can predict it using the <code>lsas_screen</code> values.</p>
+<p>For the purposes of this chapter we need a binary outcome. We will use the <code>lsas_post</code> variable as our outcome of interest, and evaluate how well we can predict it using the <code>lsas_screen</code> values.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>d_nomiss <span class="ot">&lt;-</span> d <span class="sc">|&gt;</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(lsas_post))</span>
@@ -353,22 +359,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">lsas_post_bin =</span> <span class="fu">if_else</span>(lsas_post <span class="sc">&lt;</span> <span class="dv">50</span>, <span class="st">"Low"</span>, <span class="st">"High"</span>),</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">lsas_post_bin =</span> <span class="fu">factor</span>(lsas_post_bin, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Low"</span>, <span class="st">"High"</span>))</span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div id="exr-phq9-binary" class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exercise&nbsp;1: Create a binary variable of PHQ-9 at post-treatment
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-1" class="callout-1-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>For the exercises in this lab, you will work with PHQ-9 instead of LSAS. Create a binary outcome variable <code>phq9_post_bin</code> that is “Low” if <code>phq9_post</code> is less than 10, and “High” otherwise.</p>
-</div>
-</div>
 </div>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -406,22 +396,6 @@ Exercise&nbsp;1: Create a binary variable of PHQ-9 at post-treatment
 Prediction Low High
       Low   16    7
       High  27  119</code></pre>
-</div>
-</div>
-<div id="exr-phq9-logistic" class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exercise&nbsp;2: Fit a logistic regression model (PHQ-9)
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Fit a logistic regression model to predict <code>phq9_post_bin</code> using <code>phq9_screen</code> and <code>group</code>. Create a confusion matrix for the predictions. You can use the same code as above, but you will need to change to phq9-values. You can also use the built-in <code>glm()</code> function together with <code>predict()</code> to fit the logistic regression and predict the outcome if you prefer.</p>
-</div>
 </div>
 </div>
 </section>
@@ -464,22 +438,6 @@ Exercise&nbsp;2: Fit a logistic regression model (PHQ-9)
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>neg_pred_val <span class="ot">&lt;-</span> true_neg <span class="sc">/</span> (true_neg <span class="sc">+</span> false_neg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Negative predictive value is 0.82.</p>
-<div id="exr-classification-metrics" class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exercise&nbsp;3: Calculate classification metrics
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Calculate the sensitivity, specificity, positive predictive value, and negative predictive value for the PHQ-9 predictions.</p>
-</div>
-</div>
-</div>
 </section>
 </section>
 <section id="evaluate-classification-using-tidymodels" class="level1">
