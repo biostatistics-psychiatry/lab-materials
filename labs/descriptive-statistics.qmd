@@ -2,7 +2,7 @@
 title: "Descriptive statistics"
 ---
 
-In this chapter we show how to calculate and interpret descriptive statistics using the STePS dataset. We start by loading the cleaned dataset saved in the [Import and clean data](import-clean.qmd) chapter.
+In this chapter we show how to calculate and interpret descriptive statistics using the STePS dataset. We start by loading the cleaned data set saved in the [Import and clean data](import-clean.qmd) chapter.
 
 ```{r}
 #| label: load-packages
@@ -373,8 +373,7 @@ vars <- c(
   "pid_5_screen",
   "gender",
   "education",
-  "income"
-)
+  "income")
 
 CreateTableOne(vars = vars, data = d_bl)
 ```
