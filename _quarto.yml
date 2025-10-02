@@ -50,12 +50,6 @@ website:
         contents:
           - href: exercises/lab-1-exercises.qmd
             text: Lab 1 Exercises
-          - href: exercises/lab-2-exercises.qmd
-            text: Lab 2 Exercises
-          - href: exercises/lab-3-exercises.qmd
-            text: Lab 3 exercises
-          - href: exercises/lab-4-exercises.qmd
-            text: Lab 4 exercises
           - href: exercises/lab-webr-test-exercises.qmd
             text: Webr test exercises
           - href: exercises/lab-power-sample-size.qmd
