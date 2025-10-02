@@ -1,0 +1,1953 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Lab: Power and Sample Size – Biostatistics - Research School in Clinical Psychiatry</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../exercises/lab-webr-test-exercises.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-f4f457e805d2b247f730789ca0bbc19f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
+<link href="../site_libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script type="module" src="../site_libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+<link href="../site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+
+
+</head>
+
+<body class="nav-sidebar docked fullcontent quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../exercises/lab-1-exercises.html">Exercises</a></li><li class="breadcrumb-item"><a href="../exercises/lab-power-sample-size.html">Power and sample size</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+      <a href="../index.html" class="sidebar-logo-link">
+      </a>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">Course information</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../r-setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">R and RStudio setup</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Labs</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../labs/import-clean.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Import and clean data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../labs/descriptive-statistics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Descriptive statistics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../labs/tidy-data-manipulation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tidy data manipulation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../labs/sampling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sampling from a population</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../labs/p-values-ci.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">P-values and confidence intervals</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../labs/probability-rules.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Probability rules</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../labs/classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Classification</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../labs/testing-two-means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Testing two means</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../labs/power-sample-size.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Power and sample size</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Exercises</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../exercises/lab-1-exercises.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 1 Exercises</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../exercises/lab-2-exercises.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 2 Exercises</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../exercises/lab-3-exercises.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 3 exercises</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../exercises/lab-4-exercises.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 4 exercises</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../exercises/lab-webr-test-exercises.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Webr test exercises</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../exercises/lab-power-sample-size.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Power and sample size</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../exercises/lab-1-exercises.html">Exercises</a></li><li class="breadcrumb-item"><a href="../exercises/lab-power-sample-size.html">Power and sample size</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Lab: Power and Sample Size</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="cell" data-edit="false">
+<div>
+<div id="webr-1" class="exercise-cell">
+
+</div>
+<script type="webr-1-contents">
+eyJhdHRyIjp7ImVkaXQiOmZhbHNlLCJldmFsIjp0cnVlLCJvdXRwdXQiOmZhbHNlfSwiY29kZSI6IndlYnI6Omluc3RhbGwoXCJncmFkZXRoaXNcIiwgcXVpZXQgPSBUUlVFKVxubGlicmFyeShncmFkZXRoaXMpXG5vcHRpb25zKHdlYnIuZXhlcmNpc2UuY2hlY2tlciA9IGZ1bmN0aW9uKFxuICBsYWJlbCwgdXNlcl9jb2RlLCBzb2x1dGlvbl9jb2RlLCBjaGVja19jb2RlLCBlbnZpcl9yZXN1bHQsIGV2YWx1YXRlX3Jlc3VsdCxcbiAgZW52aXJfcHJlcCwgbGFzdF92YWx1ZSwgZW5naW5lLCBzdGFnZSwgLi4uXG4pIHtcbiAgaWYgKGlzLm51bGwoY2hlY2tfY29kZSkpIHtcbiAgICAjIE5vIGdyYWRpbmcgY29kZSwgc28ganVzdCBza2lwIGdyYWRpbmdcbiAgICBpbnZpc2libGUoTlVMTClcbiAgfSBlbHNlIGlmIChpcy5udWxsKGxhYmVsKSkge1xuICAgIGxpc3QoXG4gICAgICBjb3JyZWN0ID0gRkFMU0UsXG4gICAgICB0eXBlID0gXCJ3YXJuaW5nXCIsXG4gICAgICBtZXNzYWdlID0gXCJBbGwgZXhlcmNpc2VzIG11c3QgaGF2ZSBhIGxhYmVsLlwiXG4gICAgKVxuICB9IGVsc2UgaWYgKGlzLm51bGwoc29sdXRpb25fY29kZSkpIHtcbiAgICBsaXN0KFxuICAgICAgY29ycmVjdCA9IEZBTFNFLFxuICAgICAgdHlwZSA9IFwid2FybmluZ1wiLFxuICAgICAgbWVzc2FnZSA9IGh0bWx0b29sczo6dGFncyRkaXYoXG4gICAgICAgIGh0bWx0b29sczo6dGFncyRwKFwiQSBwcm9ibGVtIG9jY3VycmVkIGdyYWRpbmcgdGhpcyBleGVyY2lzZS5cIiksXG4gICAgICAgIGh0bWx0b29sczo6dGFncyRwKFxuICAgICAgICAgIFwiTm8gc29sdXRpb24gY29kZSB3YXMgZm91bmQuIE5vdGUgdGhhdCBncmFkaW5nIGV4ZXJjaXNlcyB1c2luZyB0aGUgXCIsXG4gICAgICAgICAgaHRtbHRvb2xzOjp0YWdzJGNvZGUoXCJncmFkZXRoaXNcIiksXG4gICAgICAgICAgXCJwYWNrYWdlIHJlcXVpcmVzIGEgbW9kZWwgc29sdXRpb24gdG8gYmUgaW5jbHVkZWQgaW4gdGhlIGRvY3VtZW50LlwiXG4gICAgICAgIClcbiAgICAgIClcbiAgICApXG4gIH0gZWxzZSB7XG4gICAgZ3JhZGV0aGlzOjpncmFkZXRoaXNfZXhlcmNpc2VfY2hlY2tlcihcbiAgICAgIGxhYmVsID0gbGFiZWwsIHNvbHV0aW9uX2NvZGUgPSBzb2x1dGlvbl9jb2RlLCB1c2VyX2NvZGUgPSB1c2VyX2NvZGUsXG4gICAgICBjaGVja19jb2RlID0gY2hlY2tfY29kZSwgZW52aXJfcmVzdWx0ID0gZW52aXJfcmVzdWx0LFxuICAgICAgZXZhbHVhdGVfcmVzdWx0ID0gZXZhbHVhdGVfcmVzdWx0LCBlbnZpcl9wcmVwID0gZW52aXJfcHJlcCxcbiAgICAgIGxhc3RfdmFsdWUgPSBsYXN0X3ZhbHVlLCBzdGFnZSA9IHN0YWdlLCBlbmdpbmUgPSBlbmdpbmUpXG4gIH1cbn0pIn0=
+</script>
+</div>
+</div>
+<p>In this lab, we’ll explore the basics of power analysis. We’ll use the <code>pwr</code> package to calculate power for a planned study.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>While you can complete all the exercises in your browser, we recommend also practicing in RStudio. Using an editor like RStudio will help you build real-world skills for writing, running, and saving your R code.</p>
+</div>
+</div>
+<section id="calculate-power-for-a-planned-study-using-the-pwr-package" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Calculate power for a planned study using the <code>pwr</code> package</h1>
+<p>The <code>pwr</code> package provides functions for power analysis. For two-group t-tests, we use <code>pwr.t.test()</code>.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Problem</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Hints</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Solution</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>Suppose you’re planning a study comparing two groups with:</p>
+<ul>
+<li>Sample size of 30 per group (<code>n = 30</code>)</li>
+<li>Expected Cohen’s d effect size of 0.5</li>
+<li>Significance level of 0.05 (<code>sig.level = 0.05</code>)</li>
+<li>Two-sided test (<code>alternative = "two.sided"</code>)</li>
+</ul>
+<p>Use <code>pwr.t.test()</code> to calculate the statistical power.</p>
+<div class="cell" data-exercise="ex_1">
+<div>
+<div id="webr-2" class="exercise-cell">
+
+</div>
+<script type="webr-2-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMSIsImxhYmVsIjoiZXgtMSJ9LCJjb2RlIjoibGlicmFyeShwd3IpXG5cbiMgQ2FsY3VsYXRlIHBvd2VyXG5yZXN1bHQgPC0gcHdyLnQudGVzdChcbiAgbiA9IF9fX19fXyxcbiAgZCA9IF9fX19fXyxcbiAgc2lnLmxldmVsID0gX19fX19fLFxuICBhbHRlcm5hdGl2ZSA9IF9fX19fX1xuKVxuXG4jIFByaW50IHRoZSByZXN1bHRcbnJlc3VsdCJ9
+</script>
+</div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="hint webr-ojs-exercise exercise-hint d-none" data-exercise="ex_1">
+<p>The <code>pwr.t.test()</code> function takes these arguments:</p>
+<ul>
+<li><code>n</code>: sample size per group</li>
+<li><code>d</code>: Cohen’s d effect size</li>
+<li><code>sig.level</code>: alpha level</li>
+<li><code>alternative</code>: “two.sided”, “greater”, or “less”</li>
+</ul>
+<p>Leave <code>power</code> blank - that’s what you’re calculating!</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.t.test</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="dv">30</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">d =</span> <span class="fl">0.5</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">sig.level =</span> ______,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">alternative =</span> <span class="st">"two.sided"</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_1">
+<div class="cell" data-exercise="ex_1" data-solution="true">
+<div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_1">
+<code id="interpolate-4" class="solution-code d-none">library(pwr)
+
+# Calculate power
+result &lt;- pwr.t.test(
+  n = 30,           #&lt;1&gt;
+  d = 0.5,          #&lt;2&gt;
+  sig.level = 0.05, #&lt;3&gt;
+  alternative = "two.sided" #&lt;4&gt;
+)
+
+# Print the result
+result</code>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-5"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="interpolate-5-1"><a href="#interpolate-5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pwr)</span>
+<span id="interpolate-5-2"><a href="#interpolate-5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="interpolate-5-3"><a href="#interpolate-5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate power</span></span>
+<span id="interpolate-5-4"><a href="#interpolate-5-4" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">pwr.t.test</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="interpolate-5" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="interpolate-5-5" class="code-annotation-target"><a href="#interpolate-5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="dv">30</span>,</span>
+<a class="code-annotation-anchor" data-target-cell="interpolate-5" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="interpolate-5-6" class="code-annotation-target"><a href="#interpolate-5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">d =</span> <span class="fl">0.5</span>,</span>
+<a class="code-annotation-anchor" data-target-cell="interpolate-5" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="interpolate-5-7" class="code-annotation-target"><a href="#interpolate-5-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">sig.level =</span> <span class="fl">0.05</span>,</span>
+<a class="code-annotation-anchor" data-target-cell="interpolate-5" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="interpolate-5-8" class="code-annotation-target"><a href="#interpolate-5-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">alternative =</span> <span class="st">"two.sided"</span></span>
+<span id="interpolate-5-9"><a href="#interpolate-5-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="interpolate-5-10"><a href="#interpolate-5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="interpolate-5-11"><a href="#interpolate-5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the result</span></span>
+<span id="interpolate-5-12"><a href="#interpolate-5-12" aria-hidden="true" tabindex="-1"></a>result</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="interpolate-5" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="interpolate-5" data-code-lines="5" data-code-annotation="1">Sample size per group</span>
+</dd>
+<dt data-target-cell="interpolate-5" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="interpolate-5" data-code-lines="6" data-code-annotation="2">Expected Cohen’s d effect size (medium effect)</span>
+</dd>
+<dt data-target-cell="interpolate-5" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="interpolate-5" data-code-lines="7" data-code-annotation="3">Significance level (alpha = 0.05)</span>
+</dd>
+<dt data-target-cell="interpolate-5" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="interpolate-5" data-code-lines="8" data-code-annotation="4">Two-sided hypothesis test</span>
+</dd>
+</dl>
+</div>
+</div>
+<p>With these parameters, the power is approximately 0.47 (47%), which is below the conventional 0.80 threshold.</p>
+</div>
+<div class="cell" data-exercise="ex_1" data-check="true">
+<script type="exercise-check-ex_1-contents">
+eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4XzEiLCJsYWJlbCI6ImV4LTEtZ3JhZGV0aGlzIn0sImNvZGUiOiJncmFkZXRoaXM6OmdyYWRlX3RoaXNfY29kZSgpIn0=
+</script>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="sample-size-calculation" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Sample Size Calculation</h1>
+<p>Often, we want to determine how many participants we need to achieve adequate power (typically 80%).</p>
+<div id="exr-sample-size" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 1 (Calculate required sample size)</strong></span> &nbsp;</p>
+</div>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href="">Problem</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href="">Hints</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-3" role="tab" aria-controls="tabset-2-3" aria-selected="false" href="">Solution</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<p>For the same study design (Cohen’s d = 0.5, alpha = 0.05, two-sided test), calculate the sample size needed to achieve 80% power.</p>
+<p>This time, leave <code>n</code> blank and specify <code>power = 0.80</code>.</p>
+<div class="cell" data-exercise="ex_2">
+<div>
+<div id="webr-7" class="exercise-cell">
+
+</div>
+<script type="webr-7-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMiIsImxhYmVsIjoiZXgtMiJ9LCJjb2RlIjoibGlicmFyeShwd3IpXG5cbiMgQ2FsY3VsYXRlIHJlcXVpcmVkIHNhbXBsZSBzaXplXG5yZXN1bHQgPC0gcHdyLnQudGVzdChcbiAgZCA9IF9fX19fXyxcbiAgc2lnLmxldmVsID0gX19fX19fLFxuICBwb3dlciA9IF9fX19fXyxcbiAgYWx0ZXJuYXRpdmUgPSBcInR3by5zaWRlZFwiXG4pXG5cbiMgUHJpbnQgdGhlIHJlc3VsdFxucmVzdWx0In0=
+</script>
+</div>
+</div>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<div class="hint webr-ojs-exercise exercise-hint d-none" data-exercise="ex_2">
+<p>Now you’re solving for <code>n</code> instead of <code>power</code>, so:</p>
+<ul>
+<li>Leave <code>n</code> out completely</li>
+<li>Add <code>power = 0.80</code></li>
+<li>Keep the other parameters the same</li>
+</ul>
+</div>
+</div>
+<div id="tabset-2-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-3-tab">
+<div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_2">
+<div class="cell" data-exercise="ex_2" data-solution="true">
+<div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_2">
+<code id="interpolate-9" class="solution-code d-none">library(pwr)
+
+# Calculate required sample size
+result &lt;- pwr.t.test(
+  d = 0.5,          #&lt;1&gt;
+  sig.level = 0.05,
+  power = 0.80,     #&lt;2&gt;
+  alternative = "two.sided"
+)
+
+# Print the result
+result</code>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-10"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="interpolate-10-1"><a href="#interpolate-10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pwr)</span>
+<span id="interpolate-10-2"><a href="#interpolate-10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="interpolate-10-3"><a href="#interpolate-10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate required sample size</span></span>
+<span id="interpolate-10-4"><a href="#interpolate-10-4" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">pwr.t.test</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="interpolate-10" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="interpolate-10-5" class="code-annotation-target"><a href="#interpolate-10-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">d =</span> <span class="fl">0.5</span>,</span>
+<span id="interpolate-10-6"><a href="#interpolate-10-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">sig.level =</span> <span class="fl">0.05</span>,</span>
+<a class="code-annotation-anchor" data-target-cell="interpolate-10" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="interpolate-10-7" class="code-annotation-target"><a href="#interpolate-10-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">power =</span> <span class="fl">0.80</span>,</span>
+<span id="interpolate-10-8"><a href="#interpolate-10-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">alternative =</span> <span class="st">"two.sided"</span></span>
+<span id="interpolate-10-9"><a href="#interpolate-10-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="interpolate-10-10"><a href="#interpolate-10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="interpolate-10-11"><a href="#interpolate-10-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the result</span></span>
+<span id="interpolate-10-12"><a href="#interpolate-10-12" aria-hidden="true" tabindex="-1"></a>result</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="interpolate-10" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="interpolate-10" data-code-lines="5" data-code-annotation="1">Expected Cohen’s d effect size</span>
+</dd>
+<dt data-target-cell="interpolate-10" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="interpolate-10" data-code-lines="7" data-code-annotation="2">Desired power (80%)</span>
+</dd>
+</dl>
+</div>
+</div>
+<p>You need approximately 64 participants per group (128 total) to achieve 80% power for detecting a medium effect size.</p>
+</div>
+<div class="cell" data-exercise="ex_2" data-check="true">
+<script type="exercise-check-ex_2-contents">
+eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4XzIiLCJsYWJlbCI6ImV4LTItZ3JhZGV0aGlzIn0sImNvZGUiOiJncmFkZXRoaXM6OmdyYWRlX3RoaXNfY29kZSgpIn0=
+</script>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="how-effect-size-changes-power" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> How Effect Size Changes Power</h1>
+<p>Effect size is a critical factor in power analysis. Cohen’s d describes the standardized difference between two groups:</p>
+<ul>
+<li><strong>Small effect</strong>: d = 0.2</li>
+<li><strong>Medium effect</strong>: d = 0.5</li>
+<li><strong>Large effect</strong>: d = 0.8</li>
+</ul>
+<p>Let’s explore how effect size impacts power when sample size is held constant.</p>
+<div id="exr-effect-compare" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 2 (Compare power across different effect sizes)</strong></span> &nbsp;</p>
+</div>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true" href="">Problem</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false" href="">Hints</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-3" role="tab" aria-controls="tabset-3-3" aria-selected="false" href="">Solution</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<p>Calculate the power for detecting small (d = 0.2), medium (d = 0.5), and large (d = 0.8) effects with:</p>
+<ul>
+<li>Sample size: 50 per group</li>
+<li>Significance level: 0.05</li>
+<li>Two-sided test</li>
+</ul>
+<p>Store the results in variables and compare them.</p>
+<div class="cell" data-exercise="ex_3a">
+<div>
+<div id="webr-12" class="exercise-cell">
+
+</div>
+<script type="webr-12-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfM2EiLCJsYWJlbCI6ImV4LTNhIn0sImNvZGUiOiJsaWJyYXJ5KHB3cilcblxuIyBDYWxjdWxhdGUgcG93ZXIgZm9yIHNtYWxsIGVmZmVjdFxucG93ZXJfc21hbGwgPC0gcHdyLnQudGVzdChcbiAgbiA9IDUwLFxuICBkID0gX19fX19fLFxuICBzaWcubGV2ZWwgPSAwLjA1LFxuICBhbHRlcm5hdGl2ZSA9IFwidHdvLnNpZGVkXCJcbikkcG93ZXJcblxuIyBDYWxjdWxhdGUgcG93ZXIgZm9yIG1lZGl1bSBlZmZlY3RcbnBvd2VyX21lZGl1bSA8LSBwd3IudC50ZXN0KFxuICBuID0gNTAsXG4gIGQgPSBfX19fX18sXG4gIHNpZy5sZXZlbCA9IDAuMDUsXG4gIGFsdGVybmF0aXZlID0gXCJ0d28uc2lkZWRcIlxuKSRwb3dlclxuXG4jIENhbGN1bGF0ZSBwb3dlciBmb3IgbGFyZ2UgZWZmZWN0XG5wb3dlcl9sYXJnZSA8LSBwd3IudC50ZXN0KFxuICBuID0gNTAsXG4gIGQgPSBfX19fX18sXG4gIHNpZy5sZXZlbCA9IDAuMDUsXG4gIGFsdGVybmF0aXZlID0gXCJ0d28uc2lkZWRcIlxuKSRwb3dlclxuXG4jIERpc3BsYXkgcmVzdWx0c1xuY2F0KFwiUG93ZXIgZm9yIHNtYWxsIGVmZmVjdCAoZCA9IDAuMik6XCIsIHJvdW5kKHBvd2VyX3NtYWxsLCAzKSwgXCJcXG5cIilcbmNhdChcIlBvd2VyIGZvciBtZWRpdW0gZWZmZWN0IChkID0gMC41KTpcIiwgcm91bmQocG93ZXJfbWVkaXVtLCAzKSwgXCJcXG5cIilcbmNhdChcIlBvd2VyIGZvciBsYXJnZSBlZmZlY3QgKGQgPSAwLjgpOlwiLCByb3VuZChwb3dlcl9sYXJnZSwgMyksIFwiXFxuXCIpIn0=
+</script>
+</div>
+</div>
+</div>
+<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
+<div class="hint webr-ojs-exercise exercise-hint d-none" data-exercise="ex_3a">
+<p>Use Cohen’s conventional effect sizes:</p>
+<ul>
+<li>Small: d = 0.2</li>
+<li>Medium: d = 0.5</li>
+<li>Large: d = 0.8</li>
+</ul>
+<p>Each <code>pwr.t.test()</code> call should only differ in the <code>d</code> parameter.</p>
+</div>
+</div>
+<div id="tabset-3-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-3-tab">
+<div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_3a">
+<div class="cell" data-exercise="ex_3a" data-solution="true">
+<div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_3a">
+<code id="interpolate-14" class="solution-code d-none">library(pwr)
+
+# Calculate power for small effect
+power_small &lt;- pwr.t.test(
+  n = 50,
+  d = 0.2,  #&lt;1&gt;
+  sig.level = 0.05,
+  alternative = "two.sided"
+)$power
+
+# Calculate power for medium effect
+power_medium &lt;- pwr.t.test(
+  n = 50,
+  d = 0.5,  #&lt;2&gt;
+  sig.level = 0.05,
+  alternative = "two.sided"
+)$power
+
+# Calculate power for large effect
+power_large &lt;- pwr.t.test(
+  n = 50,
+  d = 0.8,  #&lt;3&gt;
+  sig.level = 0.05,
+  alternative = "two.sided"
+)$power
+
+# Display results
+cat("Power for small effect (d = 0.2):", round(power_small, 3), "\n")
+cat("Power for medium effect (d = 0.5):", round(power_medium, 3), "\n")
+cat("Power for large effect (d = 0.8):", round(power_large, 3), "\n")</code>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-15"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="interpolate-15-1"><a href="#interpolate-15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pwr)</span>
+<span id="interpolate-15-2"><a href="#interpolate-15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="interpolate-15-3"><a href="#interpolate-15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate power for small effect</span></span>
+<span id="interpolate-15-4"><a href="#interpolate-15-4" aria-hidden="true" tabindex="-1"></a>power_small <span class="ot">&lt;-</span> <span class="fu">pwr.t.test</span>(</span>
+<span id="interpolate-15-5"><a href="#interpolate-15-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="dv">50</span>,</span>
+<a class="code-annotation-anchor" data-target-cell="interpolate-15" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="interpolate-15-6" class="code-annotation-target"><a href="#interpolate-15-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">d =</span> <span class="fl">0.2</span>,</span>
+<span id="interpolate-15-7"><a href="#interpolate-15-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">sig.level =</span> <span class="fl">0.05</span>,</span>
+<span id="interpolate-15-8"><a href="#interpolate-15-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">alternative =</span> <span class="st">"two.sided"</span></span>
+<span id="interpolate-15-9"><a href="#interpolate-15-9" aria-hidden="true" tabindex="-1"></a>)<span class="sc">$</span>power</span>
+<span id="interpolate-15-10"><a href="#interpolate-15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="interpolate-15-11"><a href="#interpolate-15-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate power for medium effect</span></span>
+<span id="interpolate-15-12"><a href="#interpolate-15-12" aria-hidden="true" tabindex="-1"></a>power_medium <span class="ot">&lt;-</span> <span class="fu">pwr.t.test</span>(</span>
+<span id="interpolate-15-13"><a href="#interpolate-15-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="dv">50</span>,</span>
+<a class="code-annotation-anchor" data-target-cell="interpolate-15" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="interpolate-15-14" class="code-annotation-target"><a href="#interpolate-15-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">d =</span> <span class="fl">0.5</span>,</span>
+<span id="interpolate-15-15"><a href="#interpolate-15-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">sig.level =</span> <span class="fl">0.05</span>,</span>
+<span id="interpolate-15-16"><a href="#interpolate-15-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">alternative =</span> <span class="st">"two.sided"</span></span>
+<span id="interpolate-15-17"><a href="#interpolate-15-17" aria-hidden="true" tabindex="-1"></a>)<span class="sc">$</span>power</span>
+<span id="interpolate-15-18"><a href="#interpolate-15-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="interpolate-15-19"><a href="#interpolate-15-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate power for large effect</span></span>
+<span id="interpolate-15-20"><a href="#interpolate-15-20" aria-hidden="true" tabindex="-1"></a>power_large <span class="ot">&lt;-</span> <span class="fu">pwr.t.test</span>(</span>
+<span id="interpolate-15-21"><a href="#interpolate-15-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="dv">50</span>,</span>
+<a class="code-annotation-anchor" data-target-cell="interpolate-15" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="interpolate-15-22" class="code-annotation-target"><a href="#interpolate-15-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">d =</span> <span class="fl">0.8</span>,</span>
+<span id="interpolate-15-23"><a href="#interpolate-15-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">sig.level =</span> <span class="fl">0.05</span>,</span>
+<span id="interpolate-15-24"><a href="#interpolate-15-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">alternative =</span> <span class="st">"two.sided"</span></span>
+<span id="interpolate-15-25"><a href="#interpolate-15-25" aria-hidden="true" tabindex="-1"></a>)<span class="sc">$</span>power</span>
+<span id="interpolate-15-26"><a href="#interpolate-15-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="interpolate-15-27"><a href="#interpolate-15-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Display results</span></span>
+<span id="interpolate-15-28"><a href="#interpolate-15-28" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Power for small effect (d = 0.2):"</span>, <span class="fu">round</span>(power_small, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="interpolate-15-29"><a href="#interpolate-15-29" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Power for medium effect (d = 0.5):"</span>, <span class="fu">round</span>(power_medium, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="interpolate-15-30"><a href="#interpolate-15-30" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Power for large effect (d = 0.8):"</span>, <span class="fu">round</span>(power_large, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="interpolate-15" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="interpolate-15" data-code-lines="6" data-code-annotation="1">Small effect size (d = 0.2) - only ~29% power</span>
+</dd>
+<dt data-target-cell="interpolate-15" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="interpolate-15" data-code-lines="14" data-code-annotation="2">Medium effect size (d = 0.5) - ~70% power</span>
+</dd>
+<dt data-target-cell="interpolate-15" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="interpolate-15" data-code-lines="22" data-code-annotation="3">Large effect size (d = 0.8) - ~95% power</span>
+</dd>
+</dl>
+</div>
+</div>
+<p>Notice how dramatically power increases with effect size! With n=50, we have excellent power for large effects, decent power for medium effects, but poor power for small effects.</p>
+</div>
+<div class="cell" data-exercise="ex_3a" data-check="true">
+<script type="exercise-check-ex_3a-contents">
+eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4XzNhIiwibGFiZWwiOiJleC0zYS1ncmFkZXRoaXMifSwiY29kZSI6ImdyYWRldGhpczo6Z3JhZGVfdGhpc19jb2RlKCkifQ==
+</script>
+</div>
+</div>
+</div>
+</div>
+<div id="exr-effect-visualize" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 3 (Visualize effect size and power relationship)</strong></span> &nbsp;</p>
+</div>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true" href="">Problem</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false" href="">Hints</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-3" role="tab" aria-controls="tabset-4-3" aria-selected="false" href="">Solution</a></li></ul>
+<div class="tab-content">
+<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
+<p>Create a plot showing how power changes across a range of effect sizes (d = 0.1 to 1.0) for a fixed sample size of 50 per group.</p>
+<div class="cell" data-exercise="ex_3b">
+<div>
+<div id="webr-17" class="exercise-cell">
+
+</div>
+<script type="webr-17-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfM2IiLCJsYWJlbCI6ImV4LTNiIn0sImNvZGUiOiJsaWJyYXJ5KHB3cilcbmxpYnJhcnkoZ2dwbG90MilcbmxpYnJhcnkocHVycnIpXG5cbiMgQ3JlYXRlIGEgc2VxdWVuY2Ugb2YgZWZmZWN0IHNpemVzXG5lZmZlY3Rfc2l6ZXMgPC0gc2VxKDAuMSwgMS4wLCBieSA9IDAuMDUpXG5cbiMgQ2FsY3VsYXRlIHBvd2VyIGZvciBlYWNoIGVmZmVjdCBzaXplIGFuZCBjcmVhdGUgZGF0YSBmcmFtZVxucG93ZXJfZGYgPC0gbWFwKFxuICBlZmZlY3Rfc2l6ZXMsXG4gIFxcKGQpIHtcbiAgICByZXN1bHQgPC0gcHdyLnQudGVzdChcbiAgICAgIG4gPSBfX19fX18sXG4gICAgICBkID0gX19fX19fLFxuICAgICAgc2lnLmxldmVsID0gMC4wNSxcbiAgICAgIGFsdGVybmF0aXZlID0gXCJ0d28uc2lkZWRcIlxuICAgIClcbiAgICBkYXRhLmZyYW1lKFxuICAgICAgZWZmZWN0X3NpemUgPSBkLFxuICAgICAgcG93ZXIgPSByZXN1bHQkcG93ZXJcbiAgICApXG4gIH1cbikgfD4gbGlzdF9yYmluZCgpXG5cbiMgUGxvdFxuZ2dwbG90KHBvd2VyX2RmLCBhZXMoeCA9IGVmZmVjdF9zaXplLCB5ID0gcG93ZXIpKSArXG4gIGdlb21fbGluZShjb2xvciA9IFwiZGFya2dyZWVuXCIsIGxpbmV3aWR0aCA9IDEpICtcbiAgZ2VvbV9obGluZSh5aW50ZXJjZXB0ID0gMC44MCwgbGluZXR5cGUgPSBcImRhc2hlZFwiLCBjb2xvciA9IFwicmVkXCIpICtcbiAgZ2VvbV92bGluZSh4aW50ZXJjZXB0ID0gYygwLjIsIDAuNSwgMC44KSwgbGluZXR5cGUgPSBcImRvdHRlZFwiLCBhbHBoYSA9IDAuNSkgK1xuICBhbm5vdGF0ZShcInRleHRcIiwgeCA9IDAuMiwgeSA9IDAuMDUsIGxhYmVsID0gXCJTbWFsbFwiLCBzaXplID0gMykgK1xuICBhbm5vdGF0ZShcInRleHRcIiwgeCA9IDAuNSwgeSA9IDAuMDUsIGxhYmVsID0gXCJNZWRpdW1cIiwgc2l6ZSA9IDMpICtcbiAgYW5ub3RhdGUoXCJ0ZXh0XCIsIHggPSAwLjgsIHkgPSAwLjA1LCBsYWJlbCA9IFwiTGFyZ2VcIiwgc2l6ZSA9IDMpICtcbiAgbGFicyhcbiAgICB0aXRsZSA9IFwiUG93ZXIgdnMgRWZmZWN0IFNpemUgKG4gPSA1MCBwZXIgZ3JvdXApXCIsXG4gICAgeCA9IFwiQ29oZW4ncyBkIChFZmZlY3QgU2l6ZSlcIixcbiAgICB5ID0gXCJTdGF0aXN0aWNhbCBQb3dlclwiXG4gICkgK1xuICB0aGVtZV9taW5pbWFsKCkifQ==
+</script>
+</div>
+</div>
+</div>
+<div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
+<div class="hint webr-ojs-exercise exercise-hint d-none" data-exercise="ex_3b">
+<p>In the <code>map()</code> function, <code>d</code> is the iterator variable representing each effect size. The sample size should be 50.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>power_df <span class="ot">&lt;-</span> <span class="fu">map</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  effect_sizes,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  \(d) {</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    result <span class="ot">&lt;-</span> <span class="fu">pwr.t.test</span>(</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">n =</span> <span class="dv">50</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">d =</span> d,  <span class="co"># Use the iterator variable</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">sig.level =</span> <span class="fl">0.05</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">alternative =</span> <span class="st">"two.sided"</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">data.frame</span>(</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">effect_size =</span> d,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">power =</span> result<span class="sc">$</span>power</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> <span class="fu">list_rbind</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div id="tabset-4-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-3-tab">
+<div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_3b">
+<div class="cell" data-exercise="ex_3b" data-solution="true">
+<div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_3b">
+<code id="interpolate-19" class="solution-code d-none">library(pwr)
+library(ggplot2)
+library(purrr)
+
+# Create a sequence of effect sizes
+effect_sizes &lt;- seq(0.1, 1.0, by = 0.05)
+
+# Calculate power for each effect size and create data frame
+power_df &lt;- map(
+  effect_sizes,
+  \(d) {
+    result &lt;- pwr.t.test(
+      n = 50,   #&lt;1&gt;
+      d = d,    #&lt;2&gt;
+      sig.level = 0.05,
+      alternative = "two.sided"
+    )
+    data.frame(
+      effect_size = d,
+      power = result$power
+    )
+  }
+) |&gt; list_rbind()  #&lt;3&gt;
+
+# Plot
+ggplot(power_df, aes(x = effect_size, y = power)) +
+  geom_line(color = "darkgreen", linewidth = 1) +
+  geom_hline(yintercept = 0.80, linetype = "dashed", color = "red") +
+  geom_vline(xintercept = c(0.2, 0.5, 0.8), linetype = "dotted", alpha = 0.5) +
+  annotate("text", x = 0.2, y = 0.05, label = "Small", size = 3) +
+  annotate("text", x = 0.5, y = 0.05, label = "Medium", size = 3) +
+  annotate("text", x = 0.8, y = 0.05, label = "Large", size = 3) +
+  labs(
+    title = "Power vs Effect Size (n = 50 per group)",
+    x = "Cohen's d (Effect Size)",
+    y = "Statistical Power"
+  ) +
+  theme_minimal()</code>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-20"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="interpolate-20-1"><a href="#interpolate-20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pwr)</span>
+<span id="interpolate-20-2"><a href="#interpolate-20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="interpolate-20-3"><a href="#interpolate-20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
+<span id="interpolate-20-4"><a href="#interpolate-20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="interpolate-20-5"><a href="#interpolate-20-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a sequence of effect sizes</span></span>
+<span id="interpolate-20-6"><a href="#interpolate-20-6" aria-hidden="true" tabindex="-1"></a>effect_sizes <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.1</span>, <span class="fl">1.0</span>, <span class="at">by =</span> <span class="fl">0.05</span>)</span>
+<span id="interpolate-20-7"><a href="#interpolate-20-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="interpolate-20-8"><a href="#interpolate-20-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate power for each effect size and create data frame</span></span>
+<span id="interpolate-20-9"><a href="#interpolate-20-9" aria-hidden="true" tabindex="-1"></a>power_df <span class="ot">&lt;-</span> <span class="fu">map</span>(</span>
+<span id="interpolate-20-10"><a href="#interpolate-20-10" aria-hidden="true" tabindex="-1"></a>  effect_sizes,</span>
+<span id="interpolate-20-11"><a href="#interpolate-20-11" aria-hidden="true" tabindex="-1"></a>  \(d) {</span>
+<span id="interpolate-20-12"><a href="#interpolate-20-12" aria-hidden="true" tabindex="-1"></a>    result <span class="ot">&lt;-</span> <span class="fu">pwr.t.test</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="interpolate-20" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="interpolate-20-13" class="code-annotation-target"><a href="#interpolate-20-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">n =</span> <span class="dv">50</span>,</span>
+<a class="code-annotation-anchor" data-target-cell="interpolate-20" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="interpolate-20-14" class="code-annotation-target"><a href="#interpolate-20-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">d =</span> d,</span>
+<span id="interpolate-20-15"><a href="#interpolate-20-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">sig.level =</span> <span class="fl">0.05</span>,</span>
+<span id="interpolate-20-16"><a href="#interpolate-20-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">alternative =</span> <span class="st">"two.sided"</span></span>
+<span id="interpolate-20-17"><a href="#interpolate-20-17" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="interpolate-20-18"><a href="#interpolate-20-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">data.frame</span>(</span>
+<span id="interpolate-20-19"><a href="#interpolate-20-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">effect_size =</span> d,</span>
+<span id="interpolate-20-20"><a href="#interpolate-20-20" aria-hidden="true" tabindex="-1"></a>      <span class="at">power =</span> result<span class="sc">$</span>power</span>
+<span id="interpolate-20-21"><a href="#interpolate-20-21" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="interpolate-20-22"><a href="#interpolate-20-22" aria-hidden="true" tabindex="-1"></a>  }</span>
+<a class="code-annotation-anchor" data-target-cell="interpolate-20" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="interpolate-20-23" class="code-annotation-target"><a href="#interpolate-20-23" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> <span class="fu">list_rbind</span>()</span>
+<span id="interpolate-20-24"><a href="#interpolate-20-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="interpolate-20-25"><a href="#interpolate-20-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="interpolate-20-26"><a href="#interpolate-20-26" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(power_df, <span class="fu">aes</span>(<span class="at">x =</span> effect_size, <span class="at">y =</span> power)) <span class="sc">+</span></span>
+<span id="interpolate-20-27"><a href="#interpolate-20-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"darkgreen"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="interpolate-20-28"><a href="#interpolate-20-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fl">0.80</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="interpolate-20-29"><a href="#interpolate-20-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.5</span>, <span class="fl">0.8</span>), <span class="at">linetype =</span> <span class="st">"dotted"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="interpolate-20-30"><a href="#interpolate-20-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">0.2</span>, <span class="at">y =</span> <span class="fl">0.05</span>, <span class="at">label =</span> <span class="st">"Small"</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="interpolate-20-31"><a href="#interpolate-20-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">0.5</span>, <span class="at">y =</span> <span class="fl">0.05</span>, <span class="at">label =</span> <span class="st">"Medium"</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="interpolate-20-32"><a href="#interpolate-20-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">0.8</span>, <span class="at">y =</span> <span class="fl">0.05</span>, <span class="at">label =</span> <span class="st">"Large"</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="interpolate-20-33"><a href="#interpolate-20-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="interpolate-20-34"><a href="#interpolate-20-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Power vs Effect Size (n = 50 per group)"</span>,</span>
+<span id="interpolate-20-35"><a href="#interpolate-20-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Cohen's d (Effect Size)"</span>,</span>
+<span id="interpolate-20-36"><a href="#interpolate-20-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Statistical Power"</span></span>
+<span id="interpolate-20-37"><a href="#interpolate-20-37" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="interpolate-20-38"><a href="#interpolate-20-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="interpolate-20" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="interpolate-20" data-code-lines="13" data-code-annotation="1">Fixed sample size of 50 per group</span>
+</dd>
+<dt data-target-cell="interpolate-20" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="interpolate-20" data-code-lines="14" data-code-annotation="2">Effect size varies from the sequence</span>
+</dd>
+<dt data-target-cell="interpolate-20" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="interpolate-20" data-code-lines="23" data-code-annotation="3">Combine list of data frames into a single data frame</span>
+</dd>
+</dl>
+</div>
+</div>
+<p>The plot shows that with n=50, you cross the 80% power threshold (red dashed line) at approximately d = 0.57 (between medium and large effects). The vertical dotted lines show conventional effect size benchmarks.</p>
+</div>
+<div class="cell" data-exercise="ex_3b" data-check="true">
+<script type="exercise-check-ex_3b-contents">
+eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4XzNiIiwibGFiZWwiOiJleC0zYi1ncmFkZXRoaXMifSwiY29kZSI6ImdyYWRldGhpczo6Z3JhZGVfdGhpc19jb2RlKCkifQ==
+</script>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="power-curves" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Power Curves</h1>
+<p>A power curve shows how power changes with sample size for a given effect size.</p>
+<div id="exr-power-curve" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4 (Create a power curve)</strong></span> &nbsp;</p>
+</div>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true" href="">Problem</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false" href="">Hints</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-3" role="tab" aria-controls="tabset-5-3" aria-selected="false" href="">Solution</a></li></ul>
+<div class="tab-content">
+<div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
+<p>Calculate power for sample sizes ranging from 10 to 100 (per group) for Cohen’s d = 0.5, then create a plot.</p>
+<div class="cell" data-exercise="ex_3">
+<div>
+<div id="webr-22" class="exercise-cell">
+
+</div>
+<script type="webr-22-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMyIsImxhYmVsIjoiZXgtMyJ9LCJjb2RlIjoibGlicmFyeShwd3IpXG5saWJyYXJ5KGdncGxvdDIpXG5saWJyYXJ5KHB1cnJyKVxuXG4jIENyZWF0ZSBhIHNlcXVlbmNlIG9mIHNhbXBsZSBzaXplc1xuc2FtcGxlX3NpemVzIDwtIHNlcSgxMCwgMTAwLCBieSA9IDUpXG5cbiMgQ2FsY3VsYXRlIHBvd2VyIGZvciBlYWNoIHNhbXBsZSBzaXplIGFuZCBjcmVhdGUgZGF0YSBmcmFtZVxucG93ZXJfZGYgPC0gbWFwKFxuICBzYW1wbGVfc2l6ZXMsXG4gIFxcKG4pIHtcbiAgICByZXN1bHQgPC0gcHdyLnQudGVzdChcbiAgICAgIG4gPSBfX19fX18sXG4gICAgICBkID0gX19fX19fLFxuICAgICAgc2lnLmxldmVsID0gMC4wNSxcbiAgICAgIGFsdGVybmF0aXZlID0gXCJ0d28uc2lkZWRcIlxuICAgIClcbiAgICBkYXRhLmZyYW1lKFxuICAgICAgbiA9IG4sXG4gICAgICBwb3dlciA9IHJlc3VsdCRwb3dlclxuICAgIClcbiAgfVxuKSB8PiBsaXN0X3JiaW5kKClcblxuIyBQbG90XG5nZ3Bsb3QocG93ZXJfZGYsIGFlcyh4ID0gbiwgeSA9IHBvd2VyKSkgK1xuICBnZW9tX2xpbmUoY29sb3IgPSBcImJsdWVcIiwgbGluZXdpZHRoID0gMSkgK1xuICBnZW9tX2hsaW5lKHlpbnRlcmNlcHQgPSAwLjgwLCBsaW5ldHlwZSA9IFwiZGFzaGVkXCIsIGNvbG9yID0gXCJyZWRcIikgK1xuICBsYWJzKFxuICAgIHRpdGxlID0gXCJQb3dlciBDdXJ2ZSBmb3IgVHdvLVNhbXBsZSB0LXRlc3RcIixcbiAgICB4ID0gXCJTYW1wbGUgU2l6ZSBwZXIgR3JvdXBcIixcbiAgICB5ID0gXCJTdGF0aXN0aWNhbCBQb3dlclwiXG4gICkgK1xuICB0aGVtZV9taW5pbWFsKCkifQ==
+</script>
+</div>
+</div>
+</div>
+<div id="tabset-5-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-2-tab">
+<div class="hint webr-ojs-exercise exercise-hint d-none" data-exercise="ex_3">
+<p>In the <code>map()</code> function, <code>n</code> is the iterator variable from the function, so use it directly. The effect size should be 0.5.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>power_df <span class="ot">&lt;-</span> <span class="fu">map</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  sample_sizes,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  \(n) {</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    result <span class="ot">&lt;-</span> <span class="fu">pwr.t.test</span>(</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">n =</span> n,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">d =</span> <span class="fl">0.5</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">sig.level =</span> <span class="fl">0.05</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">alternative =</span> <span class="st">"two.sided"</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">data.frame</span>(</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">n =</span> n,</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">power =</span> result<span class="sc">$</span>power</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> <span class="fu">list_rbind</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div id="tabset-5-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-3-tab">
+<div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_3">
+<div class="cell" data-exercise="ex_3" data-solution="true">
+<div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_3">
+<code id="interpolate-24" class="solution-code d-none">library(pwr)
+library(ggplot2)
+library(purrr)
+
+# Create a sequence of sample sizes
+sample_sizes &lt;- seq(10, 100, by = 5)
+
+# Calculate power for each sample size and create data frame
+power_df &lt;- map(
+  sample_sizes,
+  \(n) {
+    result &lt;- pwr.t.test(
+      n = n,            #&lt;1&gt;
+      d = 0.5,          #&lt;2&gt;
+      sig.level = 0.05,
+      alternative = "two.sided"
+    )
+    data.frame(
+      n = n,
+      power = result$power
+    )
+  }
+) |&gt; list_rbind()  #&lt;3&gt;
+
+# Plot
+ggplot(power_df, aes(x = n, y = power)) +
+  geom_line(color = "blue", linewidth = 1) +
+  geom_hline(yintercept = 0.80, linetype = "dashed", color = "red") +
+  labs(
+    title = "Power Curve for Two-Sample t-test",
+    x = "Sample Size per Group",
+    y = "Statistical Power"
+  ) +
+  theme_minimal()</code>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-25"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="interpolate-25-1"><a href="#interpolate-25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pwr)</span>
+<span id="interpolate-25-2"><a href="#interpolate-25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="interpolate-25-3"><a href="#interpolate-25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
+<span id="interpolate-25-4"><a href="#interpolate-25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="interpolate-25-5"><a href="#interpolate-25-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a sequence of sample sizes</span></span>
+<span id="interpolate-25-6"><a href="#interpolate-25-6" aria-hidden="true" tabindex="-1"></a>sample_sizes <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">10</span>, <span class="dv">100</span>, <span class="at">by =</span> <span class="dv">5</span>)</span>
+<span id="interpolate-25-7"><a href="#interpolate-25-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="interpolate-25-8"><a href="#interpolate-25-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate power for each sample size and create data frame</span></span>
+<span id="interpolate-25-9"><a href="#interpolate-25-9" aria-hidden="true" tabindex="-1"></a>power_df <span class="ot">&lt;-</span> <span class="fu">map</span>(</span>
+<span id="interpolate-25-10"><a href="#interpolate-25-10" aria-hidden="true" tabindex="-1"></a>  sample_sizes,</span>
+<span id="interpolate-25-11"><a href="#interpolate-25-11" aria-hidden="true" tabindex="-1"></a>  \(n) {</span>
+<span id="interpolate-25-12"><a href="#interpolate-25-12" aria-hidden="true" tabindex="-1"></a>    result <span class="ot">&lt;-</span> <span class="fu">pwr.t.test</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="interpolate-25" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="interpolate-25-13" class="code-annotation-target"><a href="#interpolate-25-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">n =</span> n,</span>
+<a class="code-annotation-anchor" data-target-cell="interpolate-25" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="interpolate-25-14" class="code-annotation-target"><a href="#interpolate-25-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">d =</span> <span class="fl">0.5</span>,</span>
+<span id="interpolate-25-15"><a href="#interpolate-25-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">sig.level =</span> <span class="fl">0.05</span>,</span>
+<span id="interpolate-25-16"><a href="#interpolate-25-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">alternative =</span> <span class="st">"two.sided"</span></span>
+<span id="interpolate-25-17"><a href="#interpolate-25-17" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="interpolate-25-18"><a href="#interpolate-25-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">data.frame</span>(</span>
+<span id="interpolate-25-19"><a href="#interpolate-25-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">n =</span> n,</span>
+<span id="interpolate-25-20"><a href="#interpolate-25-20" aria-hidden="true" tabindex="-1"></a>      <span class="at">power =</span> result<span class="sc">$</span>power</span>
+<span id="interpolate-25-21"><a href="#interpolate-25-21" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="interpolate-25-22"><a href="#interpolate-25-22" aria-hidden="true" tabindex="-1"></a>  }</span>
+<a class="code-annotation-anchor" data-target-cell="interpolate-25" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="interpolate-25-23" class="code-annotation-target"><a href="#interpolate-25-23" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> <span class="fu">list_rbind</span>()</span>
+<span id="interpolate-25-24"><a href="#interpolate-25-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="interpolate-25-25"><a href="#interpolate-25-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="interpolate-25-26"><a href="#interpolate-25-26" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(power_df, <span class="fu">aes</span>(<span class="at">x =</span> n, <span class="at">y =</span> power)) <span class="sc">+</span></span>
+<span id="interpolate-25-27"><a href="#interpolate-25-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="interpolate-25-28"><a href="#interpolate-25-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fl">0.80</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="interpolate-25-29"><a href="#interpolate-25-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="interpolate-25-30"><a href="#interpolate-25-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Power Curve for Two-Sample t-test"</span>,</span>
+<span id="interpolate-25-31"><a href="#interpolate-25-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Sample Size per Group"</span>,</span>
+<span id="interpolate-25-32"><a href="#interpolate-25-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Statistical Power"</span></span>
+<span id="interpolate-25-33"><a href="#interpolate-25-33" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="interpolate-25-34"><a href="#interpolate-25-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="interpolate-25" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="interpolate-25" data-code-lines="13" data-code-annotation="1">Use the sample size from the iterator</span>
+</dd>
+<dt data-target-cell="interpolate-25" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="interpolate-25" data-code-lines="14" data-code-annotation="2">Cohen’s d effect size</span>
+</dd>
+<dt data-target-cell="interpolate-25" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="interpolate-25" data-code-lines="23" data-code-annotation="3">Combine list of data frames into a single data frame</span>
+</dd>
+</dl>
+</div>
+</div>
+<p>The red dashed line shows 80% power. Notice how power increases with sample size!</p>
+</div>
+<div class="cell" data-exercise="ex_3" data-check="true">
+<script type="exercise-check-ex_3-contents">
+eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4XzMiLCJsYWJlbCI6ImV4LTMtZ3JhZGV0aGlzIn0sImNvZGUiOiJncmFkZXRoaXM6OmdyYWRlX3RoaXNfY29kZSgpIn0=
+</script>
+</div>
+</div>
+</div>
+</div>
+<div id="exr-power-comparison" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5 (Compare power curves across multiple effect sizes)</strong></span> &nbsp;</p>
+</div>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-6-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-1" role="tab" aria-controls="tabset-6-1" aria-selected="true" href="">Problem</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-2" role="tab" aria-controls="tabset-6-2" aria-selected="false" href="">Hints</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-3" role="tab" aria-controls="tabset-6-3" aria-selected="false" href="">Solution</a></li></ul>
+<div class="tab-content">
+<div id="tabset-6-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-6-1-tab">
+<p>Create a plot showing power curves for small (0.2), medium (0.5), and large (0.8) effect sizes simultaneously. Vary sample size from 10 to 150 (by 5) for each effect size.</p>
+<p>Use <code>expand_grid()</code> to create all combinations of effect sizes and sample sizes, then use <code>map2_dbl()</code> to calculate power for each combination.</p>
+<div class="cell" data-exercise="ex_3c">
+<div>
+<div id="webr-27" class="exercise-cell">
+
+</div>
+<script type="webr-27-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfM2MiLCJsYWJlbCI6ImV4LTNjIn0sImNvZGUiOiJsaWJyYXJ5KHB3cilcbmxpYnJhcnkoZ2dwbG90MilcbmxpYnJhcnkocHVycnIpXG5cbiMgRGVmaW5lIGVmZmVjdCBzaXplcyBhbmQgc2FtcGxlIHNpemVzXG5lZmZlY3Rfc2l6ZXMgPC0gYygwLjIsIDAuNSwgMC44KVxuc2FtcGxlX3NpemVzIDwtIHNlcSgxMCwgMTUwLCBieSA9IDUpXG5cbiMgQ3JlYXRlIGFsbCBjb21iaW5hdGlvbnMgYW5kIGNhbGN1bGF0ZSBwb3dlclxucG93ZXJfY29tcGFyaXNvbiA8LSBleHBhbmRfZ3JpZChcbiAgbiA9IF9fX19fXyxcbiAgZCA9IF9fX19fX1xuKSB8PlxuICBtdXRhdGUoXG4gICAgcG93ZXIgPSBtYXAyX2RibChcbiAgICAgIGQsIG4sXG4gICAgICBcXChkLCBuKSB7XG4gICAgICAgIHB3ci50LnRlc3QoXG4gICAgICAgICAgZCA9IF9fX19fXyxcbiAgICAgICAgICBuID0gX19fX19fLFxuICAgICAgICAgIHNpZy5sZXZlbCA9IDAuMDUsXG4gICAgICAgICAgYWx0ZXJuYXRpdmUgPSBcInR3by5zaWRlZFwiXG4gICAgICAgICkkcG93ZXJcbiAgICAgIH1cbiAgICApLFxuICAgIGVmZmVjdF9sYWJlbCA9IGZhY3RvcihcbiAgICAgIGQsXG4gICAgICBsZXZlbHMgPSBjKDAuMiwgMC41LCAwLjgpLFxuICAgICAgbGFiZWxzID0gYyhcIlNtYWxsIChkPTAuMilcIiwgXCJNZWRpdW0gKGQ9MC41KVwiLCBcIkxhcmdlIChkPTAuOClcIilcbiAgICApXG4gIClcblxuIyBDcmVhdGUgdGhlIGNvbXBhcmlzb24gcGxvdFxuZ2dwbG90KHBvd2VyX2NvbXBhcmlzb24sIGFlcyh4ID0gbiwgeSA9IHBvd2VyLCBjb2xvciA9IGVmZmVjdF9sYWJlbCkpICtcbiAgZ2VvbV9saW5lKGxpbmV3aWR0aCA9IDEpICtcbiAgZ2VvbV9obGluZSh5aW50ZXJjZXB0ID0gMC44LCBsaW5ldHlwZSA9IFwiZGFzaGVkXCIsIGFscGhhID0gMC43KSArXG4gIGxhYnMoXG4gICAgdGl0bGUgPSBcIlBvd2VyIEN1cnZlcyBmb3IgRGlmZmVyZW50IEVmZmVjdCBTaXplc1wiLFxuICAgIHN1YnRpdGxlID0gXCJUd28tc2FtcGxlIHQtdGVzdCwgzrEgPSAwLjA1XCIsXG4gICAgeCA9IFwiU2FtcGxlIFNpemUgcGVyIEdyb3VwXCIsXG4gICAgeSA9IFwiU3RhdGlzdGljYWwgUG93ZXJcIixcbiAgICBjb2xvciA9IFwiRWZmZWN0IFNpemVcIlxuICApICtcbiAgdGhlbWVfbWluaW1hbCgpICtcbiAgc2NhbGVfeV9jb250aW51b3VzKGxpbWl0cyA9IGMoMCwgMSkpIn0=
+</script>
+</div>
+</div>
+</div>
+<div id="tabset-6-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-2-tab">
+<div class="hint webr-ojs-exercise exercise-hint d-none" data-exercise="ex_3c">
+<p><code>expand_grid()</code> creates all combinations of the vectors you provide.</p>
+<p>In <code>map2_dbl()</code>, the first two arguments are the vectors to iterate over in parallel. Use the function parameters <code>d</code> and <code>n</code> in the <code>pwr.t.test()</code> call.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>power_comparison <span class="ot">&lt;-</span> <span class="fu">expand_grid</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> sample_sizes,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">d =</span> effect_sizes</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">power =</span> <span class="fu">map2_dbl</span>(</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>      d, n,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>      \(d, n) {</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">pwr.t.test</span>(</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>          <span class="at">d =</span> d,  <span class="co"># Use the iterator variable</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>          <span class="at">n =</span> n,  <span class="co"># Use the iterator variable</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>          <span class="at">sig.level =</span> <span class="fl">0.05</span>,</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>          <span class="at">alternative =</span> <span class="st">"two.sided"</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>        )<span class="sc">$</span>power</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ... rest of code</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div id="tabset-6-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-3-tab">
+<div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_3c">
+<div class="cell" data-exercise="ex_3c" data-solution="true">
+<div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_3c">
+<code id="interpolate-29" class="solution-code d-none">library(pwr)
+library(ggplot2)
+library(purrr)
+
+# Define effect sizes and sample sizes
+effect_sizes &lt;- c(0.2, 0.5, 0.8)
+sample_sizes &lt;- seq(10, 150, by = 5)
+
+# Create all combinations and calculate power
+power_comparison &lt;- expand_grid(
+  n = sample_sizes,   #&lt;1&gt;
+  d = effect_sizes    #&lt;2&gt;
+) |&gt;
+  mutate(
+    power = map2_dbl(
+      d, n,             #&lt;3&gt;
+      \(d, n) {
+        pwr.t.test(
+          d = d,        #&lt;4&gt;
+          n = n,        #&lt;5&gt;
+          sig.level = 0.05,
+          alternative = "two.sided"
+        )$power
+      }
+    ),
+    effect_label = factor(
+      d,
+      levels = c(0.2, 0.5, 0.8),
+      labels = c("Small (d=0.2)", "Medium (d=0.5)", "Large (d=0.8)")
+    )
+  )
+
+# Create the comparison plot
+ggplot(power_comparison, aes(x = n, y = power, color = effect_label)) +
+  geom_line(linewidth = 1) +
+  geom_hline(yintercept = 0.8, linetype = "dashed", alpha = 0.7) +
+  labs(
+    title = "Power Curves for Different Effect Sizes",
+    subtitle = "Two-sample t-test, α = 0.05",
+    x = "Sample Size per Group",
+    y = "Statistical Power",
+    color = "Effect Size"
+  ) +
+  theme_minimal() +
+  scale_y_continuous(limits = c(0, 1))</code>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-30"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="interpolate-30-1"><a href="#interpolate-30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pwr)</span>
+<span id="interpolate-30-2"><a href="#interpolate-30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="interpolate-30-3"><a href="#interpolate-30-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
+<span id="interpolate-30-4"><a href="#interpolate-30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="interpolate-30-5"><a href="#interpolate-30-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Define effect sizes and sample sizes</span></span>
+<span id="interpolate-30-6"><a href="#interpolate-30-6" aria-hidden="true" tabindex="-1"></a>effect_sizes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.5</span>, <span class="fl">0.8</span>)</span>
+<span id="interpolate-30-7"><a href="#interpolate-30-7" aria-hidden="true" tabindex="-1"></a>sample_sizes <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">10</span>, <span class="dv">150</span>, <span class="at">by =</span> <span class="dv">5</span>)</span>
+<span id="interpolate-30-8"><a href="#interpolate-30-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="interpolate-30-9"><a href="#interpolate-30-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Create all combinations and calculate power</span></span>
+<span id="interpolate-30-10"><a href="#interpolate-30-10" aria-hidden="true" tabindex="-1"></a>power_comparison <span class="ot">&lt;-</span> <span class="fu">expand_grid</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="interpolate-30" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="interpolate-30-11" class="code-annotation-target"><a href="#interpolate-30-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> sample_sizes,</span>
+<a class="code-annotation-anchor" data-target-cell="interpolate-30" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="interpolate-30-12" class="code-annotation-target"><a href="#interpolate-30-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">d =</span> effect_sizes</span>
+<span id="interpolate-30-13"><a href="#interpolate-30-13" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="interpolate-30-14"><a href="#interpolate-30-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="interpolate-30-15"><a href="#interpolate-30-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">power =</span> <span class="fu">map2_dbl</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="interpolate-30" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="interpolate-30-16" class="code-annotation-target"><a href="#interpolate-30-16" aria-hidden="true" tabindex="-1"></a>      d, n,</span>
+<span id="interpolate-30-17"><a href="#interpolate-30-17" aria-hidden="true" tabindex="-1"></a>      \(d, n) {</span>
+<span id="interpolate-30-18"><a href="#interpolate-30-18" aria-hidden="true" tabindex="-1"></a>        <span class="fu">pwr.t.test</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="interpolate-30" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="interpolate-30-19" class="code-annotation-target"><a href="#interpolate-30-19" aria-hidden="true" tabindex="-1"></a>          <span class="at">d =</span> d,</span>
+<a class="code-annotation-anchor" data-target-cell="interpolate-30" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="interpolate-30-20" class="code-annotation-target"><a href="#interpolate-30-20" aria-hidden="true" tabindex="-1"></a>          <span class="at">n =</span> n,</span>
+<span id="interpolate-30-21"><a href="#interpolate-30-21" aria-hidden="true" tabindex="-1"></a>          <span class="at">sig.level =</span> <span class="fl">0.05</span>,</span>
+<span id="interpolate-30-22"><a href="#interpolate-30-22" aria-hidden="true" tabindex="-1"></a>          <span class="at">alternative =</span> <span class="st">"two.sided"</span></span>
+<span id="interpolate-30-23"><a href="#interpolate-30-23" aria-hidden="true" tabindex="-1"></a>        )<span class="sc">$</span>power</span>
+<span id="interpolate-30-24"><a href="#interpolate-30-24" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="interpolate-30-25"><a href="#interpolate-30-25" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="interpolate-30-26"><a href="#interpolate-30-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">effect_label =</span> <span class="fu">factor</span>(</span>
+<span id="interpolate-30-27"><a href="#interpolate-30-27" aria-hidden="true" tabindex="-1"></a>      d,</span>
+<span id="interpolate-30-28"><a href="#interpolate-30-28" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.5</span>, <span class="fl">0.8</span>),</span>
+<span id="interpolate-30-29"><a href="#interpolate-30-29" aria-hidden="true" tabindex="-1"></a>      <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Small (d=0.2)"</span>, <span class="st">"Medium (d=0.5)"</span>, <span class="st">"Large (d=0.8)"</span>)</span>
+<span id="interpolate-30-30"><a href="#interpolate-30-30" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="interpolate-30-31"><a href="#interpolate-30-31" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="interpolate-30-32"><a href="#interpolate-30-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="interpolate-30-33"><a href="#interpolate-30-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the comparison plot</span></span>
+<span id="interpolate-30-34"><a href="#interpolate-30-34" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(power_comparison, <span class="fu">aes</span>(<span class="at">x =</span> n, <span class="at">y =</span> power, <span class="at">color =</span> effect_label)) <span class="sc">+</span></span>
+<span id="interpolate-30-35"><a href="#interpolate-30-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="interpolate-30-36"><a href="#interpolate-30-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fl">0.8</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="interpolate-30-37"><a href="#interpolate-30-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="interpolate-30-38"><a href="#interpolate-30-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Power Curves for Different Effect Sizes"</span>,</span>
+<span id="interpolate-30-39"><a href="#interpolate-30-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Two-sample t-test, α = 0.05"</span>,</span>
+<span id="interpolate-30-40"><a href="#interpolate-30-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Sample Size per Group"</span>,</span>
+<span id="interpolate-30-41"><a href="#interpolate-30-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Statistical Power"</span>,</span>
+<span id="interpolate-30-42"><a href="#interpolate-30-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Effect Size"</span></span>
+<span id="interpolate-30-43"><a href="#interpolate-30-43" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="interpolate-30-44"><a href="#interpolate-30-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="interpolate-30-45"><a href="#interpolate-30-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="interpolate-30" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="interpolate-30" data-code-lines="11" data-code-annotation="1">Sample sizes to iterate over</span>
+</dd>
+<dt data-target-cell="interpolate-30" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="interpolate-30" data-code-lines="12" data-code-annotation="2">Effect sizes to iterate over</span>
+</dd>
+<dt data-target-cell="interpolate-30" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="interpolate-30" data-code-lines="16" data-code-annotation="3"><code>map2_dbl()</code> iterates over two vectors in parallel</span>
+</dd>
+<dt data-target-cell="interpolate-30" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="interpolate-30" data-code-lines="19" data-code-annotation="4">Use effect size from the iterator</span>
+</dd>
+<dt data-target-cell="interpolate-30" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="interpolate-30" data-code-lines="20" data-code-annotation="5">Use sample size from the iterator</span>
+</dd>
+</dl>
+</div>
+</div>
+<p>The plot shows three power curves, one for each effect size. Key insights:</p>
+<ul>
+<li>Small effects require much larger samples to achieve 80% power (n ≈ 393 per group)</li>
+<li>Medium effects need n ≈ 64 per group for 80% power</li>
+<li>Large effects only need n ≈ 26 per group for 80% power</li>
+</ul>
+<p>The dashed line at 0.8 helps identify the minimum sample size needed for adequate power for each effect size.</p>
+</div>
+<div class="cell" data-exercise="ex_3c" data-check="true">
+<script type="exercise-check-ex_3c-contents">
+eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4XzNjIiwibGFiZWwiOiJleC0zYy1ncmFkZXRoaXMifSwiY29kZSI6ImdyYWRldGhpczo6Z3JhZGVfdGhpc19jb2RlKCkifQ==
+</script>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="simulation-based-power-analysis" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Simulation-Based Power Analysis</h1>
+<p>Analytical formulas (like <code>pwr.t.test()</code>) are great, but sometimes we need to verify power through simulation. This is especially useful for complex designs or when assumptions may be violated. Simulation is also useful for checking your understanding of the concepts.</p>
+<section id="understanding-the-simulation-approach" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="understanding-the-simulation-approach"><span class="header-section-number">5.1</span> Understanding the Simulation Approach</h2>
+<p>Instead of using formulas, we can:</p>
+<ol type="1">
+<li>Simulate many datasets under specific conditions (effect size, sample size)</li>
+<li>Run a t-test on each simulated dataset</li>
+<li>Save key statistics (p-value, confidence interval, effect size, etc.)</li>
+<li>Calculate power = proportion of significant tests</li>
+</ol>
+<div id="exr-simulate" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 6 (Create a simulation function)</strong></span> &nbsp;</p>
+</div>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-7-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-1" role="tab" aria-controls="tabset-7-1" aria-selected="true" href="">Problem</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-7-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-2" role="tab" aria-controls="tabset-7-2" aria-selected="false" href="">Hints</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-7-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-3" role="tab" aria-controls="tabset-7-3" aria-selected="false" href="">Solution</a></li></ul>
+<div class="tab-content">
+<div id="tabset-7-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-7-1-tab">
+<p>Create a function that runs many simulated studies and captures comprehensive results from each one. The function should:</p>
+<ul>
+<li>Generate data for two groups with specified sample size and effect size</li>
+<li>Run a t-test on each simulated dataset</li>
+<li>Store p-values, confidence intervals, effect sizes, and other statistics</li>
+</ul>
+<div class="cell" data-exercise="ex_4" data-envir="sim_env" data-timelimit="300" data-persist="true">
+<div>
+<div id="webr-32" class="exercise-cell">
+
+</div>
+<script type="webr-32-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImVudmlyIjoic2ltX2VudiIsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNCIsImxhYmVsIjoiZXgtNCIsInBlcnNpc3QiOnRydWUsInRpbWVsaW1pdCI6MzAwfSwiY29kZSI6IiMgRnVuY3Rpb24gdG8gc2ltdWxhdGUgYSBzaW5nbGUgc3R1ZHlcbnNpbXVsYXRlX3N0dWR5IDwtIGZ1bmN0aW9uKG5fcGVyX2dyb3VwLCBlZmZlY3Rfc2l6ZSkge1xuICBkYXRhLmZyYW1lKFxuICAgIGdyb3VwID0gcmVwKGMoXCJDb250cm9sXCIsIFwiVHJlYXRtZW50XCIpLCBlYWNoID0gbl9wZXJfZ3JvdXApLFxuICAgIHNjb3JlID0gYyhcbiAgICAgIHJub3JtKG5fcGVyX2dyb3VwLCBtZWFuID0gMCwgc2QgPSAxKSxcbiAgICAgIHJub3JtKG5fcGVyX2dyb3VwLCBtZWFuID0gX19fX19fLCBzZCA9IDEpXG4gICAgKVxuICApXG59XG5cbiMgRnVuY3Rpb24gdG8gcnVuIG1hbnkgc2ltdWxhdGVkIHN0dWRpZXNcbnJ1bl9wb3dlcl9zaW11bGF0aW9uIDwtIGZ1bmN0aW9uKFxuICAgIG5fcGVyX2dyb3VwLFxuICAgIGVmZmVjdF9zaXplLFxuICAgIG5fc2ltdWxhdGlvbnMgPSAxMDAwLFxuICAgIGFscGhhID0gMC4wNSkge1xuICBcbiAgIyBDcmVhdGUgc3RvcmFnZSBmb3IgcmVzdWx0c1xuICByZXN1bHRzIDwtIGRhdGEuZnJhbWUoXG4gICAgc2ltdWxhdGlvbiA9IDE6bl9zaW11bGF0aW9ucyxcbiAgICBwX3ZhbHVlID0gbnVtZXJpYyhuX3NpbXVsYXRpb25zKSxcbiAgICBjaV9sb3dlciA9IG51bWVyaWMobl9zaW11bGF0aW9ucyksXG4gICAgY2lfdXBwZXIgPSBudW1lcmljKG5fc2ltdWxhdGlvbnMpLFxuICAgIHNpZ25pZmljYW50ID0gbG9naWNhbChuX3NpbXVsYXRpb25zKSxcbiAgICBlZmZlY3QgPSBudW1lcmljKG5fc2ltdWxhdGlvbnMpXG4gIClcbiAgXG4gICMgUnVuIG1hbnkgc2ltdWxhdGVkIHN0dWRpZXNcbiAgZm9yIChpIGluIDE6bl9zaW11bGF0aW9ucykge1xuICAgICMgU2ltdWxhdGUgZGF0YVxuICAgIHN0dWR5X2RhdGEgPC0gc2ltdWxhdGVfc3R1ZHkobl9wZXJfZ3JvdXAsIGVmZmVjdF9zaXplKVxuICAgIFxuICAgICMgUnVuIHQtdGVzdFxuICAgIHRlc3RfcmVzdWx0IDwtIHQudGVzdChzY29yZSB+IGdyb3VwLCBkYXRhID0gc3R1ZHlfZGF0YSwgdmFyLmVxdWFsID0gVFJVRSlcbiAgICBcbiAgICAjIFN0b3JlIHJlc3VsdHNcbiAgICByZXN1bHRzJHBfdmFsdWVbaV0gPC0gdGVzdF9yZXN1bHQkX19fX19fXG4gICAgcmVzdWx0cyRjaV9sb3dlcltpXSA8LSB0ZXN0X3Jlc3VsdCRjb25mLmludFsxXVxuICAgIHJlc3VsdHMkY2lfdXBwZXJbaV0gPC0gdGVzdF9yZXN1bHQkY29uZi5pbnRbMl1cbiAgICByZXN1bHRzJHNpZ25pZmljYW50W2ldIDwtIHRlc3RfcmVzdWx0JHAudmFsdWUgPCBhbHBoYVxuICAgIHJlc3VsdHMkZWZmZWN0W2ldIDwtIGRpZmYodGVzdF9yZXN1bHQkZXN0aW1hdGUpXG4gIH1cbiAgXG4gIHJldHVybihyZXN1bHRzKVxufVxuXG4jIFRlc3QgdGhlIGZ1bmN0aW9uXG5zZXQuc2VlZCgxMjMpXG5zaW1fcmVzdWx0cyA8LSBydW5fcG93ZXJfc2ltdWxhdGlvbihcbiAgbl9wZXJfZ3JvdXAgPSAzMCxcbiAgZWZmZWN0X3NpemUgPSAwLjUsXG4gIG5fc2ltdWxhdGlvbnMgPSAxMCAgIyBVc2luZyBmZXdlciBmb3Igc3BlZWRcbilcblxuIyBTaG93IGZpcnN0IGZldyByZXN1bHRzXG5oZWFkKHNpbV9yZXN1bHRzKSJ9
+</script>
+</div>
+</div>
+</div>
+<div id="tabset-7-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-7-2-tab">
+<div class="hint webr-ojs-exercise exercise-hint d-none" data-exercise="ex_4">
+<p>In <code>simulate_study()</code>, the treatment group should have a mean equal to the effect_size (since control has mean 0 and SD = 1).</p>
+<p>The p-value from a t-test is accessed with <code>$p.value</code>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>simulate_study <span class="ot">&lt;-</span> <span class="cf">function</span>(n_per_group, effect_size) {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">group =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Control"</span>, <span class="st">"Treatment"</span>), <span class="at">each =</span> n_per_group),</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">score =</span> <span class="fu">c</span>(</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rnorm</span>(n_per_group, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>),</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rnorm</span>(n_per_group, <span class="at">mean =</span> effect_size, <span class="at">sd =</span> <span class="dv">1</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># In run_power_simulation:</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>results<span class="sc">$</span>p_value[i] <span class="ot">&lt;-</span> test_result<span class="sc">$</span>p.value</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div id="tabset-7-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-7-3-tab">
+<div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_4">
+<div class="cell" data-exercise="ex_4" data-solution="true">
+<div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_4">
+<code id="interpolate-34" class="solution-code d-none"># Function to simulate a single study
+simulate_study &lt;- function(n_per_group, effect_size) {
+  data.frame(
+    group = rep(c("Control", "Treatment"), each = n_per_group),
+    score = c(
+      rnorm(n_per_group, mean = 0, sd = 1),
+      rnorm(n_per_group, mean = effect_size, sd = 1) #&lt;1&gt;
+    )
+  )
+}
+
+# Function to run many simulated studies
+run_power_simulation &lt;- function(
+    n_per_group,
+    effect_size,
+    n_simulations = 1000,
+    alpha = 0.05) {
+  
+  # Create storage for results
+  results &lt;- data.frame(
+    simulation = 1:n_simulations,
+    p_value = numeric(n_simulations),
+    ci_lower = numeric(n_simulations),
+    ci_upper = numeric(n_simulations),
+    significant = logical(n_simulations),
+    effect = numeric(n_simulations)
+  )
+  
+  # Run many simulated studies
+  for (i in 1:n_simulations) {
+    # Simulate data
+    study_data &lt;- simulate_study(n_per_group, effect_size)
+    
+    # Run t-test
+    test_result &lt;- t.test(score ~ group, data = study_data, var.equal = TRUE)
+    
+    # Store results
+    results$p_value[i] &lt;- test_result$p.value #&lt;2&gt;
+    results$ci_lower[i] &lt;- test_result$conf.int[1]
+    results$ci_upper[i] &lt;- test_result$conf.int[2]
+    results$significant[i] &lt;- test_result$p.value &lt; alpha
+    results$effect[i] &lt;- diff(test_result$estimate)
+  }
+  
+  return(results)
+}
+
+# Test the function
+set.seed(123)
+sim_results &lt;- run_power_simulation(
+  n_per_group = 30,
+  effect_size = 0.5,
+  n_simulations = 10  # Using fewer for speed
+)
+
+# Show first few results
+head(sim_results)</code>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-35"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="interpolate-35-1"><a href="#interpolate-35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to simulate a single study</span></span>
+<span id="interpolate-35-2"><a href="#interpolate-35-2" aria-hidden="true" tabindex="-1"></a>simulate_study <span class="ot">&lt;-</span> <span class="cf">function</span>(n_per_group, effect_size) {</span>
+<span id="interpolate-35-3"><a href="#interpolate-35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
+<span id="interpolate-35-4"><a href="#interpolate-35-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">group =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Control"</span>, <span class="st">"Treatment"</span>), <span class="at">each =</span> n_per_group),</span>
+<span id="interpolate-35-5"><a href="#interpolate-35-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">score =</span> <span class="fu">c</span>(</span>
+<span id="interpolate-35-6"><a href="#interpolate-35-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rnorm</span>(n_per_group, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>),</span>
+<a class="code-annotation-anchor" data-target-cell="interpolate-35" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="interpolate-35-7" class="code-annotation-target"><a href="#interpolate-35-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rnorm</span>(n_per_group, <span class="at">mean =</span> effect_size, <span class="at">sd =</span> <span class="dv">1</span>)</span>
+<span id="interpolate-35-8"><a href="#interpolate-35-8" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="interpolate-35-9"><a href="#interpolate-35-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="interpolate-35-10"><a href="#interpolate-35-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="interpolate-35-11"><a href="#interpolate-35-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="interpolate-35-12"><a href="#interpolate-35-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to run many simulated studies</span></span>
+<span id="interpolate-35-13"><a href="#interpolate-35-13" aria-hidden="true" tabindex="-1"></a>run_power_simulation <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
+<span id="interpolate-35-14"><a href="#interpolate-35-14" aria-hidden="true" tabindex="-1"></a>    n_per_group,</span>
+<span id="interpolate-35-15"><a href="#interpolate-35-15" aria-hidden="true" tabindex="-1"></a>    effect_size,</span>
+<span id="interpolate-35-16"><a href="#interpolate-35-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_simulations =</span> <span class="dv">1000</span>,</span>
+<span id="interpolate-35-17"><a href="#interpolate-35-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.05</span>) {</span>
+<span id="interpolate-35-18"><a href="#interpolate-35-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="interpolate-35-19"><a href="#interpolate-35-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Create storage for results</span></span>
+<span id="interpolate-35-20"><a href="#interpolate-35-20" aria-hidden="true" tabindex="-1"></a>  results <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="interpolate-35-21"><a href="#interpolate-35-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">simulation =</span> <span class="dv">1</span><span class="sc">:</span>n_simulations,</span>
+<span id="interpolate-35-22"><a href="#interpolate-35-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_value =</span> <span class="fu">numeric</span>(n_simulations),</span>
+<span id="interpolate-35-23"><a href="#interpolate-35-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">ci_lower =</span> <span class="fu">numeric</span>(n_simulations),</span>
+<span id="interpolate-35-24"><a href="#interpolate-35-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">ci_upper =</span> <span class="fu">numeric</span>(n_simulations),</span>
+<span id="interpolate-35-25"><a href="#interpolate-35-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">significant =</span> <span class="fu">logical</span>(n_simulations),</span>
+<span id="interpolate-35-26"><a href="#interpolate-35-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">effect =</span> <span class="fu">numeric</span>(n_simulations)</span>
+<span id="interpolate-35-27"><a href="#interpolate-35-27" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="interpolate-35-28"><a href="#interpolate-35-28" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="interpolate-35-29"><a href="#interpolate-35-29" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Run many simulated studies</span></span>
+<span id="interpolate-35-30"><a href="#interpolate-35-30" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_simulations) {</span>
+<span id="interpolate-35-31"><a href="#interpolate-35-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Simulate data</span></span>
+<span id="interpolate-35-32"><a href="#interpolate-35-32" aria-hidden="true" tabindex="-1"></a>    study_data <span class="ot">&lt;-</span> <span class="fu">simulate_study</span>(n_per_group, effect_size)</span>
+<span id="interpolate-35-33"><a href="#interpolate-35-33" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="interpolate-35-34"><a href="#interpolate-35-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Run t-test</span></span>
+<span id="interpolate-35-35"><a href="#interpolate-35-35" aria-hidden="true" tabindex="-1"></a>    test_result <span class="ot">&lt;-</span> <span class="fu">t.test</span>(score <span class="sc">~</span> group, <span class="at">data =</span> study_data, <span class="at">var.equal =</span> <span class="cn">TRUE</span>)</span>
+<span id="interpolate-35-36"><a href="#interpolate-35-36" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="interpolate-35-37"><a href="#interpolate-35-37" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Store results</span></span>
+<a class="code-annotation-anchor" data-target-cell="interpolate-35" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="interpolate-35-38" class="code-annotation-target"><a href="#interpolate-35-38" aria-hidden="true" tabindex="-1"></a>    results<span class="sc">$</span>p_value[i] <span class="ot">&lt;-</span> test_result<span class="sc">$</span>p.value</span>
+<span id="interpolate-35-39"><a href="#interpolate-35-39" aria-hidden="true" tabindex="-1"></a>    results<span class="sc">$</span>ci_lower[i] <span class="ot">&lt;-</span> test_result<span class="sc">$</span>conf.int[<span class="dv">1</span>]</span>
+<span id="interpolate-35-40"><a href="#interpolate-35-40" aria-hidden="true" tabindex="-1"></a>    results<span class="sc">$</span>ci_upper[i] <span class="ot">&lt;-</span> test_result<span class="sc">$</span>conf.int[<span class="dv">2</span>]</span>
+<span id="interpolate-35-41"><a href="#interpolate-35-41" aria-hidden="true" tabindex="-1"></a>    results<span class="sc">$</span>significant[i] <span class="ot">&lt;-</span> test_result<span class="sc">$</span>p.value <span class="sc">&lt;</span> alpha</span>
+<span id="interpolate-35-42"><a href="#interpolate-35-42" aria-hidden="true" tabindex="-1"></a>    results<span class="sc">$</span>effect[i] <span class="ot">&lt;-</span> <span class="fu">diff</span>(test_result<span class="sc">$</span>estimate)</span>
+<span id="interpolate-35-43"><a href="#interpolate-35-43" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="interpolate-35-44"><a href="#interpolate-35-44" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="interpolate-35-45"><a href="#interpolate-35-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(results)</span>
+<span id="interpolate-35-46"><a href="#interpolate-35-46" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="interpolate-35-47"><a href="#interpolate-35-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="interpolate-35-48"><a href="#interpolate-35-48" aria-hidden="true" tabindex="-1"></a><span class="co"># Test the function</span></span>
+<span id="interpolate-35-49"><a href="#interpolate-35-49" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="interpolate-35-50"><a href="#interpolate-35-50" aria-hidden="true" tabindex="-1"></a>sim_results <span class="ot">&lt;-</span> <span class="fu">run_power_simulation</span>(</span>
+<span id="interpolate-35-51"><a href="#interpolate-35-51" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_per_group =</span> <span class="dv">30</span>,</span>
+<span id="interpolate-35-52"><a href="#interpolate-35-52" aria-hidden="true" tabindex="-1"></a>  <span class="at">effect_size =</span> <span class="fl">0.5</span>,</span>
+<span id="interpolate-35-53"><a href="#interpolate-35-53" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_simulations =</span> <span class="dv">10</span>  <span class="co"># Using fewer for speed</span></span>
+<span id="interpolate-35-54"><a href="#interpolate-35-54" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="interpolate-35-55"><a href="#interpolate-35-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="interpolate-35-56"><a href="#interpolate-35-56" aria-hidden="true" tabindex="-1"></a><span class="co"># Show first few results</span></span>
+<span id="interpolate-35-57"><a href="#interpolate-35-57" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sim_results)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="interpolate-35" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="interpolate-35" data-code-lines="7" data-code-annotation="1">Treatment group has mean = effect_size (Cohen’s d = 0.5 when SD = 1)</span>
+</dd>
+<dt data-target-cell="interpolate-35" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="interpolate-35" data-code-lines="38" data-code-annotation="2">Extract p-value from the t-test result</span>
+</dd>
+</dl>
+</div>
+</div>
+<p>This function returns a data frame with comprehensive information about each simulated study, making it easy to analyze power and other properties.</p>
+</div>
+<div class="cell" data-exercise="ex_4" data-check="true">
+<script type="exercise-check-ex_4-contents">
+eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4XzQiLCJsYWJlbCI6ImV4LTQtZ3JhZGV0aGlzIn0sImNvZGUiOiJncmFkZXRoaXM6OmdyYWRlX3RoaXNfY29kZSgpIn0=
+</script>
+</div>
+</div>
+</div>
+</div>
+<div id="exr-simulate-power" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 7 (Analyze simulation results and calculate power)</strong></span> &nbsp;</p>
+</div>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-8-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-1" role="tab" aria-controls="tabset-8-1" aria-selected="true" href="">Problem</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-2" role="tab" aria-controls="tabset-8-2" aria-selected="false" href="">Hints</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-3" role="tab" aria-controls="tabset-8-3" aria-selected="false" href="">Solution</a></li></ul>
+<div class="tab-content">
+<div id="tabset-8-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-8-1-tab">
+<p>Now use the simulation function to run 1000 studies and analyze the results. Calculate the statistical power and create visualizations showing the distribution of p-values and confidence intervals.</p>
+<div class="cell" data-exercise="ex_5" data-envir="sim_env" data-timelimit="300" data-persist="true">
+<div>
+<div id="webr-37" class="exercise-cell">
+
+</div>
+<script type="webr-37-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImVudmlyIjoic2ltX2VudiIsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNSIsImxhYmVsIjoiZXgtNSIsInBlcnNpc3QiOnRydWUsInRpbWVsaW1pdCI6MzAwfSwiY29kZSI6ImxpYnJhcnkoZ2dwbG90MilcblxuIyBSdW4gc2ltdWxhdGlvblxuc2V0LnNlZWQoMTIzKVxuc2ltX3Jlc3VsdHMgPC0gcnVuX3Bvd2VyX3NpbXVsYXRpb24oXG4gIG5fcGVyX2dyb3VwID0gMzAsXG4gIGVmZmVjdF9zaXplID0gMC41LFxuICBuX3NpbXVsYXRpb25zID0gMTAwMFxuKVxuXG4jIENhbGN1bGF0ZSBwb3dlciAocHJvcG9ydGlvbiBvZiBwLXZhbHVlcyA8IDAuMDUpXG5zaW11bGF0ZWRfcG93ZXIgPC0gbWVhbihzaW1fcmVzdWx0cyRfX19fX18gPCBfX19fX18pXG5cbmNhdChcIlNpbXVsYXRlZCBwb3dlcjpcIiwgcm91bmQoc2ltdWxhdGVkX3Bvd2VyLCAzKSwgXCJcXG5cIilcblxuIyBDb21wYXJlIHRvIGFuYWx5dGljYWwgcG93ZXJcbmFuYWx5dGljYWxfcG93ZXIgPC0gcHdyLnQudGVzdChcbiAgbiA9IDMwLFxuICBkID0gMC41LFxuICBzaWcubGV2ZWwgPSAwLjA1LFxuICBhbHRlcm5hdGl2ZSA9IFwidHdvLnNpZGVkXCJcbikkcG93ZXJcblxuY2F0KFwiQW5hbHl0aWNhbCBwb3dlcjpcIiwgcm91bmQoYW5hbHl0aWNhbF9wb3dlciwgMyksIFwiXFxuXCIpIn0=
+</script>
+</div>
+</div>
+</div>
+<div id="tabset-8-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-8-2-tab">
+<div class="hint webr-ojs-exercise exercise-hint d-none" data-exercise="ex_5">
+<p>The <code>sim_results</code> data frame has a column called <code>p_value</code> with the p-value from each simulation.</p>
+<p>To calculate power: - Compare each p-value to 0.05 - Take the mean of the TRUE/FALSE values (TRUE = 1, FALSE = 0)</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>simulated_power <span class="ot">&lt;-</span> <span class="fu">mean</span>(sim_results<span class="sc">$</span>p_value <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div id="tabset-8-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-8-3-tab">
+<div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_5">
+<div class="cell" data-exercise="ex_5" data-solution="true">
+<div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_5">
+<code id="interpolate-39" class="solution-code d-none">library(ggplot2)
+
+# Run simulation
+set.seed(123)
+sim_results &lt;- run_power_simulation(
+  n_per_group = 30,
+  effect_size = 0.5,
+  n_simulations = 1000
+)
+
+# Calculate power (proportion of p-values &lt; 0.05)
+simulated_power &lt;- mean(sim_results$p_value &lt; 0.05) #&lt;1&gt;
+
+cat("Simulated power:", round(simulated_power, 3), "\n")
+
+# Compare to analytical power
+analytical_power &lt;- pwr.t.test(
+  n = 30,
+  d = 0.5,
+  sig.level = 0.05,
+  alternative = "two.sided"
+)$power
+
+cat("Analytical power:", round(analytical_power, 3), "\n")</code>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-40"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="interpolate-40-1"><a href="#interpolate-40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="interpolate-40-2"><a href="#interpolate-40-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="interpolate-40-3"><a href="#interpolate-40-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Run simulation</span></span>
+<span id="interpolate-40-4"><a href="#interpolate-40-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="interpolate-40-5"><a href="#interpolate-40-5" aria-hidden="true" tabindex="-1"></a>sim_results <span class="ot">&lt;-</span> <span class="fu">run_power_simulation</span>(</span>
+<span id="interpolate-40-6"><a href="#interpolate-40-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_per_group =</span> <span class="dv">30</span>,</span>
+<span id="interpolate-40-7"><a href="#interpolate-40-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">effect_size =</span> <span class="fl">0.5</span>,</span>
+<span id="interpolate-40-8"><a href="#interpolate-40-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_simulations =</span> <span class="dv">1000</span></span>
+<span id="interpolate-40-9"><a href="#interpolate-40-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="interpolate-40-10"><a href="#interpolate-40-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="interpolate-40-11"><a href="#interpolate-40-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate power (proportion of p-values &lt; 0.05)</span></span>
+<a class="code-annotation-anchor" data-target-cell="interpolate-40" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="interpolate-40-12" class="code-annotation-target"><a href="#interpolate-40-12" aria-hidden="true" tabindex="-1"></a>simulated_power <span class="ot">&lt;-</span> <span class="fu">mean</span>(sim_results<span class="sc">$</span>p_value <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span>
+<span id="interpolate-40-13"><a href="#interpolate-40-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="interpolate-40-14"><a href="#interpolate-40-14" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Simulated power:"</span>, <span class="fu">round</span>(simulated_power, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="interpolate-40-15"><a href="#interpolate-40-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="interpolate-40-16"><a href="#interpolate-40-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare to analytical power</span></span>
+<span id="interpolate-40-17"><a href="#interpolate-40-17" aria-hidden="true" tabindex="-1"></a>analytical_power <span class="ot">&lt;-</span> <span class="fu">pwr.t.test</span>(</span>
+<span id="interpolate-40-18"><a href="#interpolate-40-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="dv">30</span>,</span>
+<span id="interpolate-40-19"><a href="#interpolate-40-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">d =</span> <span class="fl">0.5</span>,</span>
+<span id="interpolate-40-20"><a href="#interpolate-40-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">sig.level =</span> <span class="fl">0.05</span>,</span>
+<span id="interpolate-40-21"><a href="#interpolate-40-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">alternative =</span> <span class="st">"two.sided"</span></span>
+<span id="interpolate-40-22"><a href="#interpolate-40-22" aria-hidden="true" tabindex="-1"></a>)<span class="sc">$</span>power</span>
+<span id="interpolate-40-23"><a href="#interpolate-40-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="interpolate-40-24"><a href="#interpolate-40-24" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Analytical power:"</span>, <span class="fu">round</span>(analytical_power, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="interpolate-40" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="interpolate-40" data-code-lines="12" data-code-annotation="1">Calculate proportion of p-values below 0.05 (mean of TRUE/FALSE values)</span>
+</dd>
+</dl>
+</div>
+</div>
+<p>The simulated power should be very close to the analytical power (~0.47). This means about 47% of our simulated studies correctly detected the effect (had p &lt; 0.05).</p>
+</div>
+<div class="cell" data-exercise="ex_5" data-check="true">
+<script type="exercise-check-ex_5-contents">
+eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4XzUiLCJsYWJlbCI6ImV4LTUtZ3JhZGV0aGlzIn0sImNvZGUiOiJncmFkZXRoaXM6OmdyYWRlX3RoaXNfY29kZSgpIn0=
+</script>
+</div>
+</div>
+</div>
+</div>
+<div id="exr-simulate-ci" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 8 (Calculate power using confidence intervals)</strong></span> &nbsp;</p>
+</div>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-9-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-1" role="tab" aria-controls="tabset-9-1" aria-selected="true" href="">Problem</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-9-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-2" role="tab" aria-controls="tabset-9-2" aria-selected="false" href="">Hints</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-9-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-3" role="tab" aria-controls="tabset-9-3" aria-selected="false" href="">Solution</a></li></ul>
+<div class="tab-content">
+<div id="tabset-9-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-9-1-tab">
+<p>Another way to calculate power is through confidence intervals! A study detects an effect when the 95% CI excludes zero (the null hypothesis value). Calculate power by determining what proportion of confidence intervals do NOT contain zero.</p>
+<div class="cell" data-exercise="ex_6" data-persist="true" data-envir="sim_env">
+<div>
+<div id="webr-42" class="exercise-cell">
+
+</div>
+<script type="webr-42-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImVudmlyIjoic2ltX2VudiIsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNiIsImxhYmVsIjoiZXgtNiIsInBlcnNpc3QiOnRydWV9LCJjb2RlIjoiXG4jIENhbGN1bGF0ZSBwb3dlciBmcm9tIGNvbmZpZGVuY2UgaW50ZXJ2YWxzXG4jIEEgQ0kgdGhhdCBleGNsdWRlcyAwIG1lYW5zIHdlIHJlamVjdCB0aGUgbnVsbCBoeXBvdGhlc2lzXG5jaV9leGNsdWRlc196ZXJvIDwtIHNpbV9yZXN1bHRzJGNpX2xvd2VyID4gX19fX19fIHwgc2ltX3Jlc3VsdHMkY2lfdXBwZXIgPCBfX19fX19cbnBvd2VyX2Zyb21fY2kgPC0gbWVhbihjaV9leGNsdWRlc196ZXJvKVxuXG5jYXQoXCJQb3dlciBmcm9tIHAtdmFsdWVzOlwiLCByb3VuZChzaW11bGF0ZWRfcG93ZXIsIDMpLCBcIlxcblwiKVxuY2F0KFwiUG93ZXIgZnJvbSBDSXM6ICAgICBcIiwgcm91bmQocG93ZXJfZnJvbV9jaSwgMyksIFwiXFxuXCIpXG5jYXQoXCJUaGVzZSBzaG91bGQgYmUgaWRlbnRpY2FsIVxcblwiKSJ9
+</script>
+</div>
+</div>
+</div>
+<div id="tabset-9-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-9-2-tab">
+<div class="hint webr-ojs-exercise exercise-hint d-none" data-exercise="ex_6">
+<p>A confidence interval excludes zero if: - The lower bound is above 0 (positive effect), OR - The upper bound is below 0 (negative effect)</p>
+<p>This is equivalent to rejecting the null hypothesis (H₀: difference = 0).</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ci_excludes_zero <span class="ot">&lt;-</span> sim_results<span class="sc">$</span>ci_lower <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">|</span> sim_results<span class="sc">$</span>ci_upper <span class="sc">&lt;</span> <span class="dv">0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div id="tabset-9-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-9-3-tab">
+<div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_6">
+<div class="cell" data-exercise="ex_6" data-solution="true">
+<div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_6">
+<code id="interpolate-44" class="solution-code d-none">
+# Calculate power from confidence intervals
+# A CI that excludes 0 means we reject the null hypothesis
+ci_excludes_zero &lt;- sim_results$ci_lower &gt; 0 | sim_results$ci_upper &lt; 0  #&lt;1&gt;
+power_from_ci &lt;- mean(ci_excludes_zero)
+
+cat("Power from p-values:", round(simulated_power, 3), "\n")
+cat("Power from CIs:     ", round(power_from_ci, 3), "\n")
+cat("These should be identical!\n")</code>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-45"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="interpolate-45-1"><a href="#interpolate-45-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="interpolate-45-2"><a href="#interpolate-45-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate power from confidence intervals</span></span>
+<span id="interpolate-45-3"><a href="#interpolate-45-3" aria-hidden="true" tabindex="-1"></a><span class="co"># A CI that excludes 0 means we reject the null hypothesis</span></span>
+<a class="code-annotation-anchor" data-target-cell="interpolate-45" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="interpolate-45-4" class="code-annotation-target"><a href="#interpolate-45-4" aria-hidden="true" tabindex="-1"></a>ci_excludes_zero <span class="ot">&lt;-</span> sim_results<span class="sc">$</span>ci_lower <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">|</span> sim_results<span class="sc">$</span>ci_upper <span class="sc">&lt;</span> <span class="dv">0</span></span>
+<span id="interpolate-45-5"><a href="#interpolate-45-5" aria-hidden="true" tabindex="-1"></a>power_from_ci <span class="ot">&lt;-</span> <span class="fu">mean</span>(ci_excludes_zero)</span>
+<span id="interpolate-45-6"><a href="#interpolate-45-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="interpolate-45-7"><a href="#interpolate-45-7" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Power from p-values:"</span>, <span class="fu">round</span>(simulated_power, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="interpolate-45-8"><a href="#interpolate-45-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Power from CIs:     "</span>, <span class="fu">round</span>(power_from_ci, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="interpolate-45-9"><a href="#interpolate-45-9" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"These should be identical!</span><span class="sc">\n</span><span class="st">"</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="interpolate-45" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="interpolate-45" data-code-lines="4" data-code-annotation="1">CI excludes 0 if lower bound &gt; 0 OR upper bound &lt; 0</span>
+</dd>
+</dl>
+</div>
+</div>
+<p><strong>Key insight</strong>: Power can be calculated two equivalent ways: - <strong>From p-values</strong>: Proportion where p &lt; 0.05 - <strong>From confidence intervals</strong>: Proportion where CI excludes 0</p>
+<p>These give identical results because they’re testing the same hypothesis! A 95% CI that excludes 0 corresponds exactly to p &lt; 0.05.</p>
+</div>
+<div class="cell" data-exercise="ex_6" data-check="true">
+<script type="exercise-check-ex_6-contents">
+eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4XzYiLCJsYWJlbCI6ImV4LTYtZ3JhZGV0aGlzIn0sImNvZGUiOiJncmFkZXRoaXM6OmdyYWRlX3RoaXNfY29kZSgpIn0=
+</script>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="summary" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Summary</h1>
+<p>In this lab, you learned:</p>
+<ol type="1">
+<li><strong>Power analysis basics</strong>: The relationship between power, sample size, effect size, and significance level</li>
+<li><strong>Using <code>pwr</code> package</strong>: How to calculate power or required sample size analytically</li>
+<li><strong>Power curves</strong>: Visualizing how power changes with sample size</li>
+<li><strong>Simulation-based power</strong>: Be basics of estimating power by simulating many studies</li>
+</ol>
+
+
+<script type="webr-data">
+eyJvcHRpb25zIjp7ImJhc2VVcmwiOiJodHRwczovL3dlYnIuci13YXNtLm9yZy92MC41LjQvIn0sInBhY2thZ2VzIjp7InBrZ3MiOlsiZXZhbHVhdGUiLCJrbml0ciIsImh0bWx0b29scyIsImRwbHlyIiwidGlkeXIiLCJwdXJyciIsInB3ciIsImdncGxvdDIiXSwicmVwb3MiOltdfSwicmVuZGVyX2RmIjoiZGVmYXVsdCJ9
+</script>
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W3siY2VsbE5hbWUiOiJ3ZWJyLXdpZGdldC00MiIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6IntcbiAgLy8gV2FpdCBmb3Igb3V0cHV0IHRvIGJlIHdyaXR0ZW4gdG8gdGhlIERPTSwgdGhlbiB0cmlnZ2VyIHdpZGdldCByZW5kZXJpbmdcbiAgYXdhaXQgX3dlYnJfdmFsdWVfNDI7XG4gIGlmICh3aW5kb3cuSFRNTFdpZGdldHMpIHtcbiAgICB3aW5kb3cuSFRNTFdpZGdldHMuc3RhdGljUmVuZGVyKCk7XG4gIH1cbiAgaWYgKHdpbmRvdy5QYWdlZFRhYmxlRG9jKSB7XG4gICAgd2luZG93LlBhZ2VkVGFibGVEb2MuaW5pdEFsbCgpO1xuICB9XG59XG4ifSx7ImNlbGxOYW1lIjoid2Vici00MiIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3dlYnJfZWRpdG9yXzQyID0ge1xuICBjb25zdCB7IFdlYlJFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcIndlYnItNDItY29udGVudHNcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBibG9jayA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKHNjcmlwdENvbnRlbnQpKTtcblxuICAvLyBEZWZhdWx0IGV4ZXJjaXNlIGNvbmZpZ3VyYXRpb25cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oXG4gICAge1xuICAgICAgaWQ6IFwid2Vici00Mi1jb250ZW50c1wiLFxuICAgICAgZW52aXI6IGBleGVyY2lzZS1lbnYtJHtibG9jay5hdHRyLmV4ZXJjaXNlfWAsXG4gICAgICBlcnJvcjogZmFsc2UsXG4gICAgICBjYXB0aW9uOiAnRXhlcmNpc2UnLFxuICAgIH0sXG4gICAgYmxvY2suYXR0clxuICApO1xuXG4gIGNvbnN0IGVkaXRvciA9IG5ldyBXZWJSRXhlcmNpc2VFZGl0b3Iod2ViUk9qcy53ZWJSUHJvbWlzZSwgYmxvY2suY29kZSwgb3B0aW9ucyk7XG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxudmlld29mIF93ZWJyX3ZhbHVlXzQyID0gd2ViUk9qcy5wcm9jZXNzKF93ZWJyX2VkaXRvcl80Miwge30pO1xuX3dlYnJfZmVlZGJhY2tfNDIgPSB7XG4gIGNvbnN0IHsgV2ViUkdyYWRlciB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcbiAgY29uc3QgZW1wdHlGZWVkYmFjayA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ2RpdicpO1xuXG4gIGNvbnN0IGdyYWRlciA9IG5ldyBXZWJSR3JhZGVyKF93ZWJyX3ZhbHVlXzQyLmV2YWx1YXRvcik7XG4gIGNvbnN0IGZlZWRiYWNrID0gYXdhaXQgZ3JhZGVyLmdyYWRlRXhlcmNpc2UoKTtcbiAgaWYgKCFmZWVkYmFjaykgcmV0dXJuIGVtcHR5RmVlZGJhY2s7XG4gIHJldHVybiBmZWVkYmFjaztcbn1cbiJ9LHsiY2VsbE5hbWUiOiJ3ZWJyLXdpZGdldC0zNyIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6IntcbiAgLy8gV2FpdCBmb3Igb3V0cHV0IHRvIGJlIHdyaXR0ZW4gdG8gdGhlIERPTSwgdGhlbiB0cmlnZ2VyIHdpZGdldCByZW5kZXJpbmdcbiAgYXdhaXQgX3dlYnJfdmFsdWVfMzc7XG4gIGlmICh3aW5kb3cuSFRNTFdpZGdldHMpIHtcbiAgICB3aW5kb3cuSFRNTFdpZGdldHMuc3RhdGljUmVuZGVyKCk7XG4gIH1cbiAgaWYgKHdpbmRvdy5QYWdlZFRhYmxlRG9jKSB7XG4gICAgd2luZG93LlBhZ2VkVGFibGVEb2MuaW5pdEFsbCgpO1xuICB9XG59XG4ifSx7ImNlbGxOYW1lIjoid2Vici0zNyIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3dlYnJfZWRpdG9yXzM3ID0ge1xuICBjb25zdCB7IFdlYlJFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcIndlYnItMzctY29udGVudHNcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBibG9jayA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKHNjcmlwdENvbnRlbnQpKTtcblxuICAvLyBEZWZhdWx0IGV4ZXJjaXNlIGNvbmZpZ3VyYXRpb25cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oXG4gICAge1xuICAgICAgaWQ6IFwid2Vici0zNy1jb250ZW50c1wiLFxuICAgICAgZW52aXI6IGBleGVyY2lzZS1lbnYtJHtibG9jay5hdHRyLmV4ZXJjaXNlfWAsXG4gICAgICBlcnJvcjogZmFsc2UsXG4gICAgICBjYXB0aW9uOiAnRXhlcmNpc2UnLFxuICAgIH0sXG4gICAgYmxvY2suYXR0clxuICApO1xuXG4gIGNvbnN0IGVkaXRvciA9IG5ldyBXZWJSRXhlcmNpc2VFZGl0b3Iod2ViUk9qcy53ZWJSUHJvbWlzZSwgYmxvY2suY29kZSwgb3B0aW9ucyk7XG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxudmlld29mIF93ZWJyX3ZhbHVlXzM3ID0gd2ViUk9qcy5wcm9jZXNzKF93ZWJyX2VkaXRvcl8zNywge30pO1xuX3dlYnJfZmVlZGJhY2tfMzcgPSB7XG4gIGNvbnN0IHsgV2ViUkdyYWRlciB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcbiAgY29uc3QgZW1wdHlGZWVkYmFjayA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ2RpdicpO1xuXG4gIGNvbnN0IGdyYWRlciA9IG5ldyBXZWJSR3JhZGVyKF93ZWJyX3ZhbHVlXzM3LmV2YWx1YXRvcik7XG4gIGNvbnN0IGZlZWRiYWNrID0gYXdhaXQgZ3JhZGVyLmdyYWRlRXhlcmNpc2UoKTtcbiAgaWYgKCFmZWVkYmFjaykgcmV0dXJuIGVtcHR5RmVlZGJhY2s7XG4gIHJldHVybiBmZWVkYmFjaztcbn1cbiJ9LHsiY2VsbE5hbWUiOiJ3ZWJyLXdpZGdldC0zMiIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6IntcbiAgLy8gV2FpdCBmb3Igb3V0cHV0IHRvIGJlIHdyaXR0ZW4gdG8gdGhlIERPTSwgdGhlbiB0cmlnZ2VyIHdpZGdldCByZW5kZXJpbmdcbiAgYXdhaXQgX3dlYnJfdmFsdWVfMzI7XG4gIGlmICh3aW5kb3cuSFRNTFdpZGdldHMpIHtcbiAgICB3aW5kb3cuSFRNTFdpZGdldHMuc3RhdGljUmVuZGVyKCk7XG4gIH1cbiAgaWYgKHdpbmRvdy5QYWdlZFRhYmxlRG9jKSB7XG4gICAgd2luZG93LlBhZ2VkVGFibGVEb2MuaW5pdEFsbCgpO1xuICB9XG59XG4ifSx7ImNlbGxOYW1lIjoid2Vici0zMiIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3dlYnJfZWRpdG9yXzMyID0ge1xuICBjb25zdCB7IFdlYlJFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcIndlYnItMzItY29udGVudHNcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBibG9jayA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKHNjcmlwdENvbnRlbnQpKTtcblxuICAvLyBEZWZhdWx0IGV4ZXJjaXNlIGNvbmZpZ3VyYXRpb25cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oXG4gICAge1xuICAgICAgaWQ6IFwid2Vici0zMi1jb250ZW50c1wiLFxuICAgICAgZW52aXI6IGBleGVyY2lzZS1lbnYtJHtibG9jay5hdHRyLmV4ZXJjaXNlfWAsXG4gICAgICBlcnJvcjogZmFsc2UsXG4gICAgICBjYXB0aW9uOiAnRXhlcmNpc2UnLFxuICAgIH0sXG4gICAgYmxvY2suYXR0clxuICApO1xuXG4gIGNvbnN0IGVkaXRvciA9IG5ldyBXZWJSRXhlcmNpc2VFZGl0b3Iod2ViUk9qcy53ZWJSUHJvbWlzZSwgYmxvY2suY29kZSwgb3B0aW9ucyk7XG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxudmlld29mIF93ZWJyX3ZhbHVlXzMyID0gd2ViUk9qcy5wcm9jZXNzKF93ZWJyX2VkaXRvcl8zMiwge30pO1xuX3dlYnJfZmVlZGJhY2tfMzIgPSB7XG4gIGNvbnN0IHsgV2ViUkdyYWRlciB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcbiAgY29uc3QgZW1wdHlGZWVkYmFjayA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ2RpdicpO1xuXG4gIGNvbnN0IGdyYWRlciA9IG5ldyBXZWJSR3JhZGVyKF93ZWJyX3ZhbHVlXzMyLmV2YWx1YXRvcik7XG4gIGNvbnN0IGZlZWRiYWNrID0gYXdhaXQgZ3JhZGVyLmdyYWRlRXhlcmNpc2UoKTtcbiAgaWYgKCFmZWVkYmFjaykgcmV0dXJuIGVtcHR5RmVlZGJhY2s7XG4gIHJldHVybiBmZWVkYmFjaztcbn1cbiJ9LHsiY2VsbE5hbWUiOiJ3ZWJyLXdpZGdldC0yNyIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6IntcbiAgLy8gV2FpdCBmb3Igb3V0cHV0IHRvIGJlIHdyaXR0ZW4gdG8gdGhlIERPTSwgdGhlbiB0cmlnZ2VyIHdpZGdldCByZW5kZXJpbmdcbiAgYXdhaXQgX3dlYnJfdmFsdWVfMjc7XG4gIGlmICh3aW5kb3cuSFRNTFdpZGdldHMpIHtcbiAgICB3aW5kb3cuSFRNTFdpZGdldHMuc3RhdGljUmVuZGVyKCk7XG4gIH1cbiAgaWYgKHdpbmRvdy5QYWdlZFRhYmxlRG9jKSB7XG4gICAgd2luZG93LlBhZ2VkVGFibGVEb2MuaW5pdEFsbCgpO1xuICB9XG59XG4ifSx7ImNlbGxOYW1lIjoid2Vici0yNyIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3dlYnJfZWRpdG9yXzI3ID0ge1xuICBjb25zdCB7IFdlYlJFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcIndlYnItMjctY29udGVudHNcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBibG9jayA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKHNjcmlwdENvbnRlbnQpKTtcblxuICAvLyBEZWZhdWx0IGV4ZXJjaXNlIGNvbmZpZ3VyYXRpb25cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oXG4gICAge1xuICAgICAgaWQ6IFwid2Vici0yNy1jb250ZW50c1wiLFxuICAgICAgZW52aXI6IGBleGVyY2lzZS1lbnYtJHtibG9jay5hdHRyLmV4ZXJjaXNlfWAsXG4gICAgICBlcnJvcjogZmFsc2UsXG4gICAgICBjYXB0aW9uOiAnRXhlcmNpc2UnLFxuICAgIH0sXG4gICAgYmxvY2suYXR0clxuICApO1xuXG4gIGNvbnN0IGVkaXRvciA9IG5ldyBXZWJSRXhlcmNpc2VFZGl0b3Iod2ViUk9qcy53ZWJSUHJvbWlzZSwgYmxvY2suY29kZSwgb3B0aW9ucyk7XG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxudmlld29mIF93ZWJyX3ZhbHVlXzI3ID0gd2ViUk9qcy5wcm9jZXNzKF93ZWJyX2VkaXRvcl8yNywge30pO1xuX3dlYnJfZmVlZGJhY2tfMjcgPSB7XG4gIGNvbnN0IHsgV2ViUkdyYWRlciB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcbiAgY29uc3QgZW1wdHlGZWVkYmFjayA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ2RpdicpO1xuXG4gIGNvbnN0IGdyYWRlciA9IG5ldyBXZWJSR3JhZGVyKF93ZWJyX3ZhbHVlXzI3LmV2YWx1YXRvcik7XG4gIGNvbnN0IGZlZWRiYWNrID0gYXdhaXQgZ3JhZGVyLmdyYWRlRXhlcmNpc2UoKTtcbiAgaWYgKCFmZWVkYmFjaykgcmV0dXJuIGVtcHR5RmVlZGJhY2s7XG4gIHJldHVybiBmZWVkYmFjaztcbn1cbiJ9LHsiY2VsbE5hbWUiOiJ3ZWJyLXdpZGdldC0yMiIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6IntcbiAgLy8gV2FpdCBmb3Igb3V0cHV0IHRvIGJlIHdyaXR0ZW4gdG8gdGhlIERPTSwgdGhlbiB0cmlnZ2VyIHdpZGdldCByZW5kZXJpbmdcbiAgYXdhaXQgX3dlYnJfdmFsdWVfMjI7XG4gIGlmICh3aW5kb3cuSFRNTFdpZGdldHMpIHtcbiAgICB3aW5kb3cuSFRNTFdpZGdldHMuc3RhdGljUmVuZGVyKCk7XG4gIH1cbiAgaWYgKHdpbmRvdy5QYWdlZFRhYmxlRG9jKSB7XG4gICAgd2luZG93LlBhZ2VkVGFibGVEb2MuaW5pdEFsbCgpO1xuICB9XG59XG4ifSx7ImNlbGxOYW1lIjoid2Vici0yMiIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3dlYnJfZWRpdG9yXzIyID0ge1xuICBjb25zdCB7IFdlYlJFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcIndlYnItMjItY29udGVudHNcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBibG9jayA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKHNjcmlwdENvbnRlbnQpKTtcblxuICAvLyBEZWZhdWx0IGV4ZXJjaXNlIGNvbmZpZ3VyYXRpb25cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oXG4gICAge1xuICAgICAgaWQ6IFwid2Vici0yMi1jb250ZW50c1wiLFxuICAgICAgZW52aXI6IGBleGVyY2lzZS1lbnYtJHtibG9jay5hdHRyLmV4ZXJjaXNlfWAsXG4gICAgICBlcnJvcjogZmFsc2UsXG4gICAgICBjYXB0aW9uOiAnRXhlcmNpc2UnLFxuICAgIH0sXG4gICAgYmxvY2suYXR0clxuICApO1xuXG4gIGNvbnN0IGVkaXRvciA9IG5ldyBXZWJSRXhlcmNpc2VFZGl0b3Iod2ViUk9qcy53ZWJSUHJvbWlzZSwgYmxvY2suY29kZSwgb3B0aW9ucyk7XG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxudmlld29mIF93ZWJyX3ZhbHVlXzIyID0gd2ViUk9qcy5wcm9jZXNzKF93ZWJyX2VkaXRvcl8yMiwge30pO1xuX3dlYnJfZmVlZGJhY2tfMjIgPSB7XG4gIGNvbnN0IHsgV2ViUkdyYWRlciB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcbiAgY29uc3QgZW1wdHlGZWVkYmFjayA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ2RpdicpO1xuXG4gIGNvbnN0IGdyYWRlciA9IG5ldyBXZWJSR3JhZGVyKF93ZWJyX3ZhbHVlXzIyLmV2YWx1YXRvcik7XG4gIGNvbnN0IGZlZWRiYWNrID0gYXdhaXQgZ3JhZGVyLmdyYWRlRXhlcmNpc2UoKTtcbiAgaWYgKCFmZWVkYmFjaykgcmV0dXJuIGVtcHR5RmVlZGJhY2s7XG4gIHJldHVybiBmZWVkYmFjaztcbn1cbiJ9LHsiY2VsbE5hbWUiOiJ3ZWJyLXdpZGdldC0xNyIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6IntcbiAgLy8gV2FpdCBmb3Igb3V0cHV0IHRvIGJlIHdyaXR0ZW4gdG8gdGhlIERPTSwgdGhlbiB0cmlnZ2VyIHdpZGdldCByZW5kZXJpbmdcbiAgYXdhaXQgX3dlYnJfdmFsdWVfMTc7XG4gIGlmICh3aW5kb3cuSFRNTFdpZGdldHMpIHtcbiAgICB3aW5kb3cuSFRNTFdpZGdldHMuc3RhdGljUmVuZGVyKCk7XG4gIH1cbiAgaWYgKHdpbmRvdy5QYWdlZFRhYmxlRG9jKSB7XG4gICAgd2luZG93LlBhZ2VkVGFibGVEb2MuaW5pdEFsbCgpO1xuICB9XG59XG4ifSx7ImNlbGxOYW1lIjoid2Vici0xNyIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3dlYnJfZWRpdG9yXzE3ID0ge1xuICBjb25zdCB7IFdlYlJFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcIndlYnItMTctY29udGVudHNcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBibG9jayA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKHNjcmlwdENvbnRlbnQpKTtcblxuICAvLyBEZWZhdWx0IGV4ZXJjaXNlIGNvbmZpZ3VyYXRpb25cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oXG4gICAge1xuICAgICAgaWQ6IFwid2Vici0xNy1jb250ZW50c1wiLFxuICAgICAgZW52aXI6IGBleGVyY2lzZS1lbnYtJHtibG9jay5hdHRyLmV4ZXJjaXNlfWAsXG4gICAgICBlcnJvcjogZmFsc2UsXG4gICAgICBjYXB0aW9uOiAnRXhlcmNpc2UnLFxuICAgIH0sXG4gICAgYmxvY2suYXR0clxuICApO1xuXG4gIGNvbnN0IGVkaXRvciA9IG5ldyBXZWJSRXhlcmNpc2VFZGl0b3Iod2ViUk9qcy53ZWJSUHJvbWlzZSwgYmxvY2suY29kZSwgb3B0aW9ucyk7XG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxudmlld29mIF93ZWJyX3ZhbHVlXzE3ID0gd2ViUk9qcy5wcm9jZXNzKF93ZWJyX2VkaXRvcl8xNywge30pO1xuX3dlYnJfZmVlZGJhY2tfMTcgPSB7XG4gIGNvbnN0IHsgV2ViUkdyYWRlciB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcbiAgY29uc3QgZW1wdHlGZWVkYmFjayA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ2RpdicpO1xuXG4gIGNvbnN0IGdyYWRlciA9IG5ldyBXZWJSR3JhZGVyKF93ZWJyX3ZhbHVlXzE3LmV2YWx1YXRvcik7XG4gIGNvbnN0IGZlZWRiYWNrID0gYXdhaXQgZ3JhZGVyLmdyYWRlRXhlcmNpc2UoKTtcbiAgaWYgKCFmZWVkYmFjaykgcmV0dXJuIGVtcHR5RmVlZGJhY2s7XG4gIHJldHVybiBmZWVkYmFjaztcbn1cbiJ9LHsiY2VsbE5hbWUiOiJ3ZWJyLXdpZGdldC0xMiIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6IntcbiAgLy8gV2FpdCBmb3Igb3V0cHV0IHRvIGJlIHdyaXR0ZW4gdG8gdGhlIERPTSwgdGhlbiB0cmlnZ2VyIHdpZGdldCByZW5kZXJpbmdcbiAgYXdhaXQgX3dlYnJfdmFsdWVfMTI7XG4gIGlmICh3aW5kb3cuSFRNTFdpZGdldHMpIHtcbiAgICB3aW5kb3cuSFRNTFdpZGdldHMuc3RhdGljUmVuZGVyKCk7XG4gIH1cbiAgaWYgKHdpbmRvdy5QYWdlZFRhYmxlRG9jKSB7XG4gICAgd2luZG93LlBhZ2VkVGFibGVEb2MuaW5pdEFsbCgpO1xuICB9XG59XG4ifSx7ImNlbGxOYW1lIjoid2Vici0xMiIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3dlYnJfZWRpdG9yXzEyID0ge1xuICBjb25zdCB7IFdlYlJFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcIndlYnItMTItY29udGVudHNcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBibG9jayA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKHNjcmlwdENvbnRlbnQpKTtcblxuICAvLyBEZWZhdWx0IGV4ZXJjaXNlIGNvbmZpZ3VyYXRpb25cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oXG4gICAge1xuICAgICAgaWQ6IFwid2Vici0xMi1jb250ZW50c1wiLFxuICAgICAgZW52aXI6IGBleGVyY2lzZS1lbnYtJHtibG9jay5hdHRyLmV4ZXJjaXNlfWAsXG4gICAgICBlcnJvcjogZmFsc2UsXG4gICAgICBjYXB0aW9uOiAnRXhlcmNpc2UnLFxuICAgIH0sXG4gICAgYmxvY2suYXR0clxuICApO1xuXG4gIGNvbnN0IGVkaXRvciA9IG5ldyBXZWJSRXhlcmNpc2VFZGl0b3Iod2ViUk9qcy53ZWJSUHJvbWlzZSwgYmxvY2suY29kZSwgb3B0aW9ucyk7XG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxudmlld29mIF93ZWJyX3ZhbHVlXzEyID0gd2ViUk9qcy5wcm9jZXNzKF93ZWJyX2VkaXRvcl8xMiwge30pO1xuX3dlYnJfZmVlZGJhY2tfMTIgPSB7XG4gIGNvbnN0IHsgV2ViUkdyYWRlciB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcbiAgY29uc3QgZW1wdHlGZWVkYmFjayA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ2RpdicpO1xuXG4gIGNvbnN0IGdyYWRlciA9IG5ldyBXZWJSR3JhZGVyKF93ZWJyX3ZhbHVlXzEyLmV2YWx1YXRvcik7XG4gIGNvbnN0IGZlZWRiYWNrID0gYXdhaXQgZ3JhZGVyLmdyYWRlRXhlcmNpc2UoKTtcbiAgaWYgKCFmZWVkYmFjaykgcmV0dXJuIGVtcHR5RmVlZGJhY2s7XG4gIHJldHVybiBmZWVkYmFjaztcbn1cbiJ9LHsiY2VsbE5hbWUiOiJ3ZWJyLXdpZGdldC03IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoie1xuICAvLyBXYWl0IGZvciBvdXRwdXQgdG8gYmUgd3JpdHRlbiB0byB0aGUgRE9NLCB0aGVuIHRyaWdnZXIgd2lkZ2V0IHJlbmRlcmluZ1xuICBhd2FpdCBfd2Vicl92YWx1ZV83O1xuICBpZiAod2luZG93LkhUTUxXaWRnZXRzKSB7XG4gICAgd2luZG93LkhUTUxXaWRnZXRzLnN0YXRpY1JlbmRlcigpO1xuICB9XG4gIGlmICh3aW5kb3cuUGFnZWRUYWJsZURvYykge1xuICAgIHdpbmRvdy5QYWdlZFRhYmxlRG9jLmluaXRBbGwoKTtcbiAgfVxufVxuIn0seyJjZWxsTmFtZSI6IndlYnItNyIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3dlYnJfZWRpdG9yXzcgPSB7XG4gIGNvbnN0IHsgV2ViUkV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwid2Vici03LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgLy8gRGVmYXVsdCBleGVyY2lzZSBjb25maWd1cmF0aW9uXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKFxuICAgIHtcbiAgICAgIGlkOiBcIndlYnItNy1jb250ZW50c1wiLFxuICAgICAgZW52aXI6IGBleGVyY2lzZS1lbnYtJHtibG9jay5hdHRyLmV4ZXJjaXNlfWAsXG4gICAgICBlcnJvcjogZmFsc2UsXG4gICAgICBjYXB0aW9uOiAnRXhlcmNpc2UnLFxuICAgIH0sXG4gICAgYmxvY2suYXR0clxuICApO1xuXG4gIGNvbnN0IGVkaXRvciA9IG5ldyBXZWJSRXhlcmNpc2VFZGl0b3Iod2ViUk9qcy53ZWJSUHJvbWlzZSwgYmxvY2suY29kZSwgb3B0aW9ucyk7XG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxudmlld29mIF93ZWJyX3ZhbHVlXzcgPSB3ZWJST2pzLnByb2Nlc3MoX3dlYnJfZWRpdG9yXzcsIHt9KTtcbl93ZWJyX2ZlZWRiYWNrXzcgPSB7XG4gIGNvbnN0IHsgV2ViUkdyYWRlciB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcbiAgY29uc3QgZW1wdHlGZWVkYmFjayA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ2RpdicpO1xuXG4gIGNvbnN0IGdyYWRlciA9IG5ldyBXZWJSR3JhZGVyKF93ZWJyX3ZhbHVlXzcuZXZhbHVhdG9yKTtcbiAgY29uc3QgZmVlZGJhY2sgPSBhd2FpdCBncmFkZXIuZ3JhZGVFeGVyY2lzZSgpO1xuICBpZiAoIWZlZWRiYWNrKSByZXR1cm4gZW1wdHlGZWVkYmFjaztcbiAgcmV0dXJuIGZlZWRiYWNrO1xufVxuIn0seyJjZWxsTmFtZSI6IndlYnItd2lkZ2V0LTIiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJ7XG4gIC8vIFdhaXQgZm9yIG91dHB1dCB0byBiZSB3cml0dGVuIHRvIHRoZSBET00sIHRoZW4gdHJpZ2dlciB3aWRnZXQgcmVuZGVyaW5nXG4gIGF3YWl0IF93ZWJyX3ZhbHVlXzI7XG4gIGlmICh3aW5kb3cuSFRNTFdpZGdldHMpIHtcbiAgICB3aW5kb3cuSFRNTFdpZGdldHMuc3RhdGljUmVuZGVyKCk7XG4gIH1cbiAgaWYgKHdpbmRvdy5QYWdlZFRhYmxlRG9jKSB7XG4gICAgd2luZG93LlBhZ2VkVGFibGVEb2MuaW5pdEFsbCgpO1xuICB9XG59XG4ifSx7ImNlbGxOYW1lIjoid2Vici0yIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfd2Vicl9lZGl0b3JfMiA9IHtcbiAgY29uc3QgeyBXZWJSRXhlcmNpc2VFZGl0b3IsIGI2NERlY29kZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJ3ZWJyLTItY29udGVudHNcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBibG9jayA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKHNjcmlwdENvbnRlbnQpKTtcblxuICAvLyBEZWZhdWx0IGV4ZXJjaXNlIGNvbmZpZ3VyYXRpb25cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oXG4gICAge1xuICAgICAgaWQ6IFwid2Vici0yLWNvbnRlbnRzXCIsXG4gICAgICBlbnZpcjogYGV4ZXJjaXNlLWVudi0ke2Jsb2NrLmF0dHIuZXhlcmNpc2V9YCxcbiAgICAgIGVycm9yOiBmYWxzZSxcbiAgICAgIGNhcHRpb246ICdFeGVyY2lzZScsXG4gICAgfSxcbiAgICBibG9jay5hdHRyXG4gICk7XG5cbiAgY29uc3QgZWRpdG9yID0gbmV3IFdlYlJFeGVyY2lzZUVkaXRvcih3ZWJST2pzLndlYlJQcm9taXNlLCBibG9jay5jb2RlLCBvcHRpb25zKTtcbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG52aWV3b2YgX3dlYnJfdmFsdWVfMiA9IHdlYlJPanMucHJvY2Vzcyhfd2Vicl9lZGl0b3JfMiwge30pO1xuX3dlYnJfZmVlZGJhY2tfMiA9IHtcbiAgY29uc3QgeyBXZWJSR3JhZGVyIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuICBjb25zdCBlbXB0eUZlZWRiYWNrID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgnZGl2Jyk7XG5cbiAgY29uc3QgZ3JhZGVyID0gbmV3IFdlYlJHcmFkZXIoX3dlYnJfdmFsdWVfMi5ldmFsdWF0b3IpO1xuICBjb25zdCBmZWVkYmFjayA9IGF3YWl0IGdyYWRlci5ncmFkZUV4ZXJjaXNlKCk7XG4gIGlmICghZmVlZGJhY2spIHJldHVybiBlbXB0eUZlZWRiYWNrO1xuICByZXR1cm4gZmVlZGJhY2s7XG59XG4ifSx7ImNlbGxOYW1lIjoid2Vici13aWRnZXQtMSIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6IntcbiAgLy8gV2FpdCBmb3Igb3V0cHV0IHRvIGJlIHdyaXR0ZW4gdG8gdGhlIERPTSwgdGhlbiB0cmlnZ2VyIHdpZGdldCByZW5kZXJpbmdcbiAgYXdhaXQgX3dlYnJfdmFsdWVfMTtcbiAgaWYgKHdpbmRvdy5IVE1MV2lkZ2V0cykge1xuICAgIHdpbmRvdy5IVE1MV2lkZ2V0cy5zdGF0aWNSZW5kZXIoKTtcbiAgfVxuICBpZiAod2luZG93LlBhZ2VkVGFibGVEb2MpIHtcbiAgICB3aW5kb3cuUGFnZWRUYWJsZURvYy5pbml0QWxsKCk7XG4gIH1cbn1cbiJ9LHsiY2VsbE5hbWUiOiJ3ZWJyLTEiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoiX3dlYnJfdmFsdWVfMSA9IHtcbiAgY29uc3QgeyBoaWdobGlnaHRSLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwid2Vici0xLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgLy8gRGVmYXVsdCBldmFsdWF0aW9uIGNvbmZpZ3VyYXRpb25cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oe1xuICAgIGlkOiBcIndlYnItMS1jb250ZW50c1wiLFxuICAgIGVjaG86IHRydWUsXG4gICAgb3V0cHV0OiB0cnVlXG4gIH0sIGJsb2NrLmF0dHIpO1xuXG4gIC8vIEV2YWx1YXRlIHRoZSBwcm92aWRlZCBSIGNvZGVcbiAgY29uc3QgcmVzdWx0ID0gd2ViUk9qcy5wcm9jZXNzKHtjb2RlOiBibG9jay5jb2RlLCBvcHRpb25zfSwge30pO1xuXG4gIC8vIEVhcmx5IHlpZWxkIHdoaWxlIHdlIHdhaXQgZm9yIHRoZSBmaXJzdCBldmFsdWF0aW9uIGFuZCByZW5kZXJcbiAgaWYgKG9wdGlvbnMub3V0cHV0ICYmICEoXCIxXCIgaW4gd2ViUk9qcy5yZW5kZXJlZE9qcykpIHtcbiAgICBjb25zdCBjb250YWluZXIgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KFwiZGl2XCIpO1xuICAgIGNvbnN0IHNwaW5uZXIgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KFwiZGl2XCIpO1xuXG4gICAgaWYgKG9wdGlvbnMuZWNobykge1xuICAgICAgLy8gU2hvdyBvdXRwdXQgYXMgaGlnaGxpZ2h0ZWQgc291cmNlXG4gICAgICBjb25zdCBwcmVFbGVtID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudChcInByZVwiKTtcbiAgICAgIGNvbnRhaW5lci5jbGFzc05hbWUgPSBcInNvdXJjZUNvZGVcIjtcbiAgICAgIHByZUVsZW0uY2xhc3NOYW1lID0gXCJzb3VyY2VDb2RlIHJcIjtcbiAgICAgIHByZUVsZW0uYXBwZW5kQ2hpbGQoaGlnaGxpZ2h0UihibG9jay5jb2RlKSk7XG4gICAgICBzcGlubmVyLmNsYXNzTmFtZSA9IFwic3Bpbm5lci1ncm93IHNwaW5uZXItZ3Jvdy1zbSBtLTIgcG9zaXRpb24tYWJzb2x1dGUgdG9wLTAgZW5kLTBcIjtcbiAgICAgIHByZUVsZW0uYXBwZW5kQ2hpbGQoc3Bpbm5lcik7XG4gICAgICBjb250YWluZXIuYXBwZW5kQ2hpbGQocHJlRWxlbSk7XG4gICAgfSBlbHNlIHtcbiAgICAgIHNwaW5uZXIuY2xhc3NOYW1lID0gXCJzcGlubmVyLWJvcmRlciBzcGlubmVyLWJvcmRlci1zbVwiO1xuICAgICAgY29udGFpbmVyLmFwcGVuZENoaWxkKHNwaW5uZXIpO1xuICAgIH1cblxuICAgIHlpZWxkIGNvbnRhaW5lcjtcbiAgfVxuXG4gIHdlYlJPanMucmVuZGVyZWRPanNbXCIxXCJdID0gdHJ1ZTtcbiAgeWllbGQgYXdhaXQgcmVzdWx0O1xufVxuIn0seyJjZWxsTmFtZSI6ImludGVycG9sYXRlLTQiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJ7XG4gIGNvbnN0IHsgaW50ZXJwb2xhdGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG4gIGNvbnN0IGJsb2NrX2lkID0gXCI0XCI7XG4gIGNvbnN0IGxhbmd1YWdlID0gXCJub25lXCI7XG4gIGNvbnN0IGRlZl9tYXAgPSB7XG59O1xuICBjb25zdCBlbGVtID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoYGludGVycG9sYXRlLSR7YmxvY2tfaWR9YCk7XG5cbiAgLy8gU3RvcmUgb3JpZ2luYWwgdGVtcGxhdGVkIEhUTUwgZm9yIHJlZmVyZW5jZSBpbiBmdXR1cmUgcmVhY3RpdmUgdXBkYXRlc1xuICBpZiAoIWVsZW0ub3JpZ0hUTUwpIGVsZW0ub3JpZ0hUTUwgPSBlbGVtLmlubmVySFRNTDtcblxuICAvLyBJbnRlcnBvbGF0ZSByZWFjdGl2ZSBPSlMgdmFyaWFibGVzIGludG8gZXN0YWJsaXNoZWQgSFRNTCBlbGVtZW50XG4gIGVsZW0uaW5uZXJIVE1MID0gZWxlbS5vcmlnSFRNTDtcbiAgT2JqZWN0LmtleXMoZGVmX21hcCkuZm9yRWFjaCgoZGVmKSA9PlxuICAgIGludGVycG9sYXRlKGVsZW0sIFwiJHtcIiArIGRlZiArIFwifVwiLCBkZWZfbWFwW2RlZl0sIGxhbmd1YWdlKVxuICApO1xufVxuIn0seyJjZWxsTmFtZSI6ImludGVycG9sYXRlLTUiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJ7XG4gIGNvbnN0IHsgaW50ZXJwb2xhdGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG4gIGNvbnN0IGJsb2NrX2lkID0gXCI1XCI7XG4gIGNvbnN0IGxhbmd1YWdlID0gXCJyXCI7XG4gIGNvbnN0IGRlZl9tYXAgPSB7XG59O1xuICBjb25zdCBlbGVtID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoYGludGVycG9sYXRlLSR7YmxvY2tfaWR9YCk7XG5cbiAgLy8gU3RvcmUgb3JpZ2luYWwgdGVtcGxhdGVkIEhUTUwgZm9yIHJlZmVyZW5jZSBpbiBmdXR1cmUgcmVhY3RpdmUgdXBkYXRlc1xuICBpZiAoIWVsZW0ub3JpZ0hUTUwpIGVsZW0ub3JpZ0hUTUwgPSBlbGVtLmlubmVySFRNTDtcblxuICAvLyBJbnRlcnBvbGF0ZSByZWFjdGl2ZSBPSlMgdmFyaWFibGVzIGludG8gZXN0YWJsaXNoZWQgSFRNTCBlbGVtZW50XG4gIGVsZW0uaW5uZXJIVE1MID0gZWxlbS5vcmlnSFRNTDtcbiAgT2JqZWN0LmtleXMoZGVmX21hcCkuZm9yRWFjaCgoZGVmKSA9PlxuICAgIGludGVycG9sYXRlKGVsZW0sIFwiJHtcIiArIGRlZiArIFwifVwiLCBkZWZfbWFwW2RlZl0sIGxhbmd1YWdlKVxuICApO1xufVxuIn0seyJjZWxsTmFtZSI6ImludGVycG9sYXRlLTkiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJ7XG4gIGNvbnN0IHsgaW50ZXJwb2xhdGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG4gIGNvbnN0IGJsb2NrX2lkID0gXCI5XCI7XG4gIGNvbnN0IGxhbmd1YWdlID0gXCJub25lXCI7XG4gIGNvbnN0IGRlZl9tYXAgPSB7XG59O1xuICBjb25zdCBlbGVtID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoYGludGVycG9sYXRlLSR7YmxvY2tfaWR9YCk7XG5cbiAgLy8gU3RvcmUgb3JpZ2luYWwgdGVtcGxhdGVkIEhUTUwgZm9yIHJlZmVyZW5jZSBpbiBmdXR1cmUgcmVhY3RpdmUgdXBkYXRlc1xuICBpZiAoIWVsZW0ub3JpZ0hUTUwpIGVsZW0ub3JpZ0hUTUwgPSBlbGVtLmlubmVySFRNTDtcblxuICAvLyBJbnRlcnBvbGF0ZSByZWFjdGl2ZSBPSlMgdmFyaWFibGVzIGludG8gZXN0YWJsaXNoZWQgSFRNTCBlbGVtZW50XG4gIGVsZW0uaW5uZXJIVE1MID0gZWxlbS5vcmlnSFRNTDtcbiAgT2JqZWN0LmtleXMoZGVmX21hcCkuZm9yRWFjaCgoZGVmKSA9PlxuICAgIGludGVycG9sYXRlKGVsZW0sIFwiJHtcIiArIGRlZiArIFwifVwiLCBkZWZfbWFwW2RlZl0sIGxhbmd1YWdlKVxuICApO1xufVxuIn0seyJjZWxsTmFtZSI6ImludGVycG9sYXRlLTEwIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoie1xuICBjb25zdCB7IGludGVycG9sYXRlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuICBjb25zdCBibG9ja19pZCA9IFwiMTBcIjtcbiAgY29uc3QgbGFuZ3VhZ2UgPSBcInJcIjtcbiAgY29uc3QgZGVmX21hcCA9IHtcbn07XG4gIGNvbnN0IGVsZW0gPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChgaW50ZXJwb2xhdGUtJHtibG9ja19pZH1gKTtcblxuICAvLyBTdG9yZSBvcmlnaW5hbCB0ZW1wbGF0ZWQgSFRNTCBmb3IgcmVmZXJlbmNlIGluIGZ1dHVyZSByZWFjdGl2ZSB1cGRhdGVzXG4gIGlmICghZWxlbS5vcmlnSFRNTCkgZWxlbS5vcmlnSFRNTCA9IGVsZW0uaW5uZXJIVE1MO1xuXG4gIC8vIEludGVycG9sYXRlIHJlYWN0aXZlIE9KUyB2YXJpYWJsZXMgaW50byBlc3RhYmxpc2hlZCBIVE1MIGVsZW1lbnRcbiAgZWxlbS5pbm5lckhUTUwgPSBlbGVtLm9yaWdIVE1MO1xuICBPYmplY3Qua2V5cyhkZWZfbWFwKS5mb3JFYWNoKChkZWYpID0+XG4gICAgaW50ZXJwb2xhdGUoZWxlbSwgXCIke1wiICsgZGVmICsgXCJ9XCIsIGRlZl9tYXBbZGVmXSwgbGFuZ3VhZ2UpXG4gICk7XG59XG4ifSx7ImNlbGxOYW1lIjoiaW50ZXJwb2xhdGUtMTQiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJ7XG4gIGNvbnN0IHsgaW50ZXJwb2xhdGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG4gIGNvbnN0IGJsb2NrX2lkID0gXCIxNFwiO1xuICBjb25zdCBsYW5ndWFnZSA9IFwibm9uZVwiO1xuICBjb25zdCBkZWZfbWFwID0ge1xufTtcbiAgY29uc3QgZWxlbSA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKGBpbnRlcnBvbGF0ZS0ke2Jsb2NrX2lkfWApO1xuXG4gIC8vIFN0b3JlIG9yaWdpbmFsIHRlbXBsYXRlZCBIVE1MIGZvciByZWZlcmVuY2UgaW4gZnV0dXJlIHJlYWN0aXZlIHVwZGF0ZXNcbiAgaWYgKCFlbGVtLm9yaWdIVE1MKSBlbGVtLm9yaWdIVE1MID0gZWxlbS5pbm5lckhUTUw7XG5cbiAgLy8gSW50ZXJwb2xhdGUgcmVhY3RpdmUgT0pTIHZhcmlhYmxlcyBpbnRvIGVzdGFibGlzaGVkIEhUTUwgZWxlbWVudFxuICBlbGVtLmlubmVySFRNTCA9IGVsZW0ub3JpZ0hUTUw7XG4gIE9iamVjdC5rZXlzKGRlZl9tYXApLmZvckVhY2goKGRlZikgPT5cbiAgICBpbnRlcnBvbGF0ZShlbGVtLCBcIiR7XCIgKyBkZWYgKyBcIn1cIiwgZGVmX21hcFtkZWZdLCBsYW5ndWFnZSlcbiAgKTtcbn1cbiJ9LHsiY2VsbE5hbWUiOiJpbnRlcnBvbGF0ZS0xNSIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6IntcbiAgY29uc3QgeyBpbnRlcnBvbGF0ZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcbiAgY29uc3QgYmxvY2tfaWQgPSBcIjE1XCI7XG4gIGNvbnN0IGxhbmd1YWdlID0gXCJyXCI7XG4gIGNvbnN0IGRlZl9tYXAgPSB7XG59O1xuICBjb25zdCBlbGVtID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoYGludGVycG9sYXRlLSR7YmxvY2tfaWR9YCk7XG5cbiAgLy8gU3RvcmUgb3JpZ2luYWwgdGVtcGxhdGVkIEhUTUwgZm9yIHJlZmVyZW5jZSBpbiBmdXR1cmUgcmVhY3RpdmUgdXBkYXRlc1xuICBpZiAoIWVsZW0ub3JpZ0hUTUwpIGVsZW0ub3JpZ0hUTUwgPSBlbGVtLmlubmVySFRNTDtcblxuICAvLyBJbnRlcnBvbGF0ZSByZWFjdGl2ZSBPSlMgdmFyaWFibGVzIGludG8gZXN0YWJsaXNoZWQgSFRNTCBlbGVtZW50XG4gIGVsZW0uaW5uZXJIVE1MID0gZWxlbS5vcmlnSFRNTDtcbiAgT2JqZWN0LmtleXMoZGVmX21hcCkuZm9yRWFjaCgoZGVmKSA9PlxuICAgIGludGVycG9sYXRlKGVsZW0sIFwiJHtcIiArIGRlZiArIFwifVwiLCBkZWZfbWFwW2RlZl0sIGxhbmd1YWdlKVxuICApO1xufVxuIn0seyJjZWxsTmFtZSI6ImludGVycG9sYXRlLTE5IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoie1xuICBjb25zdCB7IGludGVycG9sYXRlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuICBjb25zdCBibG9ja19pZCA9IFwiMTlcIjtcbiAgY29uc3QgbGFuZ3VhZ2UgPSBcIm5vbmVcIjtcbiAgY29uc3QgZGVmX21hcCA9IHtcbn07XG4gIGNvbnN0IGVsZW0gPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChgaW50ZXJwb2xhdGUtJHtibG9ja19pZH1gKTtcblxuICAvLyBTdG9yZSBvcmlnaW5hbCB0ZW1wbGF0ZWQgSFRNTCBmb3IgcmVmZXJlbmNlIGluIGZ1dHVyZSByZWFjdGl2ZSB1cGRhdGVzXG4gIGlmICghZWxlbS5vcmlnSFRNTCkgZWxlbS5vcmlnSFRNTCA9IGVsZW0uaW5uZXJIVE1MO1xuXG4gIC8vIEludGVycG9sYXRlIHJlYWN0aXZlIE9KUyB2YXJpYWJsZXMgaW50byBlc3RhYmxpc2hlZCBIVE1MIGVsZW1lbnRcbiAgZWxlbS5pbm5lckhUTUwgPSBlbGVtLm9yaWdIVE1MO1xuICBPYmplY3Qua2V5cyhkZWZfbWFwKS5mb3JFYWNoKChkZWYpID0+XG4gICAgaW50ZXJwb2xhdGUoZWxlbSwgXCIke1wiICsgZGVmICsgXCJ9XCIsIGRlZl9tYXBbZGVmXSwgbGFuZ3VhZ2UpXG4gICk7XG59XG4ifSx7ImNlbGxOYW1lIjoiaW50ZXJwb2xhdGUtMjAiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJ7XG4gIGNvbnN0IHsgaW50ZXJwb2xhdGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG4gIGNvbnN0IGJsb2NrX2lkID0gXCIyMFwiO1xuICBjb25zdCBsYW5ndWFnZSA9IFwiclwiO1xuICBjb25zdCBkZWZfbWFwID0ge1xufTtcbiAgY29uc3QgZWxlbSA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKGBpbnRlcnBvbGF0ZS0ke2Jsb2NrX2lkfWApO1xuXG4gIC8vIFN0b3JlIG9yaWdpbmFsIHRlbXBsYXRlZCBIVE1MIGZvciByZWZlcmVuY2UgaW4gZnV0dXJlIHJlYWN0aXZlIHVwZGF0ZXNcbiAgaWYgKCFlbGVtLm9yaWdIVE1MKSBlbGVtLm9yaWdIVE1MID0gZWxlbS5pbm5lckhUTUw7XG5cbiAgLy8gSW50ZXJwb2xhdGUgcmVhY3RpdmUgT0pTIHZhcmlhYmxlcyBpbnRvIGVzdGFibGlzaGVkIEhUTUwgZWxlbWVudFxuICBlbGVtLmlubmVySFRNTCA9IGVsZW0ub3JpZ0hUTUw7XG4gIE9iamVjdC5rZXlzKGRlZl9tYXApLmZvckVhY2goKGRlZikgPT5cbiAgICBpbnRlcnBvbGF0ZShlbGVtLCBcIiR7XCIgKyBkZWYgKyBcIn1cIiwgZGVmX21hcFtkZWZdLCBsYW5ndWFnZSlcbiAgKTtcbn1cbiJ9LHsiY2VsbE5hbWUiOiJpbnRlcnBvbGF0ZS0yNCIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6IntcbiAgY29uc3QgeyBpbnRlcnBvbGF0ZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcbiAgY29uc3QgYmxvY2tfaWQgPSBcIjI0XCI7XG4gIGNvbnN0IGxhbmd1YWdlID0gXCJub25lXCI7XG4gIGNvbnN0IGRlZl9tYXAgPSB7XG59O1xuICBjb25zdCBlbGVtID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoYGludGVycG9sYXRlLSR7YmxvY2tfaWR9YCk7XG5cbiAgLy8gU3RvcmUgb3JpZ2luYWwgdGVtcGxhdGVkIEhUTUwgZm9yIHJlZmVyZW5jZSBpbiBmdXR1cmUgcmVhY3RpdmUgdXBkYXRlc1xuICBpZiAoIWVsZW0ub3JpZ0hUTUwpIGVsZW0ub3JpZ0hUTUwgPSBlbGVtLmlubmVySFRNTDtcblxuICAvLyBJbnRlcnBvbGF0ZSByZWFjdGl2ZSBPSlMgdmFyaWFibGVzIGludG8gZXN0YWJsaXNoZWQgSFRNTCBlbGVtZW50XG4gIGVsZW0uaW5uZXJIVE1MID0gZWxlbS5vcmlnSFRNTDtcbiAgT2JqZWN0LmtleXMoZGVmX21hcCkuZm9yRWFjaCgoZGVmKSA9PlxuICAgIGludGVycG9sYXRlKGVsZW0sIFwiJHtcIiArIGRlZiArIFwifVwiLCBkZWZfbWFwW2RlZl0sIGxhbmd1YWdlKVxuICApO1xufVxuIn0seyJjZWxsTmFtZSI6ImludGVycG9sYXRlLTI1IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoie1xuICBjb25zdCB7IGludGVycG9sYXRlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuICBjb25zdCBibG9ja19pZCA9IFwiMjVcIjtcbiAgY29uc3QgbGFuZ3VhZ2UgPSBcInJcIjtcbiAgY29uc3QgZGVmX21hcCA9IHtcbn07XG4gIGNvbnN0IGVsZW0gPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChgaW50ZXJwb2xhdGUtJHtibG9ja19pZH1gKTtcblxuICAvLyBTdG9yZSBvcmlnaW5hbCB0ZW1wbGF0ZWQgSFRNTCBmb3IgcmVmZXJlbmNlIGluIGZ1dHVyZSByZWFjdGl2ZSB1cGRhdGVzXG4gIGlmICghZWxlbS5vcmlnSFRNTCkgZWxlbS5vcmlnSFRNTCA9IGVsZW0uaW5uZXJIVE1MO1xuXG4gIC8vIEludGVycG9sYXRlIHJlYWN0aXZlIE9KUyB2YXJpYWJsZXMgaW50byBlc3RhYmxpc2hlZCBIVE1MIGVsZW1lbnRcbiAgZWxlbS5pbm5lckhUTUwgPSBlbGVtLm9yaWdIVE1MO1xuICBPYmplY3Qua2V5cyhkZWZfbWFwKS5mb3JFYWNoKChkZWYpID0+XG4gICAgaW50ZXJwb2xhdGUoZWxlbSwgXCIke1wiICsgZGVmICsgXCJ9XCIsIGRlZl9tYXBbZGVmXSwgbGFuZ3VhZ2UpXG4gICk7XG59XG4ifSx7ImNlbGxOYW1lIjoiaW50ZXJwb2xhdGUtMjkiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJ7XG4gIGNvbnN0IHsgaW50ZXJwb2xhdGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG4gIGNvbnN0IGJsb2NrX2lkID0gXCIyOVwiO1xuICBjb25zdCBsYW5ndWFnZSA9IFwibm9uZVwiO1xuICBjb25zdCBkZWZfbWFwID0ge1xufTtcbiAgY29uc3QgZWxlbSA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKGBpbnRlcnBvbGF0ZS0ke2Jsb2NrX2lkfWApO1xuXG4gIC8vIFN0b3JlIG9yaWdpbmFsIHRlbXBsYXRlZCBIVE1MIGZvciByZWZlcmVuY2UgaW4gZnV0dXJlIHJlYWN0aXZlIHVwZGF0ZXNcbiAgaWYgKCFlbGVtLm9yaWdIVE1MKSBlbGVtLm9yaWdIVE1MID0gZWxlbS5pbm5lckhUTUw7XG5cbiAgLy8gSW50ZXJwb2xhdGUgcmVhY3RpdmUgT0pTIHZhcmlhYmxlcyBpbnRvIGVzdGFibGlzaGVkIEhUTUwgZWxlbWVudFxuICBlbGVtLmlubmVySFRNTCA9IGVsZW0ub3JpZ0hUTUw7XG4gIE9iamVjdC5rZXlzKGRlZl9tYXApLmZvckVhY2goKGRlZikgPT5cbiAgICBpbnRlcnBvbGF0ZShlbGVtLCBcIiR7XCIgKyBkZWYgKyBcIn1cIiwgZGVmX21hcFtkZWZdLCBsYW5ndWFnZSlcbiAgKTtcbn1cbiJ9LHsiY2VsbE5hbWUiOiJpbnRlcnBvbGF0ZS0zMCIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6IntcbiAgY29uc3QgeyBpbnRlcnBvbGF0ZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcbiAgY29uc3QgYmxvY2tfaWQgPSBcIjMwXCI7XG4gIGNvbnN0IGxhbmd1YWdlID0gXCJyXCI7XG4gIGNvbnN0IGRlZl9tYXAgPSB7XG59O1xuICBjb25zdCBlbGVtID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoYGludGVycG9sYXRlLSR7YmxvY2tfaWR9YCk7XG5cbiAgLy8gU3RvcmUgb3JpZ2luYWwgdGVtcGxhdGVkIEhUTUwgZm9yIHJlZmVyZW5jZSBpbiBmdXR1cmUgcmVhY3RpdmUgdXBkYXRlc1xuICBpZiAoIWVsZW0ub3JpZ0hUTUwpIGVsZW0ub3JpZ0hUTUwgPSBlbGVtLmlubmVySFRNTDtcblxuICAvLyBJbnRlcnBvbGF0ZSByZWFjdGl2ZSBPSlMgdmFyaWFibGVzIGludG8gZXN0YWJsaXNoZWQgSFRNTCBlbGVtZW50XG4gIGVsZW0uaW5uZXJIVE1MID0gZWxlbS5vcmlnSFRNTDtcbiAgT2JqZWN0LmtleXMoZGVmX21hcCkuZm9yRWFjaCgoZGVmKSA9PlxuICAgIGludGVycG9sYXRlKGVsZW0sIFwiJHtcIiArIGRlZiArIFwifVwiLCBkZWZfbWFwW2RlZl0sIGxhbmd1YWdlKVxuICApO1xufVxuIn0seyJjZWxsTmFtZSI6ImludGVycG9sYXRlLTM0IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoie1xuICBjb25zdCB7IGludGVycG9sYXRlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuICBjb25zdCBibG9ja19pZCA9IFwiMzRcIjtcbiAgY29uc3QgbGFuZ3VhZ2UgPSBcIm5vbmVcIjtcbiAgY29uc3QgZGVmX21hcCA9IHtcbn07XG4gIGNvbnN0IGVsZW0gPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChgaW50ZXJwb2xhdGUtJHtibG9ja19pZH1gKTtcblxuICAvLyBTdG9yZSBvcmlnaW5hbCB0ZW1wbGF0ZWQgSFRNTCBmb3IgcmVmZXJlbmNlIGluIGZ1dHVyZSByZWFjdGl2ZSB1cGRhdGVzXG4gIGlmICghZWxlbS5vcmlnSFRNTCkgZWxlbS5vcmlnSFRNTCA9IGVsZW0uaW5uZXJIVE1MO1xuXG4gIC8vIEludGVycG9sYXRlIHJlYWN0aXZlIE9KUyB2YXJpYWJsZXMgaW50byBlc3RhYmxpc2hlZCBIVE1MIGVsZW1lbnRcbiAgZWxlbS5pbm5lckhUTUwgPSBlbGVtLm9yaWdIVE1MO1xuICBPYmplY3Qua2V5cyhkZWZfbWFwKS5mb3JFYWNoKChkZWYpID0+XG4gICAgaW50ZXJwb2xhdGUoZWxlbSwgXCIke1wiICsgZGVmICsgXCJ9XCIsIGRlZl9tYXBbZGVmXSwgbGFuZ3VhZ2UpXG4gICk7XG59XG4ifSx7ImNlbGxOYW1lIjoiaW50ZXJwb2xhdGUtMzUiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJ7XG4gIGNvbnN0IHsgaW50ZXJwb2xhdGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG4gIGNvbnN0IGJsb2NrX2lkID0gXCIzNVwiO1xuICBjb25zdCBsYW5ndWFnZSA9IFwiclwiO1xuICBjb25zdCBkZWZfbWFwID0ge1xufTtcbiAgY29uc3QgZWxlbSA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKGBpbnRlcnBvbGF0ZS0ke2Jsb2NrX2lkfWApO1xuXG4gIC8vIFN0b3JlIG9yaWdpbmFsIHRlbXBsYXRlZCBIVE1MIGZvciByZWZlcmVuY2UgaW4gZnV0dXJlIHJlYWN0aXZlIHVwZGF0ZXNcbiAgaWYgKCFlbGVtLm9yaWdIVE1MKSBlbGVtLm9yaWdIVE1MID0gZWxlbS5pbm5lckhUTUw7XG5cbiAgLy8gSW50ZXJwb2xhdGUgcmVhY3RpdmUgT0pTIHZhcmlhYmxlcyBpbnRvIGVzdGFibGlzaGVkIEhUTUwgZWxlbWVudFxuICBlbGVtLmlubmVySFRNTCA9IGVsZW0ub3JpZ0hUTUw7XG4gIE9iamVjdC5rZXlzKGRlZl9tYXApLmZvckVhY2goKGRlZikgPT5cbiAgICBpbnRlcnBvbGF0ZShlbGVtLCBcIiR7XCIgKyBkZWYgKyBcIn1cIiwgZGVmX21hcFtkZWZdLCBsYW5ndWFnZSlcbiAgKTtcbn1cbiJ9LHsiY2VsbE5hbWUiOiJpbnRlcnBvbGF0ZS0zOSIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6IntcbiAgY29uc3QgeyBpbnRlcnBvbGF0ZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcbiAgY29uc3QgYmxvY2tfaWQgPSBcIjM5XCI7XG4gIGNvbnN0IGxhbmd1YWdlID0gXCJub25lXCI7XG4gIGNvbnN0IGRlZl9tYXAgPSB7XG59O1xuICBjb25zdCBlbGVtID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoYGludGVycG9sYXRlLSR7YmxvY2tfaWR9YCk7XG5cbiAgLy8gU3RvcmUgb3JpZ2luYWwgdGVtcGxhdGVkIEhUTUwgZm9yIHJlZmVyZW5jZSBpbiBmdXR1cmUgcmVhY3RpdmUgdXBkYXRlc1xuICBpZiAoIWVsZW0ub3JpZ0hUTUwpIGVsZW0ub3JpZ0hUTUwgPSBlbGVtLmlubmVySFRNTDtcblxuICAvLyBJbnRlcnBvbGF0ZSByZWFjdGl2ZSBPSlMgdmFyaWFibGVzIGludG8gZXN0YWJsaXNoZWQgSFRNTCBlbGVtZW50XG4gIGVsZW0uaW5uZXJIVE1MID0gZWxlbS5vcmlnSFRNTDtcbiAgT2JqZWN0LmtleXMoZGVmX21hcCkuZm9yRWFjaCgoZGVmKSA9PlxuICAgIGludGVycG9sYXRlKGVsZW0sIFwiJHtcIiArIGRlZiArIFwifVwiLCBkZWZfbWFwW2RlZl0sIGxhbmd1YWdlKVxuICApO1xufVxuIn0seyJjZWxsTmFtZSI6ImludGVycG9sYXRlLTQwIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoie1xuICBjb25zdCB7IGludGVycG9sYXRlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuICBjb25zdCBibG9ja19pZCA9IFwiNDBcIjtcbiAgY29uc3QgbGFuZ3VhZ2UgPSBcInJcIjtcbiAgY29uc3QgZGVmX21hcCA9IHtcbn07XG4gIGNvbnN0IGVsZW0gPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChgaW50ZXJwb2xhdGUtJHtibG9ja19pZH1gKTtcblxuICAvLyBTdG9yZSBvcmlnaW5hbCB0ZW1wbGF0ZWQgSFRNTCBmb3IgcmVmZXJlbmNlIGluIGZ1dHVyZSByZWFjdGl2ZSB1cGRhdGVzXG4gIGlmICghZWxlbS5vcmlnSFRNTCkgZWxlbS5vcmlnSFRNTCA9IGVsZW0uaW5uZXJIVE1MO1xuXG4gIC8vIEludGVycG9sYXRlIHJlYWN0aXZlIE9KUyB2YXJpYWJsZXMgaW50byBlc3RhYmxpc2hlZCBIVE1MIGVsZW1lbnRcbiAgZWxlbS5pbm5lckhUTUwgPSBlbGVtLm9yaWdIVE1MO1xuICBPYmplY3Qua2V5cyhkZWZfbWFwKS5mb3JFYWNoKChkZWYpID0+XG4gICAgaW50ZXJwb2xhdGUoZWxlbSwgXCIke1wiICsgZGVmICsgXCJ9XCIsIGRlZl9tYXBbZGVmXSwgbGFuZ3VhZ2UpXG4gICk7XG59XG4ifSx7ImNlbGxOYW1lIjoiaW50ZXJwb2xhdGUtNDQiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJ7XG4gIGNvbnN0IHsgaW50ZXJwb2xhdGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG4gIGNvbnN0IGJsb2NrX2lkID0gXCI0NFwiO1xuICBjb25zdCBsYW5ndWFnZSA9IFwibm9uZVwiO1xuICBjb25zdCBkZWZfbWFwID0ge1xufTtcbiAgY29uc3QgZWxlbSA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKGBpbnRlcnBvbGF0ZS0ke2Jsb2NrX2lkfWApO1xuXG4gIC8vIFN0b3JlIG9yaWdpbmFsIHRlbXBsYXRlZCBIVE1MIGZvciByZWZlcmVuY2UgaW4gZnV0dXJlIHJlYWN0aXZlIHVwZGF0ZXNcbiAgaWYgKCFlbGVtLm9yaWdIVE1MKSBlbGVtLm9yaWdIVE1MID0gZWxlbS5pbm5lckhUTUw7XG5cbiAgLy8gSW50ZXJwb2xhdGUgcmVhY3RpdmUgT0pTIHZhcmlhYmxlcyBpbnRvIGVzdGFibGlzaGVkIEhUTUwgZWxlbWVudFxuICBlbGVtLmlubmVySFRNTCA9IGVsZW0ub3JpZ0hUTUw7XG4gIE9iamVjdC5rZXlzKGRlZl9tYXApLmZvckVhY2goKGRlZikgPT5cbiAgICBpbnRlcnBvbGF0ZShlbGVtLCBcIiR7XCIgKyBkZWYgKyBcIn1cIiwgZGVmX21hcFtkZWZdLCBsYW5ndWFnZSlcbiAgKTtcbn1cbiJ9LHsiY2VsbE5hbWUiOiJpbnRlcnBvbGF0ZS00NSIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6IntcbiAgY29uc3QgeyBpbnRlcnBvbGF0ZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcbiAgY29uc3QgYmxvY2tfaWQgPSBcIjQ1XCI7XG4gIGNvbnN0IGxhbmd1YWdlID0gXCJyXCI7XG4gIGNvbnN0IGRlZl9tYXAgPSB7XG59O1xuICBjb25zdCBlbGVtID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoYGludGVycG9sYXRlLSR7YmxvY2tfaWR9YCk7XG5cbiAgLy8gU3RvcmUgb3JpZ2luYWwgdGVtcGxhdGVkIEhUTUwgZm9yIHJlZmVyZW5jZSBpbiBmdXR1cmUgcmVhY3RpdmUgdXBkYXRlc1xuICBpZiAoIWVsZW0ub3JpZ0hUTUwpIGVsZW0ub3JpZ0hUTUwgPSBlbGVtLmlubmVySFRNTDtcblxuICAvLyBJbnRlcnBvbGF0ZSByZWFjdGl2ZSBPSlMgdmFyaWFibGVzIGludG8gZXN0YWJsaXNoZWQgSFRNTCBlbGVtZW50XG4gIGVsZW0uaW5uZXJIVE1MID0gZWxlbS5vcmlnSFRNTDtcbiAgT2JqZWN0LmtleXMoZGVmX21hcCkuZm9yRWFjaCgoZGVmKSA9PlxuICAgIGludGVycG9sYXRlKGVsZW0sIFwiJHtcIiArIGRlZiArIFwifVwiLCBkZWZfbWFwW2RlZl0sIGxhbmd1YWdlKVxuICApO1xufVxuIn0seyJjZWxsTmFtZSI6IndlYnItcHJlbHVkZSIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6IndlYlJPanMgPSB7XG4gIGNvbnN0IHsgV2ViUiwgQ2hhbm5lbFR5cGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWUuV2ViUjtcbiAgY29uc3Qge1xuICAgIFdlYlJFdmFsdWF0b3IsXG4gICAgV2ViUkVudmlyb25tZW50TWFuYWdlcixcbiAgICBzZXR1cFIsXG4gICAgYjY0RGVjb2RlLFxuICAgIGNvbGxhcHNlUGF0aFxuICB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcblxuICBjb25zdCBzdGF0dXNDb250YWluZXIgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChcImV4ZXJjaXNlLWxvYWRpbmctc3RhdHVzXCIpO1xuICBjb25zdCBpbmRpY2F0b3JDb250YWluZXIgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChcImV4ZXJjaXNlLWxvYWRpbmctaW5kaWNhdG9yXCIpO1xuICBpbmRpY2F0b3JDb250YWluZXIuY2xhc3NMaXN0LnJlbW92ZShcImQtbm9uZVwiKTtcblxuICBsZXQgc3RhdHVzVGV4dCA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoXCJkaXZcIilcbiAgc3RhdHVzVGV4dC5jbGFzc0xpc3QgPSBcImV4ZXJjaXNlLWxvYWRpbmctZGV0YWlsc1wiO1xuICBzdGF0dXNUZXh0ID0gc3RhdHVzQ29udGFpbmVyLmFwcGVuZENoaWxkKHN0YXR1c1RleHQpO1xuICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYEluaXRpYWxpc2VgO1xuXG4gIC8vIEhvaXN0IGluZGljYXRvciBvdXQgZnJvbSBmaW5hbCBzbGlkZSB3aGVuIHJ1bm5pbmcgdW5kZXIgcmV2ZWFsXG4gIGNvbnN0IHJldmVhbFN0YXR1cyA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoXCIucmV2ZWFsIC5leGVyY2lzZS1sb2FkaW5nLWluZGljYXRvclwiKTtcbiAgaWYgKHJldmVhbFN0YXR1cykge1xuICAgIHJldmVhbFN0YXR1cy5yZW1vdmUoKTtcbiAgICBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKFwiLnJldmVhbCA+IC5zbGlkZXNcIikuYXBwZW5kQ2hpbGQocmV2ZWFsU3RhdHVzKTtcbiAgfVxuXG4gIC8vIE1ha2UgYW55IHJldmVhbCBzbGlkZXMgd2l0aCBsaXZlIGNlbGxzIHNjcm9sbGFibGVcbiAgZG9jdW1lbnQucXVlcnlTZWxlY3RvckFsbChcIi5yZXZlYWwgLmV4ZXJjaXNlLWNlbGxcIikuZm9yRWFjaCgoZWwpID0+IHtcbiAgICBlbC5jbG9zZXN0KCdzZWN0aW9uLnNsaWRlJykuY2xhc3NMaXN0LmFkZChcInNjcm9sbGFibGVcIik7XG4gIH0pXG5cbiAgLy8gd2ViUiBzdXBwbGVtZW50YWwgZGF0YSBhbmQgb3B0aW9uc1xuICBjb25zdCBkYXRhQ29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJ3ZWJyLWRhdGFcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBkYXRhID0gSlNPTi5wYXJzZShiNjREZWNvZGUoZGF0YUNvbnRlbnQpKTtcblxuICAvLyBHcmFiIGxpc3Qgb2YgcmVzb3VyY2VzIHRvIGJlIGRvd25sb2FkZWRcbiAgY29uc3QgZmlsZXNDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInZmcy1maWxlXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgZmlsZXMgPSBKU09OLnBhcnNlKGI2NERlY29kZShmaWxlc0NvbnRlbnQpKTtcblxuICAvLyBVc2UgUG9zdE1lc3NhZ2UgY2hhbm5lbCBmb3IgYXN5bmMgY29tbXVuaWNhdGlvblxuICAvLyBXZSBkbyBub3QgZXhwZWN0IHRvIHRha2UgbmVzdGVkIHByb21wdCBpbnB1dCBpbiBRdWFydG8gTGl2ZSBjZWxsc1xuICBkYXRhLm9wdGlvbnMuY2hhbm5lbFR5cGUgPSBDaGFubmVsVHlwZS5Qb3N0TWVzc2FnZTtcblxuICAvLyBJbml0aWFsaXNlIHdlYlIgYW5kIHNldHVwIGZvciBSIGNvZGUgZXZhbHVhdGlvblxuICBsZXQgd2ViUlByb21pc2UgPSAoYXN5bmMgKHdlYlIpID0+IHtcbiAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYERvd25sb2FkaW5nIHdlYlJgO1xuICAgIGF3YWl0IHdlYlIuaW5pdCgpO1xuXG4gICAgLy8gSW5zdGFsbCBwcm92aWRlZCBsaXN0IG9mIHBhY2thZ2VzXG4gICAgLy8gRW5zdXJlIHdlYlIgZGVmYXVsdCByZXBvIGlzIGluY2x1ZGVkXG4gICAgZGF0YS5wYWNrYWdlcy5yZXBvcy5wdXNoKFwiaHR0cHM6Ly9yZXBvLnItd2FzbS5vcmdcIilcbiAgICBhd2FpdCBkYXRhLnBhY2thZ2VzLnBrZ3MubWFwKChwa2cpID0+ICgpID0+IHtcbiAgICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgRG93bmxvYWRpbmcgcGFja2FnZTogJHtwa2d9YDtcbiAgICAgIHJldHVybiB3ZWJSLmV2YWxSVm9pZChgXG4gICAgICAgIHdlYnI6Omluc3RhbGwocGtnLCByZXBvcyA9IHJlcG9zKVxuICAgICAgICBsaWJyYXJ5KHBrZywgY2hhcmFjdGVyLm9ubHkgPSBUUlVFKVxuICAgICAgYCwgeyBlbnY6IHtcbiAgICAgICAgcGtnOiBwa2csXG4gICAgICAgIHJlcG9zOiBkYXRhLnBhY2thZ2VzLnJlcG9zLFxuICAgICAgfX0pO1xuICAgIH0pLnJlZHVjZSgoY3VyLCBuZXh0KSA9PiBjdXIudGhlbihuZXh0KSwgUHJvbWlzZS5yZXNvbHZlKCkpO1xuXG4gICAgLy8gRG93bmxvYWQgYW5kIGluc3RhbGwgcmVzb3VyY2VzXG4gICAgYXdhaXQgZmlsZXMubWFwKChmaWxlKSA9PiBhc3luYyAoKSA9PiB7XG4gICAgICBjb25zdCBuYW1lID0gZmlsZS5zdWJzdHJpbmcoZmlsZS5sYXN0SW5kZXhPZignLycpICsgMSk7XG4gICAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYERvd25sb2FkaW5nIHJlc291cmNlOiAke25hbWV9YDtcbiAgICAgIGNvbnN0IHJlc3BvbnNlID0gYXdhaXQgZmV0Y2goZmlsZSk7XG4gICAgICBpZiAoIXJlc3BvbnNlLm9rKSB7XG4gICAgICAgIHRocm93IG5ldyBFcnJvcihgQ2FuJ3QgZG93bmxvYWQgXFxgJHtmaWxlfVxcYC4gRXJyb3IgJHtyZXNwb25zZS5zdGF0dXN9OiBcIiR7cmVzcG9uc2Uuc3RhdHVzVGV4dH1cIi5gKTtcbiAgICAgIH1cbiAgICAgIGNvbnN0IGRhdGEgPSBhd2FpdCByZXNwb25zZS5hcnJheUJ1ZmZlcigpO1xuXG4gICAgICAvLyBTdG9yZSBVUkxzIGluIHRoZSBjd2Qgd2l0aG91dCBhbnkgc3ViZGlyZWN0b3J5IHN0cnVjdHVyZVxuICAgICAgaWYgKGZpbGUuaW5jbHVkZXMoXCI6Ly9cIikpIHtcbiAgICAgICAgZmlsZSA9IG5hbWU7XG4gICAgICB9XG5cbiAgICAgIC8vIENvbGxhcHNlIGhpZ2hlciBkaXJlY3Rvcnkgc3RydWN0dXJlXG4gICAgICBmaWxlID0gY29sbGFwc2VQYXRoKGZpbGUpO1xuXG4gICAgICAvLyBDcmVhdGUgZGlyZWN0b3J5IHRyZWUsIGlnbm9yaW5nIFwiZGlyZWN0b3J5IGV4aXN0c1wiIFZGUyBlcnJvcnNcbiAgICAgIGNvbnN0IHBhcnRzID0gZmlsZS5zcGxpdCgnLycpLnNsaWNlKDAsIC0xKTtcbiAgICAgIGxldCBwYXRoID0gJyc7XG4gICAgICB3aGlsZSAocGFydHMubGVuZ3RoID4gMCkge1xuICAgICAgICBwYXRoICs9IHBhcnRzLnNoaWZ0KCkgKyAnLyc7XG4gICAgICAgIGNvbnN0IGFuYWx5c2lzID0gYXdhaXQgd2ViUi5GUy5hbmFseXplUGF0aChwYXRoKTtcbiAgICAgICAgaWYgKCFhbmFseXNpcy5leGlzdHMpIHtcbiAgICAgICAgICB0cnkge1xuICAgICAgICAgICAgYXdhaXQgd2ViUi5GUy5ta2RpcihwYXRoKTtcbiAgICAgICAgICB9IGNhdGNoIChlKSB7XG4gICAgICAgICAgICB0aHJvdyBuZXcgRXJyb3IoYEZpbGVzeXN0ZW0gRXJyb3I6IFwiJHtlLm1lc3NhZ2V9XCIuYCk7XG4gICAgICAgICAgfVxuICAgICAgICB9XG4gICAgICB9XG5cbiAgICAgIC8vIFdyaXRlIHRoaXMgZmlsZSB0byB0aGUgVkZTXG4gICAgICByZXR1cm4gYXdhaXQgd2ViUi5GUy53cml0ZUZpbGUoZmlsZSwgbmV3IFVpbnQ4QXJyYXkoZGF0YSkpO1xuICAgIH0pLnJlZHVjZSgoY3VyLCBuZXh0KSA9PiBjdXIudGhlbihuZXh0KSwgUHJvbWlzZS5yZXNvbHZlKCkpO1xuXG4gICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBJbnN0YWxsaW5nIHdlYlIgc2hpbXNgO1xuICAgIGF3YWl0IHdlYlIuZXZhbFJWb2lkKGB3ZWJyOjpzaGltX2luc3RhbGwoKWApO1xuXG4gICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBXZWJSIGVudmlyb25tZW50IHNldHVwYDtcbiAgICBhd2FpdCBzZXR1cFIod2ViUiwgZGF0YSk7XG5cbiAgICBzdGF0dXNUZXh0LnJlbW92ZSgpO1xuICAgIGlmIChzdGF0dXNDb250YWluZXIuY2hpbGRyZW4ubGVuZ3RoID09IDApIHtcbiAgICAgIHN0YXR1c0NvbnRhaW5lci5wYXJlbnROb2RlLnJlbW92ZSgpO1xuICAgIH1cbiAgICByZXR1cm4gd2ViUjtcbiAgfSkobmV3IFdlYlIoZGF0YS5vcHRpb25zKSk7XG5cbiAgLy8gS2VlcCB0cmFjayBvZiBpbml0aWFsIE9KUyBibG9jayByZW5kZXJcbiAgY29uc3QgcmVuZGVyZWRPanMgPSB7fTtcblxuICBjb25zdCBwcm9jZXNzID0gYXN5bmMgKGNvbnRleHQsIGlucHV0cykgPT4ge1xuICAgIGNvbnN0IHdlYlIgPSBhd2FpdCB3ZWJSUHJvbWlzZTtcbiAgICBjb25zdCBldmFsdWF0b3IgPSBuZXcgV2ViUkV2YWx1YXRvcih3ZWJSLCBjb250ZXh0KVxuICAgIGF3YWl0IGV2YWx1YXRvci5wcm9jZXNzKGlucHV0cyk7XG4gICAgcmV0dXJuIGV2YWx1YXRvci5jb250YWluZXI7XG4gIH1cblxuICByZXR1cm4ge1xuICAgIHByb2Nlc3MsXG4gICAgd2ViUlByb21pc2UsXG4gICAgcmVuZGVyZWRPanMsXG4gIH07XG59XG4ifV19
+</script>
+<div id="exercise-loading-indicator" class="exercise-loading-indicator d-none d-flex align-items-center gap-2">
+<div id="exercise-loading-status" class="d-flex gap-2">
+
+</div>
+<div class="spinner-grow spinner-grow-sm">
+
+</div>
+</div>
+<script type="vfs-file">
+W10=
+</script>
+</section>
+
+</main> <!-- /main -->
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W119
+</script>
+<script type="module">
+if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+window._ojs.paths.runtimeToDoc = "../../exercises";
+window._ojs.paths.runtimeToRoot = "../..";
+window._ojs.paths.docToRoot = "..";
+window._ojs.selfContained = false;
+window._ojs.runtime.interpretFromScriptTags();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/biostatistics-psychiatry\.github\.io\/lab-materials\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../exercises/lab-webr-test-exercises.html" class="pagination-link" aria-label="Webr test exercises">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Webr test exercises</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/biostatistics-psychiatry/lab-materials/edit/main/exercises/lab-power-sample-size.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/biostatistics-psychiatry/lab-materials/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
