@@ -2,7 +2,7 @@
 title: "Import and clean data"
 ---
 
-For this first lab session, we will:
+In this chapter, we will:
 
 - Introduce the datasets we will be using throughout the course
 - Import data into R
@@ -99,6 +99,21 @@ use the `glimpse()` function to check the structure of the STePS data. What do y
 
 Also try calling `view()` to open the data in a spreadsheet-like view.
 :::
+
+## Types of data
+
+It's good practice to check and verify the type of data in each column after importing the data. For example, if you have a variable that should be numeric, but is instead character, you need to fix this before you can do any analyses. You will learn more about manipulating data types in the [Tidy data manipulation](tidy-data-manipulation.qmd) chapter.
+
+The most common types of columns you will work with are:
+
+- `chr`: character strings
+- `int`: integers
+- `dbl`: numeric values
+- `lgl`: logical (TRUE/FALSE)
+- `fct`: factors
+- `date`: dates
+
+Our dataset is fairly clean, but there are problems with some variables. You can see from the `glimpse()` call above that some variables for LSAS and other questionnaires are coded as `<chr>` even though they should only have numbers. We will address these issues below.
 
 # Data cleaning
 
