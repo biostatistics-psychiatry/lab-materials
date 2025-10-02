@@ -1,0 +1,394 @@
+---
+title: Lab webr testing two means
+number-sections: true
+format: live-html
+engine: knitr
+webr:
+  packages:
+    - dplyr
+    - tableone
+resources:
+  - ../data/steps_clean.csv
+---
+
+
+{{< include ../_extensions/r-wasm/live/_knitr.qmd >}}
+
+```{webr}
+#| setup: true
+#| exercise: ex_1
+# Load the CSV data
+library(dplyr)
+df_data <- read.csv("data/steps_clean.csv")
+```
+
+
+::::: panel-tabset
+## Exercise 1
+
+Calculate the mean difference in post-treatment LSAS scores, and the associated two-sided p-value for the mean difference between the therapist-guided and the wait list group
+
+```{webr}
+#| exercise: ex_1
+
+
+```
+
+## Hints
+
+::: {.hint exercise="ex_1"}
+You can calculate it using the `t.test()` function
+``` r
+df_data %>%
+  filter(trt != "_____") %>%
+  t.test(______ ~ trt, data = ., var.equal = TRUE)
+```
+
+Or if you want to do it manually, you can use the following formulas
+
+To test the difference between two means, we can use the Student's independent groups t-test:
+
+$$
+t = \frac{\bar{X}_1 - \bar{X}_2}{SE_{\text{pooled}}}
+$$
+
+Where $\bar{X_1}$ and $\bar{X_2}$ are the means of the first and second group, and where the pooled standard error is:
+
+$$
+SE_{\text{pooled}} = \sqrt{s_p^2 \left(\frac{1}{n_1} + \frac{1}{n_2}\right)}
+$$
+
+and the pooled variance is:
+
+$$
+s_p^2 = \frac{(n_1 - 1)s_1^2 + (n_2 - 1)s_2^2}{n_1 + n_2 - 2}
+$$
+
+
+:::
+
+## Solution
+
+::: {.solution exercise="ex_1"}
+The full solution is:
+
+``` r
+#using the t.test() function
+df_data %>%
+  filter(trt != "self-guided") %>%
+  t.test(lsas_post ~ trt, data = ., var.equal = TRUE)
+
+# or manually
+x_bar_tg <- mean(df_data$lsas_post[df_data$trt=="therapist-guided"], na.rm=T)
+x_bar_wl <- mean(df_data$lsas_post[df_data$trt=="waitlist"], na.rm=T)
+s_2_tg <- var(df_data$lsas_post[df_data$trt=="therapist-guided"], na.rm=T)
+s_2_wl <- var(df_data$lsas_post[df_data$trt=="waitlist"], na.rm=T)
+n_tg <- sum(!is.na(df_data$lsas_post[df_data$trt=="therapist-guided"]))
+n_wl <- sum(!is.na(df_data$lsas_post[df_data$trt=="waitlist"]))
+sp2 <- ((n_tg - 1) * s_2_tg + (n_wl - 1) * s_2_wl) / (n_tg + n_wl - 2) # pooled variance
+SE_pooled <- sqrt(sp2 * (1/n_tg + 1/n_wl)) # pooled standard error
+
+# and put the together
+t_value <- (x_bar_wl - x_bar_tg) / SE_pooled
+
+#find the p-value
+df <- n_tg + n_wl -2 
+p_value <- 2 * (1 - pt(abs(t_value), df)) # multiplied by two to get the two-tailed p-value
+p_value #<1>
+```
+:::
+:::::
+
+
+```{webr}
+#| setup: true
+#| exercise: ex_2
+# Load the CSV data
+library(dplyr)
+df_data <- read.csv("data/steps_clean.csv")
+```
+
+
+::::: panel-tabset
+## Exercise 2
+
+Do you think the assumption of equal variance between the groups is justified?
+
+```{webr}
+#| exercise: ex_2
+
+
+```
+
+## Hints
+
+::: {.hint exercise="ex_2"}
+You can check the variance of each group
+``` r
+var(df_data$______[df_data$trt=="_____"], na.rm=T)
+var(df_data$_____[df_data$trt=="therapist-guided"], na.rm=T)
+```
+
+:::
+
+## Solution
+
+::: {.solution exercise="ex_2"}
+The full solution is:
+
+``` r
+var(df_data$lsas_post[df_data$trt=="waitlist"], na.rm=T)
+var(df_data$lsas_post[df_data$trt=="therapist-guided"], na.rm=T)
+ #<2>
+```
+In these results show rather similar variances, although not equal
+:::
+:::::
+
+```{webr}
+#| setup: true
+#| exercise: ex_3
+# Load the CSV data
+library(dplyr)
+df_data <- read.csv("data/steps_clean.csv")
+```
+
+
+::::: panel-tabset
+## Exercise 3
+
+How do the results differ if you use the Welch t-test instead, that does not assume equal variances? 
+
+```{webr}
+#| exercise: ex_3
+
+
+```
+
+## Hints
+
+::: {.hint exercise="ex_3"}
+You can again calculate it using the `t.test()` function, but need to change the setting of the var.equal argument
+``` r
+df_data %>%
+  filter(trt != "_____") %>%
+  t.test(______ ~ trt, data = ., var.equal = _____)
+```
+:::
+
+## Solution
+
+::: {.solution exercise="ex_3"}
+The full solution is:
+
+``` r
+df_data %>%
+  filter(trt != "self-guided") %>%
+  t.test(lsas_post ~ trt, data = ., var.equal = FALSE)
+ #<3>
+```
+Results are very similar to when the variances where assumed to equal, so the difference in variance between the groups do not 0affect our results to any large degree
+:::
+:::::
+
+
+```{webr}
+#| setup: true
+#| exercise: ex_4
+# Load the CSV data
+library(dplyr)
+df_data <- read.csv("data/steps_clean.csv")
+```
+
+
+::::: panel-tabset
+## Exercise 4
+
+Also calculate the 95% confidence interval for the difference in LSAS post-treatment scores between the therapist-guided and waitlist group
+
+```{webr}
+#| exercise: ex_4
+
+
+```
+
+## Hints
+
+::: {.hint exercise="ex_4"}
+You can again calculate it using the `t.test()` function
+``` r
+df_data %>%
+  filter(trt != "_____") %>%
+  t.test(______ ~ trt, data = ., var.equal = TRUE)
+```
+Or if you want to do it manually, use the formula for the z-score 95% CI of mean differences 
+
+$$
+(\bar{X}_1 - \bar{X}_2) \;\pm\; z_{\alpha/2} \cdot SE_{z}
+$$
+
+where
+
+$$
+SE_{z} = \sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}
+$$
+
+
+:::
+
+## Solution
+
+::: {.solution exercise="ex_4"}
+The full solution is:
+
+``` r
+#using the t.test() function
+df_data %>%
+  filter(trt != "self-guided") %>%
+  t.test(lsas_post ~ trt, data = ., var.equal = TRUE)
+
+# or manually
+
+#get the parts of the formula
+x_bar_tg <- mean(df_data$lsas_post[df_data$trt == "therapist-guided"], na.rm = T)
+x_bar_wl <- mean(df_data$lsas_post[df_data$trt == "waitlist"], na.rm = T)
+s_2_tg <- var(df_data$lsas_post[df_data$trt == "therapist-guided"], na.rm = T)
+s_2_wl <- var(df_data$lsas_post[df_data$trt == "waitlist"], na.rm = T)
+n_tg <- sum(!is.na(df_data$lsas_post[df_data$trt == "therapist-guided"]))
+n_wl <- sum(!is.na(df_data$lsas_post[df_data$trt == "waitlist"]))
+
+# z-value 95% CI
+se_z <- sqrt((s_2_wl / n_wl) + (s_2_tg / n_tg))
+lcl <- (x_bar_wl - x_bar_tg) - 1.96 * se_z
+ucl <- (x_bar_wl - x_bar_tg) + 1.96 * se_z
+print(c(lcl, ucl))
+ #<4>
+```
+:::
+:::::
+
+
+
+```{webr}
+#| setup: true
+#| exercise: ex_5
+# Load the CSV data
+library(dplyr)
+df_data <- read.csv("data/steps_clean.csv")
+```
+
+
+::::: panel-tabset
+##  Exercise 5
+
+Conduct a dependent t-test for the difference in LSAS-scores between post-treatment and 12-month follow-up and interprets its meaning 
+
+```{webr}
+#| exercise: ex_5
+
+
+```
+
+## Hints
+
+::: {.hint exercise="ex_5"}
+You can again calculate it using the `t.test()` function
+``` r
+t.test(df_data$_____, df_data$lsas_post, paired = ____)
+```
+Or if you want to do it manually:
+
+For a paired samples t-test, the statistic is:
+
+$$
+t = \frac{\bar{D}}{SE_D}
+$$
+
+where:
+
+$\bar{D}$ = mean of the difference scores
+
+$SE_D$ = the standard error of the difference scores calculated as $s_D/ \sqrt{n}$ = the standard error of the differences, with $s_D$ = the standard deviation of the differences and $n$ = the number of paired observations
+
+:::
+
+## Solution
+
+::: {.solution exercise="ex_5"}
+The full solution is:
+
+``` r
+# using the t-test function
+t.test(df_data$lsas_fu12, df_data$lsas_post, paired = TRUE)
+
+# or manually
+diff_post_12FU <- df_data$lsas_fu12 - df_data$lsas_post
+mean_diff <- mean(diff_post_12FU, na.rm = TRUE)
+sd_diff <- sd(diff_post_12FU, na.rm = TRUE)
+n <- sum(!is.na(diff_post_12FU))
+se_diff <- sd_diff / sqrt(n)
+t_value <- mean_diff / se_diff
+df <- n - 1
+p_value <- 2 * (1 - pt(abs(t_value), df))
+p_value
+ #<5>
+```
+The interpretation is that, for the full group, the LSAS score at the 12-month follow-up show a significant difference to the post-treatment LSAS score.
+:::
+:::::
+
+```{webr}
+#| setup: true
+#| exercise: ex_6
+# Load the CSV data
+library(dplyr)
+df_data <- read.csv("data/steps_clean.csv")
+```
+
+::::: panel-tabset
+##  BONUS Exercise 6
+
+Also calculate the 95% confidence interval for this difference, using the z-value formula and provide an interpretation of its meaning
+
+```{webr}
+#| exercise: ex_6
+
+
+```
+
+## Hints
+
+::: {.hint exercise="ex_6"}
+
+We can  get the z-score confidence intervals of this difference, using a familiar formula for large samples
+
+$$
+\bar{D} \;\pm\; z_{\alpha/2} \cdot SE_D
+$$
+where
+$SE_D$ = the standard error of the difference scores calculated as $s_D/ \sqrt{n}$ = the standard error of the differences, with $s_D$ = the standard deviation of the differences and $n$ = the number of paired observations
+:::
+
+## Solution
+
+::: {.solution exercise="ex_6"}
+The full solution is:
+
+``` r
+diff_post_12FU <- df_data$lsas_fu12 - df_data$lsas_post
+mean_diff <- mean(diff_post_12FU, na.rm = TRUE)
+sd_diff <- sd(diff_post_12FU, na.rm = TRUE)
+n <- sum(!is.na(diff_post_12FU))
+se_diff <- sd_diff / sqrt(n)
+
+# and putting it together
+lcl <- mean_diff - 1.96 * se_diff
+ucl <- mean_diff + 1.96 * se_diff
+print(c(lcl, ucl))
+ #<6>
+```
+:::
+:::::
+
+
+

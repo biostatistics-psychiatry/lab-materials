@@ -1,0 +1,518 @@
+---
+title: Lab webr descriptive statistics
+number-sections: true
+format: live-html
+engine: knitr
+webr:
+  packages:
+    - dplyr
+    - tableone
+resources:
+  - ../data/steps_clean.csv
+---
+
+{{< include ../_extensions/r-wasm/live/_knitr.qmd >}}
+
+```{webr}
+#| setup: true
+#| exercise: ex_1
+# Load the CSV data
+library(dplyr)
+df_data <- read.csv("data/steps_clean.csv")
+```
+
+::::: panel-tabset
+## Exercise 1
+
+Use the functions described in the Import and clean data lab to get a quick overview of the dataset called `df_data`and give a brief summary of it.
+
+```{webr}
+#| exercise: ex_1
+
+
+```
+
+## Hints
+
+::: {.hint exercise="ex_1"}
+Have a look at [Import and clean data](../labs/import-clean.qmd##Check%20data%20structure)
+:::
+
+## Solution
+
+::: {.solution exercise="ex_1"}
+The full solution is:
+
+``` r
+glimpse(d_bl)
+head(d_bl)
+ncol(d_bl)
+nrow(d_bl) #<1>
+```
+:::
+:::::
+
+```{webr}
+#| setup: true
+#| exercise: ex_2
+# Load the CSV data
+library(dplyr)
+df_data <- read.csv("data/steps_clean.csv")
+```
+
+::::: panel-tabset
+## Exercise 2
+
+Visualize the distribution of the PHQ-9 scale and the PID-5 scale and provide the mean, median and mode.
+
+```{webr}
+#| exercise: ex_2
+#Creating a function to get the mode
+get_mode <- function(x) {
+  ux <- unique(x)
+  ux[which.max(tabulate(match(x, ux)))]
+}
+
+___(df_data$pid_5_screen)
+
+___(____phq9_screen)
+```
+
+## Hints
+
+::: {.hint exercise="ex_2"}
+Have a look at [Import and clean data](../labs/descriptive-statistics.qmd###%20Numeric%20data)
+:::
+
+## Solution
+
+::: {.solution exercise="ex_2"}
+The full solution is:
+
+``` r
+#PHQ-9
+hist(df_data$phq9_screen)
+mean(df_data$phq9_screen)
+median(df_data$phq9_screen)
+get_mode(df_data$phq9_screen)
+
+#PID-5
+hist(df_data$pid_5_screen)
+mean(df_data$pid_5_screen)
+median(df_data$pid_5_screen)
+get_mode(df_data$pid_5_screen) #<2>
+```
+:::
+:::::
+
+::: panel-tabset
+## Exercise 3
+
+How does the centrality measures differ and why?
+
+## Hints
+
+Think about mean, median, and mode and how they are influenced by the shape of the distribution or outliers.
+
+## Solution
+
+The mean, median, and mode differ because they describe different aspects of the data:
+
+-   The **mean** is sensitive to extreme values and gives the arithmetic average.
+-   The **median** is the middle value, unaffected by outliers, and reflects the central point in skewed distributions.
+-   The **mode** identifies the most frequent value and is useful for categorical or discrete variables.
+
+They differ because of how they respond to skewness and outliers in the data.
+:::
+
+::: panel-tabset
+## Exercise 4
+
+Reason on the pros and cons of the different centrality measures for these scales.
+
+## Hints
+
+Consider which measure gives the most typical picture and when one measure might mislead.
+
+## Solution
+
+-   **Mean**
+    -   *Pros:* Uses all data values, good for symmetric distributions.\
+    -   *Cons:* Highly affected by skewness and outliers.
+-   **Median**
+    -   *Pros:* Robust to outliers, better for skewed distributions.\
+    -   *Cons:* Ignores the magnitude of extreme values, less informative for symmetric data.
+-   **Mode**
+    -   *Pros:* Useful for categorical data and identifying the most common response.\
+    -   *Cons:* Can be unstable if multiple modes exist or if the distribution is flat.
+
+For these psychological scales, the **median** is often more informative if the distributions are skewed, while the **mean** is more common when data is approximately normal. The **mode** can be informative but is less often used for continuous scales.
+:::
+
+{{< include ../_extensions/r-wasm/live/_knitr.qmd >}}
+
+```{webr}
+#| setup: true
+#| exercise: ex_5
+# Load the CSV data
+library(dplyr)
+df_data <- read.csv("data/steps_clean.csv")
+```
+
+::::: panel-tabset
+## Exercise 5
+
+Calculate some spread measures for the LSAS-SR scale, what do they tell you and which ones do you think are most useful to describe the spread of the values. Motive you answer briefly!
+
+```{webr}
+#| exercise: ex_5
+
+___(df_data$lsas_screen)
+___(df_data$lsas_screen)
+___(df_data$lsas_screen)
+___(df_data$lsas_screen)
+___(df_data$lsas_screen)
+```
+
+## Hints
+
+::: {.hint exercise="ex_5"}
+Have a look at [Descriptive statistics](../labs/descriptive-statistics.qmd###%20Numeric%20data)
+:::
+
+## Solution
+
+::: {.solution exercise="ex_5"}
+The full solution is:
+
+``` r
+sd(df_data$lsas_screen)
+var(df_data$lsas_screen)
+range(df_data$lsas_screen)
+IQR(df_data$lsas_screen)
+hist(df_data$lsas_screen) #<5>
+```
+
+where the historgram helps you determine which of the spread measures is most useful
+:::
+:::::
+
+```{webr}
+#| setup: true
+#| exercise: ex_6
+# Load the CSV data
+library(dplyr)
+df_data <- read.csv("data/steps_clean.csv")
+```
+
+::::: panel-tabset
+## Exercise 6
+
+Calculate the counts, proportions and percentages for the simulated income categories and visualize the distribution
+
+```{webr}
+#| exercise: ex_6
+# Simulate an income variable
+n <- nrow(df_data)
+income_levels <- c("Low", "Medium", "High")
+income_probs <- c(0.2, 0.6, 0.2) # Adjust probabilities as needed
+df_data$income <- sample(income_levels, size = n, replace = TRUE, prob = income_probs)
+
+```
+
+## Hints
+
+::: {.hint exercise="ex_6"}
+
+To calculate the proportion, you will need to compare the counts with the total number of rows in the dataset `nrow()`.
+
+:::
+
+## Solution
+
+::: {.solution exercise="ex_6"}
+The full solution is:
+
+``` r
+# counts
+table(df_data$income)
+
+# proportions
+table(df_data$income)/nrow(df_data)
+
+# percentages
+table(df_data$income)/nrow(df_data)*100 
+#<6>
+```
+
+where the histogram helps you determine which of the spread measures is most useful
+:::
+:::::
+
+```{webr}
+#| setup: true
+#| exercise: ex_7
+# Load the CSV data
+library(dplyr)
+df_data <- read.csv("data/steps_clean.csv")
+```
+
+::::: panel-tabset
+## Exercise 7
+
+Visualize the joint distribution of GAD-7 and PHQ-9 as numeric variables and describe what you see. Which plot is the most useful for this purpose?
+
+```{webr}
+#| exercise: ex_7
+
+```
+
+## Hints
+
+::: {.hint exercise="ex_7"}
+One useful way to visualize joint distributions of numeric variables is to create a scatter plot. See [Descriptive statistics](../labs/descriptive-statistics.qmd#numeric-by-numeric-distributions)
+:::
+
+## Solution
+
+::: {.solution exercise="ex_7"}
+The full solution is:
+
+``` r
+plot(df_data$gad_screen, df_data$phq9_screen)
+#<7>
+```
+:::
+:::::
+
+```{webr}
+#| setup: true
+#| exercise: ex_8
+# Load the CSV data
+library(dplyr)
+df_data <- read.csv("data/steps_clean.csv")
+```
+
+::::: panel-tabset
+## Exercise 8
+
+Visualize the distribution of of LSAS scores by income level and describe what you see. Which plot is the most useful for this purpose?
+
+```{webr}
+#| exercise: ex_8
+# first simulate the income variable again
+n <- nrow(df_data)
+income_levels <- c("Low", "Medium", "High")
+income_probs <- c(0.2, 0.6, 0.2) # Adjust probabilities as needed
+df_data$income <- sample(income_levels, size = n, replace = TRUE, prob = income_probs)
+```
+
+## Hints
+
+::: {.hint exercise="ex_8"}
+One useful way to visualize joint distributions of numeric variables and categoric variables is to create a grouped boxplot. See [Descriptive statistics](../labs/descriptive-statistics.qmd#numeric-data)
+:::
+
+## Solution
+
+::: {.solution exercise="ex_8"}
+The full solution is:
+
+``` r
+boxplot(df_data$lsas_screen ~df_data$income,
+        ylab = "LSAS-SR",
+        xlab = "Income")
+#<8>
+```
+:::
+:::::
+
+```{webr}
+#| setup: true
+#| exercise: ex_9
+# Load the CSV data
+library(dplyr)
+df_data <- read.csv("data/steps_clean.csv")
+```
+
+::::: panel-tabset
+## Exercise 9
+
+Create a table using the tableone package to show descriptive statistics stratified by high vs low depression levels. Briefly interpret what you see.
+
+```{webr}
+#| exercise: ex_9
+library(tableone)
+# create a variable for high vs low depression
+df_data$phq_cat <- ifelse(df_data$phq9_screen >= 10, "High depression", "Low depression")
+```
+
+## Hints
+
+::: {.hint exercise="ex_9"}
+See [Descriptive statistics](../labs/descriptive-statistics.qmd#numeric-data)
+:::
+
+## Solution
+
+::: {.solution exercise="ex_9"}
+The full solution is:
+
+``` r
+# define the variables you want
+vars <- c(
+  "lsas_screen",
+  "gad_screen",
+  "phq9_screen",
+  "bbq_screen",
+  "scs_screen",
+  "dmrsodf_screen",
+  "ders_screen",
+  "pid_5_screen"
+)
+
+CreateTableOne(vars= vars, data = df_data, strata = "phq_cat", test = FALSE)
+
+#<9>
+```
+:::
+:::::
+
+```{webr}
+#| setup: true
+#| exercise: ex_10
+# Load the CSV data
+library(dplyr)
+df_data <- read.csv("data/steps_clean.csv")
+```
+
+::::: panel-tabset
+## BONUS Exercise 10
+
+Calculate the **population** variance and standard deviation of LSAS. How and why do these differ from the ones given by the functions `sd()` and `var()`?
+
+```{webr}
+#| exercise: ex_10
+
+```
+
+## Hints
+
+::: {.hint exercise="ex_10"}
+See [Descriptive statistics](../labs/descriptive-statistics.qmd#numeric-data)
+
+You can use the following code to create functions for the population variance and SD:
+
+``` r
+#creating a function to calculate the population variance 
+pop_var <- function(x){
+  1/length(x)*sum((x-mean(x))^2)
+}
+
+# and the population sd
+pop_sd <- function(x){
+  sqrt(1/length(x)*sum((x-mean(x))^2))
+}
+```
+:::
+
+## Solution
+
+::: {.solution exercise="ex_10"}
+The full solution is:
+
+``` r
+#creating a function to calculate the population variance 
+pop_var <- function(x){
+  1/length(x)*sum((x-mean(x))^2)
+}
+
+# and the population sd
+pop_sd <- function(x){
+  sqrt(1/length(x)*sum((x-mean(x))^2))
+}
+
+# variance
+pop_var(df_data$lsas_screen) # population
+var(df_data$lsas_screen) #sample
+
+# SD
+pop_sd(df_data$lsas_screen) # population 
+sd(df_data$lsas_screen) # sample
+
+```
+:::
+:::::
+
+
+
+```{webr}
+#| setup: true
+#| exercise: ex_11
+# Load the CSV data
+library(dplyr)
+df_data <- read.csv("data/steps_clean.csv")
+```
+
+::::: panel-tabset
+## BONUS Exercise 11
+
+Use only the first ten participants and compare the population and the sample variance and standard deviation of LSAS-SR. What do you find, and how do the results compare to those from the previous exercise?
+
+```{webr}
+#| exercise: ex_11
+#creating a function to calculate the population variance 
+pop_var <- function(x){
+  1/length(x)*sum((x-mean(x))^2)
+}
+
+# and the population sd
+pop_sd <- function(x){
+  sqrt(1/length(x)*sum((x-mean(x))^2))
+}
+
+
+```
+
+## Hints
+
+::: {.hint exercise="ex_11"}
+
+You can use the following code to get the first 10 rows of your data
+
+``` r
+df_data_10 <- df_data[1:10,]
+```
+:::
+
+## Solution
+
+::: {.solution exercise="ex_11"}
+The full solution is:
+
+``` r
+#creating a function to calculate the population variance 
+pop_var <- function(x){
+  1/length(x)*sum((x-mean(x))^2)
+}
+
+# and the population sd
+pop_sd <- function(x){
+  sqrt(1/length(x)*sum((x-mean(x))^2))
+}
+
+#create dataset with only the first 10 participants
+df_data_10 <- df_data[1:10,]
+
+# variance
+pop_var(df_data_10$lsas_screen)
+var(df_data_10$lsas_screen)
+
+# SD
+pop_sd(df_data_10$lsas_screen)
+sd(df_data_10$lsas_screen)
+
+
+```
+:::
+:::::

@@ -50,18 +50,19 @@ website:
         contents:
           - href: exercises/lab-1-exercises.qmd
             text: Lab 1 Exercises
-          - href: exercises/lab-2-exercises.qmd
-            text: Lab 2 Exercises
-          - href: exercises/lab-3-exercises.qmd
-            text: Lab 3 exercises
-          - href: exercises/lab-4-exercises.qmd
-            text: Lab 4 exercises
           - href: exercises/lab-webr-test-exercises.qmd
             text: Webr test exercises
           - href: exercises/lab-power-sample-size.qmd
             text: Power and sample size
           - href: exercises/lab-webr-classification.qmd
             text: Classification
+          - href: exercises/lab-webr-descriptive-statistics.qmd
+            text: Descriptive statistics
+          - href: exercises/lab-webr-p-value-ci.qmd
+            text: P-values and confidence intervals
+          - href: exercises/lab-webr-testing-two-means.qmd
+            text: Testing two means
+
 format:
   html:
     theme: flatly
