@@ -223,6 +223,9 @@ df_data$income <- sample(income_levels, size = n, replace = TRUE, prob = income_
 ## Hints
 
 ::: {.hint exercise="ex_6"}
+
+To calculate the proportion, you will need to compare the counts with the total number of rows in the dataset `nrow()`.
+
 :::
 
 ## Solution
@@ -257,7 +260,7 @@ df_data <- read.csv("data/steps_clean.csv")
 ::::: panel-tabset
 ## Exercise 7
 
-Visualize the joint distribution of GAD-7 and PHQ-9 as numeric variables and describe what you see
+Visualize the joint distribution of GAD-7 and PHQ-9 as numeric variables and describe what you see. Which plot is the most useful for this purpose?
 
 ```{webr}
 #| exercise: ex_7
@@ -267,7 +270,7 @@ Visualize the joint distribution of GAD-7 and PHQ-9 as numeric variables and des
 ## Hints
 
 ::: {.hint exercise="ex_7"}
-One useful way to visualize joint distributions of numeric variables is to create a scatter plot. See [Descriptive statistics](../labs/descriptive-statistics.qmd###%20Numeric%20data)
+One useful way to visualize joint distributions of numeric variables is to create a scatter plot. See [Descriptive statistics](../labs/descriptive-statistics.qmd#numeric-by-numeric-distributions)
 :::
 
 ## Solution
@@ -293,7 +296,7 @@ df_data <- read.csv("data/steps_clean.csv")
 ::::: panel-tabset
 ## Exercise 8
 
-Visualize the distribution of of LSAS scores by income level and describe what you see
+Visualize the distribution of of LSAS scores by income level and describe what you see. Which plot is the most useful for this purpose?
 
 ```{webr}
 #| exercise: ex_8
@@ -307,7 +310,7 @@ df_data$income <- sample(income_levels, size = n, replace = TRUE, prob = income_
 ## Hints
 
 ::: {.hint exercise="ex_8"}
-One useful way to visualize joint distributions of numeric variables and categoric variables is to create a grouped boxplot. See [Descriptive statistics](../labs/descriptive-statistics.qmd###%20Numeric%20data)
+One useful way to visualize joint distributions of numeric variables and categoric variables is to create a grouped boxplot. See [Descriptive statistics](../labs/descriptive-statistics.qmd#numeric-data)
 :::
 
 ## Solution
@@ -347,7 +350,7 @@ df_data$phq_cat <- ifelse(df_data$phq9_screen >= 10, "High depression", "Low dep
 ## Hints
 
 ::: {.hint exercise="ex_9"}
-See [Descriptive statistics](../labs/descriptive-statistics.qmd###%20Numeric%20data)
+See [Descriptive statistics](../labs/descriptive-statistics.qmd#numeric-data)
 :::
 
 ## Solution
@@ -396,7 +399,7 @@ Calculate the **population** variance and standard deviation of LSAS. How and wh
 ## Hints
 
 ::: {.hint exercise="ex_10"}
-See [Descriptive statistics](../labs/descriptive-statistics.qmd###%20Numeric%20data)
+See [Descriptive statistics](../labs/descriptive-statistics.qmd#numeric-data)
 
 You can use the following code to create functions for the population variance and SD:
 
