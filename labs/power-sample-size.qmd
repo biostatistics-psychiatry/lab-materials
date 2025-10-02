@@ -1,0 +1,1897 @@
+---
+title: "Power Analysis and Sample Size Planning"
+---
+
+In this lab, we will learn about power analysis and sample size planning - fundamental concepts that help us design studies that can reliably detect meaningful effects. Think of power analysis as a way to evaluate the sensitivity of a statistical test, it helps you make informed decisions about your study design.
+
+Power analysis answers three important questions:
+
+- How many participants do I need for my study? (sample size planning)
+- What is the smallest effect I can reliably detect with my sample size?
+- How likely am I to detect an effect if it truly exists? (statistical power)
+
+These questions are interconnected - changing one affects the others. Throughout this lab, you'll use R to explore these relationships and build intuition about how they work together.
+
+## Learning objectives
+
+By the end of this lab, you will be able to:
+
+- Understand the four components of power analysis and how they relate to each other
+- Use R functions to calculate power and sample size
+- Distinguish between different types of hypothesis tests (superiority, non-inferiority, equivalence) and when to use each
+
+Each learning objective will be reinforced through hands-on R coding exercises that build your understanding step by step.
+
+::: callout-note
+## Why power analysis matters in biostatistics
+
+In clinical research, inadequate sample sizes lead to:
+
+- **Underpowered studies**: Cannot detect clinically meaningful effects
+- **Wasted resources**: Time, money, and participant burden without informative results
+- **Ethical concerns**: Exposing participants to research without sufficient chance of meaningful findings
+:::
+
+# The fundamentals of power analysis
+
+Before diving into R code, let's build intuition about power analysis using a visualization. The figure below shows the theoretical foundation that underlies all power calculations. Don't worry if it looks complex at first - we'll break down each component as we work through the lab.
+
+::: callout-note
+## Learning approach: Start simple
+
+In this lab we uses simple, common assumptions to help you understand core concepts:
+
+- **Normal outcomes**: We assume data follows a normal distribution
+- **Independent observations**: Each participant's data is independent of others
+- **Equal variances**: Both groups have similar variability
+- **Standardized effect sizes**: We use Cohen's d, a common measure in psychology
+- **Two equal-sized groups**: Treatment vs. control with same sample sizes
+- **t-tests as foundation**: We start here because the concepts transfer to more complex analyses
+
+These assumptions make the math manageable while you learn. Real-world studies often require more complex approaches, but the fundamental concepts remain the same.
+:::
+
+```{r}
+#| label: fig-power-nhst-plot
+#| message: false
+#| warning: false
+#| code-fold: true
+#| fig-width: 10
+#| fig-height: 5
+#| fig-cap: |
+#|   Conceptual power regions: alpha (false positive), beta (false negative),
+#|   and power, with critical value lines.
+
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(gt)
+library(knitr)
+
+# =============================================================================
+# SIMULATION PARAMETERS
+# =============================================================================
+
+# Study design parameters
+sample_size_per_group <- 50
+num_simulations <- 10000
+confidence_level <- 0.95
+alpha_level <- 0.05
+
+# Effect size parameters
+null_effect_size <- 0
+alternative_effect_size <- 0.5
+
+# =============================================================================
+# THEORETICAL DISTRIBUTION PARAMETERS
+# =============================================================================
+
+# Calculate standard error and degrees of freedom
+standard_error <- sqrt((1^2 + 1^2) / sample_size_per_group)
+degrees_freedom <- 2 * sample_size_per_group - 2
+
+# Distribution parameters for null and alternative hypotheses
+mu_null <- null_effect_size / standard_error # Mean under H0
+sigma_null <- 1 # SD under H0
+mu_alternative <- alternative_effect_size / standard_error # Mean under HA
+sigma_alternative <- 1 # SD under HA
+
+# Critical value for hypothesis test (two-tailed)
+critical_value <- qnorm(1 - (alpha_level / 2), mu_null, sigma_null)
+
+# =============================================================================
+# CREATE THEORETICAL DISTRIBUTION CURVES
+# =============================================================================
+
+# Define plot range (4 standard deviations from means)
+plot_range_multiplier <- 4
+x_min_null <- mu_null - sigma_null * plot_range_multiplier
+x_max_null <- mu_null + sigma_null * plot_range_multiplier
+x_min_alt <- mu_alternative - sigma_alternative * plot_range_multiplier
+x_max_alt <- mu_alternative + sigma_alternative * plot_range_multiplier
+
+# Create x-axis sequence for plotting
+x_values <- seq(min(x_min_null, x_min_alt), max(x_max_null, x_max_alt), 0.01)
+
+# Generate theoretical distributions
+density_null <- dnorm(x_values, mu_null, sigma_null)
+density_alternative <- dnorm(x_values, mu_alternative, sigma_alternative)
+
+# Create data frames for plotting
+df_null_hypothesis <- data.frame(x = x_values, y = density_null)
+df_alternative_hypothesis <- data.frame(x = x_values, y = density_alternative)
+
+# =============================================================================
+# CREATE POLYGONS FOR STATISTICAL REGIONS
+# =============================================================================
+
+# Alpha region polygon (Type I error)
+alpha_polygon_data <- data.frame(
+  x = x_values,
+  y = pmin(density_null, density_alternative)
+)
+alpha_polygon_data <- alpha_polygon_data[
+  alpha_polygon_data$x >= critical_value,
+]
+alpha_polygon_data <- rbind(
+  c(critical_value, 0),
+  c(critical_value, dnorm(critical_value, mu_null, sigma_null)),
+  alpha_polygon_data
+)
+
+# Beta region polygon (Type II error)
+beta_polygon_data <- df_alternative_hypothesis
+beta_polygon_data <- beta_polygon_data[beta_polygon_data$x <= critical_value, ]
+beta_polygon_data <- rbind(beta_polygon_data, c(critical_value, 0))
+
+# Power region polygon (1 - beta)
+power_polygon_data <- df_alternative_hypothesis
+power_polygon_data <- power_polygon_data[
+  power_polygon_data$x >= critical_value,
+]
+power_polygon_data <- rbind(power_polygon_data, c(critical_value, 0))
+
+# =============================================================================
+# COMBINE POLYGONS FOR PLOTTING
+# =============================================================================
+
+# Add polygon identifiers
+alpha_polygon_data$region_type <- "alpha"
+beta_polygon_data$region_type <- "beta"
+power_polygon_data$region_type <- "power"
+
+
+# Create second alpha region (mirrored)
+alpha_polygon_mirrored <- alpha_polygon_data |>
+  mutate(x = -1 * x, region_type = "alpha_mirrored") |>
+  filter(x >= min(x_values))
+# Combine all polygon data
+all_polygons <- rbind(
+  alpha_polygon_data,
+  alpha_polygon_mirrored,
+  beta_polygon_data,
+  power_polygon_data
+)
+
+# Convert to factor with proper labels
+all_polygons$region_type <- factor(
+  all_polygons$region_type,
+  levels = c("power", "beta", "alpha", "alpha_mirrored"),
+  labels = c("power", "beta", "alpha", "alpha2")
+)
+
+# =============================================================================
+# DEFINE COLOR PALETTE
+# =============================================================================
+
+# Color palette for the visualization
+PALETTE <- list( # nolint: object_name_linter
+  # Hypothesis colors
+  hypothesis = c(
+    "H0" = "black",
+    "HA" = "#981e0b"
+  ),
+
+  # Statistical region colors
+  regions = c(
+    "alpha" = "#0d6374",
+    "alpha2" = "#0d6374",
+    "beta" = "#be805e",
+    "power" = "#7cecee"
+  ),
+
+  # Simulation curve colors
+  simulations = c(
+    "null" = "green",
+    "alternative" = "red"
+  )
+)
+
+# =============================================================================
+# CREATE POWER ANALYSIS VISUALIZATION
+# =============================================================================
+
+power_plot <- ggplot(
+  all_polygons,
+  aes(x, y, fill = region_type, group = region_type)
+) +
+  # Add filled polygons for statistical regions
+  geom_polygon(
+    data = df_null_hypothesis,
+    aes(
+      x, y,
+      color = "H0",
+      group = NULL,
+      fill = NULL
+    ),
+    linetype = "dotted",
+    fill = "gray80",
+    linewidth = 1,
+    alpha = 0.5,
+    show.legend = FALSE
+  ) +
+  geom_polygon(show.legend = FALSE, alpha = 0.8) +
+  geom_line(
+    data = df_alternative_hypothesis,
+    aes(x, y, color = "HA", group = NULL, fill = NULL),
+    linewidth = 1,
+    linetype = "dashed",
+    color = "gray60",
+    inherit.aes = FALSE
+  ) +
+  # Add critical value line
+  geom_vline(
+    xintercept = critical_value, linewidth = 1,
+    linetype = "dashed"
+  ) +
+  # Add annotations
+  annotate(
+    "segment",
+    x = 1.5,
+    xend = 2.2,
+    y = 0.05,
+    yend = 0.02,
+    arrow = arrow(length = unit(0.3, "cm")), linewidth = 1
+  ) +
+  annotate(
+    "text",
+    label = "frac(alpha,2)",
+    x = 1.3, y = 0.05,
+    parse = TRUE, size = 8
+  ) +
+  annotate(
+    "segment",
+    x = 5,
+    xend = 3,
+    y = 0.18,
+    yend = 0.1,
+    arrow = arrow(length = unit(0.3, "cm")), linewidth = 1
+  ) +
+  annotate(
+    "text",
+    label = "Power",
+    x = 5, y = 0.2,
+    parse = TRUE, size = 8
+  ) +
+  annotate(
+    "text",
+    label = "H[0]",
+    x = mu_null,
+    y = dnorm(mu_null, mu_null, sigma_null),
+    vjust = -0.5,
+    parse = TRUE, size = 8
+  ) +
+  annotate(
+    "text",
+    label = "H[a]",
+    x = mu_alternative,
+    y = dnorm(mu_null, mu_null, sigma_null),
+    vjust = -0.5,
+    parse = TRUE, size = 8
+  ) +
+  # Customize colors and styling
+  scale_color_manual(
+    "Hypothesis",
+    values = PALETTE$hypothesis
+  ) +
+  scale_fill_manual(
+    "Statistical Region",
+    values = PALETTE$regions
+  ) +
+  labs(
+    x = "Test statistic (z)",
+    y = "Density",
+    title = "Statistical Power Analysis Visualization",
+    subtitle = "Standard Two-Tailed Hypothesis Test (normal approximation)"
+  ) +
+  ylim(c(0, max(dnorm(mu_null, mu_null, sigma_null) * 1.1))) +
+  theme_minimal() +
+  theme(
+    panel.grid.minor.y = element_blank(),
+    panel.grid.major.y = element_blank(),
+    axis.text.y = element_blank()
+  )
+
+# Display the plot
+print(power_plot)
+```
+
+## The four key components
+
+Looking at the figure above, you can see that power analysis revolves around four interconnected components. This is like a statistical equation with four variables - if you know any three, you can solve for the fourth:
+
+1. **Effect size (d)**: How large is the difference we want to detect? In clinical research, this is often the smallest difference that would be clinically meaningful.
+
+2. **Sample size (n)**: How many participants do we need per group? This is often what we're trying to determine before starting data collection.
+
+3. **Significance level (α)**: The probability of falsely concluding there's an effect when there isn't one. Conventionally set at 0.05.
+
+4. **Power (1-β)**: The probability of detecting an effect if it truly exists. Conventionally set at 0.8 or 0.9.
+
+For more complex designs beyond simple t-tests, you'll need to consider additional parameters, such as correlations between repeated measures in longitudinal studies.
+
+## Load packages
+
+Let's start by loading the R packages we'll use throughout this lab.
+
+```{r}
+#| label: load-packages
+#| message: false
+
+library(tidyverse) # For data manipulation and visualization
+library(pwr) # For power analysis calculations
+```
+
+The `pwr` package contains functions for different types of basic statistical tests. 
+
+# Basic power analysis for t-tests
+
+Now that we understand the conceptual framework of power analysis, let's learn how to perform actual power calculations in R. We'll start with one of the most common scenarios: comparing means between two groups using t-tests.
+
+::: callout-note
+## Why use the t-test for power analysis examples?
+
+We use the t-test to demonstrate power analysis because it is one of the simplest and most widely used statistical tests for comparing means between two groups. The t-test has well-understood mathematical properties, and its power calculations are straightforward and supported by standard R functions like `pwr.t.test()`. By focusing on the t-test, we can clearly illustrate the core concepts of power, effect size, sample size, and significance level without the added complexity of more advanced statistical models.
+:::
+
+## Understanding the `pwr.t.test()` functione
+
+The `pwr.t.test()` function calculates power for t-tests. Let's start with a simple example:
+
+```{r}
+#| label: basic-power
+
+# Calculate power when we know effect size, sample size, and alpha
+power_result <- pwr.t.test(
+  d = 0.5, # Medium effect size (Cohen's d)
+  n = 64, # Sample size per group
+  sig.level = 0.05, # Alpha level (Type I errors)
+  type = "two.sample", # Two independent groups
+  alternative = "two.sided" # Two-tailed test
+)
+
+power_result
+```
+
+**Interpreting the result**: This output tells us that with 64 participants per group, we have about 80% power to detect a medium effect (d = 0.5). 
+
+## Sample size calculation
+
+Often, the most practical question is: "How many participants do I need?" This is where power analysis becomes a planning tool. We simply omit the `n` parameter and let R calculate the required sample size for us:
+
+```{r}
+#| label: sample-size-calculation
+
+# How many participants do we need for 80% power to detect d = 0.5?
+sample_size_result <- pwr.t.test(
+  d = 0.5, # Effect size we want to detect
+  power = 0.80, # Desired power level
+  sig.level = 0.05, # Alpha level
+  type = "two.sample", # Two independent groups
+  alternative = "two.sided" # Two-tailed test
+)
+
+sample_size_result
+```
+
+We need approximately 64 participants per group (128 total) to have 80% power to detect a medium effect.
+
+## Effect size calculation
+
+Sometimes you might have constraints on your sample size (due to budget, time, or participant availability) and want to know: "What's the smallest effect I can reliably detect?" This helps set realistic expectations for your study:
+
+```{r}
+#| label: effect-size-calculation
+
+# What effect size can we detect with 50 participants per group?
+effect_size_result <- pwr.t.test(
+  n = 50, # Available sample size per group
+  power = 0.80, # Desired power level
+  sig.level = 0.05, # Alpha level
+  type = "two.sample", # Two independent groups
+  alternative = "two.sided" # Two-tailed test
+)
+
+effect_size_result
+```
+
+This type of calculation helps you decide whether a study is worth conducting given your constraints, or whether you need to find ways to increase your sample size.
+
+# Visualizing power relationships
+Visualizations can help you understand the relationships between power, sample size, and effect size. These plots will help build intuition about how changes in one parameter affect the others.
+
+## Power curves (sample size vs power)
+
+Power curves are one of the most useful visualizations in research planning. They show you exactly how statistical power increases as you add more participants to your study. They help you find the sweet spot between adequate power and practical constraints.
+
+Let's create a power curve showing how power changes with sample size for a medium effect (d = 0.5).
+
+```{r}
+#| label: fig-power-curve
+#| fig-cap: |
+#|   Power vs sample size for d=0.5 (two-sample t-test). Dashed lines mark ~64
+#|   per group for 80% power.
+
+# Create a range of sample sizes
+sample_sizes <- seq(10, 100, by = 5)
+
+# Calculate power for each sample size (effect size = 0.5)
+power_data <- map(
+  sample_sizes,
+  \(n) {
+    result <- pwr.t.test(
+      d = 0.5,
+      n = n,
+      sig.level = 0.05,
+      type = "two.sample",
+      alternative = "two.sided"
+    )
+    data.frame(
+      n = n,
+      power = result$power
+    )
+  }
+) |> list_rbind()
+
+# Create the plot
+ggplot(power_data, aes(x = n, y = power)) +
+  geom_line(color = "blue", linewidth = 1) +
+  geom_hline(
+    yintercept = 0.8,
+    linetype = "dashed",
+    color = "red"
+  ) +
+  geom_vline(
+    xintercept = 64,
+    linetype = "dashed",
+    color = "red"
+  ) +
+  labs(
+    title = "Power Curve for Two-Sample t-test",
+    subtitle = "Effect size (d) = 0.5, α = 0.05",
+    x = "Sample size (n per group)",
+    y = "Power (1 - β)"
+  ) +
+  theme_minimal() +
+  scale_y_continuous(
+    limits = c(0, 1),
+    labels = scales::percent_format()
+  )
+```
+
+The dashed lines show that we need 64 participants per group to achieve 80% power.
+
+## Comparing different effect sizes
+
+Let's see how effect size affects the power curves:
+
+```{r}
+#| label: fig-effect-size-comparison
+#| fig-cap: |
+#|   Power curves for small, medium, and large effects; larger effects require
+#|   smaller n for the same power.
+
+# Create data for multiple effect sizes
+effect_sizes <- c(0.2, 0.5, 0.8)
+sample_sizes <- seq(10, 150, by = 5)
+
+power_comparison <- expand_grid(
+  n = sample_sizes,
+  d = effect_sizes
+) |>
+  mutate(
+    power = map2_dbl(
+      d, n,
+      \(d, n) {
+        pwr.t.test(
+          d = d,
+          n = n,
+          sig.level = 0.05,
+          type = "two.sample",
+          alternative = "two.sided"
+        )$power
+      }
+    ),
+    effect_label = factor(
+      d,
+      levels = c(0.2, 0.5, 0.8),
+      labels = c("Small (d=0.2)", "Medium (d=0.5)", "Large (d=0.8)")
+    )
+  )
+
+# Create the comparison plot
+ggplot(power_comparison, aes(x = n, y = power, color = effect_label)) +
+  geom_line(linewidth = 1) +
+  geom_hline(yintercept = 0.8, linetype = "dashed", alpha = 0.7) +
+  labs(
+    title = "Power Curves for Different Effect Sizes",
+    subtitle = "Two-sample t-test, α = 0.05",
+    x = "Sample size (n per group)",
+    y = "Power (1 - β)",
+    color = "Effect size"
+  ) +
+  theme_minimal() +
+  scale_y_continuous(limits = c(0, 1), labels = scales::percent_format()) +
+  scale_color_viridis_d()
+```
+
+Unsurprisingly, the size of the effect you're trying to detect dramatically impacts your sample size needs. However, in clinical studies this hypothetical effect size is usually based on the minimum clinically meaningful effect size.
+
+# Understanding power through simulation
+
+While mathematical formulas give us precise power calculations, simulations help us truly understand what these numbers mean in practice. When we say a study has "80% power", what does that actually look like when we run the study many times?
+
+Think of simulation as running thousands of virtual experiments. By doing this, we can see power in action: out of 1000 studies with 80% power, approximately 800 will detect the effect and 200 will miss it. 
+
+This section introduces you to key programming concepts - writing functions, using loops, and generating random data. Even if you have no intention of becoming a programmer, these concepts can be useful to know about.
+
+::: callout-note
+## Why simulate?
+
+Simulations help us understand:
+
+- What "80% power" actually means in practice
+- Why sometimes we get significant results and sometimes we don't
+- How sample size and effect size affect our chances of success
+- R programming concepts: functions, loops, and data generation
+- For complex designs simulation is usually the only way - or the simplest way - to calculate power
+:::
+
+## Creating a data simulation function
+
+Before we can simulate thousands of studies, we need a way to generate realistic data for each virtual study. Let's create a function that produces data that mimics what you might see in a real two-group comparison study.
+
+This function will be your "fake data factory" - each time you call it, it creates a new study with randomly generated participants:
+
+```{r}
+#| label: simulation-function
+
+# Function to simulate data for a two-group study
+simulate_study <- function(n_per_group, effect_size, sd = 1) {
+  # Generate control group data (mean = 0)
+  control_group <- rnorm(n_per_group, mean = 0, sd = sd)
+
+  # Generate treatment group data (mean = effect_size)
+  treatment_group <- rnorm(n_per_group, mean = effect_size, sd = sd)
+
+  # Combine into a data frame
+  study_data <- data.frame(
+    score = c(control_group, treatment_group),
+    group = factor(
+      rep(c(0, 1), each = n_per_group),
+      labels = c("Control", "Treatment")
+    )
+  )
+
+  return(study_data)
+}
+
+# Test our function with a concrete example
+set.seed(123) # For reproducible results across runs
+example_study <- simulate_study(n_per_group = 30, effect_size = 0.5)
+
+# Look at the first few rows to see the structure
+head(example_study)
+
+# Calculate means for each group to verify our effect size
+example_study |>
+  summarize(
+    mean_score = mean(score),
+    .by = group
+  )
+```
+
+::: callout-note
+## Understanding the output
+Notice how the function creates a dataset with 60 participants (30 per group) and the Treatment group has a higher mean score than the Control group. The difference between means approximates our specified effect size (0.5), though it won't be exactly 0.5 due to random sampling variability.
+
+This variability is crucial to understand, it's why we need many participants and why we use statistical tests to account for uncertainty.
+:::
+
+
+## Running a single simulated study
+
+Now let's analyze one simulated study and see if we get a significant result:
+
+```{r}
+#| label: single-simulation
+
+# Simulate one study
+set.seed(456)
+study_data <- simulate_study(n_per_group = 30, effect_size = 0.5)
+
+# Run a t-test
+t_test_result <- t.test(score ~ group, data = study_data, var.equal = TRUE)
+t_test_result
+
+# Extract key information
+p_value <- t_test_result$p.value
+effect_detected <- p_value < 0.05
+
+cat("P-value:", round(p_value, 4), "\n")
+cat("Significant result (p < 0.05):", effect_detected, "\n")
+```
+
+In this single study, we `r ifelse(t_test_result$p.value < 0.05, "did", "did not")` detect a significant effect. This illustrates an important point - even when there's a true effect and adequate power, individual studies can still "miss" the effect due to random sampling. But what happens when we run many studies with the same design?
+
+## Simulating many studies to understand power
+
+We'll run 10,000 virtual studies with identical designs and count how many detect a significant effect. This proportion directly shows us the empirical power - and it should match our theoretical calculations.
+
+The code below creates a simulation function that tracks multiple aspects of each study:
+
+```{r}
+#| label: power-simulation
+#| cache: true
+
+# Function to run many simulated studies (including confidence intervals)
+run_power_simulation <- function(
+    n_per_group,
+    effect_size,
+    n_simulations = 1000,
+    alpha = 0.05,
+    conf_level = 0.95) {
+  # Store results for each simulation
+  results <- data.frame(
+    simulation = 1:n_simulations,
+    p_value = numeric(n_simulations),
+    ci_lower = numeric(n_simulations),
+    ci_upper = numeric(n_simulations),
+    significant = logical(n_simulations),
+    effect = numeric(n_simulations),
+    se = numeric(n_simulations),
+    t_value = numeric(n_simulations)
+  )
+
+  # Run many simulated studies
+  for (i in 1:n_simulations) {
+    # Simulate data
+    study_data <- simulate_study(n_per_group, effect_size)
+
+    # Run t-test (automatically gives us p-value and CI)
+    test_result <- t.test(
+      score ~ relevel(group, ref = "Treatment"),
+      data = study_data,
+      conf.level = conf_level,
+      var.equal = TRUE
+    )
+
+    # Store results
+    results$p_value[i] <- test_result$p.value
+    results$ci_lower[i] <- test_result$conf.int[1]
+    results$ci_upper[i] <- test_result$conf.int[2]
+    results$significant[i] <- test_result$p.value < alpha
+    results$effect[i] <- test_result$estimate |>
+      rev() |>
+      diff()
+    results$se[i] <- test_result$stderr
+    results$t_value[i] <- test_result$statistic
+  }
+
+  return(results)
+}
+
+# Run simulation with medium effect size
+set.seed(787)
+sim_results <- run_power_simulation(
+  n_per_group = 50,
+  effect_size = 0.5,
+  n_simulations = 10000
+)
+```
+
+Since we simulated data where there truly is an effect (alternative hypothesis), **empirical power** is simply the proportion of studies that correctly detected this effect:
+
+```{r}
+#| label: empirical-power
+
+empirical_power <- mean(sim_results$p_value < 0.05)
+empirical_power
+```
+
+Out of 10,000 simulated studies, `r round(empirical_power * 100, 1)`% found a statistically significant result. This is our empirical power - what actually happened when we "ran" thousands of studies.
+
+Now let's compare our empirical results with the theoretical power we calculated earlier:
+
+```{r}
+#| label: empirical-power-pwr
+theoretical_power <- pwr.t.test(
+  n = 50,
+  d = 0.5,
+  sig.level = 0.05,
+  type = "two.sample"
+)$power
+theoretical_power
+```
+
+The simulation results (`r round(empirical_power, 3) * 100`%) are very close to the theoretical power (`r round(theoretical_power, 3) * 100`%). The small difference is expected due to simulation error.
+
+::: {.callout-note collapse="true"}
+## Pedagogical choice: For-loops vs functional programming
+
+We're using **for-loops** here because they tend to be easier to understand when learning. You can see exactly what happens in each iteration. However, experienced R users often prefer **functional programming** approaches that are more concise.
+
+Here's the same function using more advanced R techniques (including parallel processing):
+
+```{r}
+#| label: power-simulation-functional
+#| cache: true
+# Alternative: Using map() |> list_rbind() from purrr (more advanced)
+# and parallel processing with mirai
+library(mirai)
+run_power_sim_functional <- function(
+    n_per_group,
+    effect_size,
+    n_simulations = 1000,
+    alpha = 0.05) {
+  map(
+    1:n_simulations,
+    in_parallel( # nolint: object_usage_linter
+      \(i) {
+        control_group <- rnorm(n_per_group, mean = 0, sd = 1)
+        treatment_group <- rnorm(n_per_group, mean = effect_size, sd = 1)
+
+        study_data <- data.frame(
+          score = c(control_group, treatment_group),
+          group = rep(c("Control", "Treatment"), each = n_per_group)
+        )
+
+        test_result <- t.test(score ~ group, data = study_data)
+
+        tibble::tibble(
+          simulation = i,
+          p_value = test_result$p.value,
+          ci_lower = test_result$conf.int[1],
+          ci_upper = test_result$conf.int[2],
+          significant = test_result$p.value < alpha
+        )
+      },
+      n_per_group = n_per_group,
+      effect_size = effect_size,
+      alpha = alpha
+    )
+  ) |> list_rbind()
+}
+# Run on 8 CPU threads in parallel
+daemons(8)
+run_power_sim_functional(
+  n_per_group = sample_size_per_group,
+  effect_size = 0.5,
+  n_simulations = 10000
+)
+daemons(0)
+```
+
+:::
+
+## Visualizing simulation results
+
+Let's visualize what happened in our 10,000 studies. Let's overlay the simulation results on the theoretical null and alternative distributions. Before we can do this, we need to generate data from the null model.
+
+```{r}
+#| label: null-simulation
+
+null_results <- run_power_simulation(
+  n_per_group = sample_size_per_group,
+  effect_size = 0,
+  n_simulations = 10000
+)
+```
+
+Then we can plot the theoretical and empirical H0 and H1 distributions.
+```{r}
+#| label: power-simulation-nhst-plot
+#| fig-width: 10
+#| fig-height: 5
+#| fig-cap: |
+#|   Empirical histograms from simulations (null and alternative) overlaid on
+#|   theoretical curves.
+power_plot +
+  # Add empirical histograms from simulations
+  geom_histogram(
+    data = null_results,
+    aes(
+      x = effect / standard_error,
+      y = after_stat(density),
+      group = NULL
+    ),
+    bins = 50,
+    fill = "gray30",
+    alpha = 0.2,
+    color = "gray30",
+    linewidth = 0.3,
+    inherit.aes = FALSE
+  ) +
+  geom_histogram(
+    data = sim_results,
+    aes(
+      x = effect / standard_error,
+      y = after_stat(density),
+      group = NULL
+    ),
+    bins = 50,
+    fill = "#27AE60",
+    alpha = 0.2,
+    color = "#1E8449",
+    linewidth = 0.3,
+    inherit.aes = FALSE
+  )
+```
+
+We can see that the simulation results under the null and alternative models (the histograms) are very close to the theoretical distributions.
+
+Another way to visualize the simulation results is to plot the distribution of p-values.
+
+```{r}
+#| label: fig-visualize-simulations
+#| fig-width: 10
+#| fig-height: 6
+#| fig-cap: |
+#|   Distribution of p-values from 10,000 Simulated Studies, showing
+#|   significant results.
+# Plot distribution of p-values
+ggplot(sim_results, aes(x = p_value)) +
+  geom_bar(aes(fill = significant), alpha = 0.7) +
+  labs(
+    title = "Distribution of P-values from 10,000 Simulated Studies",
+    subtitle = paste(
+      "Effect size = 0.5, n = 50 per group, Power =",
+      round(empirical_power, 3)
+    ),
+    x = "P-value",
+    y = "Count",
+    fill = "Significant"
+  ) +
+  scale_fill_manual(
+    values = c(
+      "FALSE" = "gray80",
+      "TRUE" = PALETTE$regions[["power"]]
+    )
+  ) +
+  scale_x_binned(n.breaks = 20) +
+  theme_minimal()
+```
+
+Lastly, we can visualize power by plotting the 95% confidence intervals. Power is the proportion of confidence intervals that exclude the null effect.
+
+```{r}
+#| label: ci-power
+
+sim_results <- sim_results |>
+  mutate(
+    ci_significant = (ci_lower < 0 & ci_upper < 0) |
+      (ci_lower > 0 & ci_upper > 0)
+  )
+
+sim_results |>
+  summarize(
+    power_ci = mean(ci_significant),
+    power_pvalue = mean(p_value < 0.05)
+  )
+```
+
+
+```{r}
+#| label: fig-ci-coverage-plot
+#| code-fold: true
+#| fig-height: 10
+#| fig-width: 6
+#| fig-cap: |
+#|   Confidence interval coverage: green lines meet success criteria;
+#|   brown/red lines do not. Vertical lines mark true effect and null effect.
+# Create CI coverage plot for superiority trial
+plot_ci_coverage <- function(
+    sim_data,
+    true_effect = 0,
+    null_effect = 0,
+    title = "Confidence Interval Coverage") {
+  # Determine if CI contains true effect
+  sim_data$covers_truth <- (sim_data$ci_lower <= true_effect) &
+    (sim_data$ci_upper >= true_effect)
+
+  # Sort by significance for better visualization
+  sim_data <- sim_data |>
+    arrange(ci_significant) |>
+    mutate(plot_order = row_number())
+
+  ggplot(sim_data, aes(y = plot_order)) + # nolint: object_usage_linter
+    geom_segment(
+      aes(x = ci_lower, xend = ci_upper, color = ci_significant), # nolint: object_usage_linter
+      alpha = 0.7,
+      linewidth = 0.8
+    ) +
+    geom_vline(
+      xintercept = true_effect,
+      color = "gray50",
+      linetype = "dashed",
+    ) +
+    geom_vline(
+      xintercept = null_effect,
+      color = "black",
+      linetype = "solid",
+      linewidth = 1
+    ) +
+    scale_color_manual(
+      values = c("TRUE" = "#27AE60", "FALSE" = PALETTE$regions[["beta"]]),
+      labels = c("TRUE" = "Significant", "FALSE" = "Non-significant"),
+      name = "Result"
+    ) +
+    labs(
+      title = title,
+      subtitle = paste(
+        "True effect =", true_effect, "| Power =",
+        round(mean(sim_data$ci_significant), 3)
+      ),
+      x = "Effect Size (95% Confidence Interval)",
+      y = "Study Number"
+    ) +
+    theme_minimal() +
+    theme(axis.text.y = element_blank(), axis.ticks.y = element_blank())
+}
+sim_results |>
+  sample_n(200) |>
+  plot_ci_coverage(true_effect = 0.5, title = "95% Confidence Interval Power")
+```
+
+::: callout-tip
+## Key insights from the simulation
+
+1. **Power**: About `r round(empirical_power*100)`% of our simulated studies detected an effect.
+2. **P-value distribution**: As power increases, p-values tend to cluster near zero, but some studies still produce larger p-values by chance
+3. **The 20% that "fail"**: Even with adequate power, studies will miss a real effect due to sampling variability
+4. **Why replication matters**: Any single study might be in that unlucky 20%, which is why we need multiple studies to build scientific confidence
+:::
+
+## What happens when there's no effect? (Type I error)
+
+::: callout-important
+## Understanding Type I and Type II errors
+
+- **Type I error (α)**: Finding an effect when there isn't one (false positive)
+- **Type II error (β)**: Missing an effect when there is one (false negative)
+- **Power = 1 - β**: Probability of correctly detecting a true effect
+
+Now let's see these concepts in action through simulation.
+:::
+
+Let's also check the results where we simulated studies from the null hypothesis (no difference between groups):
+
+```{r}
+#| label: fig-null-simulation-pcurve-plot
+#| fig-cap: |
+#|   Distribution of p-values when there is no true effect from 10,000
+#|   simulated studies.
+#| fig-width: 10
+#| fig-height: 6
+#| cache: true
+
+# Calculate Type I errors
+type_i_error <- mean(null_results$significant)
+
+cat("Type I errors:", round(type_i_error, 3), "\n")
+cat("Expected Type I errors:", 0.05, "\n")
+
+# Visualize
+breaks <- seq(
+  min(null_results$p_value),
+  max(null_results$p_value),
+  length.out = 21
+)
+ggplot(null_results, aes(x = p_value)) +
+  geom_bar(aes(fill = significant), alpha = 0.7) +
+  labs(
+    title = "P-values When There's No True Effect",
+    subtitle = paste("Type I errors =", round(type_i_error, 3)),
+    x = "P-value",
+    y = "Count",
+    fill = "Significant"
+  ) +
+  scale_fill_manual(
+    values = c(
+      "FALSE" = "gray80",
+      "TRUE" = PALETTE$regions[["alpha"]]
+    )
+  ) +
+  scale_x_binned(n.breaks = 20) +
+  theme_minimal()
+```
+
+
+# Understanding different types of hypothesis tests
+
+So far, we've focused on **superiority tests** - the most common type of analysis where you're testing whether one treatment is better than another. But clinical research often involves different questions that require different statistical approaches. This section introduces you to three types of hypothesis tests, each designed to answer different research questions:
+
+```{r}
+#| label: tbl-trial-comparison-table
+#| tab-cap: "Comparison of Trial Types"
+#| echo: false
+
+trial_summary <- data.frame(
+  Trial_Type = c("Superiority", "Non-inferiority", "Equivalence"),
+  Question = c(
+    "Is treatment better than control?",
+    "Is treatment not worse than control (within margin)?",
+    "Are treatments equivalent (within ±margin)?"
+  ),
+  Hypothesis_Test = c(
+    "Two-sided t-test",
+    "One-sided t-test vs margin",
+    "Two one-sided tests (TOST)"
+  ),
+  Success_Criteria = c(
+    "CI excludes 0",
+    "CI lower bound > -margin",
+    "CI entirely within ±margin"
+  )
+)
+
+knitr::kable(trial_summary)
+```
+
+## Superiority trials (standard approach)
+
+Superiority trials are what most people think of as "typical" research studies. The goal is straightforward: prove that one treatment is better than another (or better than no treatment). This is what we've been practicing throughout this lab.
+
+**Two-tailed superiority test** (tests for any difference):
+
+$$
+\begin{aligned}
+&\text{Null hypothesis } (H_0): && d = 0 \\
+&\text{Alternative hypothesis } (H_1): && d \neq 0
+\end{aligned}
+$$
+
+**One-tailed superiority test** (tests for improvement in specific direction):
+
+$$
+\begin{aligned}
+&\text{Null hypothesis } (H_0): && d \leq 0 \\
+&\text{Alternative hypothesis } (H_1): && d > 0
+\end{aligned}
+$$
+
+where $d$ is the effect size (standardized difference between treatment and control groups).
+
+## Non-inferiority trials
+
+Non-inferiority trials address a different question: "Is this new treatment not worse than the standard treatment by more than an acceptable margin?"
+
+**Why non-inferiority matters**: Imagine you have a standard antidepressant that works well but has significant side effects. A new drug with fewer side effects might be valuable even if it's slightly less effective - as long as it's not *too much* worse.
+
+
+::: callout-note
+## Non-inferiority margin
+
+The non-inferiority margin is the largest difference we would still consider acceptable. For example, if standard treatment reduces symptoms by 10 points, we might accept that new treatment is non-inferior if it's no more than 2 points worse.
+:::
+
+For non-inferiority, we typically use one-sided tests and need to specify the non-inferiority margin:
+
+$$
+\begin{aligned}
+&\text{Null hypothesis } (H_0): && d \leq -\Delta \\
+&\text{Alternative hypothesis } (H_1): && d > -\Delta
+\end{aligned}
+$$
+
+where $\Delta$ is the non-inferiority margin and $d$ is the effect size.
+
+We will: (1) build intuition with a conceptual non-inferiority figure, (2) check that simulated study statistics line up with the theory, (3) view confidence-interval criteria directly, and (4) compare empirical power with analytical power.
+
+```{r}
+#| label: fig-non-inferiority-nhst-plot
+#| fig-width: 10
+#| fig-height: 5
+#| code-fold: true
+#| cache: true
+#| fig-cap: |
+#|   Non-inferiority conceptual plot: one-sided alpha region and power relative
+#|   to the NI margin.
+
+# =============================================================================
+# SIMULATION PARAMETERS
+# =============================================================================
+
+
+# Study design parameters
+sample_size_per_group <- 80
+num_simulations <- 10000
+confidence_level <- 0.9
+alpha_level <- 0.05
+
+# Effect size parameters
+null_effect_size <- -0.2
+alternative_effect_size <- 0.1
+
+# =============================================================================
+# RUN POWER SIMULATIONS
+# =============================================================================
+
+# Simulation under alternative hypothesis (with effect)
+sim_alternative_hypothesis <- run_power_simulation(
+  n_per_group = sample_size_per_group,
+  effect_size = alternative_effect_size,
+  n_simulations = num_simulations,
+  conf_level = confidence_level
+)
+
+# Simulation under null hypothesis (no effect)
+sim_null_hypothesis <- run_power_simulation(
+  n_per_group = sample_size_per_group,
+  effect_size = null_effect_size,
+  n_simulations = num_simulations,
+  conf_level = confidence_level
+)
+
+# =============================================================================
+# THEORETICAL DISTRIBUTION PARAMETERS
+# =============================================================================
+
+# Calculate standard error and degrees of freedom
+standard_error <- sqrt((1^2 + 1^2) / sample_size_per_group)
+degrees_freedom <- 2 * sample_size_per_group - 2
+
+# Distribution parameters for null and alternative hypotheses
+mu_null <- null_effect_size / standard_error # Mean under H0
+sigma_null <- 1 # SD under H0
+mu_alternative <- alternative_effect_size / standard_error # Mean under HA
+sigma_alternative <- 1 # SD under HA
+
+# Critical value for hypothesis test (two-tailed)
+critical_value <- qnorm(1 - alpha_level, mu_null, sigma_null)
+
+# =============================================================================
+# CREATE THEORETICAL DISTRIBUTION CURVES
+# =============================================================================
+
+# Define plot range (4 standard deviations from means)
+plot_range_multiplier <- 4
+x_min_null <- mu_null - sigma_null * plot_range_multiplier
+x_max_null <- mu_null + sigma_null * plot_range_multiplier
+x_min_alt <- mu_alternative - sigma_alternative * plot_range_multiplier
+x_max_alt <- mu_alternative + sigma_alternative * plot_range_multiplier
+
+# Create x-axis sequence for plotting
+x_values <- seq(min(x_min_null, x_min_alt), max(x_max_null, x_max_alt), 0.01)
+
+# Generate theoretical distributions
+density_null <- dnorm(x_values, mu_null, sigma_null)
+density_alternative <- dnorm(x_values, mu_alternative, sigma_alternative)
+
+# Create data frames for plotting
+df_null_hypothesis <- data.frame(x = x_values, y = density_null)
+df_alternative_hypothesis <- data.frame(x = x_values, y = density_alternative)
+
+# =============================================================================
+# CREATE POLYGONS FOR STATISTICAL REGIONS
+# =============================================================================
+
+# Alpha region polygon (Type I error)
+alpha_polygon_data <- data.frame(
+  x = x_values,
+  y = pmin(density_null, density_alternative)
+)
+alpha_polygon_data <- alpha_polygon_data[
+  alpha_polygon_data$x >= critical_value,
+]
+alpha_polygon_data <- rbind(
+  c(critical_value, 0),
+  c(critical_value, dnorm(critical_value, mu_null, sigma_null)),
+  alpha_polygon_data
+)
+
+# Beta region polygon (Type II error)
+beta_polygon_data <- df_alternative_hypothesis
+beta_polygon_data <- beta_polygon_data[beta_polygon_data$x <= critical_value, ]
+beta_polygon_data <- rbind(beta_polygon_data, c(critical_value, 0))
+
+# Power region polygon (1 - beta)
+power_polygon_data <- df_alternative_hypothesis
+power_polygon_data <- power_polygon_data[
+  power_polygon_data$x >= critical_value,
+]
+power_polygon_data <- rbind(power_polygon_data, c(critical_value, 0))
+
+# =============================================================================
+# COMBINE POLYGONS FOR PLOTTING
+# =============================================================================
+
+# Add polygon identifiers
+alpha_polygon_data$region_type <- "alpha"
+beta_polygon_data$region_type <- "beta"
+power_polygon_data$region_type <- "power"
+
+# Combine all polygon data
+all_polygons <- rbind(
+  alpha_polygon_data,
+  beta_polygon_data,
+  power_polygon_data
+)
+
+# Convert to factor with proper labels
+all_polygons$region_type <- factor(
+  all_polygons$region_type,
+  levels = c("power", "beta", "alpha"),
+  labels = c("power", "beta", "alpha")
+)
+
+# =============================================================================
+# DEFINE COLOR PALETTE
+# =============================================================================
+
+# Color palette for the visualization
+PALETTE <- list( # nolint: object_name_linter
+  # Hypothesis colors
+  hypothesis = c(
+    "H0" = "black",
+    "HA" = "#981e0b"
+  ),
+
+  # Statistical region colors
+  regions = c(
+    "alpha" = "#0d6374",
+    "alpha2" = "#0d6374",
+    "beta" = "#be805e",
+    "power" = "#7cecee"
+  ),
+
+  # Simulation curve colors
+  simulations = c(
+    "null" = "green",
+    "alternative" = "red"
+  )
+)
+
+# =============================================================================
+# CREATE POWER ANALYSIS VISUALIZATION
+# =============================================================================
+
+power_plot <- ggplot(
+  all_polygons,
+  aes(x, y, fill = region_type, group = region_type)
+) +
+  # Add filled polygons for statistical regions
+  geom_polygon(
+    data = df_null_hypothesis,
+    aes(
+      x, y,
+      color = "H0",
+      group = NULL,
+      fill = NULL
+    ),
+    linetype = "dotted",
+    fill = "gray80",
+    linewidth = 1,
+    alpha = 0.5,
+    show.legend = FALSE
+  ) +
+  geom_polygon(show.legend = FALSE, alpha = 0.8) +
+  geom_line(
+    data = df_alternative_hypothesis,
+    aes(x, y, color = "HA", group = NULL, fill = NULL),
+    linewidth = 1,
+    linetype = "dashed",
+    color = "gray60",
+    inherit.aes = FALSE
+  ) +
+  # Add critical value line
+  geom_vline(
+    xintercept = critical_value, linewidth = 1,
+    linetype = "dashed"
+  ) +
+  # Add annotations
+  annotate(
+    "segment",
+    x = 0.2,
+    xend = 0.8,
+    y = 0.05,
+    yend = 0.02,
+    arrow = arrow(length = unit(0.3, "cm")), linewidth = 1
+  ) +
+  annotate(
+    "text",
+    label = "alpha",
+    x = 0, y = 0.05,
+    parse = TRUE, size = 8
+  ) +
+  annotate(
+    "segment",
+    x = 3,
+    xend = 2,
+    y = 0.18,
+    yend = 0.1,
+    arrow = arrow(length = unit(0.3, "cm")), linewidth = 1
+  ) +
+  annotate(
+    "text",
+    label = "Power",
+    x = 3, y = 0.2,
+    parse = TRUE, size = 8
+  ) +
+  annotate(
+    "text",
+    label = "H[0]",
+    x = mu_null,
+    y = dnorm(mu_null, mu_null, sigma_null),
+    vjust = -0.5,
+    parse = TRUE, size = 8
+  ) +
+  annotate(
+    "text",
+    label = "H[a]",
+    x = mu_alternative,
+    y = dnorm(mu_null, mu_null, sigma_null),
+    vjust = -0.5,
+    parse = TRUE, size = 8
+  ) +
+  # Customize colors and styling
+  scale_color_manual(
+    "Hypothesis",
+    values = PALETTE$hypothesis
+  ) +
+  scale_fill_manual(
+    "Statistical Region",
+    values = PALETTE$regions
+  ) +
+  labs(
+    x = "Test statistic (z)",
+    y = "Density",
+    title = "Statistical Power Analysis Visualization",
+    subtitle = "Standard Non-Inferiority Hypothesis Test (normal approximation)"
+  ) +
+  ylim(c(0, max(dnorm(mu_null, mu_null, sigma_null) * 1.1))) +
+  theme_minimal() +
+  theme(
+    panel.grid.minor.y = element_blank(),
+    panel.grid.major.y = element_blank(),
+    axis.text.y = element_blank()
+  )
+
+power_plot
+```
+
+Because non-inferiority can also be assessed via confidence intervals, we visualize the CI criterion directly: success occurs when the lower bound of the confidence interval lies above the negative margin. This plot makes it clear why detecting non-inferiority requires careful consideration of the margin and effect size.
+
+```{r}
+#| label: fig-ni-ci-coverage-plot
+#| fig-height: 10
+#| fig-width: 6
+#| fig-cap: |
+#|   Non-inferiority CI visualization: green intervals exclude values worse
+#|   than the margin.
+
+# Create ni_sim with CI significance for non-inferiority
+ni_sim <- sim_alternative_hypothesis
+ni_sim$ci_significant <- ni_sim$ci_lower > -0.2
+
+ni_sim |>
+  sample_n(200) |>
+  plot_ci_coverage(
+    true_effect = 0.1,
+    null_effect = -0.2,
+    title = "Non-inferiority"
+  )
+```
+
+Finally, we compare empirical power from simulation with the theoretical power. They should agree up to simulation error, which validates both our code and our understanding of the test.
+
+```{r}
+#| label: tbl-non-inferiority-power-comparison
+#| tbl-cap: |
+#|   Comparison of empirical power from simulation with the theoretical power
+#|   for non-inferiority test.
+
+# Calculate theoretical power
+theoretical_power <- pwr.t.test(
+  d = 0.3, # margin of 0.2 + 0.1 true effect
+  n = 80,
+  sig.level = 0.05,
+  type = "two.sample",
+  alternative = "greater"
+)
+
+ni_sim |>
+  summarize(
+    power_ci = mean(ci_significant),
+    power_theoretical = theoretical_power$power
+  ) |>
+  pivot_longer(
+    cols = everything(),
+    names_to = "method",
+    values_to = "power"
+  ) |>
+  gt() |>
+  fmt_percent(
+    columns = "power",
+    decimals = 0
+  )
+```
+
+Note that non-inferiority trials often require larger sample sizes than superiority trials because we're trying to rule out a smaller difference.
+
+## Equivalence trials
+
+Equivalence trials ask the most stringent question: "Are these two treatments essentially equally effective?" Unlike non-inferiority (which only rules out being worse), equivalence must rule out being either significantly better *or* significantly worse.
+
+**When equivalence matters**: Equivalence trials are useful when you want to demonstrate that the there is no relevant difference between two treatments. For example, demonstrating that psychodynamic therapy is equivalent to cognitive-behavioral therapy.
+
+$$
+\begin{aligned}
+&\text{Null hypothesis } (H_0): && d \leq -\Delta \quad \text{or} \quad d \geq \Delta \\
+&\text{Alternative hypothesis } (H_1): && -\Delta < d < \Delta
+\end{aligned}
+$$
+
+where $\Delta$ is the equivalence margin and $d$ is the effect size.
+
+We will: (1) build intuition with a conceptual TOST figure, (2) check that simulated study statistics line up with the theory, (3) view confidence-interval criteria directly, and (4) compare empirical power with analytical TOST power.
+
+::: callout-note
+## Equivalence vs Non-inferiority
+
+- **Non-inferiority**: "New treatment is not worse than standard (within margin)"
+- **Equivalence**: "New treatment is similar to standard (within ± margin)"
+
+Equivalence is more stringent - we need to rule out both directions of difference.
+:::
+
+For equivalence trials, we need to calculate power for both one-sided tests. The figure below shows the two one-sided critical regions (at ±margin, translated to the test-statistic scale) and the central region where we have power to conclude equivalence.
+
+```{r}
+#| label: fig-equivalence-nhst-plot
+#| fig-width: 10
+#| fig-height: 5
+#| code-fold: true
+#| cache: true
+#| fig-cap: |
+#|   Equivalence (TOST) conceptual plot: two one-sided critical regions and
+#|   central power region within ±margin.
+
+# =============================================================================
+# SIMULATION PARAMETERS
+# =============================================================================
+
+# Study design parameters
+sample_size_per_group <- 500
+num_simulations <- 10000
+confidence_level <- 0.9
+alpha_level <- 0.05
+
+# Effect size parameters
+equivalence_bound <- 0.2
+null_effect_size <- 0
+alternative_effect_size <- 0.2
+
+# =============================================================================
+# RUN POWER SIMULATIONS
+# =============================================================================
+
+# Simulation under alternative hypothesis (effect within equivalence bounds)
+sim_alternative_hypothesis <- run_power_simulation(
+  n_per_group = sample_size_per_group,
+  effect_size = null_effect_size,
+  n_simulations = num_simulations,
+  conf_level = confidence_level
+)
+
+# Simulation under first null hypothesis (effect at positive bound)
+sim_null_hypothesis_pos <- run_power_simulation(
+  n_per_group = sample_size_per_group,
+  effect_size = alternative_effect_size,
+  n_simulations = num_simulations,
+  conf_level = confidence_level
+)
+
+# Simulation under second null hypothesis (effect at negative bound)
+sim_null_hypothesis_neg <- run_power_simulation(
+  n_per_group = sample_size_per_group,
+  effect_size = -alternative_effect_size,
+  n_simulations = num_simulations,
+  conf_level = confidence_level
+)
+
+# =============================================================================
+# THEORETICAL DISTRIBUTION PARAMETERS
+# =============================================================================
+
+# Calculate standard error and degrees of freedom
+standard_error <- sqrt(2 / sample_size_per_group)
+degrees_freedom <- 2 * sample_size_per_group - 2
+
+# Distribution parameters for null and alternative hypotheses
+mu_null <- -equivalence_bound / standard_error # Mean under H0
+sigma_null <- 1 # SD under H0
+mu_alternative <- 0 # Mean under HA
+sigma_alternative <- 1 # SD under HA
+
+# Critical value for hypothesis test
+critical_value <- qnorm(1 - alpha_level, mu_null, sigma_null)
+
+# =============================================================================
+# CREATE THEORETICAL DISTRIBUTION CURVES
+# =============================================================================
+
+# Define plot range (4 standard deviations from means)
+plot_range_multiplier <- 4
+x_min_null <- mu_null - sigma_null * plot_range_multiplier
+x_max_null <- mu_null + sigma_null * plot_range_multiplier
+x_min_alt <- abs(mu_null) - sigma_alternative * plot_range_multiplier
+x_max_alt <- abs(mu_null) + sigma_alternative * plot_range_multiplier
+
+# Create x-axis sequence for plotting
+x_values <- seq(
+  min(x_min_null, x_min_alt),
+  max(x_max_null, x_max_alt),
+  0.01
+)
+
+# Generate theoretical distributions
+density_null_neg <- dnorm(x_values, mu_null, sigma_null)
+density_null_pos <- dnorm(
+  x_values,
+  alternative_effect_size / standard_error,
+  sigma_null
+)
+density_alternative <- dnorm(x_values, mu_alternative, sigma_alternative)
+
+# Create data frames for plotting
+df_null_negative <- data.frame(x = x_values, y = density_null_neg)
+df_null_positive <- data.frame(x = x_values, y = density_null_pos)
+df_alternative <- data.frame(x = x_values, y = density_alternative)
+
+# =============================================================================
+# CREATE POLYGONS FOR STATISTICAL REGIONS
+# =============================================================================
+
+# Alpha region polygon (Type I error)
+alpha_polygon_data <- data.frame(
+  x = x_values,
+  y = pmin(density_null_neg, density_alternative)
+)
+alpha_polygon_data <- alpha_polygon_data[
+  alpha_polygon_data$x >= critical_value,
+]
+alpha_polygon_data <- rbind(alpha_polygon_data, c(critical_value, 0))
+
+# Beta region polygon (Type II error)
+beta_polygon_data <- df_alternative
+beta_polygon_data <- beta_polygon_data[beta_polygon_data$x <= critical_value, ]
+beta_polygon_data <- rbind(beta_polygon_data, c(critical_value, 0))
+
+# Power region polygon (1 - beta)
+power_polygon_data <- df_alternative
+power_polygon_data <- power_polygon_data[
+  power_polygon_data$x >= critical_value &
+    power_polygon_data$x <= abs(critical_value),
+]
+power_polygon_data <- rbind(
+  c(critical_value, 0),
+  c(critical_value, dnorm(critical_value, mu_alternative, sigma_alternative)),
+  power_polygon_data,
+  c(
+    abs(critical_value),
+    dnorm(abs(critical_value), mu_alternative, sigma_alternative)
+  ),
+  c(abs(critical_value), 0)
+)
+
+# =============================================================================
+# COMBINE POLYGONS FOR PLOTTING
+# =============================================================================
+
+# Add polygon identifiers
+alpha_polygon_data$region_type <- "alpha"
+beta_polygon_data$region_type <- "beta"
+power_polygon_data$region_type <- "power"
+
+# Create second alpha region (mirrored)
+alpha_polygon_mirrored <- alpha_polygon_data |>
+  mutate(x = -1 * x, region_type = "alpha_mirrored")
+
+beta_polygon_data_mirrored <- beta_polygon_data |>
+  mutate(x = -1 * x, region_type = "beta_mirrored")
+
+# Combine all polygon data
+all_polygons <- rbind(
+  alpha_polygon_data,
+  alpha_polygon_mirrored,
+  beta_polygon_data,
+  beta_polygon_data_mirrored,
+  power_polygon_data
+)
+
+# Convert to factor with proper labels
+all_polygons$region_type <- factor(
+  all_polygons$region_type,
+  levels = c("power", "beta", "beta_mirrored", "alpha", "alpha_mirrored"),
+  labels = c("power", "beta", "beta2", "alpha", "alpha2")
+)
+
+# =============================================================================
+# DEFINE COLOR PALETTE
+# =============================================================================
+
+# Color palette for the visualization
+PALETTE <- list( # nolint: object_name_linter
+  # Hypothesis colors
+  hypothesis = c(
+    "H0" = "gray60",
+    "HA" = "#437677"
+  ),
+
+  # Statistical region colors
+  regions = c(
+    "alpha" = "#0d6374",
+    "alpha2" = "#0d6374",
+    "beta" = "#be805e",
+    "beta2" = "#be805e",
+    "power" = "#529d9e"
+  ),
+
+  # Simulation curve colors
+  simulations = c(
+    "null" = "green", # TOST null hypotheses (effect outside bounds)
+    "alternative" = "#7cecee" # TOST alternative hypothesis
+  )
+)
+
+# =============================================================================
+# CREATE POWER ANALYSIS VISUALIZATION
+# =============================================================================
+
+power_plot_eq <- ggplot(
+  all_polygons,
+  aes(x, y, fill = region_type, group = region_type)
+) +
+  # Add theoretical distribution curves
+  geom_polygon(
+    data = df_null_negative,
+    aes(
+      x, y,
+      color = "H0",
+      group = NULL,
+      fill = NULL
+    ),
+    linetype = "dotted",
+    fill = "gray80",
+    linewidth = 1,
+    alpha = 0.5,
+    show.legend = FALSE
+  ) +
+  geom_polygon(
+    data = df_null_positive,
+    aes(
+      x, y,
+      color = "H0",
+      group = NULL,
+      fill = NULL
+    ),
+    linetype = "dotted",
+    fill = "gray80",
+    alpha = 0.5,
+    linewidth = 1,
+    show.legend = FALSE
+  ) +
+  # Add filled polygons for statistical regions
+  geom_polygon(
+    show.legend = FALSE,
+    alpha = 0.8
+  ) +
+  geom_line(
+    data = df_alternative,
+    aes(
+      x = x, y = y,
+      color = "HA",
+      group = NULL,
+      fill = NULL
+    ),
+    linewidth = 1,
+    linetype = "dashed",
+    color = "gray60",
+    inherit.aes = FALSE
+  ) +
+
+  # Add critical value lines
+  geom_vline(
+    xintercept = critical_value,
+    linewidth = 1,
+    linetype = "dashed"
+  ) +
+  geom_vline(
+    xintercept = -critical_value,
+    linewidth = 1,
+    linetype = "dashed"
+  ) +
+
+  # Customize colors and styling
+  scale_color_manual(
+    "Hypothesis",
+    values = PALETTE$hypothesis
+  ) +
+  scale_fill_manual(
+    "Statistical Region",
+    values = PALETTE$regions
+  ) +
+  labs(
+    x = "Test statistic (z)",
+    y = "Density",
+    title = "Statistical Power Analysis Visualization",
+    subtitle = "TOST Equivalence Test (normal approximation)"
+  ) +
+  theme_minimal() +
+  theme(
+    panel.grid.minor.y = element_blank(),
+    panel.grid.major.y = element_blank(),
+    axis.text.y = element_blank()
+  )
+
+# Display the plot
+power_plot_eq
+```
+
+Next, we verify that simulated study results behave as expected under the equivalence setup: when the true effect lies within ±margin, most statistics fall between the two critical values; when the true effect equals a margin (the nulls), they fall near the boundaries.
+
+```{r}
+#| label: fig-equivalence-nhst-plot-histogram
+#| fig-width: 10
+#| fig-height: 5
+#| code-fold: true
+#| fig-cap: |
+#|   Empirical histograms for equivalence simulations (null bounds and
+#|   alternative within bounds).
+
+# Add empirical density curves from simulations
+power_plot_eq +
+  # Add empirical histograms from simulations
+  geom_histogram(
+    data = sim_null_hypothesis_pos,
+    aes(
+      x = effect / standard_error,
+      y = after_stat(density),
+      group = NULL
+    ),
+    bins = 50,
+    fill = "gray30",
+    alpha = 0.2,
+    color = "gray30",
+    linewidth = 0.3,
+    inherit.aes = FALSE
+  ) +
+  geom_histogram(
+    data = sim_null_hypothesis_neg,
+    aes(
+      x = effect / standard_error,
+      y = after_stat(density),
+      group = NULL
+    ),
+    bins = 50,
+    fill = "gray30",
+    alpha = 0.2,
+    color = "gray30",
+    linewidth = 0.3,
+    inherit.aes = FALSE
+  ) +
+  geom_histogram(
+    data = sim_alternative_hypothesis,
+    aes(
+      x = effect / standard_error,
+      y = after_stat(density),
+      group = NULL
+    ),
+    bins = 50,
+    fill = "#27AE60",
+    alpha = 0.2,
+    color = "#1E8449",
+    linewidth = 0.3,
+    inherit.aes = FALSE
+  )
+```
+
+Because equivalence can also be assessed via confidence intervals, we visualize the CI criterion directly: success occurs when the entire CI lies strictly within ±margin. This plot makes it clear why equivalence demands more precision (n) than superiority for the same α.
+
+```{r}
+#| label: fig-equivalence-ci-plot
+#| fig-width: 6
+#| fig-height: 10
+#| code-fold: true
+#| fig-cap: |
+#|   Equivalence CI visualization: success when the entire 90% CI lies
+#|   within ±margin.
+
+sim_alternative_hypothesis |>
+  mutate(
+    ci_significant = ci_lower > -equivalence_bound &
+      ci_upper < equivalence_bound
+  ) |>
+  sample_n(200) |>
+  plot_ci_coverage(
+    true_effect = 0,
+    null_effect = -equivalence_bound,
+    title = "Equivalence Trial"
+  ) +
+  geom_vline(xintercept = equivalence_bound, linewidth = 1)
+```
+
+Finally, we compare empirical power from simulation with the theoretical TOST power. They should agree up to simulation error, which validates both our code and our understanding of the test.
+
+```{r}
+#| label: tbl-equivalence-power-comparison
+#| tbl-cap: |
+#|   Comparison of empirical power from simulation with the theoretical
+#|   TOST power.
+
+# For equivalence with margin ±0.2, we use the TOSTER package
+# But we can also calculate manually
+library(TOSTER)
+
+# Theoretical power calculation using TOST
+theoretical_power <- power_t_TOST(
+  n = sample_size_per_group,
+  low_eqbound = -equivalence_bound,
+  high_eqbound = equivalence_bound,
+  alpha = alpha_level
+)
+
+# Calculate empirical power from simulation
+sim_alternative_hypothesis |>
+  summarize(
+    power_tost = mean(t_value > critical_value & t_value < abs(critical_value)),
+    power_ci = mean(
+      ci_lower > -equivalence_bound & ci_upper < equivalence_bound
+    ),
+    power_theoretical = theoretical_power$power
+  ) |>
+  pivot_longer(
+    cols = everything(),
+    names_to = "method",
+    values_to = "power"
+  ) |>
+  gt() |>
+  fmt_percent(
+    columns = "power",
+    decimals = 0
+  )
+```
+
+
+# Summary
+
+In this lab, you learned the essential skills for power analysis and sample size planning:
+
+- **Four components**: Effect size, sample size, significance level, and power
+- **Power calculations**: Using the `pwr.t.test()` function
+- **Visualization**: Creating power curves to understand relationships
+- **Other hypothesis types**: Superiority vs. non-inferiority vs. equivalence tests
+
+# Resources for real-world power analysis
+
+This lab covered the fundamentals of power analysis using t-tests, but real-world studies often involve more complex designs that require specialized approaches. While the concepts you've learned here (effect size, sample size, power, and significance level) remain the same, you'll need different tools for studies with repeated measures, cluster randomization, survival endpoints, or adaptive designs.
+
+Here are two resources that catalog R packages for many power analysis scenarios you might encounter:
+
+- **[CRAN Task View: Clinical Trial Design, Monitoring, and Analysis](https://cran.r-project.org/web/views/ClinicalTrials.html#sample-size-and-power-calculations)**: An overview of R packages for power and sample size calculations specifically relevant to clinical trials and biostatistical research
+
+- **[Power and Sample Size in R](https://powerandsamplesize.org/r-packages/)**: A comprehensive website listing R packages for power analysis across different study designs and statistical methods
+
+
+

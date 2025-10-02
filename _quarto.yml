@@ -44,6 +44,8 @@ website:
             text: Classification
           - href: labs/testing-two-means.qmd
             text: Testing two means
+          - href: labs/power-sample-size.qmd
+            text: Power and sample size
       - section: "Exercises"
         contents:
           - href: exercises/lab-1-exercises.qmd
@@ -56,6 +58,8 @@ website:
             text: Lab 4 exercises
           - href: exercises/lab-webr-test-exercises.qmd
             text: Webr test exercises
+          - href: exercises/lab-power-sample-size.qmd
+            text: Power and sample size
 
 format:
   html:
