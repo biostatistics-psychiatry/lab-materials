@@ -60,7 +60,8 @@ website:
             text: Webr test exercises
           - href: exercises/lab-power-sample-size.qmd
             text: Power and sample size
-
+          - href: exercises/lab-webr-classification.qmd
+            text: Classification
 format:
   html:
     theme: flatly
