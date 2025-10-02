@@ -54,6 +54,8 @@ website:
             text: Webr test exercises
           - href: exercises/lab-power-sample-size.qmd
             text: Power and sample size
+          - href: exercises/lab-webr-classification.qmd
+            text: Classification
           - href: exercises/lab-webr-descriptive-statistics.qmd
             text: Descriptive statistics
           - href: exercises/lab-webr-p-value-ci.qmd
