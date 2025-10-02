@@ -273,24 +273,6 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../exercises/lab-2-exercises.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Lab 2 Exercises</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../exercises/lab-3-exercises.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Lab 3 exercises</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../exercises/lab-4-exercises.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Lab 4 exercises</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../exercises/lab-webr-test-exercises.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Webr test exercises</span></a>
   </div>
@@ -299,6 +281,24 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="../exercises/lab-power-sample-size.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Power and sample size</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../exercises/lab-webr-descriptive-statistics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Descriptive statistics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../exercises/lab-webr-p-value-ci.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">P-values and confidence intervals</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../exercises/lab-webr-testing-two-means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Testing two means</span></a>
   </div>
 </li>
       </ul>
@@ -370,9 +370,9 @@ $ scs_screen     &lt;dbl&gt; 25, 16, 22, 35, 29, 30, 20, 34, 21, 26, 35, 21, 32,
 $ dmrsodf_screen &lt;dbl&gt; 49178, 50727, 45074, 5381, 48444, 50899, 46923, 41428, …
 $ ders_screen    &lt;dbl&gt; 44, 73, 65, 45, 46, 49, 57, 38, 67, 45, 55, 56, 71, 36,…
 $ pid_5_screen   &lt;dbl&gt; 25, 20, 48, 17, 24, 20, 24, 26, 39, 23, 24, 26, 23, 15,…
-$ gender         &lt;chr&gt; "Woman", "Man", "Man", "Woman", "Man", "Man", "Woman", …
-$ education      &lt;chr&gt; "Primary", "University", "Primary", "Primary", "Primary…
-$ income         &lt;chr&gt; "Medium", "Medium", "High", "Medium", "Medium", "High",…
+$ gender         &lt;chr&gt; "Woman", "Man", "Man", "Man", "Woman", "Woman", "Woman"…
+$ education      &lt;chr&gt; "Primary", "University", "Secondary", "Secondary", "Uni…
+$ income         &lt;chr&gt; "Medium", "Medium", "Medium", "Medium", "Medium", "Low"…
 $ gad_cat        &lt;chr&gt; "Low anxiety", "High anxiety", "High anxiety", "Low anx…
 $ phq_cat        &lt;chr&gt; "Low depression", "High depression", "High depression",…</code></pre>
 </div>
@@ -632,7 +632,7 @@ mean of x
 <span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>z_value <span class="ot">&lt;-</span> (p_hat <span class="sc">-</span> p) <span class="sc">/</span> se</span>
 <span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="fu">abs</span>(z_value))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 5.815007e-05</code></pre>
+<pre><code>[1] 0.001622876</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># or</span></span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.test</span>(</span>
@@ -647,13 +647,13 @@ mean of x
     1-sample proportions test without continuity correction
 
 data:  sum(d_bl$gender == "Man") out of length(d_bl$gender), null probability 0.4
-X-squared = 14.852, df = 1, p-value = 5.815e-05
+X-squared = 8.6639, df = 1, p-value = 0.001623
 alternative hypothesis: true p is less than 0.4
 95 percent confidence interval:
- 0.0000000 0.3165351
+ 0.0000000 0.3511775
 sample estimates:
         p 
-0.2596685 </code></pre>
+0.2928177 </code></pre>
 </div>
 </div>
 <p><strong>3.6</strong> Modify the simulation code for the sampling distribution above to determine what would happen to the p-value if the sample size was 10, 100 or 1000</p>
@@ -670,7 +670,7 @@ sample estimates:
 <span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(means <span class="sc">&gt;=</span> <span class="fu">mean</span>(d_bl<span class="sc">$</span>lsas_screen)) <span class="co"># proportion of simulated means that are larger than our observed mean</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.2978</code></pre>
+<pre><code>[1] 0.2938</code></pre>
 </div>
 </div>
 <p>P-value with a sample size of 100</p>
@@ -686,7 +686,7 @@ sample estimates:
 <span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(means <span class="sc">&gt;=</span> <span class="fu">mean</span>(d_bl<span class="sc">$</span>lsas_screen)) <span class="co"># proportion of simulated means that are larger than our observed mean</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.0422</code></pre>
+<pre><code>[1] 0.0486</code></pre>
 </div>
 </div>
 <p>P-value with a sample size of 10000</p>
@@ -749,12 +749,12 @@ mean of x
 <span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a><span class="co"># upper coinfidence limit</span></span>
 <span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>p_hat <span class="sc">+</span> z <span class="sc">*</span> se</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.3235448</code></pre>
+<pre><code>[1] 0.3591127</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="co"># lower confidence limit</span></span>
 <span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>p_hat <span class="sc">-</span> z <span class="sc">*</span> se</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.1957922</code></pre>
+<pre><code>[1] 0.2265226</code></pre>
 </div>
 </div>
 <p><strong>3.10</strong> Compare this to what you would obtain using the function <code>prop.test()</code> in R.</p>
@@ -765,13 +765,13 @@ mean of x
     1-sample proportions test with continuity correction
 
 data:  table(d_bl$gender), null probability 0.5
-X-squared = 40.862, df = 1, p-value = 1.634e-10
+X-squared = 30.254, df = 1, p-value = 3.79e-08
 alternative hypothesis: true p is not equal to 0.5
 95 percent confidence interval:
- 0.1987679 0.3309846
+ 0.2288545 0.3657467
 sample estimates:
         p 
-0.2596685 </code></pre>
+0.2928177 </code></pre>
 </div>
 </div>
 <p><strong>3.11</strong> Reason about the the meaning and interpretation of the confidence intervals you have calculated in the context of how the actual STePs study was performed. The study can be found at: <a href="https://www.nature.com/articles/s44184-024-00063-0" class="uri">https://www.nature.com/articles/s44184-024-00063-0</a></p>
