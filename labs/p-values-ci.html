@@ -408,7 +408,7 @@ window.Quarto = {
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(means <span class="sc">&gt;=</span> <span class="fu">mean</span>(df_data<span class="sc">$</span>lsas_screen)) <span class="co"># proportion of simulated means that are larger than our observed mean</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.0115</code></pre>
+<pre><code>[1] 0.0125</code></pre>
 </div>
 </div>
 <p>If we find this simulation exercise a bit tedious, we could also use theoretical distributions for the sample means to calculate our p-value. The <strong>t-distribution</strong> can be used to estimate the spread to the sample means <em>when the population variance is unknown and the sample variance is used to approximate it</em>. It is very similar to the normal distribution, but has heavier tails that accounts for the uncertainty produced by using the sample variance instead of the true population variance when estimating the standard error of the sampling distribution. However, when the sample size increase, the t-distribution will come closer and closer to a normal distribution (also known as a z-distribution when standardized to have mean=0 and sd=1).</p>
@@ -579,13 +579,13 @@ mean of x
     1-sample proportions test with continuity correction
 
 data:  table(df_data$gender), null probability 0.32
-X-squared = 0.32541, df = 1, p-value = 0.7158
+X-squared = 1.3979, df = 1, p-value = 0.1185
 alternative hypothesis: true p is less than 0.32
 95 percent confidence interval:
- 0.0000000 0.4053286
+ 0.0000000 0.3367875
 sample estimates:
         p 
-0.3425414 </code></pre>
+0.2762431 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#two-sided p-value</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co">#one-sided p-value</span></span>
@@ -597,13 +597,13 @@ sample estimates:
     1-sample proportions test with continuity correction
 
 data:  table(df_data$gender), null probability 0.32
-X-squared = 0.32541, df = 1, p-value = 0.5684
+X-squared = 1.3979, df = 1, p-value = 0.2371
 alternative hypothesis: true p is not equal to 0.32
 95 percent confidence interval:
- 0.2747480 0.4171381
+ 0.2137569 0.3484190
 sample estimates:
         p 
-0.3425414 </code></pre>
+0.2762431 </code></pre>
 </div>
 </div>
 </section>
@@ -613,9 +613,9 @@ sample estimates:
 <p>Using the standard error, we can also calculate the confidence interval, defined as <strong>an interval that, if computed on a repeated set of samples, would contain the true population statistic 95% of the times.</strong></p>
 <section id="numeric-variables-1" class="level2">
 <h2 class="anchored" data-anchor-id="numeric-variables-1">Numeric variables</h2>
-<p>When the sample variance, <span class="math inline">\(s\)</span>, is used, we get the confidence intervals by taking the observed mean and adding or subtracting the <em>t-value</em> of the desired percentiles of the sampling distribution (indicated by the asterix) times the <em>standard error,</em> <span class="math inline">\(\frac{s}{\sqrt{n}}\)</span></p>
+<p>When the sample standard deviation, <span class="math inline">\(s\)</span>, is used, we get the confidence intervals by taking the observed mean and adding or subtracting the <em>t-value</em> of the desired percentiles of the sampling distribution (indicated by the asterix) times the <em>standard error,</em> <span class="math inline">\(\frac{s}{\sqrt{n}}\)</span></p>
 <p><span class="math display">\[ \text{CI} = \bar{x} \pm t^*\ \frac{s}{\sqrt{n}}\]</span></p>
-<p>If we knew the <em>variance of the population,</em> we could substitute the sample variance <span class="math inline">\(s\)</span> for the population variance <span class="math inline">\(\sigma\)</span>, and use <em>z</em>-values instead of <em>t-values.</em> For 95% confidence intervals, the z-value is 1.96.</p>
+<p>If we knew the <em>standard deviation of the population,</em> we could substitute the sample standard deviation, <span class="math inline">\(s\)</span> for the population standard deviation, <span class="math inline">\(\sigma\)</span>, and use <em>z</em>-values instead of <em>t-values.</em> For 95% confidence intervals, the z-value is 1.96.</p>
 <p><span class="math display">\[
 \text{CI} = \bar{x} \pm z^*\frac{\sigma}{\sqrt{n}}
 \]</span></p>
@@ -692,13 +692,13 @@ mean of x
     1-sample proportions test with continuity correction
 
 data:  table(df_data$gender), null probability 0.5
-X-squared = 17.326, df = 1, p-value = 3.149e-05
+X-squared = 35.359, df = 1, p-value = 2.742e-09
 alternative hypothesis: true p is not equal to 0.5
 95 percent confidence interval:
- 0.2747480 0.4171381
+ 0.2137569 0.3484190
 sample estimates:
         p 
-0.3425414 </code></pre>
+0.2762431 </code></pre>
 </div>
 </div>
 
