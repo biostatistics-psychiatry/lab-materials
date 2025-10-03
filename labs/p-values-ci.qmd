@@ -224,11 +224,11 @@ Using the standard error, we can also calculate the confidence interval, defined
 
 ## Numeric variables
 
-When the sample variance, $s$, is used, we get the confidence intervals by taking the observed mean and adding or subtracting the *t-value* of the desired percentiles of the sampling distribution (indicated by the asterix) times the *standard error,* $\frac{s}{\sqrt{n}}$
+When the sample standard deviation, $s$, is used, we get the confidence intervals by taking the observed mean and adding or subtracting the *t-value* of the desired percentiles of the sampling distribution (indicated by the asterix) times the *standard error,* $\frac{s}{\sqrt{n}}$
 
 $$ \text{CI} = \bar{x} \pm t^*\ \frac{s}{\sqrt{n}}$$
 
-If we knew the *variance of the population,* we could substitute the sample variance $s$ for the population variance $\sigma$, and use *z*-values instead of *t-values.* For 95% confidence intervals, the z-value is 1.96.
+If we knew the *standard deviation of the population,* we could substitute the sample standard deviation, $s$ for the population standard deviation, $\sigma$, and use *z*-values instead of *t-values.* For 95% confidence intervals, the z-value is 1.96.
 
 $$
 \text{CI} = \bar{x} \pm z^*\frac{\sigma}{\sqrt{n}}
