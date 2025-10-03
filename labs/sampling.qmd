@@ -12,16 +12,16 @@ So far, we have restricted ourselves to describing the sample that we have. Ofte
 
 library(here)
 library(tidyverse)
-d_bl <- read_rds(here("data", "steps_baseline.rds"))
+df_data <- read_csv(here("data", "steps_clean.csv"))
 ```
 
 # Central Limit Theorem (CLT):
 
 No matter what the population distribution looks like, if you take many random samples and calculate their means, those samples means will form a **normal distribution** as the sample size grows large.
 
-- Sample means become normally distributed.
-- Happens even if the original population is **not normal**.
-- Works better as **sample size increases** (n ≥ 30 is a common rule).
+-   Sample means become normally distributed.
+-   Happens even if the original population is **not normal**.
+-   Works better as **sample size increases** (n ≥ 30 is a common rule).
 
 Here is a simulation to visualize what the relation between the distribution of a variable in the population and the sampling distribution of the means from that same population.
 
@@ -128,8 +128,8 @@ curve(dnorm(x, mean = mean(sample_means), sd = sd(sample_means)),
 
 As you collect more and more observations, the **sample mean** (or proportion) will get closer and closer to the **true population mean**.
 
-- More data = more accuracy.
-- Guarantees that with enough data, **random variation** averages out.
+-   More data = more accuracy.
+-   Guarantees that with enough data, **random variation** averages out.
 
 Imagine that we had the patience to flip a coin 1000 times. For each toss, we calculated the number of heads we've gotten so far and divided by the total tosses, to get the proportion that landed heads. Even if we expect the coin to be fair, we wouldn't expect it to be 50-50 heads and tails in the beginning. In fact, at the first toss that would be impossible, As we continued, however, we would see the proportion of heads gradually stabilize around 0.5.
 
@@ -179,6 +179,16 @@ $$
 SE = {\sqrt{s^2 / n}}
 $$
 
+Base R has no built-in functions for standard errors, but you can easily calculate them from formulas. To calculate the standard error of the LSAS scale at screening, we can use the following code:
+
+```{r}
+sd(df_data$lsas_screen)/sqrt(length(df_data$lsas_screen))
+
+# or we can create a function
+stderr <- function(x) sd(x) / sqrt(length(x))
+stderr(df_data$lsas_screen)
+```
+
 ## Standard error of a proportion
 
 For a proportion, the standard error for the population is calculated by the formula:
@@ -187,20 +197,16 @@ $$
 \mathrm{SE}(p) = \sqrt{\frac{p(1 - p)}{n}}
 $$
 
-::: {#exr-se-lsas .callout-caution collapse="true"}
-## Standard Error of LSAS_Screen
+We can get this in R using the following code:
 
-Estimate the standard error of LSAS_Screen in the STePS study using the formula above, and describe in words what the number means.
-:::
+```{r}
+# Simulating a gender variable 
+n <- nrow(df_data) 
+df_data$gender <- rbinom(n, 1, 0.7)
+df_data$gender <- ifelse(df_data$gender == 1, "Woman", "Man")
 
-::: {#exr-se-proportion .callout-caution collapse="true"}
-## Standard Error of Proportion
-
-Calculate the standard error for the proportion of men in the STePS study, and describe the meaning of this number in words.
-:::
-
-::: {#exr-sample-size-effect .callout-caution collapse="true"}
-## Effect of Sample Size on Standard Error
-
-Describe what would happen to these standard errors if the sample size had been 1000 participants and explain why?
-:::
+p <- mean(df_data$gender=="Man") # using the mean function to get the probability 
+n <- nrow(df_data) # the number of observations (since we have no NA values) 
+se <- sqrt(p * (1 - p) / n) # standard error 
+se
+```

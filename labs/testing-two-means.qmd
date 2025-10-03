@@ -2,9 +2,9 @@
 title: "Testing two means and contingency tables"
 ---
 
-In this lab we focus on testing differences between groups. Previously we have calculated p-values and confidence intervals for one-sample means and proportions. In psychiatric research, we are more often interested in comparing means between groups. For instance, the post-treatment symptom levels between the treatment group and the control group.
+In this chapter we focus on testing differences between groups. Previously we have calculated p-values and confidence intervals for one-sample means and proportions. In psychiatric research, we are more often interested in comparing means between groups. For instance, the post-treatment symptom levels between the treatment group and the control group.
 
-In the STepS study, a primary comparison was the severity of social anxiety symptoms post-treatment between the self-guided and the therapist-guided treatment groups. As a first check, we can load the data and calculate get some descriptive statistics for the post-treatment LSAS-scores across the treatment groups.
+In the STePS study, a primary comparison was the severity of social anxiety symptoms post-treatment between the self-guided and the therapist-guided treatment groups. As a first check, we can load the data and calculate get some descriptive statistics for the post-treatment LSAS-scores across the treatment groups.
 
 # Load packages and data
 
@@ -204,17 +204,6 @@ t.test(lsas_post ~ trt,
 )
 ```
 
-::: {#exr-independent-means .callout-caution collapse="true"}
-## Testing independent group means
-
-1.  Calculate the mean difference in post-treatment LSAS scores, and the associated two-sided p-value for the mean difference between the therapist-guided and the wait list group
-2.  Complement this with a 95% confidence interval.
-3.  Do you think the assumption of equal variance between the groups is justifies?
-4.  Do you think the assumptions of the t-test are fulfilled?
-5.  How do the results differ if you use the Welch t-test instead
-6.  **BONUS:** If you feel up to it, try to also calculate a z-test for the mean difference in post-treatment LSAS-scores using the formulas above
-7.  **BONUS:** Modify the code above to calculate the 99% confidence interval of the mean difference in LSAS-scores at post-treatment between the self-guided and the therapist-guided groups
-:::
 
 ## Testing dependent means
 
@@ -311,13 +300,6 @@ Or again, more conveniently using the `t.test()` function
 t.test(df_data$lsas_post, df_data$lsas_screen, paired = TRUE)
 ```
 
-::: {#exr-dependent-means .callout-caution collapse="true"}
-## Testing dependent group means
-
-1.  Compute a t-test for the difference in LSAS-scores between post-treatment and 12-month follow-up and provide an interpretation of its meaning
-2.  Also calculate the 95% confidence interval for this difference, using the z-value formula and provide an interpretation of its meaning
-3.  Compare the means of GAD-7 from pre- to post-treatment and interpret the results
-:::
 
 ## Contingency tables and the Chi-squared test
 
@@ -403,13 +385,6 @@ Our results tells us that the null hypothesis of no association cannot be reject
 The **Chi-squared test** is only valid if the counts in each cell is \>5. When cell counts are lower, Fisher's exact test should be used instead. You can use the `fisher.test()` function
 :::
 
-::: {#exr-testing-categorical-distributions .callout-warning collapse="true"}
-## Testing categorical distributions
-
-Chi-squared tests, and other tests of significance, are sometimes used to check that important pre-treatment characteristics, such as gender or symptom level, are balanced between the treatment groups. Non-sinificant p-values are then taken as an argument that the groups are balanced. Reason about why this is a problematic approach.
-
-Create a categorical for high or low generalized anxiety and one for high and low social anxiety, and use the Chi squared test to test the null hypothesis of no association between the variables
-:::
 
 ## Other non-parametric tests
 
@@ -476,12 +451,3 @@ wilcox.test(lsas_post ~ trt,
 )
 ```
 
-::: {#exr-non-parametric-tests .callout-warning collapse="true"}
-## Non-parametric tests
-
-Which of all the test performed today do you think is most appropriate for the pre-post difference in LSAS scores?
-
-And which of all tests performed is most appropriate for comparing the LSAS scores between the self-guided and the therapist-guided groups?
-
-Perform a signed test for the pre-post difference in DERS scores and interpret the results.
-:::

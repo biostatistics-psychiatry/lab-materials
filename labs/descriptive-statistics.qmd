@@ -2,7 +2,7 @@
 title: "Descriptive statistics"
 ---
 
-In this lab we will practice calculating and interpreting descriptive statistics using the STePS dataset. We start by loading the cleaned dataset saved in the [Import and clean data](import-clean.qmd) lab.
+In this chapter we show how to calculate and interpret descriptive statistics using the STePS dataset. We start by loading the cleaned data set saved in the [Import and clean data](import-clean.qmd) chapter.
 
 ```{r}
 #| label: load-packages
@@ -10,21 +10,21 @@ In this lab we will practice calculating and interpreting descriptive statistics
 library(here)
 library(tidyverse)
 
-d <- read_csv(here("data", "steps_clean.csv"))
+df_data <- read_csv(here("data", "steps_clean.csv"))
 ```
 
 We'll start of doing some basic descriptive statistics of the baseline variables. We start by checking the variable names to identify the baseline variables.
 
 ```{r}
 #| label: colnames
-colnames(d)
+colnames(df_data)
 ```
 
 For easy handling, we'll create a data frame containing only the baseline variables, ID, Group and all variables ending with the suffix "\_screen".
 
 ```{r}
 #| label: select-baseline
-d_bl <- d |>
+d_bl <- df_data |>
   select(
     id,
     group,
@@ -43,19 +43,13 @@ Or more efficiently (if variables are correctly named) we can use the `ends_with
 
 ```{r}
 #| label: ends-with-screen
-d_bl <- d |>
+d_bl <- df_data |>
   select(
     id,
     group,
     ends_with("_screen")
   )
 ```
-
-::: {#exr-dataset-overview .callout-caution collapse="true"}
-## Get an overview of the dataset
-
-**2.1** Use the functions described in the [Import and clean data](import-clean.qmd) lab to get a quick overview of the dataset and give a brief summary of it.
-:::
 
 # Numeric data
 
@@ -171,16 +165,6 @@ abline(v = get_mode(d_bl$lsas_screen), col = "darkgreen", lwd = 2, lty = 2) # Mo
 
 ```
 
-::: {#exr-visualize-centrality .callout-caution collapse="true"}
-## Visualize centrality measures
-
-**2.2** Visualize the distribution of the PHQ-9 scale and the PID-5 scale and provide the mean, median and mode.
-
-**2.3** How does the centrality measures differ and why?
-
-**2.4** Reason on the pros and cons of the different centrality measures for these scales.
-:::
-
 ## Spread measures
 
 Centrality measures give information on the most typical value in the distribution, but no info on the spread of values. For example, the two distributions below have the same mean value (0), but different spread (standard deviation 0.2 vs. 1).
@@ -250,18 +234,6 @@ To get a summary of the spread of the data, we use different **spread measures.*
 
     The functions `sd`() and `var()` gives the sample standard deviation and variance.
     :::
-
-::: {#exr-calculate-spread .callout-caution collapse="true"}
-## Calculate spread measures
-
-**2.5** Calculate spread measures for the LSAS-SR scale, what do they tell you and which ones do you think are most useful to describe the spread of the values. Motivate your answer briefly!
-
-**Overcourse:**
-
-**2.6** Calculate the *population variance and standard deviation*. How do these differ from the ones given by the functions `sd()` and `var()`.
-
-**2.7** Use only the first ten participants and compare the population and the sample variance and standard deviation of LSAS-SR. What do you find, and how do the results compare to those from exercise 2.6.
-:::
 
 # Categorical data
 
@@ -337,12 +309,6 @@ A piechart shows the distribution of a categorical variable as a pie, with the s
 pie(table(d_bl$education))
 ```
 
-::: {#exr-visualize-categorical .callout-caution collapse="true"}
-## Visualize categorical data
-
-**2.8** Calculate the counts, proportions and percentages for the simulated income categories and visualize the distribution.
-:::
-
 # Bi-variable distributions
 
 It can also be useful to investigate bi-variable distributions - i.e. the joint distribution of two variables - to get a sense of how variables in your data is related to each other.
@@ -407,8 +373,7 @@ vars <- c(
   "pid_5_screen",
   "gender",
   "education",
-  "income"
-)
+  "income")
 
 CreateTableOne(vars = vars, data = d_bl)
 ```
@@ -418,24 +383,4 @@ We can also do this stratified by a categorical variable using the strata argume
 ```{r}
 #| label: tableone-package-strata
 CreateTableOne(vars = vars, data = d_bl, strata = "group", test = FALSE)
-```
-
-::: {#exr-visualize-bivariate .callout-caution collapse="true"}
-## Visualize bi-variable distributions
-
-**2.9** Visualize the joint distribution of GAD-7 and PHQ-9 as numeric variables and describe what you see
-
-**2.10** Visualize the distribution of of LSAS scores by income level and describe what you see
-
-**2.11** Create a variable for high vs. low DERS scores and investigate the joint distribution of this variable and phq_cat (that we created in an earlier example)
-
-**2.12** Create a table using the tableone package to show descriptives statistics stratified by high vs low depression levels. Briefly interpret what you see.
-:::
-
-# Save output
-
-```{r}
-#| label: save-output
-
-write_rds(d_bl, here("data", "steps_baseline.rds"))
 ```
