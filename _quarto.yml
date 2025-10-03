@@ -62,6 +62,8 @@ website:
             text: P-values and confidence intervals
           - href: exercises/lab-webr-testing-two-means.qmd
             text: Testing two means
+          - href: exercises/webr-exercise-sampling.qmd
+            text: Sampling from a population
 
 format:
   html:
