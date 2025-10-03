@@ -2,7 +2,7 @@
 title: "Classification"
 ---
 
-In this lab, we will look at how we can work with classification problems in R. You will learn how to evaluate *sensitivity*, *specificity*, *positive predictive value* (PPV), and *negative predictive value* (NPV). These measures help us understand how well a model or test can identify or predict binary outcomes (e.g., disease status, treatment response). You will not work on the models themselves; that is the topic of upcoming courses and labs.
+In this chapter, we will look at how we can work with classification problems in R. You will learn how to evaluate *sensitivity*, *specificity*, *positive predictive value* (PPV), and *negative predictive value* (NPV). These measures help us understand how well a model or test can identify or predict binary outcomes (e.g., disease status, treatment response). You will not work on the models themselves; that is the topic of upcoming courses and chapters.
 
 # Load packages and data
 
@@ -31,7 +31,7 @@ d <- d_outcomes |>
   )
 ```
 
-For the purposes of this lab we need a binary outcome. We will use the `lsas_post` variable as our outcome of interest, and evaluate how well we can predict it using the `lsas_screen` values.
+For the purposes of this chapter we need a binary outcome. We will use the `lsas_post` variable as our outcome of interest, and evaluate how well we can predict it using the `lsas_screen` values.
 
 ```{r}
 #| label: add-binary-outcome
@@ -45,13 +45,6 @@ d_nomiss <- d_nomiss |>
     lsas_post_bin = factor(lsas_post_bin, levels = c("Low", "High"))
   )
 ```
-
-::: {#exr-phq9-binary .callout-caution collapse="true"}
-## Create a binary variable of PHQ-9 at post-treatment
-
-For the exercises in this lab, you will work with PHQ-9 instead of LSAS. Create a binary outcome variable `phq9_post_bin` that is "Low" if `phq9_post` is less than 10, and "High" otherwise.
-
-::: 
 
 ::: {.callout-warning}
 ## Statistical models below
@@ -81,13 +74,6 @@ true_neg <- lsas_conf_mat$table[[4]]
 
 lsas_conf_mat
 ```
-
-::: {#exr-phq9-logistic .callout-caution collapse="true"}
-## Fit a logistic regression model (PHQ-9)
-
-Fit a logistic regression model to predict `phq9_post_bin` using `phq9_screen` and `group`. Create a confusion matrix for the predictions. You can use the same code as above, but you will need to change to phq9-values. You can also use the built-in `glm()` function together with `predict()` to fit the logistic regression and predict the outcome if you prefer.
-
-:::
 
 # Evaluate classification manually
 
@@ -150,13 +136,6 @@ neg_pred_val <- true_neg / (true_neg + false_neg)
 ```
 
 Negative predictive value is `r round(neg_pred_val, 2)`.
-
-::: {#exr-classification-metrics .callout-caution collapse="true"}
-## Calculate classification metrics
-
-Calculate the sensitivity, specificity, positive predictive value, and negative predictive value for the PHQ-9 predictions.
-
-:::
 
 # Evaluate classification using tidymodels
 
