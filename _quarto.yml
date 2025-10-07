@@ -34,6 +34,8 @@ website:
             text: Descriptive statistics
           - href: labs/tidy-data-manipulation.qmd
             text: Tidy data manipulation
+          - href: labs/probability-distrubutions.qmd
+            text: Probability distributions in R
           - href: labs/sampling.qmd
             text: Sampling from a population
           - href: labs/p-values-ci.qmd
