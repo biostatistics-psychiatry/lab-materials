@@ -1,0 +1,199 @@
+---
+title: Lab webr probability distributions
+number-sections: true
+format: live-html
+engine: knitr
+webr:
+  packages:
+    - dplyr
+resources:
+  - ../data/steps_clean.csv
+---
+
+{{< include ../_extensions/r-wasm/live/_knitr.qmd >}}
+
+```{webr}
+#| setup: true
+#| exercise: ex_1
+# Load the CSV data
+library(dplyr)
+df_data <- read.csv("data/steps_clean.csv")
+```
+
+::::: panel-tabset
+## Exercise 1
+
+Check the mean and SD of LSAS scores at screening. Assuming it is normally distributed, what is the probability that a person will have a score of 80 or less? 
+
+```{webr}
+#| exercise: ex_1
+pnorm(__,__,__)
+
+```
+
+## Hints
+
+::: {.hint exercise="ex_1"}
+
+Use the `mean()`and ´sd()´functions to find the values in the dataset ´df_data´
+```{webr}
+mean(df_data$lsas_screen)
+sd(df_data$lsas_screen)
+```
+
+:::
+
+## Solution
+
+::: {.solution exercise="ex_1"}
+The full solution is:
+
+``` r
+mean <- mean(df_data$lsas_screen)
+sd <- sd(df_data$lsas_screen)
+pnorm(80, mean, sd)
+ #<1>
+```
+:::
+:::::
+
+```{webr}
+#| setup: true
+#| exercise: ex_2
+# Load the CSV data
+library(dplyr)
+df_data <- read.csv("data/steps_clean.csv")
+```
+
+::::: panel-tabset
+## Exercise 2
+
+What is the probability that a person will have a LSAS score at screening of 100 or more, assuming the scores are normally distributed? 
+
+```{webr}
+#| exercise: ex_2
+_ - pnorm(__,__,__)
+
+```
+
+## Hints
+
+::: {.hint exercise="ex_2"}
+
+Use the `mean()`and `sd()` functions to find the values in the dataset `df_data`. 
+Also, since we are looking at a value *equal or greater to* a certain point of the cumulative probability distribution, we can use `1-pnorm()`
+```{webr}
+mean <- mean(df_data$lsas_screen)
+sd <- sd(df_data$lsas_screen)
+1-pnorm(___,___,___)
+```
+
+:::
+
+## Solution
+
+::: {.solution exercise="ex_2"}
+The full solution is:
+
+``` r
+mean <- mean(df_data$lsas_screen)
+sd <- sd(df_data$lsas_screen)
+1-pnorm(100, mean, sd)
+ #<2>
+```
+:::
+:::::
+
+
+```{webr}
+#| setup: true
+#| exercise: ex_3
+# Load the CSV data
+library(dplyr)
+df_data <- read.csv("data/steps_clean.csv")
+```
+
+::::: panel-tabset
+## Exercise 3
+
+Let's say that the average inclusion rate in the STEpS study was 5 participants per week. What is the probability that they'll include 3 or less people the coming week?
+
+```{webr}
+#| exercise: ex_3
+p___(__,__)
+
+```
+
+## Hints
+
+::: {.hint exercise="ex_3"}
+
+Since we are looking at a rate we can use the function for the cumulative probabililty of the Poisson distribution, using the `ppois()` function
+```{webr}
+ppois(__,__)
+```
+
+:::
+
+## Solution
+
+::: {.solution exercise="ex_3"}
+The full solution is:
+
+``` r
+lambda = 5
+ppois(3,5)
+ #<3>
+```
+:::
+:::::
+
+
+
+```{webr}
+#| setup: true
+#| exercise: ex_4
+# Load the CSV data
+library(dplyr)
+df_data <- read.csv("data/steps_clean.csv")
+```
+
+::::: panel-tabset
+## Exercise 4
+
+In the STEpS study, 78% of the participants were women. What is the probability that 5 randomly chosen participants would all be women? 
+
+```{webr}
+#| exercise: ex_4
+d___(x = __, size=--, p=__)
+
+```
+
+## Hints
+
+::: {.hint exercise="ex_4"}
+
+Since we are looking at a binary variable, we can get the probability density function for the binomial distribution, using the `dbinom()` function
+```{webr}
+dbinom(x=__,size=__,p= __)
+```
+
+:::
+
+## Solution
+
+::: {.solution exercise="ex_4"}
+The full solution is:
+
+``` r
+dbinom(x=5, size = 5, prob = 0.78)
+
+# or since these are random events, we could get the joint probability by multiplying the probabilities 5 times
+0.78*0.78*0.78*0.78*0.78
+#which is the same as
+0.78^5
+
+ #<4>
+```
+:::
+:::::

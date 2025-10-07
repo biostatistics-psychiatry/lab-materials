@@ -58,12 +58,15 @@ website:
             text: Classification
           - href: exercises/lab-webr-descriptive-statistics.qmd
             text: Descriptive statistics
+          - href: exercises/webr-exercise-sampling.qmd
+            text: Sampling from a population
+          - href: exercises/lab-webr-pdist.qmd
+            text: Probability distributions in R
           - href: exercises/lab-webr-p-value-ci.qmd
             text: P-values and confidence intervals
           - href: exercises/lab-webr-testing-two-means.qmd
             text: Testing two means
-          - href: exercises/webr-exercise-sampling.qmd
-            text: Sampling from a population
+
 
 format:
   html:
