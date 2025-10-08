@@ -26,6 +26,8 @@ website:
             text: Overview
           - href: r-setup.qmd
             text: R and RStudio setup
+          - href: why-learn-r.qmd
+            text: Why Learn R?
       - section: "Labs"
         contents:
           - href: labs/import-clean.qmd

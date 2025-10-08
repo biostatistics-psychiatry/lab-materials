@@ -1,0 +1,63 @@
+---
+title: "Why Teach R in Biostatistics for Clinical PhD Students in Psychiatry"
+---
+
+Why do we use R instead of commercial software such as SPSS, Stata, or SAS? This document explains why R is the primary statistical language in the *Biostatistics for Clinical Psychiatry PhD Students* course.
+
+::: callout-note
+## We are not trying to make everyone a programmer
+
+The goal of this course is not to make everyone become a programmer. Our aim is to give you the foundational skills to analyze data independently, understand statistical methods, and communicate research findings transparently and reproducibly.
+:::
+
+## Pedagogical Fit for PhD-Level Training
+R supports PhD-level training in the following ways:
+
+| Goal | R's advantage |
+|:-----|:---------------|
+| Develop independent analytic skills | Code-based workflows support deeper understanding of statistical concepts |
+| Build long-term, transferable skills | Open ecosystem spanning statistics, data science, and reproducibility |
+| Prepare for interdisciplinary research | Common language across many academic disciplines |
+
+::: callout-note
+## About the learning curve
+
+Yes, learning R takes more initial effort than point-and-click software. The payoff is knowing a more powerful and flexible tool, that you can use throughout your career. The skills transfer: if you later learn Python or another language, the logic and problem‑solving approach will already feel familiar.
+:::
+
+## Reproducibility, Transparency, and Error Detection
+
+### Scripts create a complete record
+Analyses in R are performed through scripts where every step is documented. This reduces errors that arise when steps are not recorded in point‑and‑click tools. Your code serves as a permanent audit trail that you, your committee, collaborators, and reviewers can verify.
+
+### Reproducible workflows
+When data update or you discover an error, you can rerun your entire workflow rather than manually repeating dozens of steps. Your future self will thank you when revisiting analyses months or years later.
+
+### Version control and collaboration
+R scripts work seamlessly with Git and GitHub to track changes over time. Share code alongside publications to meet journal and funder requirements for transparent, reproducible research.
+
+### Notebooks
+Quarto and R Markdown combine code, results, and interpretation in a single document. You can pair narrative explanations with the code that produces your analyses, making clear not just *what* you did, but *why* you made specific decisions. This aligns with open science and creates documentation that serves as both a research record and a communication tool.
+
+## Open Source Advantages
+
+- R is free and open source: no license fees or institutional access requirements.
+- Enables collaboration with researchers at institutions without commercial software licenses
+- Future‑proof: unlike proprietary software that requires annual renewals, you retain full access to R and its packages after graduation—whether you work in academia, healthcare systems, government, or industry.
+
+## Visualization and Communication
+
+- **`ggplot2`** and related packages produce high‑quality, customizable, and reproducible figures.
+- Promotes data exploration and visual literacy.
+- Visualizations are easily regenerated when data update or reviewers request changes - no manual reformatting required.
+
+## Active global community
+R is used by a large, interdisciplinary community including biostatisticians, psychologists, epidemiologists, and data scientists. Extensive free learning resources exist: thousands of tutorials, online courses, textbooks, and active forums. R has been actively developed for over 25 years with a stable core and a large package ecosystem (CRAN).
+
+## Practical career value
+R proficiency is increasingly listed in job postings for academic research. The analytical thinking and problem‑solving skills you develop transfer across many career paths and prepare you for the evolving landscape of data analysis.
+
+## Summary
+
+Learning R is about more than learning software. The skills you develop will serve you throughout your career, allowing you to ask and answer complex questions with transparent, reproducible workflows that you can share and defend.
+
