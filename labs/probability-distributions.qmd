@@ -1,0 +1,113 @@
+---
+title: "Probability Distributions in R"
+format: html
+---
+
+R provides a systematic way to work with probability distributions.\
+For each distribution, there are **four types of functions**, following a naming convention:
+
+-   `dxxx`: Density (for continuous) or Probability Mass (for discrete)\
+-   `pxxx`: Cumulative distribution function (CDF)\
+-   `qxxx`: Quantile function (inverse CDF)\
+-   `rxxx`: Random sample generation
+
+------------------------------------------------------------------------
+
+### 1. Density / Probability Mass (`dxxx`)
+
+-   For **continuous distributions** (like the normal), this is the **probability density function (pdf)**.\
+    It does not give a probability directly, but tells you how "dense" the distribution is around a value.\
+    Example: `dnorm(0)` gives the height of the normal curve at 0.
+-   For **discrete distributions** (like the binomial or poisson), it is the **probability mass function (pmf)**.\
+    This gives the actual probability of the outcome.\
+    Example: `dbinom(3, size=10, prob=0.5)` = probability of exactly 3 successes.
+
+Think of `dxxx` as answering: "What is the likelihood at this exact point?"
+
+```{r}
+# Normal density at x = 0, mean = 0, sd = 1
+dnorm(0, mean = 0, sd = 1)
+
+# Probability that a Poisson(λ=2) equals x = 3
+dpois(3, lambda = 2)
+```
+
+### 2. Cumulative probability (`pxxx`)
+
+-   This function gives the probability that the random variable is **less than or equal to a value**.
+
+-   Example: `pnorm(1.96)` = probability that a standard normal random variable is ≤ 1.96 (about 0.975).
+
+-   Example: `pbinom(4, size=10, prob=0.5)` = probability of getting **up to 4 successes** in 10 coin tosses
+
+Think of `pxxx` as answering:\
+*"What is the probability that I am at or below this value?"*
+
+```{r}
+# P(X ≤ 1.96) when X ~ N(0,1)
+pnorm(1.96, mean = 0, sd = 1)
+
+# Cumulative probability for Binomial(n=10, p=0.3), X ≤ 4
+pbinom(4, size = 10, prob = 0.3)
+```
+
+### 3. Quantiles (`qxxx`)
+
+-   This is the **inverse** of the CDF.
+
+-   You give it a probability `p`, and it tells you the corresponding value (quantile).
+
+-   Example: `qnorm(0.975)` = the 97.5th percentile of the normal distribution (≈ 1.96).
+
+-   Example: `qbinom(0.5, size=10, prob=0.5)` = the median number of successes in 10 coin tosses.
+
+Think of `qxxx` as answering:\
+*"At what value do I reach this probability?"*
+
+```{r}
+# 97.5th percentile of a N(0,1)
+qnorm(0.975, mean = 0, sd = 1)
+
+# Median of Chi-squared with 5 df
+qchisq(0.5, df = 5)
+```
+
+### 4. Random generation (`rxxx`)
+
+-   This generates random numbers following the distribution.
+
+-   Example: `rnorm(5, mean=0, sd=1)` → five random draws from a standard normal distribution.
+
+-   Example: `rpois(10, lambda=3)` → ten simulated counts from a Poisson distribution.
+
+Think of `rxxx` as answering:\
+*"Give me some random data from this distribution."*
+
+```{r}
+# Generate 5 random normal values
+rnorm(5, mean = 0, sd = 1)
+
+# Generate 10 random uniform values between 0 and 1
+runif(10, min = 0, max = 1)
+
+```
+
+## Common Distributions and Function Prefixes
+
+| Distribution   | Prefix  | Example Functions                      |
+|----------------|---------|----------------------------------------|
+| Normal         | `norm`  | `dnorm`, `pnorm`, `qnorm`, `rnorm`     |
+| Binomial       | `binom` | `dbinom`, `pbinom`, `qbinom`, `rbinom` |
+| Poisson        | `pois`  | `dpois`, `ppois`, `qpois`, `rpois`     |
+| Exponential    | `exp`   | `dexp`, `pexp`, `qexp`, `rexp`         |
+| Uniform        | `unif`  | `dunif`, `punif`, `qunif`, `runif`     |
+| Chi-squared    | `chisq` | `dchisq`, `pchisq`, `qchisq`, `rchisq` |
+| t-distribution | `t`     | `dt`, `pt`, `qt`, `rt`                 |
+| F-distribution | `f`     | `df`, `pf`, `qf`, `rf`                 |
+| Gamma          | `gamma` | `dgamma`, `pgamma`, `qgamma`, `rgamma` |
+| Beta           | `beta`  | `dbeta`, `pbeta`, `qbeta`, `rbeta`     |
+| Geometric      | `geom`  | `dgeom`, `pgeom`, `qgeom`, `rgeom`     |
+| Hypergeometric | `hyper` | `dhyper`, `phyper`, `qhyper`, `rhyper` |
+
+
+Right now, these distributions may seem very theoretical. In chapter [P-values and Confidence Intervals](p-values-ci.qmd) however, we'll use these to get some actual inference from the STEpS data.
