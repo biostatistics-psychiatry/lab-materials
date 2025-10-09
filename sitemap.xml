@@ -2,86 +2,90 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://biostatistics-psychiatry.github.io/lab-materials/working in R.html</loc>
-    <lastmod>2025-10-06T07:25:08.327Z</lastmod>
+    <lastmod>2025-10-09T06:38:33.712Z</lastmod>
   </url>
   <url>
     <loc>https://biostatistics-psychiatry.github.io/lab-materials/exercises/solutions.html</loc>
-    <lastmod>2025-10-06T07:25:08.308Z</lastmod>
+    <lastmod>2025-10-09T06:38:33.693Z</lastmod>
   </url>
   <url>
     <loc>https://biostatistics-psychiatry.github.io/lab-materials/exercises/lab-webr-testing-two-means.html</loc>
-    <lastmod>2025-10-06T07:25:08.308Z</lastmod>
+    <lastmod>2025-10-09T06:38:33.693Z</lastmod>
   </url>
   <url>
-    <loc>https://biostatistics-psychiatry.github.io/lab-materials/exercises/lab-webr-test-exercises.html</loc>
-    <lastmod>2025-10-06T07:25:08.308Z</lastmod>
-  </url>
-  <url>
-    <loc>https://biostatistics-psychiatry.github.io/lab-materials/exercises/lab-1-exercises.html</loc>
-    <lastmod>2025-10-06T07:25:08.307Z</lastmod>
-  </url>
-  <url>
-    <loc>https://biostatistics-psychiatry.github.io/lab-materials/index.html</loc>
-    <lastmod>2025-10-06T07:25:08.317Z</lastmod>
-  </url>
-  <url>
-    <loc>https://biostatistics-psychiatry.github.io/lab-materials/labs/testing-two-means.html</loc>
-    <lastmod>2025-10-06T07:25:08.325Z</lastmod>
-  </url>
-  <url>
-    <loc>https://biostatistics-psychiatry.github.io/lab-materials/labs/p-values-ci.html</loc>
-    <lastmod>2025-10-06T07:25:08.317Z</lastmod>
-  </url>
-  <url>
-    <loc>https://biostatistics-psychiatry.github.io/lab-materials/labs/power-sample-size.html</loc>
-    <lastmod>2025-10-06T07:25:08.317Z</lastmod>
-  </url>
-  <url>
-    <loc>https://biostatistics-psychiatry.github.io/lab-materials/labs/classification.html</loc>
-    <lastmod>2025-10-06T07:25:08.317Z</lastmod>
-  </url>
-  <url>
-    <loc>https://biostatistics-psychiatry.github.io/lab-materials/r-setup.html</loc>
-    <lastmod>2025-10-06T07:25:08.325Z</lastmod>
-  </url>
-  <url>
-    <loc>https://biostatistics-psychiatry.github.io/lab-materials/labs/sampling.html</loc>
-    <lastmod>2025-10-06T07:25:08.325Z</lastmod>
-  </url>
-  <url>
-    <loc>https://biostatistics-psychiatry.github.io/lab-materials/labs/tidy-data-manipulation.html</loc>
-    <lastmod>2025-10-06T07:25:08.325Z</lastmod>
-  </url>
-  <url>
-    <loc>https://biostatistics-psychiatry.github.io/lab-materials/labs/descriptive-statistics.html</loc>
-    <lastmod>2025-10-06T07:25:08.317Z</lastmod>
-  </url>
-  <url>
-    <loc>https://biostatistics-psychiatry.github.io/lab-materials/labs/import-clean.html</loc>
-    <lastmod>2025-10-06T07:25:08.317Z</lastmod>
-  </url>
-  <url>
-    <loc>https://biostatistics-psychiatry.github.io/lab-materials/labs/probability-rules.html</loc>
-    <lastmod>2025-10-06T07:25:08.325Z</lastmod>
-  </url>
-  <url>
-    <loc>https://biostatistics-psychiatry.github.io/lab-materials/exercises/lab-webr-descriptive-statistics.html</loc>
-    <lastmod>2025-10-06T07:25:08.308Z</lastmod>
+    <loc>https://biostatistics-psychiatry.github.io/lab-materials/exercises/lab-tidy-data-manipulation.html</loc>
+    <lastmod>2025-10-09T06:38:33.693Z</lastmod>
   </url>
   <url>
     <loc>https://biostatistics-psychiatry.github.io/lab-materials/exercises/webr-exercise-sampling.html</loc>
-    <lastmod>2025-10-06T07:25:08.308Z</lastmod>
+    <lastmod>2025-10-09T06:38:33.693Z</lastmod>
+  </url>
+  <url>
+    <loc>https://biostatistics-psychiatry.github.io/lab-materials/exercises/lab-webr-descriptive-statistics.html</loc>
+    <lastmod>2025-10-09T06:38:33.693Z</lastmod>
+  </url>
+  <url>
+    <loc>https://biostatistics-psychiatry.github.io/lab-materials/labs/probability-rules.html</loc>
+    <lastmod>2025-10-09T06:38:33.710Z</lastmod>
+  </url>
+  <url>
+    <loc>https://biostatistics-psychiatry.github.io/lab-materials/labs/import-clean.html</loc>
+    <lastmod>2025-10-09T06:38:33.702Z</lastmod>
+  </url>
+  <url>
+    <loc>https://biostatistics-psychiatry.github.io/lab-materials/labs/descriptive-statistics.html</loc>
+    <lastmod>2025-10-09T06:38:33.702Z</lastmod>
+  </url>
+  <url>
+    <loc>https://biostatistics-psychiatry.github.io/lab-materials/labs/tidy-data-manipulation.html</loc>
+    <lastmod>2025-10-09T06:38:33.710Z</lastmod>
+  </url>
+  <url>
+    <loc>https://biostatistics-psychiatry.github.io/lab-materials/labs/sampling.html</loc>
+    <lastmod>2025-10-09T06:38:33.710Z</lastmod>
+  </url>
+  <url>
+    <loc>https://biostatistics-psychiatry.github.io/lab-materials/r-setup.html</loc>
+    <lastmod>2025-10-09T06:38:33.710Z</lastmod>
+  </url>
+  <url>
+    <loc>https://biostatistics-psychiatry.github.io/lab-materials/labs/classification.html</loc>
+    <lastmod>2025-10-09T06:38:33.702Z</lastmod>
+  </url>
+  <url>
+    <loc>https://biostatistics-psychiatry.github.io/lab-materials/labs/power-sample-size.html</loc>
+    <lastmod>2025-10-09T06:38:33.703Z</lastmod>
+  </url>
+  <url>
+    <loc>https://biostatistics-psychiatry.github.io/lab-materials/labs/p-values-ci.html</loc>
+    <lastmod>2025-10-09T06:38:33.703Z</lastmod>
+  </url>
+  <url>
+    <loc>https://biostatistics-psychiatry.github.io/lab-materials/labs/testing-two-means.html</loc>
+    <lastmod>2025-10-09T06:38:33.710Z</lastmod>
+  </url>
+  <url>
+    <loc>https://biostatistics-psychiatry.github.io/lab-materials/index.html</loc>
+    <lastmod>2025-10-09T06:38:33.702Z</lastmod>
+  </url>
+  <url>
+    <loc>https://biostatistics-psychiatry.github.io/lab-materials/exercises/lab-1-exercises.html</loc>
+    <lastmod>2025-10-09T06:38:33.693Z</lastmod>
+  </url>
+  <url>
+    <loc>https://biostatistics-psychiatry.github.io/lab-materials/exercises/lab-webr-test-exercises.html</loc>
+    <lastmod>2025-10-09T06:38:33.693Z</lastmod>
   </url>
   <url>
     <loc>https://biostatistics-psychiatry.github.io/lab-materials/exercises/lab-power-sample-size.html</loc>
-    <lastmod>2025-10-06T07:25:08.307Z</lastmod>
+    <lastmod>2025-10-09T06:38:33.693Z</lastmod>
   </url>
   <url>
     <loc>https://biostatistics-psychiatry.github.io/lab-materials/exercises/lab-webr-p-value-ci.html</loc>
-    <lastmod>2025-10-06T07:25:08.308Z</lastmod>
+    <lastmod>2025-10-09T06:38:33.693Z</lastmod>
   </url>
   <url>
     <loc>https://biostatistics-psychiatry.github.io/lab-materials/exercises/lab-webr-classification.html</loc>
-    <lastmod>2025-10-06T07:25:08.307Z</lastmod>
+    <lastmod>2025-10-09T06:38:33.693Z</lastmod>
   </url>
 </urlset>

@@ -270,6 +270,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../exercises/lab-tidy-data-manipulation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tidy data manipulation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../exercises/lab-webr-p-value-ci.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">P-values and confidence intervals</span></a>
   </div>
@@ -481,22 +487,6 @@ $ trt            &lt;chr&gt; "therapist-guided", "self-guided", "waitlist", "the
 [11] "lsas_v8"     "lsas_post"   "lsas_fu6"    "lsas_fu12"  </code></pre>
 </div>
 </div>
-<div id="exr-select-columns" class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exercise&nbsp;1: Practice selecting columns
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Select only the ID, group, and all PHQ-9 variables (columns starting with “phq9”) from the dataset. How many columns does your new dataset have?</p>
-</div>
-</div>
-</div>
 </section>
 <section id="filtering-rows-with-filter" class="level2">
 <h2 class="anchored" data-anchor-id="filtering-rows-with-filter">Filtering rows with <code>filter()</code></h2>
@@ -542,26 +532,6 @@ Exercise&nbsp;1: Practice selecting columns
 <li><code>is.na()</code> : is missing</li>
 <li><code>!is.na()</code> : is not missing</li>
 </ul>
-</div>
-</div>
-<div id="exr-filter-data" class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exercise&nbsp;2: Practice filtering data
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<ol type="1">
-<li>Filter the data to include only participants with baseline LSAS scores between 50 and 80.</li>
-<li>Filter to include only participants in groups 1 or 2 (exclude waitlist).</li>
-<li>How many participants meet both criteria?</li>
-</ol>
-</div>
 </div>
 </div>
 </section>
@@ -726,31 +696,6 @@ Exercise&nbsp;2: Practice filtering data
 19          19 Moderately severe</code></pre>
 </div>
 </div>
-<div id="exr-create-variables" class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exercise&nbsp;3: Create new variables
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<ol type="1">
-<li>Create a new variable called <code>gad_severity</code> that categorizes GAD-7 scores as:
-<ul>
-<li>“Minimal” (0-4)</li>
-<li>“Mild” (5-9)</li>
-<li>“Moderate” (10-14)</li>
-<li>“Severe” (15+)</li>
-</ul></li>
-<li>Create a binary variable indicating whether someone has both high anxiety (GAD-7 ≥ 10) AND moderate-to-severe depression (PHQ-9 ≥ 10).</li>
-</ol>
-</div>
-</div>
-</div>
 </section>
 </section>
 <section id="summarizing-data-with-group_by-and-summarize" class="level1">
@@ -817,25 +762,6 @@ Exercise&nbsp;3: Create new variables
 1     2             60      84.2    17.0
 2     1             61      83.1    13.0
 3     0             60      87.0    19.0</code></pre>
-</div>
-</div>
-<div id="exr-summarize-data" class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exercise&nbsp;4: Practice summarizing data
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<ol type="1">
-<li>Calculate the mean and standard deviation of GAD-7 scores by treatment group.</li>
-<li>Calculate the number of participants and percentage with high anxiety (GAD-7 ≥ 10) by treatment group.</li>
-</ol>
-</div>
 </div>
 </div>
 </section>
@@ -1153,27 +1079,6 @@ Exercise&nbsp;4: Practice summarizing data
 10 Post-treatment       169      67.1
 11 6-month follow-up    104      57.0
 12 12-month follow-up   101      55  </code></pre>
-</div>
-</div>
-<div id="exr-practice-factors" class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exercise&nbsp;5: Practice with factors
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-10" class="callout-10-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<ol type="1">
-<li>Create a factor for LSAS severity levels with the order: “Mild”, “Moderate”, “Severe”</li>
-<li>Create a factor for depression categories using PHQ-9 scores with proper ordering</li>
-<li>Use <code>fct_recode()</code> to change “Self-guided” to “Self-guided CBT” in the group factor</li>
-<li>Check that your factors appear in the correct order when you create a summary table</li>
-</ol>
-</div>
 </div>
 </div>
 </section>
@@ -1551,49 +1456,6 @@ Exercise&nbsp;5: Practice with factors
 <p>This is very useful for creating comprehensive summary tables!</p>
 </div>
 </div>
-<div id="exr-reshape-data" class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exercise&nbsp;6: Practice reshaping data
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-13" class="callout-13-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<ol type="1">
-<li>Convert the GAD-7 data to long format (select columns starting with “gad”).</li>
-<li>Calculate the mean GAD-7 score by group and time point.</li>
-<li>Create a wide format table showing GAD-7 means with time points as rows and groups as columns.</li>
-</ol>
-</div>
-</div>
-</div>
-<div id="exr-comprehensive-manipulation" class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exercise&nbsp;7: Comprehensive data manipulation
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-14" class="callout-14-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Combine everything you’ve learned to:</p>
-<ol type="1">
-<li>Create a dataset with only baseline and post-treatment measurements for LSAS, GAD-7, and PHQ-9.</li>
-<li>Calculate change scores for each measure.</li>
-<li>Create a summary table showing mean change scores by treatment group.</li>
-<li>Create categories for treatment response (e.g., “Improved” if LSAS decreased by ≥10 points).</li>
-<li>Calculate the percentage of responders in each treatment group.</li>
-</ol>
-</div>
-</div>
-</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Using gt for better table formatting</span></span>
 <span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
@@ -1677,23 +1539,23 @@ Exercise&nbsp;7: Comprehensive data manipulation
 <span id="cb64-80"><a href="#cb64-80" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb64-81"><a href="#cb64-81" aria-hidden="true" tabindex="-1"></a>my_table</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<div id="rteqiqabde" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#rteqiqabde table {
+<div id="rvxhruvdws" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#rvxhruvdws table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#rteqiqabde thead, #rteqiqabde tbody, #rteqiqabde tfoot, #rteqiqabde tr, #rteqiqabde td, #rteqiqabde th {
+#rvxhruvdws thead, #rvxhruvdws tbody, #rvxhruvdws tfoot, #rvxhruvdws tr, #rvxhruvdws td, #rvxhruvdws th {
   border-style: none;
 }
 
-#rteqiqabde p {
+#rvxhruvdws p {
   margin: 0;
   padding: 0;
 }
 
-#rteqiqabde .gt_table {
+#rvxhruvdws .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1719,12 +1581,12 @@ Exercise&nbsp;7: Comprehensive data manipulation
   border-left-color: #D3D3D3;
 }
 
-#rteqiqabde .gt_caption {
+#rvxhruvdws .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#rteqiqabde .gt_title {
+#rvxhruvdws .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1736,7 +1598,7 @@ Exercise&nbsp;7: Comprehensive data manipulation
   border-bottom-width: 0;
 }
 
-#rteqiqabde .gt_subtitle {
+#rvxhruvdws .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1748,7 +1610,7 @@ Exercise&nbsp;7: Comprehensive data manipulation
   border-top-width: 0;
 }
 
-#rteqiqabde .gt_heading {
+#rvxhruvdws .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1760,13 +1622,13 @@ Exercise&nbsp;7: Comprehensive data manipulation
   border-right-color: #D3D3D3;
 }
 
-#rteqiqabde .gt_bottom_border {
+#rvxhruvdws .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 1px;
   border-bottom-color: #D3D3D3;
 }
 
-#rteqiqabde .gt_col_headings {
+#rvxhruvdws .gt_col_headings {
   border-top-style: solid;
   border-top-width: 1px;
   border-top-color: #D3D3D3;
@@ -1781,7 +1643,7 @@ Exercise&nbsp;7: Comprehensive data manipulation
   border-right-color: #D3D3D3;
 }
 
-#rteqiqabde .gt_col_heading {
+#rvxhruvdws .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1801,7 +1663,7 @@ Exercise&nbsp;7: Comprehensive data manipulation
   overflow-x: hidden;
 }
 
-#rteqiqabde .gt_column_spanner_outer {
+#rvxhruvdws .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1813,15 +1675,15 @@ Exercise&nbsp;7: Comprehensive data manipulation
   padding-right: 4px;
 }
 
-#rteqiqabde .gt_column_spanner_outer:first-child {
+#rvxhruvdws .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#rteqiqabde .gt_column_spanner_outer:last-child {
+#rvxhruvdws .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#rteqiqabde .gt_column_spanner {
+#rvxhruvdws .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 1px;
   border-bottom-color: #D3D3D3;
@@ -1833,11 +1695,11 @@ Exercise&nbsp;7: Comprehensive data manipulation
   width: 100%;
 }
 
-#rteqiqabde .gt_spanner_row {
+#rvxhruvdws .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#rteqiqabde .gt_group_heading {
+#rvxhruvdws .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1863,7 +1725,7 @@ Exercise&nbsp;7: Comprehensive data manipulation
   text-align: left;
 }
 
-#rteqiqabde .gt_empty_group_heading {
+#rvxhruvdws .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1878,15 +1740,15 @@ Exercise&nbsp;7: Comprehensive data manipulation
   vertical-align: middle;
 }
 
-#rteqiqabde .gt_from_md > :first-child {
+#rvxhruvdws .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#rteqiqabde .gt_from_md > :last-child {
+#rvxhruvdws .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#rteqiqabde .gt_row {
+#rvxhruvdws .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1905,7 +1767,7 @@ Exercise&nbsp;7: Comprehensive data manipulation
   overflow-x: hidden;
 }
 
-#rteqiqabde .gt_stub {
+#rvxhruvdws .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1918,7 +1780,7 @@ Exercise&nbsp;7: Comprehensive data manipulation
   padding-right: 5px;
 }
 
-#rteqiqabde .gt_stub_row_group {
+#rvxhruvdws .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1932,15 +1794,15 @@ Exercise&nbsp;7: Comprehensive data manipulation
   vertical-align: top;
 }
 
-#rteqiqabde .gt_row_group_first td {
+#rvxhruvdws .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#rteqiqabde .gt_row_group_first th {
+#rvxhruvdws .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#rteqiqabde .gt_summary_row {
+#rvxhruvdws .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1950,16 +1812,16 @@ Exercise&nbsp;7: Comprehensive data manipulation
   padding-right: 5px;
 }
 
-#rteqiqabde .gt_first_summary_row {
+#rvxhruvdws .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#rteqiqabde .gt_first_summary_row.thick {
+#rvxhruvdws .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#rteqiqabde .gt_last_summary_row {
+#rvxhruvdws .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1969,7 +1831,7 @@ Exercise&nbsp;7: Comprehensive data manipulation
   border-bottom-color: #D3D3D3;
 }
 
-#rteqiqabde .gt_grand_summary_row {
+#rvxhruvdws .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1979,7 +1841,7 @@ Exercise&nbsp;7: Comprehensive data manipulation
   padding-right: 5px;
 }
 
-#rteqiqabde .gt_first_grand_summary_row {
+#rvxhruvdws .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1989,7 +1851,7 @@ Exercise&nbsp;7: Comprehensive data manipulation
   border-top-color: #D3D3D3;
 }
 
-#rteqiqabde .gt_last_grand_summary_row_top {
+#rvxhruvdws .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1999,11 +1861,11 @@ Exercise&nbsp;7: Comprehensive data manipulation
   border-bottom-color: #D3D3D3;
 }
 
-#rteqiqabde .gt_striped {
+#rvxhruvdws .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#rteqiqabde .gt_table_body {
+#rvxhruvdws .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2012,7 +1874,7 @@ Exercise&nbsp;7: Comprehensive data manipulation
   border-bottom-color: #D3D3D3;
 }
 
-#rteqiqabde .gt_footnotes {
+#rvxhruvdws .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2026,7 +1888,7 @@ Exercise&nbsp;7: Comprehensive data manipulation
   border-right-color: #D3D3D3;
 }
 
-#rteqiqabde .gt_footnote {
+#rvxhruvdws .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2035,7 +1897,7 @@ Exercise&nbsp;7: Comprehensive data manipulation
   padding-right: 5px;
 }
 
-#rteqiqabde .gt_sourcenotes {
+#rvxhruvdws .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2049,7 +1911,7 @@ Exercise&nbsp;7: Comprehensive data manipulation
   border-right-color: #D3D3D3;
 }
 
-#rteqiqabde .gt_sourcenote {
+#rvxhruvdws .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2057,72 +1919,72 @@ Exercise&nbsp;7: Comprehensive data manipulation
   padding-right: 5px;
 }
 
-#rteqiqabde .gt_left {
+#rvxhruvdws .gt_left {
   text-align: left;
 }
 
-#rteqiqabde .gt_center {
+#rvxhruvdws .gt_center {
   text-align: center;
 }
 
-#rteqiqabde .gt_right {
+#rvxhruvdws .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#rteqiqabde .gt_font_normal {
+#rvxhruvdws .gt_font_normal {
   font-weight: normal;
 }
 
-#rteqiqabde .gt_font_bold {
+#rvxhruvdws .gt_font_bold {
   font-weight: bold;
 }
 
-#rteqiqabde .gt_font_italic {
+#rvxhruvdws .gt_font_italic {
   font-style: italic;
 }
 
-#rteqiqabde .gt_super {
+#rvxhruvdws .gt_super {
   font-size: 65%;
 }
 
-#rteqiqabde .gt_footnote_marks {
+#rvxhruvdws .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#rteqiqabde .gt_asterisk {
+#rvxhruvdws .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#rteqiqabde .gt_indent_1 {
+#rvxhruvdws .gt_indent_1 {
   text-indent: 5px;
 }
 
-#rteqiqabde .gt_indent_2 {
+#rvxhruvdws .gt_indent_2 {
   text-indent: 10px;
 }
 
-#rteqiqabde .gt_indent_3 {
+#rvxhruvdws .gt_indent_3 {
   text-indent: 15px;
 }
 
-#rteqiqabde .gt_indent_4 {
+#rvxhruvdws .gt_indent_4 {
   text-indent: 20px;
 }
 
-#rteqiqabde .gt_indent_5 {
+#rvxhruvdws .gt_indent_5 {
   text-indent: 25px;
 }
 
-#rteqiqabde .katex-display {
+#rvxhruvdws .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#rteqiqabde div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#rvxhruvdws div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
