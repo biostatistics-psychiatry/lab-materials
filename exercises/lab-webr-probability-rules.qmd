@@ -22,14 +22,51 @@ In this lab, we'll practice evaluating probability rules using R. This is based 
 While you can complete all the exercises in your browser, we recommend also practicing in RStudio. Using an editor like RStudio will help you build real-world skills for writing, running, and saving your R code.
 :::
 
-# Load packages and data
+# Load packages and data {.unnumbered}
 
 First, let's load the necessary packages and data. We also create summaries of the *education* and *income* variables to be used in the exercises. Note that these do not represent real data, so the results are a bit random.
 
 ```{webr}
-#| label: load-packages
-#| message: false
-#| envir: prob_env
+#| label: setup
+#| setup: true
+#| exercise:
+#|  - ex_1
+#|  - ex_2
+#|  - ex_3
+#|  - ex_4
+
+library(dplyr)
+library(readr)
+library(here)
+library(knitr)
+
+# Load the baseline data
+d_bl <- read_rds(here("data", "steps_baseline.rds"))
+
+# Create summaries for education and income
+edu_summary <- d_bl |>
+  group_by(education) |>
+  summarise(
+    n = n(),
+    proportion = n / nrow(d_bl),
+    percent = round(proportion * 100, 1),
+    .groups = "drop"
+  )
+
+income_summary <- d_bl |>
+  group_by(income) |>
+  summarise(
+    n = n(),
+    proportion = n / nrow(d_bl),
+    percent = round(proportion * 100, 1),
+    .groups = "drop"
+  )
+
+kable(income_summary)
+```
+
+```{webr}
+#| label: setup-session
 
 library(dplyr)
 library(readr)
@@ -72,7 +109,6 @@ Do the numbers in our *income* variable add up to 1? You can use the `income_sum
 ```{webr}
 #| label: ex-1
 #| exercise: ex_1
-#| envir: prob_env
 
 # Calculate the sum of proportions for income
 sum_income_proportions <- sum(______)
@@ -137,10 +173,10 @@ gradethis::grade_this_code()
 
 The probability of an event not occurring is 1 minus the probability that it will occur.
 
-Let's check this for the "Secondary" level.
+Let's check this for the "Medium" income level.
 
 $$
-P(\text{not Secondary}) = 1 - P(\text{Secondary})
+P(\text{not Medium}) = 1 - P(\text{Medium})
 $$
 
 :::: {.panel-tabset}
@@ -174,10 +210,6 @@ cat("Check complement rule, sum =", round(p_medium + p_not_medium, 4), "\n")
 The complement rule states that P(not A) = 1 - P(A).
 
 You already have `p_medium` calculated. To find the complement, subtract it from 1.
-
-```r
-p_not_medium <- 1 - p_medium
-```
 
 :::
 
@@ -272,10 +304,6 @@ You have:
 
 So: P(A ∪ B) = p_university + p_medium_income - p_both
 
-```r
-p_either <- p_university + p_medium_income - p_both
-```
-
 :::
 
 ## Solution
@@ -313,7 +341,7 @@ cat("P(Either) =", round(p_either, 4), "\n")
 
 1. Apply the addition rule: P(A ∪ B) = P(A) + P(B) - P(A ∩ B)
 
-The addition rule accounts for the overlap between the two events to avoid double-counting!
+The addition rule accounts for the overlap between the two events to avoid double-counting.
 
 :::
 
@@ -371,10 +399,6 @@ In this case:
 
 So: P(Medium income | University education) = p_both / p_university
 
-```r
-p_medium_given_university <- p_both / p_university
-```
-
 :::
 
 ## Solution
@@ -426,5 +450,3 @@ In this lab, you learned:
 2. **Complement rule**: P(not A) = 1 - P(A)
 3. **Addition rule**: P(A ∪ B) = P(A) + P(B) - P(A ∩ B)
 4. **Conditional probability**: P(B|A) = P(A ∩ B) / P(A)
-
-These fundamental probability rules are essential for understanding statistical concepts and data analysis!
