@@ -240,8 +240,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../exercises/lab-1-exercises.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Lab 1 Exercises</span></a>
+  <a href="../exercises/lab-import-clean.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Import and clean data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -411,22 +411,6 @@ Note
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>row_check <span class="ot">&lt;-</span> <span class="fu">nrow</span>(df_rawdata) <span class="co"># 181</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>col_check <span class="ot">&lt;-</span> <span class="fu">ncol</span>(df_rawdata) <span class="co"># 37</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="exr-import-steps" class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exercise&nbsp;1: Import the STePS dataset
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Import the STePS dataset using the <code>read_csv()</code> function. Use the <code>here()</code> function to specify the file path. Check the number of rows and columns in the dataset after importing it.</p>
-</div>
-</div>
-</div>
 <section id="check-data-structure" class="level2">
 <h2 class="anchored" data-anchor-id="check-data-structure">Check data structure</h2>
 <p>After importing the data, we can check the structure of the dataset using the <code>glimpse()</code> function. This function provides a quick overview of the dataset, including the number of rows and columns, as well as the data types of each column. Does it look as expected?</p>
@@ -482,23 +466,6 @@ $ DERS16_FU12      &lt;dbl&gt; 35, NA, NA, 32, 46, 65, 42, 27, NA, 53, 52, NA, N
 <li><code>ncol(df_rawdata)</code> shows the number of columns in the dataset.</li>
 <li><code>nrow(df_rawdata)</code> shows the number of rows in the dataset.</li>
 </ul>
-<div id="exr-glimpse-data" class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exercise&nbsp;2: Check the structure of STePS
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>use the <code>glimpse()</code> function to check the structure of the STePS data. What do you notice about the data? Are there any potential issues with the data structure?</p>
-<p>Also try calling <code>view()</code> to open the data in a spreadsheet-like view.</p>
-</div>
-</div>
-</div>
 </section>
 <section id="types-of-data" class="level2">
 <h2 class="anchored" data-anchor-id="types-of-data">Types of data</h2>
@@ -545,22 +512,6 @@ Important
 <h2 class="anchored" data-anchor-id="clean-column-names">Clean column names</h2>
 <p>We will use the <code>clean_names()</code> function from the <em>janitor</em> package to clean the column names. This function replaces spaces and other problematic characters with underscores, and converts all names to lowercase. This makes it easier to work with the data later on.</p>
 <p>What’s wrong with these column names? And what is the difference after <code>clean_names()</code>?</p>
-<div id="exr-clean-names" class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exercise&nbsp;3: Clean column names, part 1
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Use the <code>clean_names()</code> function to clean the column names in <code>df_data</code>. Check the names before and after cleaning. What changes do you notice? Are there any column names that are still problematic?</p>
-</div>
-</div>
-</div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(df_data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -599,22 +550,6 @@ Exercise&nbsp;3: Clean column names, part 1
 </div>
 <div class="callout-body-container callout-body">
 <p>This type of data cleaning is often a result of going back and forth between running code and checking the results. Sometimes you will come all the way to the analyses before finding that DERS-16 is missing a time-point! This is why it’s helpful to design your project in a way that allows you to easily go back and forth between steps.</p>
-</div>
-</div>
-<div id="exr-clean-names-2" class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exercise&nbsp;4: Clean column names, part 2
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Use the <code>rename_with()</code> function to fix the column names of PHQ-9 in <code>df_data</code>. Check the names before and after cleaning. What changes do you notice? Are there any column names that are still problematic?</p>
-</div>
 </div>
 </div>
 </section>
@@ -672,23 +607,6 @@ $ ders_fu12      &lt;dbl&gt; 35, NA, NA, 32, 46, 65, 42, 27, NA, 53, 52, NA, NA,
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>df_data <span class="ot">&lt;-</span> df_data <span class="sc">|&gt;</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character), <span class="sc">~</span> <span class="fu">na_if</span>(., <span class="st">"missing"</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="exr-fix-missing-values" class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exercise&nbsp;5: Fix missing values
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-9" class="callout-9-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Check which columns have weird values for missing values. You can use the <code>glimpse()</code> function or view the data in the viewer. You can also use the <code>unique()</code> function to check which values are present in a column.</p>
-<p>Then, use the <code>mutate()</code> and <code>across()</code> functions to replace these values with <code>NA</code>. Make sure to replace all occurrences of “missing” in the character columns.</p>
-</div>
-</div>
-</div>
 </section>
 <section id="fix-column-types" class="level2">
 <h2 class="anchored" data-anchor-id="fix-column-types">Fix column types</h2>
@@ -703,22 +621,6 @@ Exercise&nbsp;5: Fix missing values
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">id =</span> <span class="fu">factor</span>(id),</span>
 <span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">group =</span> <span class="fu">factor</span>(group)</span>
 <span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div id="exr-fix-column-types" class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exercise&nbsp;6: Fix column types
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-10" class="callout-10-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Let’s imagine we have many columns that should be factors. How can you use the same procedure as above to convert all columns from a <code>fct_cols</code> vector to factors?</p>
-</div>
-</div>
 </div>
 </section>
 </section>
