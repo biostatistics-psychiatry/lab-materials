@@ -68,6 +68,8 @@ website:
             text: Testing two means
           - href: exercises/webr-exercise-sampling.qmd
             text: Sampling from a population
+          - href: exercises/lab-webr-probability-rules.qmd
+            text: Probability rules
 
 format:
   html:

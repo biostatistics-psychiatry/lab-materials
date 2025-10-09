@@ -67,13 +67,6 @@ We do a quick check of the *education* variable, which has three levels: "Primar
 
 The proportion with the "Primary" level is `r edu_summary |> filter(education == "Primary") |> pull(proportion)`, the proportion with the "Secondary" level is `r edu_summary |> filter(education == "Secondary") |> pull(proportion)`, and the proportion with the "University" level is `r edu_summary |> filter(education == "University") |> pull(proportion)`. These add up to `r sum(edu_summary$proportion)`. All good!
 
-::: {#exr-check-sum-probabilities .callout-caution collapse="true"}
-## Check the sum of probabilities in the income variable
-
-Do the numbers in our *income* variable add up to 1? You can use the `income_summary` object we created above.
-
-:::
-
 ## Complement rule
 
 The probability of an event not occurring is 1 minus the probability that it will occur.
@@ -100,11 +93,6 @@ p_not_secondary <- 1 - p_secondary
 - P(not Secondary education) = `r round(p_not_secondary, 4)`
 - Check complement rule, sum = `r round(p_secondary + p_not_secondary, 4)`
 
-::: {#exr-complement-rule .callout-caution collapse="true"}
-## Complement rule
-
-Calculate the complement rule for *Medium* income.
-:::
 
 ## Addition rule
 
@@ -139,12 +127,6 @@ p_either <- p_primary + p_low_income - p_both
 - P(Low income) = `r round(p_low_income, 4)`
 - P(Both) = `r round(p_both, 4)`
 - P(Either) = `r round(p_either, 4)`
-
-::: {#exr-addition-rule .callout-caution collapse="true"}
-## Addition rule
-
-Calculate the probability of having either "University" education OR being in the "Medium" income group.
-:::
 
 ## Multiplication rule
 
@@ -206,9 +188,3 @@ p_low_given_primary <- p_both / p_primary
 ```
 
 - P(Low income | Primary education) = `r round(p_low_given_primary, 4)`
-
-::: {#exr-conditional-probability .callout-caution collapse="true"}
-## Conditional probability
-
-Calculate the probability of having "Medium" income given that someone has "University" education.
-:::
