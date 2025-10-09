@@ -48,8 +48,8 @@ website:
             text: Power and sample size
       - section: "Exercises"
         contents:
-          - href: exercises/lab-1-exercises.qmd
-            text: Lab 1 Exercises
+          - href: exercises/lab-import-clean.qmd
+            text: Import and clean data
           - href: exercises/lab-webr-test-exercises.qmd
             text: Webr test exercises
           - href: exercises/lab-power-sample-size.qmd
