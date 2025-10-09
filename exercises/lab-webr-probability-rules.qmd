@@ -207,8 +207,6 @@ cat("Check complement rule, sum =", round(p_medium + p_not_medium, 4), "\n")
 
 ::: {.hint exercise="ex_2"}
 
-The complement rule states that P(not A) = 1 - P(A).
-
 You already have `p_medium` calculated. To find the complement, subtract it from 1.
 
 :::
@@ -238,7 +236,7 @@ cat("Check complement rule, sum =", round(p_medium + p_not_medium, 4), "\n")
 
 1. Apply the complement rule: P(not A) = 1 - P(A)
 
-The sum of P(Medium) and P(not Medium) should equal 1, confirming the complement rule!
+The sum of P(Medium) and P(not Medium) should equal 1, confirming the complement rule.
 
 :::
 
@@ -295,14 +293,13 @@ cat("P(Either) =", round(p_either, 4), "\n")
 
 ::: {.hint exercise="ex_3"}
 
-The addition rule is: P(A ∪ B) = P(A) + P(B) - P(A ∩ B)
-
 You have:
-- P(A) = p_university
-- P(B) = p_medium_income  
-- P(A ∩ B) = p_both
 
-So: P(A ∪ B) = p_university + p_medium_income - p_both
+- P(A) = p_university  
+- P(B) = p_medium_income  
+- P(A ∩ B) = p_both  
+
+Combine them using the addition rule.
 
 :::
 
@@ -339,7 +336,7 @@ cat("P(Both) =", round(p_both, 4), "\n")
 cat("P(Either) =", round(p_either, 4), "\n")
 ```
 
-1. Apply the addition rule: P(A ∪ B) = P(A) + P(B) - P(A ∩ B)
+1. Apply the addition rule: P(A $\cup$ B) = P(A) + P(B) - P(A $\cap$ B)
 
 The addition rule accounts for the overlap between the two events to avoid double-counting.
 
@@ -391,13 +388,12 @@ cat("P(Medium income | University education) =", round(p_medium_given_university
 
 ::: {.hint exercise="ex_4"}
 
-The conditional probability formula is: P(B|A) = P(A ∩ B) / P(A)
+You have:
 
-In this case:
-- P(A ∩ B) = p_both (probability of both University AND Medium income)
-- P(A) = p_university (probability of University education)
+- P(A $\cap$ B) = p_both (probability of both University AND Medium income)  
+- P(A) = p_university (probability of University education)  
 
-So: P(Medium income | University education) = p_both / p_university
+Combine them using the conditional probability formula.
 
 :::
 
@@ -427,9 +423,9 @@ p_medium_given_university <- p_both / p_university  #<1>
 cat("P(Medium income | University education) =", round(p_medium_given_university, 4), "\n")
 ```
 
-1. Apply the conditional probability formula: P(B|A) = P(A ∩ B) / P(A)
+1. Apply the conditional probability formula: P(B|A) = P(A $\cap$ B) / P(A)
 
-This tells us the probability of having medium income among those with university education!
+This tells us the probability of having medium income among those with university education.
 
 :::
 
@@ -448,5 +444,5 @@ In this lab, you learned:
 
 1. **Probability basics**: How to verify that probabilities sum to 1
 2. **Complement rule**: P(not A) = 1 - P(A)
-3. **Addition rule**: P(A ∪ B) = P(A) + P(B) - P(A ∩ B)
-4. **Conditional probability**: P(B|A) = P(A ∩ B) / P(A)
+3. **Addition rule**: P(A $\cup$ B) = P(A) + P(B) - P(A $\cap$ B)
+4. **Conditional probability**: P(B|A) = P(A $\cap$ B) / P(A)
