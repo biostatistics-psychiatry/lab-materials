@@ -1,5 +1,5 @@
 ---
-title: Lab webr probability distributions
+title: "Lab: Probability distributions"
 number-sections: true
 format: live-html
 engine: knitr
@@ -11,23 +11,45 @@ resources:
 ---
 
 {{< include ../_extensions/r-wasm/live/_knitr.qmd >}}
+{{< include ../_extensions/r-wasm/live/_gradethis.qmd >}}
+
+# Load packages and data {.unnumbered}
 
 ```{webr}
+#| label: setup-data
 #| setup: true
-#| exercise: ex_1
+#| exercise:
+#|  - ex_1
+#|  - ex_2
+#|  - ex_3
+#|  - ex_4
+
 # Load the CSV data
 library(dplyr)
 df_data <- read.csv("data/steps_clean.csv")
 ```
 
-::::: panel-tabset
-## Exercise 1
+```{webr}
+#| label: setup-session
+library(dplyr)
+
+# Load the CSV data
+df_data <- read.csv("data/steps_clean.csv")
+```
+
+::: {#exr-pnorm-lsas}
+## Having 80 or less LSAS at screening
+:::
+
+::::: {.panel-tabset}
+## Problem
 
 Check the mean and SD of LSAS scores at screening. Assuming it is normally distributed, what is the probability that a person will have a score of 80 or less? 
 
 ```{webr}
+#| label: ex-1
 #| exercise: ex_1
-pnorm(__,__,__)
+pnorm(___,___,___)
 
 ```
 
@@ -35,8 +57,9 @@ pnorm(__,__,__)
 
 ::: {.hint exercise="ex_1"}
 
-Use the `mean()`and ´sd()´functions to find the values in the dataset ´df_data´
+Use the `mean()`and `sd()` functions to find the values in the dataset `df_data`
 ```{webr}
+#| label: ex-1-hint
 mean(df_data$lsas_screen)
 sd(df_data$lsas_screen)
 ```
@@ -46,33 +69,40 @@ sd(df_data$lsas_screen)
 ## Solution
 
 ::: {.solution exercise="ex_1"}
-The full solution is:
 
-``` r
+```{webr}
+#| label: ex-1-solution
+#| exercise: ex_1
+#| solution: true
 mean <- mean(df_data$lsas_screen)
 sd <- sd(df_data$lsas_screen)
 pnorm(80, mean, sd)
- #<1>
 ```
+
 :::
-:::::
 
 ```{webr}
-#| setup: true
-#| exercise: ex_2
-# Load the CSV data
-library(dplyr)
-df_data <- read.csv("data/steps_clean.csv")
+#| label: ex-1-gradethis
+#| exercise: ex_1
+#| check: true
+gradethis::grade_this_code()
 ```
 
-::::: panel-tabset
-## Exercise 2
+::::
+
+::: {#exr-pnorm-lsas-100}
+## Probability of having a LSAS score of 100 or more
+:::
+
+::::: {.panel-tabset}
+## Problem
 
 What is the probability that a person will have a LSAS score at screening of 100 or more, assuming the scores are normally distributed? 
 
 ```{webr}
+#| label: ex-2
 #| exercise: ex_2
-_ - pnorm(__,__,__)
+pnorm(___,___,___)
 
 ```
 
@@ -80,9 +110,12 @@ _ - pnorm(__,__,__)
 
 ::: {.hint exercise="ex_2"}
 
-Use the `mean()`and `sd()` functions to find the values in the dataset `df_data`. 
-Also, since we are looking at a value *equal or greater to* a certain point of the cumulative probability distribution, we can use `1-pnorm()`
+Use the `mean()`and `sd()` functions to find the values in the dataset `df_data`.
+
+Also, since we are looking at a value *equal or greater to* a certain point of the cumulative probability distribution, we can use `1-pnorm()`.
+
 ```{webr}
+#| label: ex-2-hint
 mean <- mean(df_data$lsas_screen)
 sd <- sd(df_data$lsas_screen)
 1-pnorm(___,___,___)
@@ -93,34 +126,40 @@ sd <- sd(df_data$lsas_screen)
 ## Solution
 
 ::: {.solution exercise="ex_2"}
-The full solution is:
 
-``` r
+```{webr}
+#| label: ex-2-solution
+#| exercise: ex_2
+#| solution: true
 mean <- mean(df_data$lsas_screen)
 sd <- sd(df_data$lsas_screen)
 1-pnorm(100, mean, sd)
- #<2>
 ```
-:::
-:::::
 
+:::
 
 ```{webr}
-#| setup: true
-#| exercise: ex_3
-# Load the CSV data
-library(dplyr)
-df_data <- read.csv("data/steps_clean.csv")
+#| label: ex-2-gradethis
+#| exercise: ex_2
+#| check: true
+gradethis::grade_this_code()
 ```
 
-::::: panel-tabset
-## Exercise 3
+:::::
+
+::: {#exr-inclusion-rate}
+## Inclusion rate in the STEpS study
+:::
+
+::::: {.panel-tabset}
+## Problem
 
 Let's say that the average inclusion rate in the STEpS study was 5 participants per week. What is the probability that they'll include 3 or less people the coming week?
 
 ```{webr}
+#| label: ex-3
 #| exercise: ex_3
-p___(__,__)
+p____(____,____)
 
 ```
 
@@ -130,7 +169,8 @@ p___(__,__)
 
 Since we are looking at a rate we can use the function for the cumulative probabililty of the Poisson distribution, using the `ppois()` function
 ```{webr}
-ppois(__,__)
+#| label: ex-3-hint
+ppois(____,____)
 ```
 
 :::
@@ -138,34 +178,39 @@ ppois(__,__)
 ## Solution
 
 ::: {.solution exercise="ex_3"}
-The full solution is:
-
-``` r
-lambda = 5
-ppois(3,5)
- #<3>
-```
-:::
-:::::
-
-
 
 ```{webr}
-#| setup: true
-#| exercise: ex_4
-# Load the CSV data
-library(dplyr)
-df_data <- read.csv("data/steps_clean.csv")
+#| label: ex-3-solution
+#| exercise: ex_3
+#| solution: true
+lambda = 5
+ppois(3,5)
 ```
 
-::::: panel-tabset
-## Exercise 4
+:::
+
+```{webr}
+#| label: ex-3-gradethis
+#| exercise: ex_3
+#| check: true
+gradethis::grade_this_code()
+```
+
+:::::
+
+::: {#exr-binomial-gender}
+## Probability of selecting only women in a sample of 5 participants
+:::
+
+::::: {.panel-tabset}
+## Problem
 
 In the STEpS study, 78% of the participants were women. What is the probability that 5 randomly chosen participants would all be women? 
 
 ```{webr}
+#| label: ex-4
 #| exercise: ex_4
-d___(x = __, size=--, p=__)
+d____(x = ___, size=___, p=___)
 
 ```
 
@@ -175,7 +220,8 @@ d___(x = __, size=--, p=__)
 
 Since we are looking at a binary variable, we can get the probability density function for the binomial distribution, using the `dbinom()` function
 ```{webr}
-dbinom(x=__,size=__,p= __)
+#| label: ex-4-hint
+dbinom(x=____,size=___,p= ___)
 ```
 
 :::
@@ -183,17 +229,30 @@ dbinom(x=__,size=__,p= __)
 ## Solution
 
 ::: {.solution exercise="ex_4"}
-The full solution is:
 
-``` r
+```{webr}
+#| label: ex-4-solution
+#| exercise: ex_4
+#| solution: true
 dbinom(x=5, size = 5, prob = 0.78)
 
 # or since these are random events, we could get the joint probability by multiplying the probabilities 5 times
 0.78*0.78*0.78*0.78*0.78
 #which is the same as
 0.78^5
-
- #<4>
 ```
+
 :::
+
+```{webr}
+#| label: ex-4-gradethis
+#| exercise: ex_4
+#| check: true
+gradethis::grade_this_code()
+```
+
 :::::
+
+# Summary {.unnumbered}
+
+In this lab, we learned about the probability distributions and how to use them to calculate the probability of different events. We used helpful base R functions to calculate the probability of variables being over or under a certain value.
