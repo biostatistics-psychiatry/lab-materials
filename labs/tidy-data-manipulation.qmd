@@ -81,12 +81,6 @@ ncol(df_lsas_all)
 names(df_lsas_all)
 ```
 
-::: {#exr-select-columns .callout-caution collapse="true"}
-## Practice selecting columns
-
-Select only the ID, group, and all PHQ-9 variables (columns starting with "phq9") from the dataset. How many columns does your new dataset have?
-:::
-
 ## Filtering rows with `filter()`
 
 The `filter()` function allows us to select specific rows based on conditions. This is useful for creating subgroups or excluding certain participants.
@@ -125,13 +119,7 @@ nrow(df_guided_severe)
 - `!is.na()` : is not missing
 :::
 
-::: {#exr-filter-data .callout-caution collapse="true"}
-## Practice filtering data
 
-1. Filter the data to include only participants with baseline LSAS scores between 50 and 80.
-2. Filter to include only participants in groups 1 or 2 (exclude waitlist).
-3. How many participants meet both criteria?
-:::
 
 ## Arranging rows with `arrange()`
 
@@ -242,18 +230,6 @@ df_with_categories |>
   arrange(phq9_screen)
 ```
 
-::: {#exr-create-variables .callout-caution collapse="true"}
-## Create new variables
-
-1. Create a new variable called `gad_severity` that categorizes GAD-7 scores as:
-   - "Minimal" (0-4)
-   - "Mild" (5-9) 
-   - "Moderate" (10-14)
-   - "Severe" (15+)
-
-2. Create a binary variable indicating whether someone has both high anxiety (GAD-7 ≥ 10) AND moderate-to-severe depression (PHQ-9 ≥ 10).
-:::
-
 # Summarizing data with `group_by()` and `summarize()`
 
 A very common task is grouping data and calculating summary statistics.
@@ -308,13 +284,6 @@ df_data |>
     .by = group
   )
 ```
-
-::: {#exr-summarize-data .callout-caution collapse="true"}
-## Practice summarizing data
-
-1. Calculate the mean and standard deviation of GAD-7 scores by treatment group.
-2. Calculate the number of participants and percentage with high anxiety (GAD-7 ≥ 10) by treatment group.
-:::
 
 # Reshaping data: Wide vs. Long format
 
@@ -526,16 +495,6 @@ time_summary <- df_lsas_long |>
 
 time_summary
 ```
-
-::: {#exr-practice-factors .callout-caution collapse="true"}
-## Practice with factors
-
-1. Create a factor for LSAS severity levels with the order: "Mild", "Moderate", "Severe"
-2. Create a factor for depression categories using PHQ-9 scores with proper ordering
-3. Use `fct_recode()` to change "Self-guided" to "Self-guided CBT" in the group factor
-4. Check that your factors appear in the correct order when you create a summary table
-:::
-
 ### Why factors matter for visualization
 
 Factors ensure that our plots display categories in the correct order:
@@ -681,26 +640,6 @@ Notice how `pivot_wider()` can handle multiple value columns at once:
 - Result: Each group gets three columns (e.g., `mean_lsas_Waitlist`, `sd_lsas_Waitlist`, `n_obs_Waitlist`)
 
 This is very useful for creating comprehensive summary tables!
-:::
-
-::: {#exr-reshape-data .callout-caution collapse="true"}
-## Practice reshaping data
-
-1. Convert the GAD-7 data to long format (select columns starting with "gad").
-2. Calculate the mean GAD-7 score by group and time point.
-3. Create a wide format table showing GAD-7 means with time points as rows and groups as columns.
-:::
-
-::: {#exr-comprehensive-manipulation .callout-caution collapse="true"}
-## Comprehensive data manipulation
-
-Combine everything you've learned to:
-
-1. Create a dataset with only baseline and post-treatment measurements for LSAS, GAD-7, and PHQ-9.
-2. Calculate change scores for each measure.
-3. Create a summary table showing mean change scores by treatment group.
-4. Create categories for treatment response (e.g., "Improved" if LSAS decreased by ≥10 points).
-5. Calculate the percentage of responders in each treatment group.
 :::
 
 ```{r}

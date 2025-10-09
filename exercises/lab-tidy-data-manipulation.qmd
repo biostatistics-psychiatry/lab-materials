@@ -1,0 +1,1382 @@
+---
+title: "Lab: Tidy Data Manipulation"
+number-sections: true
+format: live-html
+engine: knitr
+webr:
+  packages:
+    - dplyr
+    - tidyr
+    - readr
+    - ggplot2
+resources:
+  - ../data/steps_clean.csv
+---
+
+{{< include ../_extensions/r-wasm/live/_knitr.qmd >}}
+{{< include ../_extensions/r-wasm/live/_gradethis.qmd >}}
+
+In this lab, you'll practice data manipulation skills using the [tidyverse](https://www.tidyverse.org/). We'll work with the [STePS dataset](https://github.com/rpsychologist/STePS-study/blob/main/data/steps.csv) to practice selecting, filtering, creating new variables, summarizing, and reshaping data.
+
+::: {.callout-tip}
+While you can complete all the exercises in your browser, we recommend also practicing in RStudio. Using an editor like RStudio will help you build real-world skills for writing, running, and saving your R code.
+:::
+
+# Load the data {.unnumbered}
+
+First, let's load the packages and data. 
+
+```{webr}
+#| label: setup
+#| setup: true
+#| exercise:
+#|  - ex_1
+#|  - ex_2
+#|  - ex_3
+#|  - ex_4
+#|  - ex_5
+#|  - ex_6
+#|  - ex_7
+#|  - ex_8
+#|  - ex_9
+#|  - ex_10
+#|  - ex_11
+#|  - ex_12
+#|  - ex_13
+#|  - ex_14
+
+library(dplyr)
+library(tidyr)
+library(readr)
+library(ggplot2)
+
+# Load the data
+df_data <- read_csv("data/steps_clean.csv")
+
+# Quick check
+glimpse(df_data)
+```
+
+```{webr}
+#| label: setup-session
+
+library(dplyr)
+library(tidyr)
+library(readr)
+
+# Load the data
+df_data <- read_csv("data/steps_clean.csv")
+
+# Quick check
+glimpse(df_data)
+```
+
+# Selecting columns with `select()`
+
+The `select()` function lets you choose which columns to keep in your dataset.
+
+::: {#exr-select-basic}
+## Select specific columns
+:::
+
+:::: {.panel-tabset}
+
+## Problem
+
+Select only the `id`, `group`, and baseline LSAS score (`lsas_screen`) from the dataset.
+
+```{webr}
+#| label: ex-1
+#| exercise: ex_1
+
+# Select specific columns
+df_selected <- df_data |>
+  select(______, ______, ______)
+
+# Check the result
+head(df_selected)
+```
+
+## Hints 
+
+::: {.hint exercise="ex_1"}
+
+The `select()` function takes column names separated by commas. You don't need quotes around the column names.
+
+Think about which three columns you need: the participant identifier, their treatment assignment, and their baseline LSAS score.
+
+:::
+
+## Solution
+
+::: {.solution exercise="ex_1"}
+
+```{webr}
+#| label: ex-1-solution
+#| exercise: ex_1
+#| solution: true
+
+# Select specific columns
+df_selected <- df_data |>
+  select(id, trt, lsas_screen) #<1>
+
+# Check the result
+head(df_selected)
+```
+1. Select just these three columns from the dataset
+
+:::
+
+```{webr}
+#| label: ex-1-gradethis
+#| exercise: ex_1
+#| check: true
+gradethis::grade_this_code()
+```
+
+::::
+
+::: {#exr-select-helpers}
+## Use select helpers to grab multiple columns
+:::
+
+:::: {.panel-tabset}
+
+## Problem
+
+Select the `id`, `trt`, and all columns that start with "phq9" using the `starts_with()` helper function.
+
+```{webr}
+#| label: ex-2
+#| exercise: ex_2
+
+# Select using helper functions
+df_phq9 <- df_data |>
+  select(id, trt, ______)
+
+# How many columns?
+ncol(df_phq9)
+names(df_phq9)
+```
+
+## Hints 
+
+::: {.hint exercise="ex_2"}
+
+Helper functions like `starts_with()` need a character string (text in quotes) as their argument.
+
+Look at the column names in the problem - what pattern do all the PHQ-9 columns share? What text do they all start with?
+
+:::
+
+## Solution
+
+::: {.solution exercise="ex_2"}
+
+```{webr}
+#| label: ex-2-solution
+#| exercise: ex_2
+#| solution: true
+
+# Select using helper functions
+df_phq9 <- df_data |>
+  select(id, trt, starts_with("phq9")) #<1>
+
+# How many columns?
+ncol(df_phq9)
+names(df_phq9)
+```
+1. `starts_with()` selects all columns beginning with "phq9"
+
+You should have 6 columns total: id, trt, and 4 PHQ-9 measurements (screen, post, fu6, and fu12).
+
+:::
+
+```{webr}
+#| label: ex-2-gradethis
+#| exercise: ex_2
+#| check: true
+gradethis::grade_this_code()
+```
+
+::::
+
+# Filtering rows with `filter()`
+
+The `filter()` function selects rows based on conditions.
+
+::: {#exr-filter-basic}
+## Filter based on one condition
+:::
+
+:::: {.panel-tabset}
+
+## Problem
+
+Filter the data to keep only participants in the "therapist-guided" treatment group.
+
+```{webr}
+#| label: ex-3
+#| exercise: ex_3
+
+# Filter for one group
+df_guided <- df_data |>
+  filter(trt == ______)
+
+# How many participants?
+nrow(df_guided)
+```
+
+## Hints 
+
+::: {.hint exercise="ex_3"}
+
+Remember that `filter()` keeps rows where a condition is TRUE.
+
+To test if a variable equals a specific value, use the double equals operator `==` (not a single `=`, which is used for assignment).
+
+The 'trt' variable is the treatment allocation variable coded as 'waitlist', 'self-guided', and 'therapist-guided'.
+
+:::
+
+## Solution
+
+::: {.solution exercise="ex_3"}
+
+```{webr}
+#| label: ex-3-solution
+#| exercise: ex_3
+#| solution: true
+
+# Filter for one group
+df_guided <- df_data |>
+  filter(trt == "therapist-guided") #<1>
+
+# How many participants?
+nrow(df_guided)
+```
+1. Keep only rows where treatment group equals "therapist-guided"
+
+:::
+
+```{webr}
+#| label: ex-3-gradethis
+#| exercise: ex_3
+#| check: true
+gradethis::grade_this_code()
+```
+
+::::
+
+::: {#exr-filter-multiple}
+## Filter with multiple conditions
+:::
+
+:::: {.panel-tabset}
+
+## Problem
+
+Filter to keep only participants who:
+
+- are in the "therapist-guided" group, AND
+- have baseline LSAS scores of 60 or higher
+
+```{webr}
+#| label: ex-4
+#| exercise: ex_4
+
+# Filter with multiple conditions
+df_guided_severe <- df_data |>
+  filter(trt == ______, lsas_screen >= ______)
+
+nrow(df_guided_severe)
+```
+
+## Hints 
+
+::: {.hint exercise="ex_4"}
+
+When you have multiple conditions in `filter()`, separate them with commas. All conditions must be TRUE for a row to be kept (AND logic).
+
+You need one condition for treatment group (equals "therapist-guided" - remember quotes for text!) and another for LSAS scores (greater than or equal to 60).
+
+Use `>=` for "greater than or equal to".
+
+:::
+
+## Solution
+
+::: {.solution exercise="ex_4"}
+
+```{webr}
+#| label: ex-4-solution
+#| exercise: ex_4
+#| solution: true
+
+# Filter with multiple conditions
+df_guided_severe <- df_data |>
+  filter(trt == "therapist-guided", lsas_screen >= 60) #<1>
+
+nrow(df_guided_severe)
+```
+1. Both conditions must be true (AND logic) - note quotes around text value
+
+:::
+
+```{webr}
+#| label: ex-4-gradethis
+#| exercise: ex_4
+#| check: true
+gradethis::grade_this_code()
+```
+
+::::
+
+# Creating new variables with `mutate()`
+
+The `mutate()` function creates new columns or modifies existing ones.
+
+::: {#exr-mutate-basic}
+## Calculate change scores
+:::
+
+:::: {.panel-tabset}
+
+## Problem
+
+Create a new variable called `lsas_change` that represents the change in LSAS scores from baseline to post-treatment (post - baseline).
+
+```{webr}
+#| label: ex-5
+#| exercise: ex_5
+
+# Create change score
+df_with_change <- df_data |>
+  select(id, trt, lsas_screen, lsas_post) |>
+  mutate(
+    lsas_change = ______ - ______
+  )
+
+head(df_with_change)
+```
+
+## Hints 
+
+::: {.hint exercise="ex_5"}
+
+A change score represents the difference between two time points.
+
+Think about which measurement comes first (baseline) and which comes second (post-treatment). The change is calculated as: later measurement minus earlier measurement.
+
+The baseline LSAS is `lsas_screen` and post-treatment is `lsas_post`.
+
+:::
+
+## Solution
+
+::: {.solution exercise="ex_5"}
+
+```{webr}
+#| label: ex-5-solution
+#| exercise: ex_5
+#| solution: true
+
+# Create change score
+df_with_change <- df_data |>
+  select(id, trt, lsas_screen, lsas_post) |>
+  mutate(
+    lsas_change = lsas_post - lsas_screen #<1>
+  )
+
+head(df_with_change)
+```
+1. Subtract baseline from post-treatment to get change
+
+Negative values indicate improvement (lower anxiety at post-treatment).
+
+:::
+
+```{webr}
+#| label: ex-5-gradethis
+#| exercise: ex_5
+#| check: true
+gradethis::grade_this_code()
+```
+
+::::
+
+::: {#exr-mutate-categorical}
+## Create categorical variables with `case_when()`
+:::
+
+:::: {.panel-tabset}
+
+## Problem
+
+Create a categorical variable for GAD-7 severity with these categories:
+
+- "Minimal" for scores 0-4
+- "Mild" for scores 5-9
+- "Moderate" for scores 10-14
+- "Severe" for scores 15 or higher
+
+```{webr}
+#| label: ex-6
+#| exercise: ex_6
+
+# Create categorical variable
+df_with_severity <- df_data |>
+  select(id, gad_screen) |>
+  mutate(
+    gad_severity = case_when(
+      gad_screen < 5 ~ "______",
+      gad_screen < 10 ~ "______",
+      gad_screen < 15 ~ "______",
+      gad_screen >= 15 ~ "______"
+    )
+  )
+
+# Check the categories
+table(df_with_severity$gad_severity)
+```
+
+## Hints 
+
+::: {.hint exercise="ex_6"}
+
+The `case_when()` function evaluates conditions in order from top to bottom.
+
+The syntax is: `condition ~ "result"`
+
+Think about the cutoffs: scores below 5 are "Minimal", scores from 5 to 9 are "Mild", etc.
+
+Since `case_when()` checks conditions in order, if a score is 7, it won't match `< 5` but will match `< 10`, so it becomes "Mild".
+
+:::
+
+## Solution
+
+::: {.solution exercise="ex_6"}
+
+```{webr}
+#| label: ex-6-solution
+#| exercise: ex_6
+#| solution: true
+
+# Create categorical variable
+df_with_severity <- df_data |>
+  select(id, gad_screen) |>
+  mutate(
+    gad_severity = case_when(
+      gad_screen < 5 ~ "Minimal",    #<1>
+      gad_screen < 10 ~ "Mild",      #<2>
+      gad_screen < 15 ~ "Moderate",  #<3>
+      gad_screen >= 15 ~ "Severe"    #<4>
+    )
+  )
+
+# Check the categories
+table(df_with_severity$gad_severity)
+```
+1. Scores 0-4 = Minimal
+2. Scores 5-9 = Mild
+3. Scores 10-14 = Moderate
+4. Scores 15+ = Severe
+
+:::
+
+```{webr}
+#| label: ex-6-gradethis
+#| exercise: ex_6
+#| check: true
+gradethis::grade_this_code()
+```
+
+::::
+
+# Working with factors
+
+Factors control the order of categorical variables in tables and plots.
+
+::: {#exr-factors-basic}
+## Create ordered factors
+:::
+
+:::: {.panel-tabset}
+
+## Problem
+
+The `trt` variable contains treatment assignments as text ("waitlist", "self-guided", "therapist-guided"). Create a properly ordered factor with the levels in this order: Waitlist, Self-guided, Therapist-guided.
+
+```{webr}
+#| label: ex-7
+#| exercise: ex_7
+
+# Create ordered factor
+df_with_factor <- df_data |>
+  select(id, trt) |>
+  mutate(
+    trt_factor = factor(
+      trt,
+      levels = c("______", "______", "______")
+    )
+  )
+
+# Check the result
+table(df_with_factor$trt_factor)
+levels(df_with_factor$trt_factor)
+```
+
+## Hints 
+
+::: {.hint exercise="ex_7"}
+
+The `factor()` function needs:
+
+- The variable to convert (`trt`)
+- `levels`: the values in the order you want them (as character strings: "waitlist", "self-guided", "therapist-guided")
+
+By default, factors are ordered alphabetically, which would put "self-guided" before "therapist-guided" and "waitlist" last. Specifying `levels` explicitly controls the order.
+
+:::
+
+## Solution
+
+::: {.solution exercise="ex_7"}
+
+```{webr}
+#| label: ex-7-solution
+#| exercise: ex_7
+#| solution: true
+
+# Create ordered factor
+df_with_factor <- df_data |>
+  select(id, trt) |>
+  mutate(
+    trt_factor = factor(
+      trt,
+      levels = c("waitlist", "self-guided", "therapist-guided")  #<1>
+    )
+  )
+
+# Check the result
+table(df_with_factor$trt_factor)
+levels(df_with_factor$trt_factor)
+```
+1. Specify levels in the desired order (not alphabetical)
+
+:::
+
+```{webr}
+#| label: ex-7-gradethis
+#| exercise: ex_7
+#| check: true
+gradethis::grade_this_code()
+```
+
+::::
+
+# Summarizing data with `group_by()` and `summarize()`
+
+Calculate summary statistics by groups.
+
+::: {#exr-summarize-basic}
+## Calculate grouped statistics
+:::
+
+:::: {.panel-tabset}
+
+## Problem
+
+Calculate the mean and standard deviation of baseline LSAS scores by treatment group.
+
+```{webr}
+#| label: ex-8
+#| exercise: ex_8
+
+# Group and summarize
+group_stats <- df_data |>
+  group_by(______) |>
+  summarize(
+    n = n(),
+    mean_lsas = mean(______, na.rm = TRUE),
+    sd_lsas = sd(______, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+group_stats
+```
+
+## Hints 
+
+::: {.hint exercise="ex_8"}
+
+The workflow is:
+
+1. Use `group_by()` to specify which variable defines the groups
+2. Use `summarize()` to calculate statistics for each group
+
+Inside `summarize()`:
+
+- `n()` counts the number of observations
+- `mean()` and `sd()` need the variable name and `na.rm = TRUE` to handle missing values
+
+Which variable represents the baseline LSAS score?
+
+:::
+
+## Solution
+
+::: {.solution exercise="ex_8"}
+
+```{webr}
+#| label: ex-8-solution
+#| exercise: ex_8
+#| solution: true
+
+# Group and summarize
+group_stats <- df_data |>
+  group_by(trt) |>  #<1>
+  summarize(
+    n = n(),  #<2>
+    mean_lsas = mean(lsas_screen, na.rm = TRUE),  #<3>
+    sd_lsas = sd(lsas_screen, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+group_stats
+```
+1. Group by treatment assignment
+2. Count participants in each treatment group
+3. Calculate mean and SD for each treatment group
+
+:::
+
+```{webr}
+#| label: ex-8-gradethis
+#| exercise: ex_8
+#| check: true
+gradethis::grade_this_code()
+```
+
+::::
+
+::: {#exr-summarize-by}
+## Use the `.by` syntax
+:::
+
+:::: {.panel-tabset}
+
+## Problem
+
+Calculate the same statistics using the `.by` argument instead of `group_by()`.
+
+```{webr}
+#| label: ex-9
+#| exercise: ex_9
+
+# Summarize with .by
+group_stats_by <- df_data |>
+  summarize(
+    n = n(),
+    mean_lsas = mean(lsas_screen, na.rm = TRUE),
+    sd_lsas = sd(lsas_screen, na.rm = TRUE),
+    .by = ______
+  )
+
+group_stats_by
+```
+
+## Hints 
+
+::: {.hint exercise="ex_9"}
+
+The `.by` argument is an alternative to `group_by()` that goes directly inside `summarize()`.
+
+Instead of piping to `group_by()` first, you can specify `.by = ` as one of the arguments to `summarize()`.
+
+The value for `.by` is the name of the grouping variable (without quotes).
+
+:::
+
+## Solution
+
+::: {.solution exercise="ex_9"}
+
+```{webr}
+#| label: ex-9-solution
+#| exercise: ex_9
+#| solution: true
+
+# Summarize with .by
+group_stats_by <- df_data |>
+  summarize(
+    n = n(),
+    mean_lsas = mean(lsas_screen, na.rm = TRUE),
+    sd_lsas = sd(lsas_screen, na.rm = TRUE),
+    .by = trt  #<1>
+  )
+
+group_stats_by
+```
+1. `.by` is a cleaner alternative to `group_by()` for simple grouping by treatment
+
+:::
+
+```{webr}
+#| label: ex-9-gradethis
+#| exercise: ex_9
+#| check: true
+gradethis::grade_this_code()
+```
+
+::::
+
+# Reshaping data: Wide to Long format
+
+Convert data from wide format (one row per participant) to long format (one row per measurement).
+
+::: {#exr-pivot-longer}
+## Convert to long format with `pivot_longer()`
+:::
+
+:::: {.panel-tabset}
+
+## Problem
+
+Convert the LSAS measurements to long format. Select columns that start with "lsas", then pivot them longer with:
+
+- Column names going to "time_point"
+- Values going to "lsas_score"
+
+```{webr}
+#| label: ex-10
+#| exercise: ex_10
+
+# Pivot to long format
+df_lsas_long <- df_data |>
+  select(id, trt, starts_with("lsas")) |>
+  pivot_longer(
+    cols = starts_with("______"),
+    names_to = "______",
+    values_to = "______"
+  )
+
+# Check the result
+head(df_lsas_long, 12)
+```
+
+## Hints 
+
+::: {.hint exercise="ex_10"}
+
+The `pivot_longer()` function needs three key arguments:
+
+- `cols`: Which columns to pivot (use a helper function)
+- `names_to`: What to call the new column that will contain the old column names (as a string)
+- `values_to`: What to call the new column that will contain the values (as a string)
+
+The column names should be descriptive - what information is in the old column names? What are the values measuring?
+
+:::
+
+## Solution
+
+::: {.solution exercise="ex_10"}
+
+```{webr}
+#| label: ex-10-solution
+#| exercise: ex_10
+#| solution: true
+
+# Pivot to long format
+df_lsas_long <- df_data |>
+  select(id, trt, starts_with("lsas")) |>  #<1>
+  pivot_longer(
+    cols = starts_with("lsas"),  #<2>
+    names_to = "time_point",     #<3>
+    values_to = "lsas_score"     #<4>
+  )
+
+# Check the result
+head(df_lsas_long, 12)
+```
+1. Select ID, treatment, and all LSAS columns
+2. Pivot all columns starting with "lsas"
+3. Old column names go to this new column
+4. Values go to this new column
+
+Each participant now has multiple rows, one for each time point.
+
+:::
+
+```{webr}
+#| label: ex-10-gradethis
+#| exercise: ex_10
+#| check: true
+gradethis::grade_this_code()
+```
+
+::::
+
+::: {#exr-clean-long}
+## Clean the long format data
+:::
+
+:::: {.panel-tabset}
+
+## Problem
+
+The `time_point` column has values like "lsas_screen", "lsas_post", etc. Use `separate()` to split this into two columns: "measure" and "time".
+
+```{webr}
+#| label: ex-11
+#| exercise: ex_11
+
+# Clean time variable
+df_lsas_long <- df_data |>
+  select(id, trt, starts_with("lsas")) |>
+  pivot_longer(
+    cols = starts_with("lsas"),
+    names_to = "time_point",
+    values_to = "lsas_score"
+  ) |>
+  separate(
+    ______,
+    into = c("______", "______"),
+    sep = "______"
+  )
+
+head(df_lsas_long)
+```
+
+## Hints 
+
+::: {.hint exercise="ex_11"}
+
+The `separate()` function splits one column into multiple columns.
+
+Look at the values in `time_point`: they're formatted like "lsas_screen", "lsas_post", etc.
+
+What character separates the two pieces of information? That's your separator.
+
+You need to specify:
+
+- Which column to separate
+- Names for the new columns (in `c()`)
+- What separator character to split on (as a string)
+
+:::
+
+## Solution
+
+::: {.solution exercise="ex_11"}
+
+```{webr}
+#| label: ex-11-solution
+#| exercise: ex_11
+#| solution: true
+
+# Clean time variable
+df_lsas_long <- df_data |>
+  select(id, trt, starts_with("lsas")) |>  #<1>
+  pivot_longer(
+    cols = starts_with("lsas"),
+    names_to = "time_point",
+    values_to = "lsas_score"
+  ) |>
+  separate(
+    time_point,              #<2>
+    into = c("measure", "time"),  #<3>
+    sep = "_"                #<4>
+  )
+
+head(df_lsas_long)
+```
+1. Select ID, treatment, and LSAS columns
+2. Column to separate
+3. Names for the new columns
+4. Separator character (underscore)
+
+Now we have "measure" (always "lsas") and "time" (screen, post, etc.) as separate columns.
+
+:::
+
+```{webr}
+#| label: ex-11-gradethis
+#| exercise: ex_11
+#| check: true
+gradethis::grade_this_code()
+```
+
+::::
+
+# Reshaping data: Long to Wide format
+
+Convert summary data from long to wide format.
+
+::: {#exr-pivot-wider}
+## Convert to wide format with `pivot_wider()`
+:::
+
+:::: {.panel-tabset}
+
+## Problem
+
+First, calculate mean LSAS scores by group and time. Then convert to wide format with groups as columns.
+
+```{webr}
+#| label: ex-12
+#| exercise: ex_12
+
+# Prepare long data with clean time labels
+df_lsas_long <- df_data |>
+  select(id, trt, lsas_screen, lsas_post) |>
+  pivot_longer(
+    cols = starts_with("lsas"),
+    names_to = "time_point",
+    values_to = "lsas_score"
+  ) |>
+  separate(
+    time_point, 
+    into = c("measure", "time"), 
+    sep = "_"
+  ) |>
+  mutate(
+    trt_factor = factor(
+      trt, 
+      levels = c("waitlist", "self-guided", "therapist-guided")
+    )
+  )
+
+# Summarize
+lsas_summary <- df_lsas_long |>
+  summarize(
+    mean_lsas = mean(lsas_score, na.rm = TRUE),
+    .by = c(trt_factor, time)
+  )
+
+# Pivot wider
+lsas_wide <- lsas_summary |>
+  pivot_wider(
+    names_from = ______,
+    values_from = ______
+  )
+
+lsas_wide
+```
+
+## Hints 
+
+::: {.hint exercise="ex_12"}
+
+`pivot_wider()` is the opposite of `pivot_longer()` - it spreads data across columns.
+
+You need to tell it:
+
+- `names_from`: Which column contains the values that will become new column names?
+- `values_from`: Which column contains the values to fill those new columns?
+
+Think about what you want as columns in the wide format. The problem says "groups as columns" - which variable contains the treatment labels?
+
+:::
+
+## Solution
+
+::: {.solution exercise="ex_12"}
+
+```{webr}
+#| label: ex-12-solution
+#| exercise: ex_12
+#| solution: true
+
+# Prepare long data with clean time labels
+df_lsas_long <- df_data |>
+  select(id, trt, lsas_screen, lsas_post) |>  #<1>
+  pivot_longer(
+    cols = starts_with("lsas"),
+    names_to = "time_point",
+    values_to = "lsas_score"
+  ) |>
+  separate(
+    time_point, 
+    into = c("measure", "time"), 
+    sep = "_"
+  ) |>
+  mutate(
+    trt_factor = factor(
+      trt, 
+      levels = c("waitlist", "self-guided", "therapist-guided")
+    )
+  )
+
+# Summarize
+lsas_summary <- df_lsas_long |>
+  summarize(
+    mean_lsas = mean(lsas_score, na.rm = TRUE),
+    .by = c(trt_factor, time)
+  )
+
+# Pivot wider
+lsas_wide <- lsas_summary |>
+  pivot_wider(
+    names_from = trt_factor,  #<2>
+    values_from = mean_lsas    #<3>
+  )
+
+lsas_wide
+```
+1. Select ID, treatment, and LSAS baseline and post
+2. Column to spread into new column names
+3. Column with values to fill the new columns
+
+Now we have a table with time points as rows and treatment groups as columns.
+
+:::
+
+```{webr}
+#| label: ex-12-gradethis
+#| exercise: ex_12
+#| check: true
+gradethis::grade_this_code()
+```
+
+::::
+
+# Calculate remission proportions by treatment group
+
+Use filtering, mutating, and summarizing to calculate proportions by group.
+
+::: {#exr-comprehensive}
+## Remission proportions by treatment group
+:::
+
+:::: {.panel-tabset}
+
+## Problem
+
+Chain multiple data manipulation steps to:
+
+1. Selects id, trt, and post-treatment LSAS score
+2. Creates a binary variable indicating remission (LSAS < 30)
+3. Calculates the percentage in remission by treatment group
+
+```{webr}
+#| label: ex-13
+#| exercise: ex_13
+
+# Complete pipeline
+remission_desc <- df_data |>
+  # Select relevant columns
+  select(______, ______, ______) |>
+  # Create remission indicator
+  mutate(
+    remission = lsas_post < ______
+  ) |>
+  # Calculate percentage by treatment group
+  summarize(
+    n = n(),
+    n_remission = sum(______, na.rm = TRUE),
+    pct_remission = (n_remission / n) * 100,
+    .by = ______
+  )
+
+remission_desc
+```
+
+## Hints 
+
+::: {.hint exercise="ex_13"}
+
+Work through this step-by-step:
+
+1. **Select**: You need participant ID, treatment assignment (trt), and post-treatment LSAS
+2. **Mutate**: Create a logical variable - is LSAS post-treatment less than 30?
+3. **Summarize**: 
+   - Count total participants with `n()`
+   - Count those in remission by summing the TRUE/FALSE variable (TRUE = 1, FALSE = 0)
+   - Calculate percentage: (count in remission / total count) × 100
+   - Group by treatment assignment (trt)
+
+:::
+
+## Solution
+
+::: {.solution exercise="ex_13"}
+
+```{webr}
+#| label: ex-13-solution
+#| exercise: ex_13
+#| solution: true
+
+# Complete pipeline
+remission_desc <- df_data |>
+  # Select relevant columns
+  select(id, trt, lsas_post) |>  #<1>
+  # Create remission indicator
+  mutate(
+    remission = lsas_post < 30  #<2>
+  ) |>
+  # Calculate percentage by treatment group
+  summarize(
+    n = n(),
+    n_remission = sum(remission, na.rm = TRUE),  #<3>
+    pct_remission = (n_remission / n) * 100,
+    .by = trt
+  )
+
+remission_desc
+```
+1. Select only needed variables (ID, treatment assignment, post-treatment LSAS)
+2. Create binary variable: TRUE if LSAS < 30 (remission)
+3. Count and calculate percentage in remission by treatment group
+
+This pipeline shows how to combine selecting variables, creating new variables, and summarizing in a single workflow. LSAS scores below 30 indicate remission from social anxiety. You'll see results for all three treatment groups.
+
+:::
+
+```{webr}
+#| label: ex-13-gradethis
+#| exercise: ex_13
+#| check: true
+gradethis::grade_this_code()
+```
+
+::::
+
+# Calculate and visualize missing data patterns
+
+Exploring missing data patterns is an important part of data analysis. Let's calculate and visualize missingness across time points.
+
+::: {#exr-missing-data}
+## Missing LSAS observations by time and group
+:::
+
+:::: {.panel-tabset}
+
+## Problem
+
+Calculate the percentage of missing LSAS observations at each time point for each treatment group, then create a line plot to visualize the pattern.
+
+Steps:
+
+1. Convert LSAS data to long format (all columns starting with "lsas")
+2. Separate the time variable
+3. Create clean time labels and factor variable for plotting
+4. Filter out waitlist group at follow-up time points (not measured)
+5. Create a binary variable indicating if the observation is missing
+6. Calculate the percentage missing by time and group
+7. Plot the results using the ordered time factor
+
+```{webr}
+#| label: ex-14
+#| exercise: ex_14
+
+# Convert to long format and create time variables
+df_lsas_missing <- df_data |>
+  select(id, trt, starts_with("______")) |>
+  pivot_longer(
+    cols = starts_with("______"),
+    names_to = "______",
+    values_to = "______"
+  ) |>
+  separate(______, into = c("measure", "time"), sep = "_") |>
+  mutate(
+    time_clean = case_when(
+      time == "screen" ~ "Baseline",
+      time == "v1" ~ "Week 1",
+      time == "v2" ~ "Week 2",
+      time == "v3" ~ "Week 3",
+      time == "v4" ~ "Week 4",
+      time == "v5" ~ "Week 5",
+      time == "v6" ~ "Week 6",
+      time == "v7" ~ "Week 7",
+      time == "v8" ~ "Week 8",
+      time == "post" ~ "Post-treatment",
+      time == "fu6" ~ "6-month follow-up",
+      time == "fu12" ~ "12-month follow-up"
+    ),
+    time_factor = factor(
+      time_clean,
+      levels = c(
+        "Baseline", "Week 1", "Week 2", "Week 3", "Week 4",
+        "Week 5", "Week 6", "Week 7", "Week 8",
+        "Post-treatment", "6-month follow-up", "12-month follow-up"
+      )
+    )
+  ) |>
+  select(-measure) |>
+  # Filter out waitlist at follow-up (not measured)
+  filter(!(trt == "______" & time %in% c("______", "______")))
+
+# Calculate missing percentages
+missing <- df_lsas_missing |>
+  mutate(
+    is_missing = is.na(______)
+  ) |>
+  summarize(
+    n = n(),
+    n_missing = sum(______),
+    missing_percent = (______ / ______) * 100,
+    .by = c(______, ______)
+  )
+
+# Plot
+library(ggplot2)
+ggplot(
+  missing,
+  aes(
+    ______,
+    missing_percent,
+    group = trt,
+    color = trt
+  )
+) +
+  geom_line() +
+  geom_point() +
+  labs(
+    title = "LSAS Percent missing observations",
+    x = "Time",
+    y = "Missing (%)",
+    color = "Treatment"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+## Hints 
+
+::: {.hint exercise="ex_14"}
+
+Breaking this down:
+
+1. **Long format**: Similar to Exercise 10 - select LSAS columns and pivot them longer
+2. **Separate**: Use `separate()` on the time_point column (like Exercise 11)
+3. **Create time variables**: The `case_when()` and `factor()` code is provided - it creates readable time labels and an ordered factor
+4. **Filter**: Exclude waitlist at fu6 and fu12 time points - they weren't measured then. Use `!(condition)` for NOT, and `%in%` to check if time is in a vector of values. What's the waitlist value in the `trt` variable?
+5. **Missing indicator**: Use `is.na()` to test if a value is missing. This returns TRUE/FALSE
+6. **Summarize**: 
+   - Count missing with `sum(is_missing)` (TRUE = 1, FALSE = 0)
+   - Calculate percentage: (n_missing / n) × 100
+   - Group by both treatment and time (use `trt` and `time_factor`)
+7. **Plot**: Use `time_factor` for the x-axis to get proper chronological ordering with readable labels
+
+Which variable contains the LSAS scores? That's what you check for missingness.
+
+:::
+
+## Solution
+
+::: {.solution exercise="ex_14"}
+
+```{webr}
+#| label: ex-14-solution
+#| exercise: ex_14
+#| solution: true
+
+# Convert to long format and create time variables
+df_lsas_missing <- df_data |>
+  select(id, trt, starts_with("lsas")) |>  #<1>
+  pivot_longer(
+    cols = starts_with("lsas"),
+    names_to = "time_point",
+    values_to = "lsas_score"
+  ) |>
+  separate(time_point, into = c("measure", "time"), sep = "_") |>  #<2>
+  mutate(
+    time_clean = case_when(
+      time == "screen" ~ "Baseline",
+      time == "v1" ~ "Week 1",
+      time == "v2" ~ "Week 2",
+      time == "v3" ~ "Week 3",
+      time == "v4" ~ "Week 4",
+      time == "v5" ~ "Week 5",
+      time == "v6" ~ "Week 6",
+      time == "v7" ~ "Week 7",
+      time == "v8" ~ "Week 8",
+      time == "post" ~ "Post-treatment",
+      time == "fu6" ~ "6-month follow-up",
+      time == "fu12" ~ "12-month follow-up"
+    ),
+    time_factor = factor(  #<3>
+      time_clean,
+      levels = c(
+        "Baseline", "Week 1", "Week 2", "Week 3", "Week 4",
+        "Week 5", "Week 6", "Week 7", "Week 8",
+        "Post-treatment", "6-month follow-up", "12-month follow-up"
+      )
+    )
+  ) |>
+  select(-measure) |>
+  # Filter out waitlist at follow-up (not measured)
+  filter(!(trt == "waitlist" & time %in% c("fu6", "fu12")))  #<4>
+
+# Calculate missing percentages
+missing <- df_lsas_missing |>
+  mutate(
+    is_missing = is.na(lsas_score)  #<5>
+  ) |>
+  summarize(
+    n = n(),
+    n_missing = sum(is_missing),  #<6>
+    missing_percent = (n_missing / n) * 100,  #<7>
+    .by = c(trt, time_factor)  #<8>
+  )
+
+# Plot
+library(ggplot2)
+ggplot(
+  missing,
+  aes(
+    time_factor,  #<9>
+    missing_percent,
+    group = trt,
+    color = trt
+  )
+) +
+  geom_line() +
+  geom_point() +
+  labs(
+    title = "LSAS Percent missing observations",
+    x = "Time",
+    y = "Missing (%)",
+    color = "Treatment"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+1. Select ID, treatment assignment, and LSAS columns
+2. Separate the time_point column to extract time
+3. Create ordered factor for proper chronological plotting with readable labels
+4. Exclude waitlist at 6 and 12 month follow-ups (not measured)
+5. Create indicator: TRUE if missing, FALSE if present
+6. Sum the TRUE/FALSE values to count missing
+7. Calculate percentage missing
+8. Group by both treatment assignment and time factor
+9. Use time_factor for x-axis to ensure proper time ordering with readable labels
+
+The plot reveals missing data patterns across time and treatment groups, which is important for understanding dropout patterns.
+
+:::
+
+```{webr}
+#| label: ex-14-gradethis
+#| exercise: ex_14
+#| check: true
+gradethis::grade_this_code()
+```
+
+::::
+
+# Summary
+
+In this lab, you practiced:
+
+1. **Selecting columns** with `select()` and helper functions
+2. **Filtering rows** with `filter()` and multiple conditions
+3. **Creating variables** with `mutate()` and `case_when()`
+4. **Working with factors** to control categorical variable ordering
+5. **Summarizing data** with `group_by()` and `summarize()`
+6. **Reshaping data** with `pivot_longer()` and `pivot_wider()`
+7. **Calculating proportions** including missing data patterns
+8. **Visualizing patterns** with ggplot2

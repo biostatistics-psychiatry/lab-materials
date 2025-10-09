@@ -58,6 +58,8 @@ website:
             text: Classification
           - href: exercises/lab-webr-descriptive-statistics.qmd
             text: Descriptive statistics
+          - href: exercises/lab-tidy-data-manipulation.qmd
+            text: Tidy data manipulation
           - href: exercises/lab-webr-p-value-ci.qmd
             text: P-values and confidence intervals
           - href: exercises/lab-webr-testing-two-means.qmd
