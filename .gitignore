@@ -54,6 +54,12 @@ _publish.yml
 
 /.quarto/
 
+# Quarto output files
+*_files/
+labs/*.html
+exercises/*.html
+/site_libs/
+
 # Tables
 labs/tables/*.docx
 
