@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2025-10-10">
 
-<title>Research school in clinical psychiatry – Biostatistics - Research School in Clinical Psychiatry</title>
+<title>Probability Distributions in R – Biostatistics - Research School in Clinical Psychiatry</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,27 +20,63 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./r-setup.html" rel="next">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-fb7c9abc17d36d8f171624f5bcedd762.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/sampling.html" rel="next">
+<link href="../chapters/tidy-data-manipulation.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-fb7c9abc17d36d8f171624f5bcedd762.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -82,7 +117,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Course information</a></li><li class="breadcrumb-item"><a href="./index.html">Overview</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/import-clean.html">Chapters</a></li><li class="breadcrumb-item"><a href="../chapters/probability-distributions.html">Probability distributions in R</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -96,7 +131,7 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-center sidebar-header">
-      <a href="./index.html" class="sidebar-logo-link">
+      <a href="../index.html" class="sidebar-logo-link">
       </a>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -108,28 +143,28 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
  <span class="menu-text">Course information</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Overview</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./r-setup.html" class="sidebar-item-text sidebar-link">
+  <a href="../r-setup.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">R and RStudio setup</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./why-learn-r.html" class="sidebar-item-text sidebar-link">
+  <a href="../why-learn-r.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Why Learn R?</span></a>
   </div>
 </li>
@@ -137,70 +172,70 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
  <span class="menu-text">Chapters</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/import-clean.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/import-clean.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Import and clean data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/descriptive-statistics.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/descriptive-statistics.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Descriptive statistics</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/tidy-data-manipulation.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/tidy-data-manipulation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Tidy data manipulation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/probability-distributions.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/probability-distributions.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Probability distributions in R</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/sampling.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/sampling.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Sampling from a population</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/p-values-ci.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/p-values-ci.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">P-values and confidence intervals</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/probability-rules.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/probability-rules.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Probability rules</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/classification.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/classification.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Classification</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/testing-two-means.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/testing-two-means.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Testing two means</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/power-sample-size.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/power-sample-size.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Power and sample size</span></a>
   </div>
 </li>
@@ -217,61 +252,61 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./labs/lab-import-clean.html" class="sidebar-item-text sidebar-link">
+  <a href="../labs/lab-import-clean.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Import and clean data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./labs/lab-descriptive-statistics.html" class="sidebar-item-text sidebar-link">
+  <a href="../labs/lab-descriptive-statistics.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Descriptive statistics</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./labs/lab-tidy-data-manipulation.html" class="sidebar-item-text sidebar-link">
+  <a href="../labs/lab-tidy-data-manipulation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Tidy data manipulation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./labs/lab-probability-distributions.html" class="sidebar-item-text sidebar-link">
+  <a href="../labs/lab-probability-distributions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Probability distributions in R</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./labs/lab-sampling.html" class="sidebar-item-text sidebar-link">
+  <a href="../labs/lab-sampling.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Sampling from a population</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./labs/lab-p-value-ci.html" class="sidebar-item-text sidebar-link">
+  <a href="../labs/lab-p-value-ci.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">P-values and confidence intervals</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./labs/lab-probability-rules.html" class="sidebar-item-text sidebar-link">
+  <a href="../labs/lab-probability-rules.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Probability rules</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./labs/lab-classification.html" class="sidebar-item-text sidebar-link">
+  <a href="../labs/lab-classification.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Classification</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./labs/lab-testing-two-means.html" class="sidebar-item-text sidebar-link">
+  <a href="../labs/lab-testing-two-means.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Testing two means</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./labs/lab-power-sample-size.html" class="sidebar-item-text sidebar-link">
+  <a href="../labs/lab-power-sample-size.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Power and sample size</span></a>
   </div>
 </li>
@@ -287,16 +322,20 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#teaching-team" id="toc-teaching-team" class="nav-link active" data-scroll-target="#teaching-team">Teaching team</a></li>
+  <li><a href="#density-probability-mass-dxxx" id="toc-density-probability-mass-dxxx" class="nav-link active" data-scroll-target="#density-probability-mass-dxxx">1. Density / Probability Mass (<code>dxxx</code>)</a></li>
+  <li><a href="#cumulative-probability-pxxx" id="toc-cumulative-probability-pxxx" class="nav-link" data-scroll-target="#cumulative-probability-pxxx">2. Cumulative probability (<code>pxxx</code>)</a></li>
+  <li><a href="#quantiles-qxxx" id="toc-quantiles-qxxx" class="nav-link" data-scroll-target="#quantiles-qxxx">3. Quantiles (<code>qxxx</code>)</a></li>
+  <li><a href="#random-generation-rxxx" id="toc-random-generation-rxxx" class="nav-link" data-scroll-target="#random-generation-rxxx">4. Random generation (<code>rxxx</code>)</a></li>
+  <li><a href="#common-distributions-and-function-prefixes" id="toc-common-distributions-and-function-prefixes" class="nav-link" data-scroll-target="#common-distributions-and-function-prefixes">Common Distributions and Function Prefixes</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/biostatistics-psychiatry/lab-materials/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/biostatistics-psychiatry/lab-materials/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/biostatistics-psychiatry/lab-materials/edit/main/chapters/probability-distributions.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/biostatistics-psychiatry/lab-materials/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Course information</a></li><li class="breadcrumb-item"><a href="./index.html">Overview</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/import-clean.html">Chapters</a></li><li class="breadcrumb-item"><a href="../chapters/probability-distributions.html">Probability distributions in R</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Research school in clinical psychiatry</h1>
+<h1 class="title">Probability Distributions in R</h1>
 </div>
 
 
@@ -304,12 +343,6 @@ ul.task-list li input[type="checkbox"] {
 <div class="quarto-title-meta">
 
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">October 10, 2025</p>
-    </div>
-  </div>
   
     
   </div>
@@ -319,23 +352,184 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Welcome to the course materials for Biostatistics courses in the Research School in Clinical Psychiatry at Karolinska Institutet. This website contains all materials related to the afternoon lab sessions of the courses.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
+<p>R provides a systematic way to work with probability distributions.<br>
+For each distribution, there are <strong>four types of functions</strong>, following a naming convention:</p>
+<ul>
+<li><code>dxxx</code>: Density (for continuous) or Probability Mass (for discrete)<br>
+</li>
+<li><code>pxxx</code>: Cumulative distribution function (CDF)<br>
+</li>
+<li><code>qxxx</code>: Quantile function (inverse CDF)<br>
+</li>
+<li><code>rxxx</code>: Random sample generation</li>
+</ul>
+<hr>
+<section id="density-probability-mass-dxxx" class="level3">
+<h3 class="anchored" data-anchor-id="density-probability-mass-dxxx">1. Density / Probability Mass (<code>dxxx</code>)</h3>
+<ul>
+<li>For <strong>continuous distributions</strong> (like the normal), this is the <strong>probability density function (pdf)</strong>.<br>
+It does not give a probability directly, but tells you how “dense” the distribution is around a value.<br>
+Example: <code>dnorm(0)</code> gives the height of the normal curve at 0.</li>
+<li>For <strong>discrete distributions</strong> (like the binomial or poisson), it is the <strong>probability mass function (pmf)</strong>.<br>
+This gives the actual probability of the outcome.<br>
+Example: <code>dbinom(3, size=10, prob=0.5)</code> = probability of exactly 3 successes.</li>
+</ul>
+<p>Think of <code>dxxx</code> as answering: “What is the likelihood at this exact point?”</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Normal density at x = 0, mean = 0, sd = 1</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.3989423</code></pre>
 </div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Using AI tools
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Probability that a Poisson(λ=2) equals x = 3</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dpois</span>(<span class="dv">3</span>, <span class="at">lambda =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.180447</code></pre>
 </div>
 </div>
-<div class="callout-body-container callout-body">
-<p>We will not police your use of generative AI tools (ChatGPT, Claude, Co-pilot etc) in these lab sessions. They are useful for generating code that <em>works</em>, but you are still responsible for making sure that it is the <em>correct</em> code. We use some of these tools in our own day-to-day work and find them useful. However, we often have to correct subtle errors that are not immediately obvious. So please use them with care.</p>
+</section>
+<section id="cumulative-probability-pxxx" class="level3">
+<h3 class="anchored" data-anchor-id="cumulative-probability-pxxx">2. Cumulative probability (<code>pxxx</code>)</h3>
+<ul>
+<li><p>This function gives the probability that the random variable is <strong>less than or equal to a value</strong>.</p></li>
+<li><p>Example: <code>pnorm(1.96)</code> = probability that a standard normal random variable is ≤ 1.96 (about 0.975).</p></li>
+<li><p>Example: <code>pbinom(4, size=10, prob=0.5)</code> = probability of getting <strong>up to 4 successes</strong> in 10 coin tosses</p></li>
+</ul>
+<p>Think of <code>pxxx</code> as answering:<br>
+<em>“What is the probability that I am at or below this value?”</em></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># P(X ≤ 1.96) when X ~ N(0,1)</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="fl">1.96</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9750021</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cumulative probability for Binomial(n=10, p=0.3), X ≤ 4</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pbinom</span>(<span class="dv">4</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">prob =</span> <span class="fl">0.3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8497317</code></pre>
 </div>
 </div>
-<section id="teaching-team" class="level1">
-<h1>Teaching team</h1>
-<p>The course director is <a href="https://ki.se/en/people/matteo-bottai">Matteo Bottai</a>, Professor of Biostatistics at Karolinska Institutet. Course leaders are <a href="https://ki.se/en/people/kristoffer-magnusson">Kristoffer Magnusson</a>, <a href="https://ki.se/en/people/fredrik-johansson">Fred Johansson</a> and <a href="https://ki.se/en/people/oskar-flygare">Oskar Flygare</a>, all researchers at Centre for Psychiatry Research, Karolinska Institutet.</p>
+</section>
+<section id="quantiles-qxxx" class="level3">
+<h3 class="anchored" data-anchor-id="quantiles-qxxx">3. Quantiles (<code>qxxx</code>)</h3>
+<ul>
+<li><p>This is the <strong>inverse</strong> of the CDF.</p></li>
+<li><p>You give it a probability <code>p</code>, and it tells you the corresponding value (quantile).</p></li>
+<li><p>Example: <code>qnorm(0.975)</code> = the 97.5th percentile of the normal distribution (≈ 1.96).</p></li>
+<li><p>Example: <code>qbinom(0.5, size=10, prob=0.5)</code> = the median number of successes in 10 coin tosses.</p></li>
+</ul>
+<p>Think of <code>qxxx</code> as answering:<br>
+<em>“At what value do I reach this probability?”</em></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 97.5th percentile of a N(0,1)</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="fl">0.975</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.959964</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Median of Chi-squared with 5 df</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">qchisq</span>(<span class="fl">0.5</span>, <span class="at">df =</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4.35146</code></pre>
+</div>
+</div>
+</section>
+<section id="random-generation-rxxx" class="level3">
+<h3 class="anchored" data-anchor-id="random-generation-rxxx">4. Random generation (<code>rxxx</code>)</h3>
+<ul>
+<li><p>This generates random numbers following the distribution.</p></li>
+<li><p>Example: <code>rnorm(5, mean=0, sd=1)</code> → five random draws from a standard normal distribution.</p></li>
+<li><p>Example: <code>rpois(10, lambda=3)</code> → ten simulated counts from a Poisson distribution.</p></li>
+</ul>
+<p>Think of <code>rxxx</code> as answering:<br>
+<em>“Give me some random data from this distribution.”</em></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate 5 random normal values</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">5</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  0.482202123  1.140005813  1.158857672  0.003924625 -1.026943908</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate 10 random uniform values between 0 and 1</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">runif</span>(<span class="dv">10</span>, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 0.82426720 0.52138493 0.91966684 0.84333101 0.47440892 0.80970328
+ [7] 0.07018974 0.05150087 0.63673564 0.71285348</code></pre>
+</div>
+</div>
+</section>
+<section id="common-distributions-and-function-prefixes" class="level2">
+<h2 class="anchored" data-anchor-id="common-distributions-and-function-prefixes">Common Distributions and Function Prefixes</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Distribution</th>
+<th>Prefix</th>
+<th>Example Functions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Normal</td>
+<td><code>norm</code></td>
+<td><code>dnorm</code>, <code>pnorm</code>, <code>qnorm</code>, <code>rnorm</code></td>
+</tr>
+<tr class="even">
+<td>Binomial</td>
+<td><code>binom</code></td>
+<td><code>dbinom</code>, <code>pbinom</code>, <code>qbinom</code>, <code>rbinom</code></td>
+</tr>
+<tr class="odd">
+<td>Poisson</td>
+<td><code>pois</code></td>
+<td><code>dpois</code>, <code>ppois</code>, <code>qpois</code>, <code>rpois</code></td>
+</tr>
+<tr class="even">
+<td>Exponential</td>
+<td><code>exp</code></td>
+<td><code>dexp</code>, <code>pexp</code>, <code>qexp</code>, <code>rexp</code></td>
+</tr>
+<tr class="odd">
+<td>Uniform</td>
+<td><code>unif</code></td>
+<td><code>dunif</code>, <code>punif</code>, <code>qunif</code>, <code>runif</code></td>
+</tr>
+<tr class="even">
+<td>Chi-squared</td>
+<td><code>chisq</code></td>
+<td><code>dchisq</code>, <code>pchisq</code>, <code>qchisq</code>, <code>rchisq</code></td>
+</tr>
+<tr class="odd">
+<td>t-distribution</td>
+<td><code>t</code></td>
+<td><code>dt</code>, <code>pt</code>, <code>qt</code>, <code>rt</code></td>
+</tr>
+<tr class="even">
+<td>F-distribution</td>
+<td><code>f</code></td>
+<td><code>df</code>, <code>pf</code>, <code>qf</code>, <code>rf</code></td>
+</tr>
+<tr class="odd">
+<td>Gamma</td>
+<td><code>gamma</code></td>
+<td><code>dgamma</code>, <code>pgamma</code>, <code>qgamma</code>, <code>rgamma</code></td>
+</tr>
+<tr class="even">
+<td>Beta</td>
+<td><code>beta</code></td>
+<td><code>dbeta</code>, <code>pbeta</code>, <code>qbeta</code>, <code>rbeta</code></td>
+</tr>
+<tr class="odd">
+<td>Geometric</td>
+<td><code>geom</code></td>
+<td><code>dgeom</code>, <code>pgeom</code>, <code>qgeom</code>, <code>rgeom</code></td>
+</tr>
+<tr class="even">
+<td>Hypergeometric</td>
+<td><code>hyper</code></td>
+<td><code>dhyper</code>, <code>phyper</code>, <code>qhyper</code>, <code>rhyper</code></td>
+</tr>
+</tbody>
+</table>
+<p>Right now, these distributions may seem very theoretical. In chapter <a href="../chapters/p-values-ci.html">P-values and Confidence Intervals</a> however, we’ll use these to get some actual inference from the STEpS data.</p>
 
 
 </section>
@@ -743,10 +937,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="../chapters/tidy-data-manipulation.html" class="pagination-link" aria-label="Tidy data manipulation">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Tidy data manipulation</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./r-setup.html" class="pagination-link" aria-label="R and RStudio setup">
-        <span class="nav-page-text">R and RStudio setup</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../chapters/sampling.html" class="pagination-link" aria-label="Sampling from a population">
+        <span class="nav-page-text">Sampling from a population</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -755,4 +952,4 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/biostatistics-psychiatry/lab-materials/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/biostatistics-psychiatry/lab-materials/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/biostatistics-psychiatry/lab-materials/edit/main/chapters/probability-distributions.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/biostatistics-psychiatry/lab-materials/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
