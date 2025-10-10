@@ -34,6 +34,8 @@ website:
             text: Descriptive statistics
           - href: labs/tidy-data-manipulation.qmd
             text: Tidy data manipulation
+          - href: labs/probability-distributions.qmd
+            text: Probability distributions in R
           - href: labs/sampling.qmd
             text: Sampling from a population
           - href: labs/p-values-ci.qmd
@@ -48,8 +50,8 @@ website:
             text: Power and sample size
       - section: "Exercises"
         contents:
-          - href: exercises/lab-1-exercises.qmd
-            text: Lab 1 Exercises
+          - href: exercises/lab-import-clean.qmd
+            text: Import and clean data
           - href: exercises/lab-webr-test-exercises.qmd
             text: Webr test exercises
           - href: exercises/lab-power-sample-size.qmd
@@ -58,15 +60,16 @@ website:
             text: Classification
           - href: exercises/lab-webr-descriptive-statistics.qmd
             text: Descriptive statistics
-          - href: exercises/webr-exercise-sampling.qmd
-            text: Sampling from a population
-          - href: exercises/lab-webr-pdist.qmd
-            text: Probability distributions in R
+          - href: exercises/lab-tidy-data-manipulation.qmd
+            text: Tidy data manipulation
           - href: exercises/lab-webr-p-value-ci.qmd
             text: P-values and confidence intervals
           - href: exercises/lab-webr-testing-two-means.qmd
             text: Testing two means
-
+          - href: exercises/webr-exercise-sampling.qmd
+            text: Sampling from a population
+          - href: exercises/lab-webr-probability-rules.qmd
+            text: Probability rules
 
 format:
   html:

@@ -65,13 +65,6 @@ row_check <- nrow(df_rawdata) # 181
 col_check <- ncol(df_rawdata) # 37
 ```
 
-::: {#exr-import-steps .callout-caution collapse="true"}
-## Import the STePS dataset
-
-Import the STePS dataset using the `read_csv()` function. Use the `here()` function to specify the file path. Check the number of rows and columns in the dataset after importing it.
-
-:::
-
 ## Check data structure
 
 After importing the data, we can check the structure of the dataset using the `glimpse()` function. This function provides a quick overview of the dataset, including the number of rows and columns, as well as the data types of each column. Does it look as expected?
@@ -91,14 +84,6 @@ Other options for checking the basic structure of the data include `head()`, `na
 - `names(df_rawdata)` shows the names of the columns.
 - `ncol(df_rawdata)` shows the number of columns in the dataset.
 - `nrow(df_rawdata)` shows the number of rows in the dataset.
-
-::: {#exr-glimpse-data .callout-caution collapse="true"}
-## Check the structure of STePS
-
-use the `glimpse()` function to check the structure of the STePS data. What do you notice about the data? Are there any potential issues with the data structure?
-
-Also try calling `view()` to open the data in a spreadsheet-like view.
-:::
 
 ## Types of data
 
@@ -143,12 +128,6 @@ We will use the `clean_names()` function from the *janitor* package to clean the
 
 What's wrong with these column names? And what is the difference after `clean_names()`?
 
-::: {#exr-clean-names .callout-caution collapse="true"}
-##  Clean column names, part 1
-
-Use the `clean_names()` function to clean the column names in `df_data`. Check the names before and after cleaning. What changes do you notice? Are there any column names that are still problematic?
-:::
-
 ```{r}
 #| label: bad-column-names
 #| message: false
@@ -183,12 +162,6 @@ df_data <- df_data |>
 This type of data cleaning is often a result of going back and forth between running code and checking the results. Sometimes you will come all the way to the analyses before finding that DERS-16 is missing a time-point! This is why it's helpful to design your project in a way that allows you to easily go back and forth between steps.
 :::
 
-::: {#exr-clean-names-2 .callout-caution collapse="true"}
-##  Clean column names, part 2
-
-Use the `rename_with()` function to fix the column names of PHQ-9 in `df_data`. Check the names before and after cleaning. What changes do you notice? Are there any column names that are still problematic?
-:::
-
 ## Ensure missing values are coded as NA
 
 If we are lucky, all the missing values are already coded as `NA` and R will recognize them as missing. More often, however, is that the missing values are coded as `""`, `-99`, or other values. This can cause problems later, so we need to ensure that all missing values are coded as `NA`.
@@ -215,14 +188,6 @@ df_data <- df_data |>
 
 ```
 
-::: {#exr-fix-missing-values .callout-caution collapse="true"}
-##  Fix missing values
-
-Check which columns have weird values for missing values. You can use the `glimpse()` function or view the data in the viewer. You can also use the `unique()` function to check which values are present in a column.
-
-Then, use the `mutate()` and `across()` functions to replace these values with `NA`. Make sure to replace all occurrences of "missing" in the character columns.
-:::
-
 ## Fix column types
 
 The NA values are now correctly coded, but we still have some columns that are not numeric despite only including numbers. We can use the `mutate()` function again to convert the columns to the correct data type. In this step, we also ensure that the `id` and `group` columns are factors.
@@ -242,12 +207,6 @@ df_data <- df_data |>
   )
 
 ```
-
-::: {#exr-fix-column-types .callout-caution collapse="true"}
-## Fix column types
-
-Let's imagine we have many columns that should be factors. How can you use the same procedure as above to convert all columns from a `fct_cols` vector to factors?
-:::
 
 # Create a treatment indicator variable
 
