@@ -28,48 +28,54 @@ website:
             text: R and RStudio setup
           - href: why-learn-r.qmd
             text: Why Learn R?
+      - section: "Chapters"
+        contents:
+          - href: chapters/import-clean.qmd
+            text: Import and clean data
+          - href: chapters/descriptive-statistics.qmd
+            text: Descriptive statistics
+          - href: chapters/tidy-data-manipulation.qmd
+            text: Tidy data manipulation
+          - href: chapters/probability-distributions.qmd
+            text: Probability distributions in R
+          - href: chapters/sampling.qmd
+            text: Sampling from a population
+          - href: chapters/p-values-ci.qmd
+            text: P-values and confidence intervals
+          - href: chapters/probability-rules.qmd
+            text: Probability rules
+          - href: chapters/classification.qmd
+            text: Classification
+          - href: chapters/testing-two-means.qmd
+            text: Testing two means
+          - href: chapters/power-sample-size.qmd
+            text: Power and sample size
       - section: "Labs"
         contents:
-          - href: labs/import-clean.qmd
+          - href: labs/lab-import-clean.qmd
             text: Import and clean data
-          - href: labs/descriptive-statistics.qmd
+          - href: labs/lab-descriptive-statistics.qmd
             text: Descriptive statistics
-          - href: labs/tidy-data-manipulation.qmd
+          - href: labs/lab-tidy-data-manipulation.qmd
             text: Tidy data manipulation
-          - href: labs/probability-distributions.qmd
+          - href: labs/lab-probability-distributions.qmd
             text: Probability distributions in R
-          - href: labs/sampling.qmd
+          - href: labs/lab-sampling.qmd
             text: Sampling from a population
-          - href: labs/p-values-ci.qmd
+          - href: labs/lab-p-value-ci.qmd
             text: P-values and confidence intervals
-          - href: labs/probability-rules.qmd
+          - href: labs/lab-probability-rules.qmd
             text: Probability rules
-          - href: labs/classification.qmd
+          - href: labs/lab-classification.qmd
             text: Classification
-          - href: labs/testing-two-means.qmd
+          - href: labs/lab-testing-two-means.qmd
             text: Testing two means
-          - href: labs/power-sample-size.qmd
+          - href: labs/lab-power-sample-size.qmd
             text: Power and sample size
-      - section: "Exercises"
-        contents:
-          - href: exercises/lab-import-clean.qmd
-            text: Import and clean data
-          - href: exercises/lab-power-sample-size.qmd
-            text: Power and sample size
-          - href: exercises/lab-webr-classification.qmd
-            text: Classification
-          - href: exercises/lab-webr-descriptive-statistics.qmd
-            text: Descriptive statistics
-          - href: exercises/lab-tidy-data-manipulation.qmd
-            text: Tidy data manipulation
-          - href: exercises/lab-webr-p-value-ci.qmd
-            text: P-values and confidence intervals
-          - href: exercises/lab-webr-testing-two-means.qmd
-            text: Testing two means
-          - href: exercises/webr-exercise-sampling.qmd
-            text: Sampling from a population
-          - href: exercises/lab-webr-probability-rules.qmd
-            text: Probability rules
+            
+
+
+
 
 format:
   html:

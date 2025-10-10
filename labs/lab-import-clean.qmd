@@ -1,0 +1,510 @@
+---
+title: "Lab: Import and clean data"
+number-sections: true
+format: live-html
+engine: knitr
+webr:
+  packages:
+    - dplyr
+    - tidyr
+    - readr
+    - ggplot2
+resources:
+  - ../data/steps_raw.csv
+---
+
+{{< include ../_extensions/r-wasm/live/_knitr.qmd >}}
+{{< include ../_extensions/r-wasm/live/_gradethis.qmd >}}
+
+This lab is linked to the [Import and clean data](../chapters/import-clean.qmd) chapter. We will look at some common steps involved in importing and cleaning data, such as fixing column names, missing values, and column types.
+
+::: {.callout-tip}
+Three underscores (`___`) in the code below indicate where you need to fill in the missing parts. We use the `webr` engine to run the code in your browser, but you can also run it in RStudio. The feedback you get from these web exercises comes from the `gradethis` package. It's great but not perfect.
+:::
+
+# Load packages and data {.unnumbered}
+
+First, let's load the packages and data. Do you experience any issues with loading the packages in RStudio? If so, you may need to install them first using the `install.packages()` function in the console.
+
+```{webr}
+#| label: setup
+#| message: false
+#| warning: false
+#| setup: true
+#| exercise:
+#|  - ex_1
+#|  - ex_2
+#|  - ex_3
+#|  - ex_4
+#|  - ex_5
+#|  - ex_6
+#|  - ex_7
+
+library(tidyverse)
+library(here)
+library(janitor)
+
+# Load the data
+df_rawdata <- read_csv2(here("data", "steps_raw.csv"))
+
+```
+
+```{webr}
+#| label: setup-session
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(here)
+library(janitor)
+
+# Load the data
+df_rawdata <- read_csv2(here("data", "steps_raw.csv"))
+```
+
+# Inspect data using glimpse()
+
+We will check the basic structure of our raw data by using the `glimpse()` function.
+
+If you are doing this lab in RStudio, you can try calling `view()` to open the data in a spreadsheet-like view.
+
+::: {#exr-inspect-data}
+## Inspect data
+:::
+
+:::: {.panel-tabset}
+
+## Problem
+
+Use the `glimpse()` function to check the structure of the STePS data. What do you notice about the data? Are there any potential issues with the data structure?
+
+```{webr}
+#| label: ex-1
+#| exercise: ex_1
+
+glimpse(___)
+
+```
+
+## Hints 
+
+::: {.hint exercise="ex_1"}
+
+Use the function on your raw data object.
+
+:::
+
+## Solution
+
+::: {.solution exercise="ex_1"}
+
+```{webr}
+#| label: ex-1-solution
+#| exercise: ex_1
+#| solution: true
+
+glimpse(df_rawdata)
+
+```
+
+:::
+
+```{webr}
+#| label: ex-1-gradethis
+#| exercise: ex_1
+#| check: true
+gradethis::grade_this_code()
+```
+
+::::
+
+# Clean column names
+
+::: {#exr-clean-names}
+##  Clean column names, part 1
+:::
+
+:::: {.panel-tabset}
+
+## Problem
+
+Use the `clean_names()` function to clean the column names in `df_rawdata`. Check the names before and after cleaning. What changes do you notice? Are there any column names that are still problematic?
+
+```{webr}
+#| label: ex-2
+#| exercise: ex_2
+
+names(df_rawdata)
+
+# Clean the column names
+df_rawdata |> 
+  ___ |> 
+  names()
+```
+
+## Hints 
+
+::: {.hint exercise="ex_2"}
+
+Use the `clean_names()` function from the *janitor* package.
+
+:::
+
+## Solution
+
+::: {.solution exercise="ex_2"}
+
+```{webr}
+#| label: ex-2-solution
+#| exercise: ex_2
+#| solution: true
+
+names(df_rawdata)
+
+# Clean the column names
+df_rawdata |> 
+  clean_names() |> 
+  names()
+```
+
+:::
+
+```{webr}
+#| label: ex-2-gradethis
+#| exercise: ex_2
+#| check: true
+gradethis::grade_this_code()
+```
+
+::::
+
+::: {#exr-clean-names-2}
+##  Clean column names, part 2
+:::
+
+:::: {.panel-tabset}
+
+## Problem
+
+The `clean_names()` is very helpful, but it didn't sort all of the problems. We still have some inconsistent column names for screening, DERS-16, and PHQ-9.
+
+Use the `rename_with()` function to fix the column names of PHQ-9 in `df_rawdata`. Check the names before and after cleaning.
+
+```{webr}
+#| label: ex-3
+#| exercise: ex_3
+
+df_rawdata |> 
+  clean_names() |> 
+  rename_with(~ .x |> 
+    str_replace_all("screening", "screen") |> 
+    str_replace_all("ders_16|ders16", "ders") |> 
+    ___
+  ) |> 
+  names()
+```
+
+## Hints 
+
+::: {.hint exercise="ex_3"}
+
+Use `str_replace_all()` to standardize the PHQ-9 column names, similar to DERS-16.
+
+:::
+
+## Solution
+
+::: {.solution exercise="ex_3"}
+
+```{webr}
+#| label: ex-3-solution
+#| exercise: ex_3
+#| solution: true
+
+df_rawdata |> 
+  clean_names() |> 
+  rename_with(~ .x |> 
+    str_replace_all("screening", "screen") |> 
+    str_replace_all("ders_16|ders16", "ders") |> 
+    str_replace_all("phq_9|phq9", "phq9")
+  ) |> 
+  names()
+```
+
+:::
+
+```{webr}
+#| label: ex-3-gradethis
+#| exercise: ex_3
+#| check: true
+gradethis::grade_this_code()
+```
+
+::::
+
+# Fix missing values
+
+::: {#exr-check-missing-values}
+##  Check missing values
+:::
+
+:::: {.panel-tabset}
+
+## Problem
+
+Check which columns have weird values for missing values. Here, we use the `unique()` function to check which values are present in the *character* columns. Often when columns we think should be numeric have odd values for missing values, they end up as *character* columns.
+
+```{webr}
+#| label: ex-4
+#| exercise: ex_4
+
+# Check unique values in the character columns to see "missing" values
+df_rawdata |> 
+  select(where(___)) |> 
+  map(unique)
+```
+
+## Hints 
+
+::: {.hint exercise="ex_4"}
+
+The structure for selecting by column type is: `is.type`, such as `is.numeric`. Do the same but for character type.
+
+:::
+
+## Solution
+
+::: {.solution exercise="ex_4"}
+
+```{webr}
+#| label: ex-4-solution
+#| exercise: ex_4
+#| solution: true
+
+# Check unique values in a few columns to see "missing" values
+df_rawdata |> 
+  select(where(is.character)) |> 
+  map(unique)
+```
+
+:::
+
+```{webr}
+#| label: ex-4-gradethis
+#| exercise: ex_4
+#| check: true
+gradethis::grade_this_code()
+```
+
+::::
+
+::: {#exr-check-missing-values}
+##  Fix missing values
+:::
+
+:::: {.panel-tabset}
+
+## Problem
+
+Now that we have seen the problem, use the `mutate()` and `across()` functions to replace these values with `NA`. Make sure to replace all occurrences of "missing" in the character columns.
+
+```{webr}
+#| label: ex-5
+#| exercise: ex_5
+
+# Fix the missing values
+df_rawdata |> 
+  clean_names() |> 
+  mutate(across(where(is.character), ~na_if(., "___"))) |> 
+  glimpse()
+```
+
+## Hints 
+
+::: {.hint exercise="ex_5"}
+
+You should replace the "missing" values with `NA`.
+
+:::
+
+## Solution
+
+::: {.solution exercise="ex_5"}
+
+```{webr}
+#| label: ex-5-solution
+#| exercise: ex_5
+#| solution: true
+
+# Fix the missing values
+df_rawdata |> 
+  clean_names() |> 
+  mutate(across(where(is.character), ~na_if(., "missing"))) |> 
+  glimpse()
+```
+
+:::
+
+```{webr}
+#| label: ex-5-gradethis
+#| exercise: ex_5
+#| check: true
+gradethis::grade_this_code()
+```
+
+::::
+
+# Fix column types
+
+::: {#exr-fix-column-types}
+## Fix column types
+:::
+
+:::: {.panel-tabset}
+
+## Problem
+
+Let's imagine we have many columns that should be numeric. Instead of repeating the same function many times, we can use the `across()` function.
+
+```{webr}
+#| label: ex-6
+#| exercise: ex_6
+
+# which columns should be numeric?
+num_cols <- c("lsas", "gad", "phq9", "bbq", "scs", "dmrsodf", "ders", "pid_5")
+
+# Steps from previous exercises
+df_rawdata |> 
+  clean_names() |> 
+  mutate(across(where(is.character), ~na_if(., "missing"))) |> 
+  # apply the across function to the numeric columns
+  mutate(
+    across(starts_with(___), as.numeric)
+  ) |> 
+  glimpse()
+```
+
+## Hints 
+
+::: {.hint exercise="ex_6"}
+
+Use the object we created for the numeric columns.
+
+:::
+
+## Solution
+
+::: {.solution exercise="ex_6"}
+
+```{webr}
+#| label: ex-6-solution
+#| exercise: ex_6
+#| solution: true
+
+# which columns should be numeric?
+num_cols <- c("lsas", "gad", "phq9", "bbq", "scs", "dmrsodf", "ders", "pid_5")
+
+# Steps from previous exercises
+df_rawdata |> 
+  clean_names() |> 
+  mutate(across(where(is.character), ~na_if(., "missing"))) |> 
+  # apply the across function to the numeric columns
+  mutate(
+    across(starts_with(num_cols), as.numeric)
+  ) |> 
+  glimpse()
+```
+
+:::
+
+```{webr}
+#| label: ex-6-gradethis
+#| exercise: ex_6
+#| check: true
+gradethis::grade_this_code()
+```
+
+::::
+
+# Save cleaned data
+
+::: {#exr-save-cleaned-data}
+## Save cleaned data
+:::
+
+:::: {.panel-tabset}
+
+## Problem
+
+Finally, save the cleaned data to a new CSV file called `steps_clean.csv` in the `/data` folder. Use the `write_csv()` function from the *readr* package along with `here()`, just like we did in the beginning of this lab when we loaded the data.
+
+```{webr}
+#| label: ex-7
+#| exercise: ex_7
+
+num_cols <- c("lsas", "gad", "phq9", "bbq", "scs", "dmrsodf", "ders", "pid_5")
+
+# Create the cleaned dataset
+df_cleaned <- df_rawdata |> 
+  clean_names() |> 
+  mutate(across(where(is.character), ~na_if(., "missing"))) |> 
+  mutate(
+    across(starts_with(num_cols), as.numeric)
+  )
+
+# Save the cleaned data as "steps_clean.csv" in the "data" folder
+write_csv(df_cleaned, ___)
+
+```
+
+## Hints 
+
+::: {.hint exercise="ex_7"}
+
+The format for using `here()` is: `here("folder", "file")`.
+
+:::
+
+## Solution
+
+::: {.solution exercise="ex_7"}
+
+```{webr}
+#| label: ex-7-solution
+#| exercise: ex_7
+#| solution: true
+
+num_cols <- c("lsas", "gad", "phq9", "bbq", "scs", "dmrsodf", "ders", "pid_5")
+
+# Create the cleaned dataset
+df_cleaned <- df_rawdata |> 
+  clean_names() |> 
+  mutate(across(where(is.character), ~na_if(., "missing"))) |> 
+  mutate(
+    across(starts_with(num_cols), as.numeric)
+  )
+
+# Save the cleaned data
+write_csv(df_cleaned, here("data", "steps_clean.csv"))
+```
+
+:::
+
+```{webr}
+#| label: ex-7-gradethis
+#| exercise: ex_7
+#| check: true
+gradethis::grade_this_code()
+```
+
+::::
+
+# Summary
+
+In this lab, we looked at common steps in importing and cleaning data. We learned how to:
+
+- Inspect the data using `glimpse()`
+- Clean column names using `clean_names()`
+- Fix missing values using `mutate()` and `across()`
+- Fix column types using `mutate()` and `across()`
+- Save the cleaned data using `write_csv()`
