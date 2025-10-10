@@ -1,0 +1,258 @@
+---
+title: "Lab: Probability distributions"
+number-sections: true
+format: live-html
+engine: knitr
+webr:
+  packages:
+    - dplyr
+resources:
+  - ../data/steps_clean.csv
+---
+
+{{< include ../_extensions/r-wasm/live/_knitr.qmd >}}
+{{< include ../_extensions/r-wasm/live/_gradethis.qmd >}}
+
+# Load packages and data {.unnumbered}
+
+```{webr}
+#| label: setup-data
+#| setup: true
+#| exercise:
+#|  - ex_1
+#|  - ex_2
+#|  - ex_3
+#|  - ex_4
+
+# Load the CSV data
+library(dplyr)
+df_data <- read.csv("data/steps_clean.csv")
+```
+
+```{webr}
+#| label: setup-session
+library(dplyr)
+
+# Load the CSV data
+df_data <- read.csv("data/steps_clean.csv")
+```
+
+::: {#exr-pnorm-lsas}
+## Having 80 or less LSAS at screening
+:::
+
+::::: {.panel-tabset}
+## Problem
+
+Check the mean and SD of LSAS scores at screening. Assuming it is normally distributed, what is the probability that a person will have a score of 80 or less? 
+
+```{webr}
+#| label: ex-1
+#| exercise: ex_1
+pnorm(___,___,___)
+
+```
+
+## Hints
+
+::: {.hint exercise="ex_1"}
+
+Use the `mean()`and `sd()` functions to find the values in the dataset `df_data`
+```{webr}
+#| label: ex-1-hint
+mean(df_data$lsas_screen)
+sd(df_data$lsas_screen)
+```
+
+:::
+
+## Solution
+
+::: {.solution exercise="ex_1"}
+
+```{webr}
+#| label: ex-1-solution
+#| exercise: ex_1
+#| solution: true
+mean <- mean(df_data$lsas_screen)
+sd <- sd(df_data$lsas_screen)
+pnorm(80, mean, sd)
+```
+
+:::
+
+```{webr}
+#| label: ex-1-gradethis
+#| exercise: ex_1
+#| check: true
+gradethis::grade_this_code()
+```
+
+::::
+
+::: {#exr-pnorm-lsas-100}
+## Probability of having a LSAS score of 100 or more
+:::
+
+::::: {.panel-tabset}
+## Problem
+
+What is the probability that a person will have a LSAS score at screening of 100 or more, assuming the scores are normally distributed? 
+
+```{webr}
+#| label: ex-2
+#| exercise: ex_2
+pnorm(___,___,___)
+
+```
+
+## Hints
+
+::: {.hint exercise="ex_2"}
+
+Use the `mean()`and `sd()` functions to find the values in the dataset `df_data`.
+
+Also, since we are looking at a value *equal or greater to* a certain point of the cumulative probability distribution, we can use `1-pnorm()`.
+
+```{webr}
+#| label: ex-2-hint
+mean <- mean(df_data$lsas_screen)
+sd <- sd(df_data$lsas_screen)
+1-pnorm(___,___,___)
+```
+
+:::
+
+## Solution
+
+::: {.solution exercise="ex_2"}
+
+```{webr}
+#| label: ex-2-solution
+#| exercise: ex_2
+#| solution: true
+mean <- mean(df_data$lsas_screen)
+sd <- sd(df_data$lsas_screen)
+1-pnorm(100, mean, sd)
+```
+
+:::
+
+```{webr}
+#| label: ex-2-gradethis
+#| exercise: ex_2
+#| check: true
+gradethis::grade_this_code()
+```
+
+:::::
+
+::: {#exr-inclusion-rate}
+## Inclusion rate in the STEpS study
+:::
+
+::::: {.panel-tabset}
+## Problem
+
+Let's say that the average inclusion rate in the STEpS study was 5 participants per week. What is the probability that they'll include 3 or less people the coming week?
+
+```{webr}
+#| label: ex-3
+#| exercise: ex_3
+p____(____,____)
+
+```
+
+## Hints
+
+::: {.hint exercise="ex_3"}
+
+Since we are looking at a rate we can use the function for the cumulative probabililty of the Poisson distribution, using the `ppois()` function
+```{webr}
+#| label: ex-3-hint
+ppois(____,____)
+```
+
+:::
+
+## Solution
+
+::: {.solution exercise="ex_3"}
+
+```{webr}
+#| label: ex-3-solution
+#| exercise: ex_3
+#| solution: true
+lambda = 5
+ppois(3,5)
+```
+
+:::
+
+```{webr}
+#| label: ex-3-gradethis
+#| exercise: ex_3
+#| check: true
+gradethis::grade_this_code()
+```
+
+:::::
+
+::: {#exr-binomial-gender}
+## Probability of selecting only women in a sample of 5 participants
+:::
+
+::::: {.panel-tabset}
+## Problem
+
+In the STEpS study, 78% of the participants were women. What is the probability that 5 randomly chosen participants would all be women? 
+
+```{webr}
+#| label: ex-4
+#| exercise: ex_4
+d____(x = ___, size=___, p=___)
+
+```
+
+## Hints
+
+::: {.hint exercise="ex_4"}
+
+Since we are looking at a binary variable, we can get the probability density function for the binomial distribution, using the `dbinom()` function
+```{webr}
+#| label: ex-4-hint
+dbinom(x=____,size=___,p= ___)
+```
+
+:::
+
+## Solution
+
+::: {.solution exercise="ex_4"}
+
+```{webr}
+#| label: ex-4-solution
+#| exercise: ex_4
+#| solution: true
+dbinom(x=5, size = 5, prob = 0.78)
+
+# or since these are random events, we could get the joint probability by multiplying the probabilities 5 times
+0.78*0.78*0.78*0.78*0.78
+#which is the same as
+0.78^5
+```
+
+:::
+
+```{webr}
+#| label: ex-4-gradethis
+#| exercise: ex_4
+#| check: true
+gradethis::grade_this_code()
+```
+
+:::::
+
+# Summary {.unnumbered}
+
+In this lab, we learned about the probability distributions and how to use them to calculate the probability of different events. We used helpful base R functions to calculate the probability of variables being over or under a certain value.
