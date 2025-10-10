@@ -1,0 +1,153 @@
+---
+title: "Lab: Sampling from a population"
+number-sections: true
+format: live-html
+engine: knitr
+webr:
+  packages:
+    - dplyr
+    - tableone
+resources:
+  - ../data/steps_clean.csv
+---
+{{< include ../_extensions/r-wasm/live/_knitr.qmd >}}
+
+```{webr}
+#| setup: true
+#| exercise: ex_1
+# Load the CSV data
+library(dplyr)
+df_data <- read.csv("data/steps_clean.csv")
+```
+
+::::: panel-tabset
+## Exercise 1
+
+Calculate the standard error of the GAD-7 scale at the screening, and describe in words what the number means.
+
+```{webr}
+#| exercise: ex_1
+
+
+```
+
+## Hints
+
+::: {.hint exercise="ex_1"}
+The formula for the standard error of a mean using the sample variance $s^2$ is:
+
+$$
+SE = {\sqrt{s^2 / n}}
+$$
+
+``` r
+s2 <-  var(df_data$gad_screen)
+n <- length(df_data$gad_screen)
+se <- sqrt(_________)
+ #<1>
+```
+:::
+
+## Solution
+
+::: {.solution exercise="ex_1"}
+The full solution is:
+
+``` r
+s2 <-  sd(df_data$gad_screen)
+n <- length(df_data$gad_screen)
+se <- sqrt(s2/n)
+se
+ #<1>
+```
+
+This value represents the standard deviation of the *sampling distribution*. In other words, it represents the average spread of the mean values of repeated samples taken from the underlying population.
+:::
+:::::
+
+```{webr}
+#| setup: true
+#| exercise: ex_2
+# Load the CSV data
+library(dplyr)
+df_data <- read.csv("data/steps_clean.csv")
+```
+
+::::: panel-tabset
+## Exercise 2
+
+Calculate the standard error for the proportion of participants with a high income in the STePS study, and describe the meaning of this number in words.
+
+```{webr}
+#| exercise: ex_2
+#simulate some income data
+n= nrow(df_data)
+income_levels <- c("Low", "Medium", "High")
+income_probs <- c(0.2, 0.6, 0.2) # Adjust probabilities as needed
+df_data$income <- sample(income_levels, size = n, replace = TRUE, prob = income_probs)
+
+```
+
+## Hints
+
+::: {.hint exercise="ex_2"}
+The formula for the standard error of a proportion is:
+
+$$
+\mathrm{SE}(p) = \sqrt{\frac{p(1 - p)}{n}}
+$$
+
+``` r
+p <- mean(df_data$income=="High") # using the mean function to get the probability 
+n <- nrow(___) # the number of observations (since we have no NA values) 
+se <- sqrt(___) # standard error 
+se
+ #<2>
+```
+:::
+
+## Solution
+
+::: {.solution exercise="ex_2"}
+The full solution is:
+
+``` r
+#simulate some income data
+n= nrow(df_data)
+income_levels <- c("Low", "Medium", "High")
+income_probs <- c(0.2, 0.6, 0.2) # Adjust probabilities as needed
+df_data$income <- sample(income_levels, size = n, replace = TRUE, prob = income_probs)
+
+p <- mean(df_data$income=="High") # using the mean function to get the probability 
+n <- nrow(df_data) # the number of observations (since we have no NA values) 
+se <- sqrt(p * (1 - p) / n) # standard error 
+se
+ #<2>
+```
+:::
+:::::
+
+::: panel-tabset
+## Exercise 3
+
+What would happen to the standard error if the sample size was increased to 1000, and why?
+
+
+## Hints
+
+- Recall the formula for the standard error:  
+  - Mean: $ SE = \frac{s}{\sqrt{n}}$  
+  - Proportion: $SE_p = \sqrt{\frac{p(1-p)}{n}}$ 
+- Focus on what happens when \(n\) gets larger.  
+- Think about variability: more data means more stability in the estimate.
+
+## Solution
+
+The standard error **decreases** as the sample size increases.  
+
+- For a **mean**, when \(n = 1000\), the denominator $\sqrt{n}$ becomes much larger, so the SE shrinks.  
+- For a **proportion**, the same principle applies: $\sqrt{\frac{p(1-p)}{n}}$ becomes smaller when $n$ is larger.  
+
+**Why:** Larger samples reduce variability and produce more precise estimates. This is why researchers prefer larger sample sizes when possible.
+:::
+
