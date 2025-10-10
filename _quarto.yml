@@ -52,8 +52,6 @@ website:
         contents:
           - href: exercises/lab-import-clean.qmd
             text: Import and clean data
-          - href: exercises/lab-webr-test-exercises.qmd
-            text: Webr test exercises
           - href: exercises/lab-power-sample-size.qmd
             text: Power and sample size
           - href: exercises/lab-webr-classification.qmd
