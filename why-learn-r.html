@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>working in R – Biostatistics - Research School in Clinical Psychiatry</title>
+<title>Why Teach R in Biostatistics for Clinical PhD Students in Psychiatry – Biostatistics - Research School in Clinical Psychiatry</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -29,6 +29,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./labs/import-clean.html" rel="next">
+<link href="./r-setup.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -80,7 +82,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">working in R</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Course information</a></li><li class="breadcrumb-item"><a href="./why-learn-r.html">Why Learn R?</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -106,13 +108,13 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
  <span class="menu-text">Course information</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
@@ -127,7 +129,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./why-learn-r.html" class="sidebar-item-text sidebar-link">
+  <a href="./why-learn-r.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Why Learn R?</span></a>
   </div>
 </li>
@@ -279,20 +281,28 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#r-studio" id="toc-r-studio" class="nav-link active" data-scroll-target="#r-studio">R Studio</a>
+  <li><a href="#pedagogical-fit-for-phd-level-training" id="toc-pedagogical-fit-for-phd-level-training" class="nav-link active" data-scroll-target="#pedagogical-fit-for-phd-level-training">Pedagogical Fit for PhD-Level Training</a></li>
+  <li><a href="#reproducibility-transparency-and-error-detection" id="toc-reproducibility-transparency-and-error-detection" class="nav-link" data-scroll-target="#reproducibility-transparency-and-error-detection">Reproducibility, Transparency, and Error Detection</a>
   <ul>
-  <li><a href="#user-interface" id="toc-user-interface" class="nav-link" data-scroll-target="#user-interface">User interface</a></li>
-  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"></a></li>
+  <li><a href="#scripts-create-a-complete-record" id="toc-scripts-create-a-complete-record" class="nav-link" data-scroll-target="#scripts-create-a-complete-record">Scripts create a complete record</a></li>
+  <li><a href="#reproducible-workflows" id="toc-reproducible-workflows" class="nav-link" data-scroll-target="#reproducible-workflows">Reproducible workflows</a></li>
+  <li><a href="#version-control-and-collaboration" id="toc-version-control-and-collaboration" class="nav-link" data-scroll-target="#version-control-and-collaboration">Version control and collaboration</a></li>
+  <li><a href="#notebooks" id="toc-notebooks" class="nav-link" data-scroll-target="#notebooks">Notebooks</a></li>
   </ul></li>
+  <li><a href="#open-source-advantages" id="toc-open-source-advantages" class="nav-link" data-scroll-target="#open-source-advantages">Open Source Advantages</a></li>
+  <li><a href="#visualization-and-communication" id="toc-visualization-and-communication" class="nav-link" data-scroll-target="#visualization-and-communication">Visualization and Communication</a></li>
+  <li><a href="#active-global-community" id="toc-active-global-community" class="nav-link" data-scroll-target="#active-global-community">Active global community</a></li>
+  <li><a href="#practical-career-value" id="toc-practical-career-value" class="nav-link" data-scroll-target="#practical-career-value">Practical career value</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/biostatistics-psychiatry/lab-materials/edit/main/working in R.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/biostatistics-psychiatry/lab-materials/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/biostatistics-psychiatry/lab-materials/edit/main/why-learn-r.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/biostatistics-psychiatry/lab-materials/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Course information</a></li><li class="breadcrumb-item"><a href="./why-learn-r.html">Why Learn R?</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">working in R</h1>
+<h1 class="title">Why Teach R in Biostatistics for Clinical PhD Students in Psychiatry</h1>
 </div>
 
 
@@ -309,23 +319,111 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="r-studio" class="level1">
-<h1>R Studio</h1>
-<section id="user-interface" class="level2">
-<h2 class="anchored" data-anchor-id="user-interface">User interface</h2>
-<p>The R studio interface has four main panes.</p>
+<p>Why do we use R instead of commercial software such as SPSS, Stata, or SAS? This document explains why R is the primary statistical language in the <em>Biostatistics for Clinical Psychiatry PhD Students</em> course.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>We are not trying to make everyone a programmer
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The goal of this course is not to make everyone become a programmer. Our aim is to give you the foundational skills to analyze data independently, understand statistical methods, and communicate research findings transparently and reproducibly.</p>
+</div>
+</div>
+<section id="pedagogical-fit-for-phd-level-training" class="level2">
+<h2 class="anchored" data-anchor-id="pedagogical-fit-for-phd-level-training">Pedagogical Fit for PhD-Level Training</h2>
+<p>R supports PhD-level training in the following ways:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 27%">
+<col style="width: 72%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Goal</th>
+<th style="text-align: left;">R’s advantage</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Develop independent analytic skills</td>
+<td style="text-align: left;">Code-based workflows support deeper understanding of statistical concepts</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Build long-term, transferable skills</td>
+<td style="text-align: left;">Open ecosystem spanning statistics, data science, and reproducibility</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Prepare for interdisciplinary research</td>
+<td style="text-align: left;">Common language across many academic disciplines</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>About the learning curve
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Yes, learning R takes more initial effort than point-and-click software. The payoff is knowing a more powerful and flexible tool, that you can use throughout your career. The skills transfer: if you later learn Python or another language, the logic and problem‑solving approach will already feel familiar.</p>
+</div>
+</div>
+</section>
+<section id="reproducibility-transparency-and-error-detection" class="level2">
+<h2 class="anchored" data-anchor-id="reproducibility-transparency-and-error-detection">Reproducibility, Transparency, and Error Detection</h2>
+<section id="scripts-create-a-complete-record" class="level3">
+<h3 class="anchored" data-anchor-id="scripts-create-a-complete-record">Scripts create a complete record</h3>
+<p>Analyses in R are performed through scripts where every step is documented. This reduces errors that arise when steps are not recorded in point‑and‑click tools. Your code serves as a permanent audit trail that you, your committee, collaborators, and reviewers can verify.</p>
+</section>
+<section id="reproducible-workflows" class="level3">
+<h3 class="anchored" data-anchor-id="reproducible-workflows">Reproducible workflows</h3>
+<p>When data update or you discover an error, you can rerun your entire workflow rather than manually repeating dozens of steps. Your future self will thank you when revisiting analyses months or years later.</p>
+</section>
+<section id="version-control-and-collaboration" class="level3">
+<h3 class="anchored" data-anchor-id="version-control-and-collaboration">Version control and collaboration</h3>
+<p>R scripts work seamlessly with Git and GitHub to track changes over time. Share code alongside publications to meet journal and funder requirements for transparent, reproducible research.</p>
+</section>
+<section id="notebooks" class="level3">
+<h3 class="anchored" data-anchor-id="notebooks">Notebooks</h3>
+<p>Quarto and R Markdown combine code, results, and interpretation in a single document. You can pair narrative explanations with the code that produces your analyses, making clear not just <em>what</em> you did, but <em>why</em> you made specific decisions. This aligns with open science and creates documentation that serves as both a research record and a communication tool.</p>
+</section>
+</section>
+<section id="open-source-advantages" class="level2">
+<h2 class="anchored" data-anchor-id="open-source-advantages">Open Source Advantages</h2>
 <ul>
-<li><p><strong>Source pane (top-left)</strong> is where you write you write and execute your code.</p></li>
-<li><p><strong>Console pane (bottom-left)</strong>This is the interactive</p></li>
-<li><p><strong>Environment pane (top-right)</strong></p></li>
-<li><p><strong>Output pane (bottom-left)</strong></p></li>
+<li>R is free and open source: no license fees or institutional access requirements.</li>
+<li>Enables collaboration with researchers at institutions without commercial software licenses</li>
+<li>Future‑proof: unlike proprietary software that requires annual renewals, you retain full access to R and its packages after graduation—whether you work in academia, healthcare systems, government, or industry.</li>
 </ul>
 </section>
-<section id="section" class="level2">
-<h2 class="anchored" data-anchor-id="section"></h2>
-
-
+<section id="visualization-and-communication" class="level2">
+<h2 class="anchored" data-anchor-id="visualization-and-communication">Visualization and Communication</h2>
+<ul>
+<li><strong><code>ggplot2</code></strong> and related packages produce high‑quality, customizable, and reproducible figures.</li>
+<li>Promotes data exploration and visual literacy.</li>
+<li>Visualizations are easily regenerated when data update or reviewers request changes - no manual reformatting required.</li>
+</ul>
 </section>
+<section id="active-global-community" class="level2">
+<h2 class="anchored" data-anchor-id="active-global-community">Active global community</h2>
+<p>R is used by a large, interdisciplinary community including biostatisticians, psychologists, epidemiologists, and data scientists. Extensive free learning resources exist: thousands of tutorials, online courses, textbooks, and active forums. R has been actively developed for over 25 years with a stable core and a large package ecosystem (CRAN).</p>
+</section>
+<section id="practical-career-value" class="level2">
+<h2 class="anchored" data-anchor-id="practical-career-value">Practical career value</h2>
+<p>R proficiency is increasingly listed in job postings for academic research. The analytical thinking and problem‑solving skills you develop transfer across many career paths and prepare you for the evolving landscape of data analysis.</p>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>Learning R is about more than learning software. The skills you develop will serve you throughout your career, allowing you to ask and answer complex questions with transparent, reproducible workflows that you can share and defend.</p>
+
+
 </section>
 
 </main> <!-- /main -->
@@ -729,9 +827,21 @@ ul.task-list li input[type="checkbox"] {
     }
   });
   </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./r-setup.html" class="pagination-link" aria-label="R and RStudio setup">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">R and RStudio setup</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./labs/import-clean.html" class="pagination-link" aria-label="Import and clean data">
+        <span class="nav-page-text">Import and clean data</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/biostatistics-psychiatry/lab-materials/edit/main/working in R.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/biostatistics-psychiatry/lab-materials/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/biostatistics-psychiatry/lab-materials/edit/main/why-learn-r.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/biostatistics-psychiatry/lab-materials/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
