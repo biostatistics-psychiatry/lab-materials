@@ -18,13 +18,13 @@ resources:
 #| exercise: ex_1
 # Load the CSV data
 library(dplyr)
-df_data <- read.csv("data/steps_clean.csv")
+df_clean <- read.csv("data/steps_clean.csv")
 ```
 
 ::::: panel-tabset
 ## Exercise 1
 
-Use the functions described in the Import and clean data lab to get a quick overview of the dataset called `df_data`and give a brief summary of it.
+Use the functions described in the Import and clean data lab to get a quick overview of the dataset called `df_clean` and give a brief summary of it.
 
 ```{webr}
 #| exercise: ex_1
@@ -44,10 +44,10 @@ Have a look at [Import and clean data](../chapters/import-clean.qmd##Check%20dat
 The full solution is:
 
 ``` r
-glimpse(d_bl)
-head(d_bl)
-ncol(d_bl)
-nrow(d_bl) #<1>
+glimpse(df_clean)
+head(df_clean)
+ncol(df_clean)
+nrow(df_clean) #<1>
 ```
 :::
 :::::
@@ -57,7 +57,7 @@ nrow(d_bl) #<1>
 #| exercise: ex_2
 # Load the CSV data
 library(dplyr)
-df_data <- read.csv("data/steps_clean.csv")
+df_clean <- read.csv("data/steps_clean.csv")
 ```
 
 ::::: panel-tabset
@@ -73,7 +73,7 @@ get_mode <- function(x) {
   ux[which.max(tabulate(match(x, ux)))]
 }
 
-___(df_data$pid_5_screen)
+___(df_clean$pid_5_screen)
 
 ___(____phq9_screen)
 ```
@@ -91,16 +91,16 @@ The full solution is:
 
 ``` r
 #PHQ-9
-hist(df_data$phq9_screen)
-mean(df_data$phq9_screen)
-median(df_data$phq9_screen)
-get_mode(df_data$phq9_screen)
+hist(df_clean$phq9_screen)
+mean(df_clean$phq9_screen)
+median(df_clean$phq9_screen)
+get_mode(df_clean$phq9_screen)
 
 #PID-5
-hist(df_data$pid_5_screen)
-mean(df_data$pid_5_screen)
-median(df_data$pid_5_screen)
-get_mode(df_data$pid_5_screen) #<2>
+hist(df_clean$pid_5_screen)
+mean(df_clean$pid_5_screen)
+median(df_clean$pid_5_screen)
+get_mode(df_clean$pid_5_screen) #<2>
 ```
 :::
 :::::
@@ -156,7 +156,7 @@ For these psychological scales, the **median** is often more informative if the 
 #| exercise: ex_5
 # Load the CSV data
 library(dplyr)
-df_data <- read.csv("data/steps_clean.csv")
+df_clean <- read.csv("data/steps_clean.csv")
 ```
 
 ::::: panel-tabset
@@ -167,11 +167,11 @@ Calculate some spread measures for the LSAS-SR scale, what do they tell you and 
 ```{webr}
 #| exercise: ex_5
 
-___(df_data$lsas_screen)
-___(df_data$lsas_screen)
-___(df_data$lsas_screen)
-___(df_data$lsas_screen)
-___(df_data$lsas_screen)
+___(df_clean$lsas_screen)
+___(df_clean$lsas_screen)
+___(df_clean$lsas_screen)
+___(df_clean$lsas_screen)
+___(df_clean$lsas_screen)
 ```
 
 ## Hints
@@ -186,11 +186,11 @@ Have a look at [Descriptive statistics](../chapters/descriptive-statistics.qmd##
 The full solution is:
 
 ``` r
-sd(df_data$lsas_screen)
-var(df_data$lsas_screen)
-range(df_data$lsas_screen)
-IQR(df_data$lsas_screen)
-hist(df_data$lsas_screen) #<5>
+sd(df_clean$lsas_screen)
+var(df_clean$lsas_screen)
+range(df_clean$lsas_screen)
+IQR(df_clean$lsas_screen)
+hist(df_clean$lsas_screen) #<5>
 ```
 
 where the historgram helps you determine which of the spread measures is most useful
@@ -202,7 +202,7 @@ where the historgram helps you determine which of the spread measures is most us
 #| exercise: ex_6
 # Load the CSV data
 library(dplyr)
-df_data <- read.csv("data/steps_clean.csv")
+df_clean <- read.csv("data/steps_clean.csv")
 ```
 
 ::::: panel-tabset
@@ -213,10 +213,10 @@ Calculate the counts, proportions and percentages for the simulated income categ
 ```{webr}
 #| exercise: ex_6
 # Simulate an income variable
-n <- nrow(df_data)
+n <- nrow(df_clean)
 income_levels <- c("Low", "Medium", "High")
 income_probs <- c(0.2, 0.6, 0.2) # Adjust probabilities as needed
-df_data$income <- sample(income_levels, size = n, replace = TRUE, prob = income_probs)
+df_clean$income <- sample(income_levels, size = n, replace = TRUE, prob = income_probs)
 
 ```
 
@@ -235,13 +235,13 @@ The full solution is:
 
 ``` r
 # counts
-table(df_data$income)
+table(df_clean$income)
 
 # proportions
-table(df_data$income)/nrow(df_data)
+table(df_clean$income)/nrow(df_clean)
 
 # percentages
-table(df_data$income)/nrow(df_data)*100 
+table(df_clean$income)/nrow(df_clean)*100 
 #<6>
 ```
 
@@ -254,7 +254,7 @@ where the histogram helps you determine which of the spread measures is most use
 #| exercise: ex_7
 # Load the CSV data
 library(dplyr)
-df_data <- read.csv("data/steps_clean.csv")
+df_clean <- read.csv("data/steps_clean.csv")
 ```
 
 ::::: panel-tabset
@@ -279,7 +279,7 @@ One useful way to visualize joint distributions of numeric variables is to creat
 The full solution is:
 
 ``` r
-plot(df_data$gad_screen, df_data$phq9_screen)
+plot(df_clean$gad_screen, df_clean$phq9_screen)
 #<7>
 ```
 :::
@@ -290,7 +290,7 @@ plot(df_data$gad_screen, df_data$phq9_screen)
 #| exercise: ex_8
 # Load the CSV data
 library(dplyr)
-df_data <- read.csv("data/steps_clean.csv")
+df_clean <- read.csv("data/steps_clean.csv")
 ```
 
 ::::: panel-tabset
@@ -301,10 +301,10 @@ Visualize the distribution of of LSAS scores by income level and describe what y
 ```{webr}
 #| exercise: ex_8
 # first simulate the income variable again
-n <- nrow(df_data)
+n <- nrow(df_clean)
 income_levels <- c("Low", "Medium", "High")
 income_probs <- c(0.2, 0.6, 0.2) # Adjust probabilities as needed
-df_data$income <- sample(income_levels, size = n, replace = TRUE, prob = income_probs)
+df_clean$income <- sample(income_levels, size = n, replace = TRUE, prob = income_probs)
 ```
 
 ## Hints
@@ -319,7 +319,7 @@ One useful way to visualize joint distributions of numeric variables and categor
 The full solution is:
 
 ``` r
-boxplot(df_data$lsas_screen ~df_data$income,
+boxplot(df_clean$lsas_screen ~df_clean$income,
         ylab = "LSAS-SR",
         xlab = "Income")
 #<8>
@@ -332,7 +332,7 @@ boxplot(df_data$lsas_screen ~df_data$income,
 #| exercise: ex_9
 # Load the CSV data
 library(dplyr)
-df_data <- read.csv("data/steps_clean.csv")
+df_clean <- read.csv("data/steps_clean.csv")
 ```
 
 ::::: panel-tabset
@@ -344,7 +344,7 @@ Create a table using the tableone package to show descriptive statistics stratif
 #| exercise: ex_9
 library(tableone)
 # create a variable for high vs low depression
-df_data$phq_cat <- ifelse(df_data$phq9_screen >= 10, "High depression", "Low depression")
+df_clean$phq_cat <- ifelse(df_clean$phq9_screen >= 10, "High depression", "Low depression")
 ```
 
 ## Hints
@@ -371,7 +371,7 @@ vars <- c(
   "pid_5_screen"
 )
 
-CreateTableOne(vars= vars, data = df_data, strata = "phq_cat", test = FALSE)
+CreateTableOne(vars= vars, data = df_clean, strata = "phq_cat", test = FALSE)
 
 #<9>
 ```
@@ -383,7 +383,7 @@ CreateTableOne(vars= vars, data = df_data, strata = "phq_cat", test = FALSE)
 #| exercise: ex_10
 # Load the CSV data
 library(dplyr)
-df_data <- read.csv("data/steps_clean.csv")
+df_clean <- read.csv("data/steps_clean.csv")
 ```
 
 ::::: panel-tabset
@@ -433,12 +433,12 @@ pop_sd <- function(x){
 }
 
 # variance
-pop_var(df_data$lsas_screen) # population
-var(df_data$lsas_screen) #sample
+pop_var(df_clean$lsas_screen) # population
+var(df_clean$lsas_screen) #sample
 
 # SD
-pop_sd(df_data$lsas_screen) # population 
-sd(df_data$lsas_screen) # sample
+pop_sd(df_clean$lsas_screen) # population 
+sd(df_clean$lsas_screen) # sample
 
 ```
 :::
@@ -451,7 +451,7 @@ sd(df_data$lsas_screen) # sample
 #| exercise: ex_11
 # Load the CSV data
 library(dplyr)
-df_data <- read.csv("data/steps_clean.csv")
+df_clean <- read.csv("data/steps_clean.csv")
 ```
 
 ::::: panel-tabset
@@ -481,7 +481,7 @@ pop_sd <- function(x){
 You can use the following code to get the first 10 rows of your data
 
 ``` r
-df_data_10 <- df_data[1:10,]
+df_clean_10 <- df_clean[1:10,]
 ```
 :::
 
@@ -502,15 +502,15 @@ pop_sd <- function(x){
 }
 
 #create dataset with only the first 10 participants
-df_data_10 <- df_data[1:10,]
+df_clean_10 <- df_clean[1:10,]
 
 # variance
-pop_var(df_data_10$lsas_screen)
-var(df_data_10$lsas_screen)
+pop_var(df_clean_10$lsas_screen)
+var(df_clean_10$lsas_screen)
 
 # SD
-pop_sd(df_data_10$lsas_screen)
-sd(df_data_10$lsas_screen)
+pop_sd(df_clean_10$lsas_screen)
+sd(df_clean_10$lsas_screen)
 
 
 ```

@@ -44,17 +44,17 @@ library(readr)
 library(here)
 
 # load data
-df_data <- read_csv(here("data", "steps_clean.csv"))
+df_clean <- read_csv(here("data", "steps_clean.csv"))
 
 # create binary outcome variable
-df_data <- df_data |>
+df_clean <- df_clean |>
   mutate(
     phq9_post_bin = _____(phq9_post <__, "Low", "High"),
     phq9_post_bin = factor(phq9_post_bin, levels = c("Low", "High"))
   )
 
 # Check the distribution
-table(df_data$phq9_post_bin)
+table(df_clean$phq9_post_bin)
 ```
 
 ## Hints
@@ -79,17 +79,17 @@ library(readr)
 library(here)
 
 # load data
-df_data <- read_csv(here("data", "steps_clean.csv"))
+df_clean <- read_csv(here("data", "steps_clean.csv"))
 
 # create binary outcome variable
-df_data <- df_data |>
+df_clean <- df_clean |>
   mutate(
     phq9_post_bin = if_else(phq9_post <10, "Low", "High"),
     phq9_post_bin = factor(phq9_post_bin, levels = c("Low", "High"))
   )
 
 # Check the distribution
-table(df_data$phq9_post_bin)
+table(df_clean$phq9_post_bin)
 ```
 1. PHQ-9 cutoff of 10 separates low from high depression symptoms
 
@@ -131,11 +131,11 @@ library(tidymodels)
 phq9_fit <- logistic_reg() |>
   set_engine("glm") |>
   set_mode("classification") |>
-  fit(___ ~ ___ + ___, data = df_data)
+  fit(___ ~ ___ + ___, data = df_clean)
 
 # Make predictions
-phq9_pred <- predict(phq9_fit, new_data = df_data) |>
-  bind_cols(df_data)
+phq9_pred <- predict(phq9_fit, new_data = df_clean) |>
+  bind_cols(df_clean)
 
 # Create confusion matrix
 phq9_conf_mat <- conf_mat(phq9_pred, truth = phq9_post_bin, estimate = .pred_class)
@@ -174,11 +174,11 @@ library(tidymodels)
 phq9_fit <- logistic_reg() |> #<1>
   set_engine("glm") |> #<2>
   set_mode("classification") |> #<3>
-  fit(phq9_post_bin ~ phq9_screen + group, data = df_data) #<4>
+  fit(phq9_post_bin ~ phq9_screen + group, data = df_clean) #<4>
 
 # Make predictions
-phq9_pred <- predict(phq9_fit, new_data = df_data) |> #<5>
-  bind_cols(df_data)
+phq9_pred <- predict(phq9_fit, new_data = df_clean) |> #<5>
+  bind_cols(df_clean)
 
 # Create confusion matrix
 phq9_conf_mat <- conf_mat(phq9_pred, truth = phq9_post_bin, estimate = .pred_class) #<6>

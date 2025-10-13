@@ -19,7 +19,7 @@ resources:
 #| exercise: ex_1
 # Load the CSV data
 library(dplyr)
-df_data <- read.csv("data/steps_clean.csv")
+df_clean <- read.csv("data/steps_clean.csv")
 ```
 
 
@@ -39,7 +39,7 @@ Calculate the mean difference in post-treatment LSAS scores, and the associated 
 ::: {.hint exercise="ex_1"}
 You can calculate it using the `t.test()` function
 ``` r
-df_data %>%
+df_clean %>%
   filter(trt != "_____") %>%
   t.test(______ ~ trt, data = ., var.equal = TRUE)
 ```
@@ -74,17 +74,17 @@ The full solution is:
 
 ``` r
 #using the t.test() function
-df_data %>%
+df_clean %>%
   filter(trt != "self-guided") %>%
   t.test(lsas_post ~ trt, data = ., var.equal = TRUE)
 
 # or manually
-x_bar_tg <- mean(df_data$lsas_post[df_data$trt=="therapist-guided"], na.rm=T)
-x_bar_wl <- mean(df_data$lsas_post[df_data$trt=="waitlist"], na.rm=T)
-s_2_tg <- var(df_data$lsas_post[df_data$trt=="therapist-guided"], na.rm=T)
-s_2_wl <- var(df_data$lsas_post[df_data$trt=="waitlist"], na.rm=T)
-n_tg <- sum(!is.na(df_data$lsas_post[df_data$trt=="therapist-guided"]))
-n_wl <- sum(!is.na(df_data$lsas_post[df_data$trt=="waitlist"]))
+x_bar_tg <- mean(df_clean$lsas_post[df_clean$trt=="therapist-guided"], na.rm=T)
+x_bar_wl <- mean(df_clean$lsas_post[df_clean$trt=="waitlist"], na.rm=T)
+s_2_tg <- var(df_clean$lsas_post[df_clean$trt=="therapist-guided"], na.rm=T)
+s_2_wl <- var(df_clean$lsas_post[df_clean$trt=="waitlist"], na.rm=T)
+n_tg <- sum(!is.na(df_clean$lsas_post[df_clean$trt=="therapist-guided"]))
+n_wl <- sum(!is.na(df_clean$lsas_post[df_clean$trt=="waitlist"]))
 sp2 <- ((n_tg - 1) * s_2_tg + (n_wl - 1) * s_2_wl) / (n_tg + n_wl - 2) # pooled variance
 SE_pooled <- sqrt(sp2 * (1/n_tg + 1/n_wl)) # pooled standard error
 
@@ -105,7 +105,7 @@ p_value #<1>
 #| exercise: ex_2
 # Load the CSV data
 library(dplyr)
-df_data <- read.csv("data/steps_clean.csv")
+df_clean <- read.csv("data/steps_clean.csv")
 ```
 
 
@@ -125,8 +125,8 @@ Do you think the assumption of equal variance between the groups is justified?
 ::: {.hint exercise="ex_2"}
 You can check the variance of each group
 ``` r
-var(df_data$______[df_data$trt=="_____"], na.rm=T)
-var(df_data$_____[df_data$trt=="therapist-guided"], na.rm=T)
+var(df_clean$______[df_clean$trt=="_____"], na.rm=T)
+var(df_clean$_____[df_clean$trt=="therapist-guided"], na.rm=T)
 ```
 
 :::
@@ -137,8 +137,8 @@ var(df_data$_____[df_data$trt=="therapist-guided"], na.rm=T)
 The full solution is:
 
 ``` r
-var(df_data$lsas_post[df_data$trt=="waitlist"], na.rm=T)
-var(df_data$lsas_post[df_data$trt=="therapist-guided"], na.rm=T)
+var(df_clean$lsas_post[df_clean$trt=="waitlist"], na.rm=T)
+var(df_clean$lsas_post[df_clean$trt=="therapist-guided"], na.rm=T)
  #<2>
 ```
 In these results show rather similar variances, although not equal
@@ -150,7 +150,7 @@ In these results show rather similar variances, although not equal
 #| exercise: ex_3
 # Load the CSV data
 library(dplyr)
-df_data <- read.csv("data/steps_clean.csv")
+df_clean <- read.csv("data/steps_clean.csv")
 ```
 
 
@@ -170,7 +170,7 @@ How do the results differ if you use the Welch t-test instead, that does not ass
 ::: {.hint exercise="ex_3"}
 You can again calculate it using the `t.test()` function, but need to change the setting of the var.equal argument
 ``` r
-df_data %>%
+df_clean %>%
   filter(trt != "_____") %>%
   t.test(______ ~ trt, data = ., var.equal = _____)
 ```
@@ -182,7 +182,7 @@ df_data %>%
 The full solution is:
 
 ``` r
-df_data %>%
+df_clean %>%
   filter(trt != "self-guided") %>%
   t.test(lsas_post ~ trt, data = ., var.equal = FALSE)
  #<3>
@@ -197,7 +197,7 @@ Results are very similar to when the variances where assumed to equal, so the di
 #| exercise: ex_4
 # Load the CSV data
 library(dplyr)
-df_data <- read.csv("data/steps_clean.csv")
+df_clean <- read.csv("data/steps_clean.csv")
 ```
 
 
@@ -217,7 +217,7 @@ Also calculate the 95% confidence interval for the difference in LSAS post-treat
 ::: {.hint exercise="ex_4"}
 You can again calculate it using the `t.test()` function
 ``` r
-df_data %>%
+df_clean %>%
   filter(trt != "_____") %>%
   t.test(______ ~ trt, data = ., var.equal = TRUE)
 ```
@@ -243,19 +243,19 @@ The full solution is:
 
 ``` r
 #using the t.test() function
-df_data %>%
+df_clean %>%
   filter(trt != "self-guided") %>%
   t.test(lsas_post ~ trt, data = ., var.equal = TRUE)
 
 # or manually
 
 #get the parts of the formula
-x_bar_tg <- mean(df_data$lsas_post[df_data$trt == "therapist-guided"], na.rm = T)
-x_bar_wl <- mean(df_data$lsas_post[df_data$trt == "waitlist"], na.rm = T)
-s_2_tg <- var(df_data$lsas_post[df_data$trt == "therapist-guided"], na.rm = T)
-s_2_wl <- var(df_data$lsas_post[df_data$trt == "waitlist"], na.rm = T)
-n_tg <- sum(!is.na(df_data$lsas_post[df_data$trt == "therapist-guided"]))
-n_wl <- sum(!is.na(df_data$lsas_post[df_data$trt == "waitlist"]))
+x_bar_tg <- mean(df_clean$lsas_post[df_clean$trt == "therapist-guided"], na.rm = T)
+x_bar_wl <- mean(df_clean$lsas_post[df_clean$trt == "waitlist"], na.rm = T)
+s_2_tg <- var(df_clean$lsas_post[df_clean$trt == "therapist-guided"], na.rm = T)
+s_2_wl <- var(df_clean$lsas_post[df_clean$trt == "waitlist"], na.rm = T)
+n_tg <- sum(!is.na(df_clean$lsas_post[df_clean$trt == "therapist-guided"]))
+n_wl <- sum(!is.na(df_clean$lsas_post[df_clean$trt == "waitlist"]))
 
 # z-value 95% CI
 se_z <- sqrt((s_2_wl / n_wl) + (s_2_tg / n_tg))
@@ -274,7 +274,7 @@ print(c(lcl, ucl))
 #| exercise: ex_5
 # Load the CSV data
 library(dplyr)
-df_data <- read.csv("data/steps_clean.csv")
+df_clean <- read.csv("data/steps_clean.csv")
 ```
 
 
@@ -294,7 +294,7 @@ Conduct a dependent t-test for the difference in LSAS-scores between post-treatm
 ::: {.hint exercise="ex_5"}
 You can again calculate it using the `t.test()` function
 ``` r
-t.test(df_data$_____, df_data$lsas_post, paired = ____)
+t.test(df_clean$_____, df_clean$lsas_post, paired = ____)
 ```
 Or if you want to do it manually:
 
@@ -319,10 +319,10 @@ The full solution is:
 
 ``` r
 # using the t-test function
-t.test(df_data$lsas_fu12, df_data$lsas_post, paired = TRUE)
+t.test(df_clean$lsas_fu12, df_clean$lsas_post, paired = TRUE)
 
 # or manually
-diff_post_12FU <- df_data$lsas_fu12 - df_data$lsas_post
+diff_post_12FU <- df_clean$lsas_fu12 - df_clean$lsas_post
 mean_diff <- mean(diff_post_12FU, na.rm = TRUE)
 sd_diff <- sd(diff_post_12FU, na.rm = TRUE)
 n <- sum(!is.na(diff_post_12FU))
@@ -342,7 +342,7 @@ The interpretation is that, for the full group, the LSAS score at the 12-month f
 #| exercise: ex_6
 # Load the CSV data
 library(dplyr)
-df_data <- read.csv("data/steps_clean.csv")
+df_clean <- read.csv("data/steps_clean.csv")
 ```
 
 ::::: panel-tabset
@@ -375,7 +375,7 @@ $SE_D$ = the standard error of the difference scores calculated as $s_D/ \sqrt{n
 The full solution is:
 
 ``` r
-diff_post_12FU <- df_data$lsas_fu12 - df_data$lsas_post
+diff_post_12FU <- df_clean$lsas_fu12 - df_clean$lsas_post
 mean_diff <- mean(diff_post_12FU, na.rm = TRUE)
 sd_diff <- sd(diff_post_12FU, na.rm = TRUE)
 n <- sum(!is.na(diff_post_12FU))

@@ -17,7 +17,7 @@ resources:
 #| exercise: ex_1
 # Load the CSV data
 library(dplyr)
-df_data <- read.csv("data/steps_clean.csv")
+df_clean <- read.csv("data/steps_clean.csv")
 ```
 
 ::::: panel-tabset
@@ -41,8 +41,8 @@ SE = {\sqrt{s^2 / n}}
 $$
 
 ``` r
-s2 <-  var(df_data$gad_screen)
-n <- length(df_data$gad_screen)
+s2 <-  var(df_clean$gad_screen)
+n <- length(df_clean$gad_screen)
 se <- sqrt(_________)
  #<1>
 ```
@@ -54,8 +54,8 @@ se <- sqrt(_________)
 The full solution is:
 
 ``` r
-s2 <-  sd(df_data$gad_screen)
-n <- length(df_data$gad_screen)
+s2 <-  sd(df_clean$gad_screen)
+n <- length(df_clean$gad_screen)
 se <- sqrt(s2/n)
 se
  #<1>
@@ -70,7 +70,7 @@ This value represents the standard deviation of the *sampling distribution*. In 
 #| exercise: ex_2
 # Load the CSV data
 library(dplyr)
-df_data <- read.csv("data/steps_clean.csv")
+df_clean <- read.csv("data/steps_clean.csv")
 ```
 
 ::::: panel-tabset
@@ -81,10 +81,10 @@ Calculate the standard error for the proportion of participants with a high inco
 ```{webr}
 #| exercise: ex_2
 #simulate some income data
-n= nrow(df_data)
+n= nrow(df_clean)
 income_levels <- c("Low", "Medium", "High")
 income_probs <- c(0.2, 0.6, 0.2) # Adjust probabilities as needed
-df_data$income <- sample(income_levels, size = n, replace = TRUE, prob = income_probs)
+df_clean$income <- sample(income_levels, size = n, replace = TRUE, prob = income_probs)
 
 ```
 
@@ -98,7 +98,7 @@ $$
 $$
 
 ``` r
-p <- mean(df_data$income=="High") # using the mean function to get the probability 
+p <- mean(df_clean$income=="High") # using the mean function to get the probability 
 n <- nrow(___) # the number of observations (since we have no NA values) 
 se <- sqrt(___) # standard error 
 se
@@ -113,13 +113,13 @@ The full solution is:
 
 ``` r
 #simulate some income data
-n= nrow(df_data)
+n= nrow(df_clean)
 income_levels <- c("Low", "Medium", "High")
 income_probs <- c(0.2, 0.6, 0.2) # Adjust probabilities as needed
-df_data$income <- sample(income_levels, size = n, replace = TRUE, prob = income_probs)
+df_clean$income <- sample(income_levels, size = n, replace = TRUE, prob = income_probs)
 
-p <- mean(df_data$income=="High") # using the mean function to get the probability 
-n <- nrow(df_data) # the number of observations (since we have no NA values) 
+p <- mean(df_clean$income=="High") # using the mean function to get the probability 
+n <- nrow(df_clean) # the number of observations (since we have no NA values) 
 se <- sqrt(p * (1 - p) / n) # standard error 
 se
  #<2>
