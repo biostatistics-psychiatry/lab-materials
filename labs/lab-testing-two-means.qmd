@@ -186,7 +186,7 @@ You can again calculate it using the `t.test()` function, but need to change the
 ``` r
 df_clean %>%
   filter(trt != "_____") %>% # here we want to filer away the "self-guided" group
-  t.test(______ ~ trt, data = ., var.equal = _____) # and get rid of the assumptino of equal variances (before it was set to TRUE)
+  t.test(______ ~ trt, data = ., var.equal = _____) # and get rid of the assumption of equal variances (before it was set to TRUE)
 ```
 :::
 
