@@ -26,7 +26,7 @@ resources:
 
 # Load the CSV data
 library(dplyr)
-df_data <- read.csv("data/steps_clean.csv")
+df_clean <- read.csv("data/steps_clean.csv")
 ```
 
 ```{webr}
@@ -34,7 +34,7 @@ df_data <- read.csv("data/steps_clean.csv")
 library(dplyr)
 
 # Load the CSV data
-df_data <- read.csv("data/steps_clean.csv")
+df_clean <- read.csv("data/steps_clean.csv")
 ```
 
 ::: {#exr-pnorm-lsas}
@@ -57,11 +57,11 @@ pnorm(___,___,___)
 
 ::: {.hint exercise="ex_1"}
 
-Use the `mean()`and `sd()` functions to find the values in the dataset `df_data`
+Use the `mean()`and `sd()` functions to find the values in the dataset `df_clean`
 ```{webr}
 #| label: ex-1-hint
-mean(df_data$lsas_screen)
-sd(df_data$lsas_screen)
+mean(df_clean$lsas_screen)
+sd(df_clean$lsas_screen)
 ```
 
 :::
@@ -74,8 +74,8 @@ sd(df_data$lsas_screen)
 #| label: ex-1-solution
 #| exercise: ex_1
 #| solution: true
-mean <- mean(df_data$lsas_screen)
-sd <- sd(df_data$lsas_screen)
+mean <- mean(df_clean$lsas_screen)
+sd <- sd(df_clean$lsas_screen)
 pnorm(80, mean, sd)
 ```
 
@@ -110,14 +110,14 @@ pnorm(___,___,___)
 
 ::: {.hint exercise="ex_2"}
 
-Use the `mean()`and `sd()` functions to find the values in the dataset `df_data`.
+Use the `mean()`and `sd()` functions to find the values in the dataset `df_clean`.
 
 Also, since we are looking at a value *equal or greater to* a certain point of the cumulative probability distribution, we can use `1-pnorm()`.
 
 ```{webr}
 #| label: ex-2-hint
-mean <- mean(df_data$lsas_screen)
-sd <- sd(df_data$lsas_screen)
+mean <- mean(df_clean$lsas_screen)
+sd <- sd(df_clean$lsas_screen)
 1-pnorm(___,___,___)
 ```
 
@@ -131,8 +131,8 @@ sd <- sd(df_data$lsas_screen)
 #| label: ex-2-solution
 #| exercise: ex_2
 #| solution: true
-mean <- mean(df_data$lsas_screen)
-sd <- sd(df_data$lsas_screen)
+mean <- mean(df_clean$lsas_screen)
+sd <- sd(df_clean$lsas_screen)
 1-pnorm(100, mean, sd)
 ```
 

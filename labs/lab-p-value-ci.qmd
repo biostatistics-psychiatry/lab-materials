@@ -19,7 +19,7 @@ resources:
 #| exercise: ex_1
 # Load the CSV data
 library(dplyr)
-df_data <- read.csv("data/steps_clean.csv")
+df_clean <- read.csv("data/steps_clean.csv")
 ```
 
 ::::: panel-tabset
@@ -40,7 +40,7 @@ what this number mean
 ::: {.hint exercise="ex_1"}
 You can calculate it manually using the formula in the P-values and confidence intervals chapter or use the `t.test()` function
 ``` r
-t.test(df_data$phq9_screen,
+t.test(df_clean$phq9_screen,
        mu=___,
        alternative = "____") #<2>
 ```
@@ -53,14 +53,14 @@ The full solution is:
 
 ``` r
 #calculate manually
-x_bar <- mean(df_data$phq9_screen)
-se <- sd(df_data$phq9_screen) / sqrt(nrow(df_data))
+x_bar <- mean(df_clean$phq9_screen)
+se <- sd(df_clean$phq9_screen) / sqrt(nrow(df_clean))
 t_value <- (x_bar - 9) / se
 (1 - pt(t_value, df = 180))*2
 
 #or using the t.test function
 
-t.test(df_data$phq9_screen,
+t.test(df_clean$phq9_screen,
        mu=9,
        alternative = "two.sided") #<1>
 ```
@@ -72,7 +72,7 @@ t.test(df_data$phq9_screen,
 #| exercise: ex_2
 # Load the CSV data
 library(dplyr)
-df_data <- read.csv("data/steps_clean.csv")
+df_clean <- read.csv("data/steps_clean.csv")
 ```
 ::::: panel-tabset
 ## Exercise 2
@@ -90,7 +90,7 @@ Calculate the 95% confidence interval for PHQ-9, and describe in words what the 
 ::: {.hint exercise="ex_2"}
 You can calculate it manually using the formula in the P-values and confidence intervals chapter or again use the `t.test()` function
 ``` r
-t.test(df_data$phq9_screen,
+t.test(df_clean$phq9_screen,
        mu=___,
        alternative = "____") #<2>
 ```
@@ -103,8 +103,8 @@ t.test(df_data$phq9_screen,
 The full solution is:
 
 ``` r
-x_bar <- mean(df_data$phq9_screen)
-se <- sd(df_data$phq9_screen) / sqrt(nrow(df_data))
+x_bar <- mean(df_clean$phq9_screen)
+se <- sd(df_clean$phq9_screen) / sqrt(nrow(df_clean))
 z <- 1.96
 
 #upper confidence limit
@@ -115,7 +115,7 @@ lcl <- x_bar - z*se
 print(c(lcl, ucl))
 
 #or
-t.test(df_data$phq9_screen,
+t.test(df_clean$phq9_screen,
        mu=9,
        alternative = "two.sided") #<2>
 ```
@@ -129,7 +129,7 @@ t.test(df_data$phq9_screen,
 #| exercise: ex_3
 # Load the CSV data
 library(dplyr)
-df_data <- read.csv("data/steps_clean.csv")
+df_clean <- read.csv("data/steps_clean.csv")
 ```
 ::::: panel-tabset
 ## Exercise 3
@@ -139,9 +139,9 @@ Calculate the p-value for getting our observed proportion of men, $\hat{p}$, if 
 ```{webr}
 #| exercise: ex_3
 # Simulating a gender variable
-n <- nrow(df_data)
-df_data$gender <- rbinom(n, 1, 0.7)
-df_data$gender <- ifelse(df_data$gender == 1, "Woman", "Man")
+n <- nrow(df_clean)
+df_clean$gender <- rbinom(n, 1, 0.7)
+df_clean$gender <- ifelse(df_clean$gender == 1, "Woman", "Man")
 
 ```
 
@@ -150,7 +150,7 @@ df_data$gender <- ifelse(df_data$gender == 1, "Woman", "Man")
 ::: {.hint exercise="ex_3"}
 
 ``` r
-prop.test(x= sum(df_data$gender=="Man"), 
+prop.test(x= sum(df_clean$gender=="Man"), 
           n= length(____), 
           p=___,
           alternative="less")
@@ -166,12 +166,12 @@ The full solution is:
 
 ``` r
 # Simulating a gender variable
-n <- nrow(df_data)
-df_data$gender <- rbinom(n, 1, 0.7)
-df_data$gender <- ifelse(df_data$gender == 1, "Woman", "Man")
+n <- nrow(df_clean)
+df_clean$gender <- rbinom(n, 1, 0.7)
+df_clean$gender <- ifelse(df_clean$gender == 1, "Woman", "Man")
 
-prop.test(x= sum(df_data$gender=="Man"), 
-          n= length(df_data$gender), 
+prop.test(x= sum(df_clean$gender=="Man"), 
+          n= length(df_clean$gender), 
           p=0.4,
           alternative="less")
  #<3>
@@ -185,7 +185,7 @@ prop.test(x= sum(df_data$gender=="Man"),
 #| exercise: ex_4
 # Load the CSV data
 library(dplyr)
-df_data <- read.csv("data/steps_clean.csv")
+df_clean <- read.csv("data/steps_clean.csv")
 ```
 ::::: panel-tabset
 ## Exercise 4
@@ -195,9 +195,9 @@ Calculate the p-value for getting our observed proportion of men, $\hat{p}$, if 
 ```{webr}
 #| exercise: ex_4
 # Simulating a gender variable
-n <- nrow(df_data)
-df_data$gender <- rbinom(n, 1, 0.7)
-df_data$gender <- ifelse(df_data$gender == 1, "Woman", "Man")
+n <- nrow(df_clean)
+df_clean$gender <- rbinom(n, 1, 0.7)
+df_clean$gender <- ifelse(df_clean$gender == 1, "Woman", "Man")
 
 ```
 
@@ -220,12 +220,12 @@ The full solution is:
 
 ``` r
 # Simulating a gender variable
-n <- nrow(df_data)
-df_data$gender <- rbinom(n, 1, 0.7)
-df_data$gender <- ifelse(df_data$gender == 1, "Woman", "Man")
+n <- nrow(df_clean)
+df_clean$gender <- rbinom(n, 1, 0.7)
+df_clean$gender <- ifelse(df_clean$gender == 1, "Woman", "Man")
 
 #getting ci 
-prop.test(table(df_data$gender))
+prop.test(table(df_clean$gender))
  #<4>
 ```
 :::
@@ -252,11 +252,11 @@ Reason about the the meaning and interpretation of the confidence intervals you 
 #| exercise: ex_6
 # Load the CSV data
 library(dplyr)
-df_data <- read.csv("data/steps_clean.csv")
+df_clean <- read.csv("data/steps_clean.csv")
 # Simulating a gender variable
-n <- nrow(df_data)
-df_data$gender <- rbinom(n, 1, 0.7)
-df_data$gender <- ifelse(df_data$gender == 1, "Woman", "Man")
+n <- nrow(df_clean)
+df_clean$gender <- rbinom(n, 1, 0.7)
+df_clean$gender <- ifelse(df_clean$gender == 1, "Woman", "Man")
 ```
 ::::: panel-tabset
 ## BONUS Exercise 6
@@ -279,7 +279,7 @@ and combine with the formula for the z-scores
 $$ z= \frac{p - \hat{p}}{SE} $$
 
 ``` r
-p_hat <- mean(df_data$gender=="___")
+p_hat <- mean(df_clean$gender=="___")
 n = nrow(____)
 se <- sqrt(p_hat*(1-p_hat)/n)
 z= 1.96
@@ -303,8 +303,8 @@ The full solution is:
 
 ``` r
 # manual Wald CI
-p_hat <- mean(df_data$gender=="Man")
-n = nrow(df_data)
+p_hat <- mean(df_clean$gender=="Man")
+n = nrow(df_clean)
 se <- sqrt(p_hat*(1-p_hat)/n)
 z= 1.96
 #upper coinfidence limit
@@ -315,7 +315,7 @@ lcl <- p_hat - z*se
 print(c(lcl,ucl))
 
 # and from prop.test
-prop.test(table(df_data$gender))
+prop.test(table(df_clean$gender))
  #<6>
 ```
 :::
@@ -327,7 +327,7 @@ prop.test(table(df_data$gender))
 #| exercise: ex_7
 # Load the CSV data
 library(dplyr)
-df_data <- read.csv("data/steps_clean.csv")
+df_clean <- read.csv("data/steps_clean.csv")
 ```
 ::::: panel-tabset
 ## BONUS Exercise 7
@@ -341,11 +341,11 @@ smp_size <- 10 # the size of our samples
 means <- rep(NA, n_samples) # an empty vector to contain our mean values
 
 for (i in 1:n_samples) {
-  x <- rnorm(smp_size, mean = 82, sd = sd(df_data$lsas_screen))
+  x <- rnorm(smp_size, mean = 82, sd = sd(df_clean$lsas_screen))
   means[i] <- mean(x)
 }
 
-mean(means >= mean(df_data$lsas_screen)) # proportion of simulated means that are larger than our observed mean
+mean(means >= mean(df_clean$lsas_screen)) # proportion of simulated means that are larger than our observed mean
 
 ```
 
@@ -359,11 +359,11 @@ smp_size <- ____ # the size of our samples
 means <- rep(NA, n_samples) # an empty vector to contain our mean values
 
 for (i in 1:n_samples) {
-  x <- rnorm(smp_size, mean = 82, sd = sd(df_data$lsas_screen))
+  x <- rnorm(smp_size, mean = 82, sd = sd(df_clean$lsas_screen))
   means[i] <- mean(x)
 }
 
-mean(means >= mean(df_data$lsas_screen)) # proportion of simulated means that are larger than our observed mean
+mean(means >= mean(df_clean$lsas_screen)) # proportion of simulated means that are larger than our observed mean
 
 ```
 :::
@@ -381,11 +381,11 @@ smp_size <- 10 # the size of our samples
 means <- rep(NA, n_samples) # an empty vector to contain our mean values
 
 for (i in 1:n_samples) {
-  x <- rnorm(smp_size, mean = 82, sd = sd(df_data$lsas_screen))
+  x <- rnorm(smp_size, mean = 82, sd = sd(df_clean$lsas_screen))
   means[i] <- mean(x)
 }
 
-mean(means >= mean(df_data$lsas_screen)) # proportion of simulated means that are larger than our observed mean
+mean(means >= mean(df_clean$lsas_screen)) # proportion of simulated means that are larger than our observed mean
 
 # for a sample size of 100
 
@@ -394,11 +394,11 @@ smp_size <- 100 # the size of our samples
 means <- rep(NA, n_samples) # an empty vector to contain our mean values
 
 for (i in 1:n_samples) {
-  x <- rnorm(smp_size, mean = 82, sd = sd(df_data$lsas_screen))
+  x <- rnorm(smp_size, mean = 82, sd = sd(df_clean$lsas_screen))
   means[i] <- mean(x)
 }
 
-mean(means >= mean(df_data$lsas_screen)) # proportion of simulated means that are larger than our observed mean
+mean(means >= mean(df_clean$lsas_screen)) # proportion of simulated means that are larger than our observed mean
 
 
 # for a sample size of 1000 
@@ -408,11 +408,11 @@ smp_size <- 1000 # the size of our samples
 means <- rep(NA, n_samples) # an empty vector to contain our mean values
 
 for (i in 1:n_samples) {
-  x <- rnorm(smp_size, mean = 82, sd = sd(df_data$lsas_screen))
+  x <- rnorm(smp_size, mean = 82, sd = sd(df_clean$lsas_screen))
   means[i] <- mean(x)
 }
 
-mean(means >= mean(df_data$lsas_screen)) # proportion of simulated means that are larger than our observed mean
+mean(means >= mean(df_clean$lsas_screen)) # proportion of simulated means that are larger than our observed mean
  #<7>
 ```
 :::

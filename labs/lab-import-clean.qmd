@@ -445,7 +445,7 @@ Finally, save the cleaned data to a new CSV file called `steps_clean.csv` in the
 num_cols <- c("lsas", "gad", "phq9", "bbq", "scs", "dmrsodf", "ders", "pid_5")
 
 # Create the cleaned dataset
-df_cleaned <- df_rawdata |> 
+df_clean <- df_rawdata |> 
   clean_names() |> 
   mutate(across(where(is.character), ~na_if(., "missing"))) |> 
   mutate(
@@ -453,7 +453,7 @@ df_cleaned <- df_rawdata |>
   )
 
 # Save the cleaned data as "steps_clean.csv" in the "data" folder
-write_csv(df_cleaned, ___)
+write_csv(df_clean, ___)
 
 ```
 
@@ -477,7 +477,7 @@ The format for using `here()` is: `here("folder", "file")`.
 num_cols <- c("lsas", "gad", "phq9", "bbq", "scs", "dmrsodf", "ders", "pid_5")
 
 # Create the cleaned dataset
-df_cleaned <- df_rawdata |> 
+df_clean <- df_rawdata |> 
   clean_names() |> 
   mutate(across(where(is.character), ~na_if(., "missing"))) |> 
   mutate(
@@ -485,7 +485,7 @@ df_cleaned <- df_rawdata |>
   )
 
 # Save the cleaned data
-write_csv(df_cleaned, here("data", "steps_clean.csv"))
+write_csv(df_clean, here("data", "steps_clean.csv"))
 ```
 
 :::

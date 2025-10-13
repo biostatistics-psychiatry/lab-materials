@@ -51,10 +51,10 @@ library(readr)
 library(ggplot2)
 
 # Load the data
-df_data <- read_csv("data/steps_clean.csv")
+df_clean <- read_csv("data/steps_clean.csv")
 
 # Quick check
-glimpse(df_data)
+glimpse(df_clean)
 ```
 
 ```{webr}
@@ -65,10 +65,10 @@ library(tidyr)
 library(readr)
 
 # Load the data
-df_data <- read_csv("data/steps_clean.csv")
+df_clean <- read_csv("data/steps_clean.csv")
 
 # Quick check
-glimpse(df_data)
+glimpse(df_clean)
 ```
 
 # Selecting columns with `select()`
@@ -90,7 +90,7 @@ Select only the `id`, `group`, and baseline LSAS score (`lsas_screen`) from the 
 #| exercise: ex_1
 
 # Select specific columns
-df_selected <- df_data |>
+df_selected <- df_clean |>
   select(______, ______, ______)
 
 # Check the result
@@ -117,7 +117,7 @@ Think about which three columns you need: the participant identifier, their trea
 #| solution: true
 
 # Select specific columns
-df_selected <- df_data |>
+df_selected <- df_clean |>
   select(id, trt, lsas_screen) #<1>
 
 # Check the result
@@ -151,7 +151,7 @@ Select the `id`, `trt`, and all columns that start with "phq9" using the `starts
 #| exercise: ex_2
 
 # Select using helper functions
-df_phq9 <- df_data |>
+df_phq9 <- df_clean |>
   select(id, trt, ______)
 
 # How many columns?
@@ -179,7 +179,7 @@ Look at the column names in the problem - what pattern do all the PHQ-9 columns 
 #| solution: true
 
 # Select using helper functions
-df_phq9 <- df_data |>
+df_phq9 <- df_clean |>
   select(id, trt, starts_with("phq9")) #<1>
 
 # How many columns?
@@ -220,7 +220,7 @@ Filter the data to keep only participants in the "therapist-guided" treatment gr
 #| exercise: ex_3
 
 # Filter for one group
-df_guided <- df_data |>
+df_guided <- df_clean |>
   filter(trt == ______)
 
 # How many participants?
@@ -249,7 +249,7 @@ The 'trt' variable is the treatment allocation variable coded as 'waitlist', 'se
 #| solution: true
 
 # Filter for one group
-df_guided <- df_data |>
+df_guided <- df_clean |>
   filter(trt == "therapist-guided") #<1>
 
 # How many participants?
@@ -286,7 +286,7 @@ Filter to keep only participants who:
 #| exercise: ex_4
 
 # Filter with multiple conditions
-df_guided_severe <- df_data |>
+df_guided_severe <- df_clean |>
   filter(trt == ______, lsas_screen >= ______)
 
 nrow(df_guided_severe)
@@ -314,7 +314,7 @@ Use `>=` for "greater than or equal to".
 #| solution: true
 
 # Filter with multiple conditions
-df_guided_severe <- df_data |>
+df_guided_severe <- df_clean |>
   filter(trt == "therapist-guided", lsas_screen >= 60) #<1>
 
 nrow(df_guided_severe)
@@ -351,7 +351,7 @@ Create a new variable called `lsas_change` that represents the change in LSAS sc
 #| exercise: ex_5
 
 # Create change score
-df_with_change <- df_data |>
+df_with_change <- df_clean |>
   select(id, trt, lsas_screen, lsas_post) |>
   mutate(
     lsas_change = ______ - ______
@@ -382,7 +382,7 @@ The baseline LSAS is `lsas_screen` and post-treatment is `lsas_post`.
 #| solution: true
 
 # Create change score
-df_with_change <- df_data |>
+df_with_change <- df_clean |>
   select(id, trt, lsas_screen, lsas_post) |>
   mutate(
     lsas_change = lsas_post - lsas_screen #<1>
@@ -425,7 +425,7 @@ Create a categorical variable for GAD-7 severity with these categories:
 #| exercise: ex_6
 
 # Create categorical variable
-df_with_severity <- df_data |>
+df_with_severity <- df_clean |>
   select(id, gad_screen) |>
   mutate(
     gad_severity = case_when(
@@ -464,7 +464,7 @@ Since `case_when()` checks conditions in order, if a score is 7, it won't match 
 #| solution: true
 
 # Create categorical variable
-df_with_severity <- df_data |>
+df_with_severity <- df_clean |>
   select(id, gad_screen) |>
   mutate(
     gad_severity = case_when(
@@ -513,7 +513,7 @@ The `trt` variable contains treatment assignments as text ("waitlist", "self-gui
 #| exercise: ex_7
 
 # Create ordered factor
-df_with_factor <- df_data |>
+df_with_factor <- df_clean |>
   select(id, trt) |>
   mutate(
     trt_factor = factor(
@@ -550,7 +550,7 @@ By default, factors are ordered alphabetically, which would put "self-guided" be
 #| solution: true
 
 # Create ordered factor
-df_with_factor <- df_data |>
+df_with_factor <- df_clean |>
   select(id, trt) |>
   mutate(
     trt_factor = factor(
@@ -595,7 +595,7 @@ Calculate the mean and standard deviation of baseline LSAS scores by treatment g
 #| exercise: ex_8
 
 # Group and summarize
-group_stats <- df_data |>
+group_stats <- df_clean |>
   group_by(______) |>
   summarize(
     n = n(),
@@ -635,7 +635,7 @@ Which variable represents the baseline LSAS score?
 #| solution: true
 
 # Group and summarize
-group_stats <- df_data |>
+group_stats <- df_clean |>
   group_by(trt) |>  #<1>
   summarize(
     n = n(),  #<2>
@@ -676,7 +676,7 @@ Calculate the same statistics using the `.by` argument instead of `group_by()`.
 #| exercise: ex_9
 
 # Summarize with .by
-group_stats_by <- df_data |>
+group_stats_by <- df_clean |>
   summarize(
     n = n(),
     mean_lsas = mean(lsas_screen, na.rm = TRUE),
@@ -709,7 +709,7 @@ The value for `.by` is the name of the grouping variable (without quotes).
 #| solution: true
 
 # Summarize with .by
-group_stats_by <- df_data |>
+group_stats_by <- df_clean |>
   summarize(
     n = n(),
     mean_lsas = mean(lsas_screen, na.rm = TRUE),
@@ -754,7 +754,7 @@ Convert the LSAS measurements to long format. Select columns that start with "ls
 #| exercise: ex_10
 
 # Pivot to long format
-df_lsas_long <- df_data |>
+df_lsas_long <- df_clean |>
   select(id, trt, starts_with("lsas")) |>
   pivot_longer(
     cols = starts_with("______"),
@@ -790,7 +790,7 @@ The column names should be descriptive - what information is in the old column n
 #| solution: true
 
 # Pivot to long format
-df_lsas_long <- df_data |>
+df_lsas_long <- df_clean |>
   select(id, trt, starts_with("lsas")) |>  #<1>
   pivot_longer(
     cols = starts_with("lsas"),  #<2>
@@ -834,7 +834,7 @@ The `time_point` column has values like "lsas_screen", "lsas_post", etc. Use `se
 #| exercise: ex_11
 
 # Clean time variable
-df_lsas_long <- df_data |>
+df_lsas_long <- df_clean |>
   select(id, trt, starts_with("lsas")) |>
   pivot_longer(
     cols = starts_with("lsas"),
@@ -878,7 +878,7 @@ You need to specify:
 #| solution: true
 
 # Clean time variable
-df_lsas_long <- df_data |>
+df_lsas_long <- df_clean |>
   select(id, trt, starts_with("lsas")) |>  #<1>
   pivot_longer(
     cols = starts_with("lsas"),
@@ -930,7 +930,7 @@ First, calculate mean LSAS scores by group and time. Then convert to wide format
 #| exercise: ex_12
 
 # Prepare long data with clean time labels
-df_lsas_long <- df_data |>
+df_lsas_long <- df_clean |>
   select(id, trt, lsas_screen, lsas_post) |>
   pivot_longer(
     cols = starts_with("lsas"),
@@ -991,7 +991,7 @@ Think about what you want as columns in the wide format. The problem says "group
 #| solution: true
 
 # Prepare long data with clean time labels
-df_lsas_long <- df_data |>
+df_lsas_long <- df_clean |>
   select(id, trt, lsas_screen, lsas_post) |>  #<1>
   pivot_longer(
     cols = starts_with("lsas"),
@@ -1066,7 +1066,7 @@ Chain multiple data manipulation steps to:
 #| exercise: ex_13
 
 # Complete pipeline
-remission_desc <- df_data |>
+remission_desc <- df_clean |>
   # Select relevant columns
   select(______, ______, ______) |>
   # Create remission indicator
@@ -1110,7 +1110,7 @@ Work through this step-by-step:
 #| solution: true
 
 # Complete pipeline
-remission_desc <- df_data |>
+remission_desc <- df_clean |>
   # Select relevant columns
   select(id, trt, lsas_post) |>  #<1>
   # Create remission indicator
@@ -1173,7 +1173,7 @@ Steps:
 #| exercise: ex_14
 
 # Convert to long format and create time variables
-df_lsas_missing <- df_data |>
+df_lsas_missing <- df_clean |>
   select(id, trt, starts_with("______")) |>
   pivot_longer(
     cols = starts_with("______"),
@@ -1275,7 +1275,7 @@ Which variable contains the LSAS scores? That's what you check for missingness.
 #| solution: true
 
 # Convert to long format and create time variables
-df_lsas_missing <- df_data |>
+df_lsas_missing <- df_clean |>
   select(id, trt, starts_with("lsas")) |>  #<1>
   pivot_longer(
     cols = starts_with("lsas"),
