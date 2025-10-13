@@ -11,8 +11,9 @@ resources:
   - ../data/steps_clean.csv
 ---
 
-
 {{< include ../_extensions/r-wasm/live/_knitr.qmd >}}
+
+In this lab, we'll practice calculating p-values and confidence intervals in R. This is based on the [P-values and confidence intervals](../chapters/p-values-ci.qmd) chapter.
 
 ```{webr}
 #| setup: true
@@ -22,27 +23,36 @@ library(dplyr)
 df_clean <- read.csv("data/steps_clean.csv")
 ```
 
+If you are working in R Studio, first load packages and data:
+
+```{webr}
+#| label: setup-session
+library(dplyr)
+
+# Load the CSV data
+df_clean <- read.csv("data/steps_clean.csv")
+```
+
 ::::: panel-tabset
 ## Exercise 1
 
-Calculate the two-sided p-value for the null hypothesis that the mean
-PHQ-9 value in the underlying population is 9, and describe in words
-what this number mean
+Calculate the *two-sided p-value* for the null hypothesis that the mean PHQ-9 value at screening (`df_clean$phq9_screen`) in the underlying population is 9, and describe in words what this number mean using the `t.test()` function in R. If you are working in R Studio, you can type `?t.test` to get a description of what the function does.
 
 ```{webr}
 #| exercise: ex_1
-
+t.test(___)
 
 ```
 
 ## Hints
 
 ::: {.hint exercise="ex_1"}
-You can calculate it manually using the formula in the P-values and confidence intervals chapter or use the `t.test()` function
+You can calculate it manually using the formula in the In this lab, we'll practice calculating p-values and confidence intervals in R. This is based on the [P-values and confidence intervals](../chapters/p-values-ci.qmd) chapter, or use the `t.test()` function
+
 ``` r
 t.test(df_clean$phq9_screen,
        mu=___,
-       alternative = "____") #<2>
+       alternative = "two.sided") #<2>
 ```
 :::
 
@@ -52,17 +62,20 @@ t.test(df_clean$phq9_screen,
 The full solution is:
 
 ``` r
-#calculate manually
+#use the t.test() function
+t.test(df_clean$phq9_screen,
+       mu=9,
+       alternative = "two.sided")
+       
+       
+#or calculate it manually
 x_bar <- mean(df_clean$phq9_screen)
-se <- sd(df_clean$phq9_screen) / sqrt(nrow(df_clean))
+n <- nrow(df_clean)
+se <- sd(df_clean$phq9_screen) / sqrt(n)
 t_value <- (x_bar - 9) / se
 (1 - pt(t_value, df = 180))*2
 
-#or using the t.test function
-
-t.test(df_clean$phq9_screen,
-       mu=9,
-       alternative = "two.sided") #<1>
+#<1>
 ```
 :::
 :::::
@@ -74,27 +87,26 @@ t.test(df_clean$phq9_screen,
 library(dplyr)
 df_clean <- read.csv("data/steps_clean.csv")
 ```
+
 ::::: panel-tabset
 ## Exercise 2
 
-Calculate the 95% confidence interval for PHQ-9, and describe in words what the numbers mean.
+Calculate the 95% confidence interval for PHQ-9 at screening (`df_clean$phq9_screen`), and describe in words what the numbers mean using the ´t.test()` function.
 
 ```{webr}
 #| exercise: ex_2
-
+t.test(_____)
 
 ```
 
 ## Hints
 
 ::: {.hint exercise="ex_2"}
-You can calculate it manually using the formula in the P-values and confidence intervals chapter or again use the `t.test()` function
-``` r
-t.test(df_clean$phq9_screen,
-       mu=___,
-       alternative = "____") #<2>
-```
+Again use the `t.test()` function, or if you want a challenge, try to calculate calculate the confidence interval manually using the formula in the [P-values and confidence intervals](../chapters/p-values-ci.qmd) chapter.
 
+``` r
+t.test(df_clean$_____) #<2>
+```
 :::
 
 ## Solution
@@ -103,26 +115,26 @@ t.test(df_clean$phq9_screen,
 The full solution is:
 
 ``` r
-x_bar <- mean(df_clean$phq9_screen)
-se <- sd(df_clean$phq9_screen) / sqrt(nrow(df_clean))
-z <- 1.96
 
-#upper confidence limit
+t.test(df_clean$phq9_screen) 
+
+#or manually 
+x_bar <- mean(df_clean$phq9_screen) # getting the mean and saving as "x_bar"
+n <- nrow(df_clean) # getting the n (same as the number of rows) and saving as "n"
+se <- sd(df_clean$phq9_screen) / sqrt(n) # calculating the stadard error, and saving as "se"
+z <- 1.96 # setting the z-value to 1.95
+
+#calculating the upper confidence limit and save as "ucl"
 ucl <- x_bar + z*se
-#lower confidence limit
+#calculating the lower confidence limit, and save as "lcl"
 lcl <- x_bar - z*se
 
-print(c(lcl, ucl))
+print(c(lcl, ucl)) # printing the upper and lower confidence limits
 
-#or
-t.test(df_clean$phq9_screen,
-       mu=9,
-       alternative = "two.sided") #<2>
+#<2>
 ```
 :::
 :::::
-
-
 
 ```{webr}
 #| setup: true
@@ -131,10 +143,11 @@ t.test(df_clean$phq9_screen,
 library(dplyr)
 df_clean <- read.csv("data/steps_clean.csv")
 ```
+
 ::::: panel-tabset
 ## Exercise 3
 
-Calculate the p-value for getting our observed proportion of men, $\hat{p}$, if the the true population proportion, $p$, is 40% or more the `prop.test()` function
+Calculate the p-value for getting our observed proportion of men, $\hat{p}$, (`df_clean$gender=="Man"`)if the the true population proportion, $p$, is 40% or more using the `prop.test()` function. Remember that you can type `?prop.test()` in R Studio to get some info on the function.
 
 ```{webr}
 #| exercise: ex_3
@@ -143,20 +156,20 @@ n <- nrow(df_clean)
 df_clean$gender <- rbinom(n, 1, 0.7)
 df_clean$gender <- ifelse(df_clean$gender == 1, "Woman", "Man")
 
+#and use the function
+prop.test(___)
+
 ```
 
 ## Hints
 
 ::: {.hint exercise="ex_3"}
-
 ``` r
 prop.test(x= sum(df_clean$gender=="Man"), 
           n= length(____), 
           p=___,
           alternative="less")
-
 ```
-
 :::
 
 ## Solution
@@ -179,7 +192,6 @@ prop.test(x= sum(df_clean$gender=="Man"),
 :::
 :::::
 
-
 ```{webr}
 #| setup: true
 #| exercise: ex_4
@@ -187,10 +199,11 @@ prop.test(x= sum(df_clean$gender=="Man"),
 library(dplyr)
 df_clean <- read.csv("data/steps_clean.csv")
 ```
+
 ::::: panel-tabset
 ## Exercise 4
 
-Calculate the p-value for getting our observed proportion of men, $\hat{p}$, if the the true population proportion, $p$, is 40% or more the `prop.test()` function
+Calculate the confidence interval for getting our observed proportion of men, $\hat{p}$, using the `prop.test()` function
 
 ```{webr}
 #| exercise: ex_4
@@ -198,19 +211,20 @@ Calculate the p-value for getting our observed proportion of men, $\hat{p}$, if 
 n <- nrow(df_clean)
 df_clean$gender <- rbinom(n, 1, 0.7)
 df_clean$gender <- ifelse(df_clean$gender == 1, "Woman", "Man")
-
+prop.test()
 ```
 
 ## Hints
 
 ::: {.hint exercise="ex_4"}
-You can combine the `prop.test()` function with the `table()` function for easier syntax
 
 ``` r
-prop.test(table(____))
-
+prop.test(x= sum(df_clean$gender=="___"), 
+          n= length(df_clean$gender))
+          
+#or use the table function for easier syntax 
+prop.test(table(df_clean$____))
 ```
-
 :::
 
 ## Solution
@@ -225,27 +239,29 @@ df_clean$gender <- rbinom(n, 1, 0.7)
 df_clean$gender <- ifelse(df_clean$gender == 1, "Woman", "Man")
 
 #getting ci 
+prop.test(x= sum(df_clean$gender=="Man"), 
+          n= length(df_clean$gender))
+          
+# #or use the table function for easier syntax 
 prop.test(table(df_clean$gender))
  #<4>
 ```
 :::
 :::::
 
-
 ::: panel-tabset
 ## Exercise 5
 
-Reason about the the meaning and interpretation of the confidence intervals you have calculated in the context of how the actual STePs study was performed. The study can be found at: https://www.nature.com/articles/s44184-024-00063-0
+Reason about the the meaning and interpretation of the confidence intervals you have calculated in the context of how the actual STEpS study was performed. The study can be found at: https://www.nature.com/articles/s44184-024-00063-0
 
 ## Hints
 
--
+No hints here, but please discuss with us :)
 
 ## Solution
 
--
+No solution here, but please discuss with us :)
 :::
-
 
 ```{webr}
 #| setup: true
@@ -258,6 +274,7 @@ n <- nrow(df_clean)
 df_clean$gender <- rbinom(n, 1, 0.7)
 df_clean$gender <- ifelse(df_clean$gender == 1, "Woman", "Man")
 ```
+
 ::::: panel-tabset
 ## BONUS Exercise 6
 
@@ -291,10 +308,8 @@ ucl <- p_hat + __*__
 lcl <- p_hat - __*s__
 
 print(c(lcl,ucl))
-
 ```
 :::
-
 
 ## Solution
 
@@ -314,13 +329,10 @@ lcl <- p_hat - z*se
 
 print(c(lcl,ucl))
 
-# and from prop.test
-prop.test(table(df_clean$gender))
  #<6>
 ```
 :::
 :::::
-
 
 ```{webr}
 #| setup: true
@@ -329,10 +341,11 @@ prop.test(table(df_clean$gender))
 library(dplyr)
 df_clean <- read.csv("data/steps_clean.csv")
 ```
+
 ::::: panel-tabset
 ## BONUS Exercise 7
 
-Modify the simulation code for the sampling distribution  to determine what would happen to the p-value if the sample size was 10, 100 or 1000
+Modify the simulation code for the sampling distribution to determine what would happen to the p-value if the sample size was 10, 100 or 1000
 
 ```{webr}
 #| exercise: ex_7
@@ -352,7 +365,6 @@ mean(means >= mean(df_clean$lsas_screen)) # proportion of simulated means that a
 ## Hints
 
 ::: {.hint exercise="ex_7"}
-
 ``` r
 n_samples <- 1e4 # the number of samples
 smp_size <- ____ # the size of our samples
@@ -364,10 +376,8 @@ for (i in 1:n_samples) {
 }
 
 mean(means >= mean(df_clean$lsas_screen)) # proportion of simulated means that are larger than our observed mean
-
 ```
 :::
-
 
 ## Solution
 

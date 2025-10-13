@@ -12,6 +12,8 @@ resources:
 ---
 {{< include ../_extensions/r-wasm/live/_knitr.qmd >}}
 
+In this lab, we'll practice calculating p-values and confidence intervals in R. This is based on the [Sampling from a population](../chapters/sampling.qmd) chapter.
+
 ```{webr}
 #| setup: true
 #| exercise: ex_1
@@ -20,10 +22,20 @@ library(dplyr)
 df_clean <- read.csv("data/steps_clean.csv")
 ```
 
+If you are working in R Studio, first load packages and data:
+
+```{webr}
+#| label: setup-session
+library(dplyr)
+
+# Load the CSV data
+df_clean <- read.csv("data/steps_clean.csv")
+```
+
 ::::: panel-tabset
 ## Exercise 1
 
-Calculate the standard error of the GAD-7 scale at the screening, and describe in words what the number means.
+Calculate the standard error of the GAD-7 scale at the screening (`df_clean$gad_screen`), and describe in words what the number means.
 
 ```{webr}
 #| exercise: ex_1
@@ -39,7 +51,7 @@ The formula for the standard error of a mean using the sample variance $s^2$ is:
 $$
 SE = {\sqrt{s^2 / n}}
 $$
-
+You can save the different parts of the formula as objects in your R environment:
 ``` r
 s2 <-  var(df_clean$gad_screen)
 n <- length(df_clean$gad_screen)
@@ -96,9 +108,9 @@ The formula for the standard error of a proportion is:
 $$
 \mathrm{SE}(p) = \sqrt{\frac{p(1 - p)}{n}}
 $$
-
+You can save the different parts of the formula as objects in your R environment:
 ``` r
-p <- mean(df_clean$income=="High") # using the mean function to get the probability 
+p <- mean(df_clean$income=="High") # using the mean function to get the probability, please ask about how this works :)
 n <- nrow(___) # the number of observations (since we have no NA values) 
 se <- sqrt(___) # standard error 
 se
@@ -130,14 +142,14 @@ se
 ::: panel-tabset
 ## Exercise 3
 
-What would happen to the standard error if the sample size was increased to 1000, and why?
+Reason about what would happen to the standard error if the sample size was increased to 1000, and why?
 
 
 ## Hints
 
 - Recall the formula for the standard error:  
-  - Mean: $ SE = \frac{s}{\sqrt{n}}$  
-  - Proportion: $SE_p = \sqrt{\frac{p(1-p)}{n}}$ 
+  - Standard error of a mean: $SE = \frac{s}{\sqrt{n}}$  
+  - Standard error of a proportion: $SE_p = \sqrt{\frac{p(1-p)}{n}}$ 
 - Focus on what happens when \(n\) gets larger.  
 - Think about variability: more data means more stability in the estimate.
 
