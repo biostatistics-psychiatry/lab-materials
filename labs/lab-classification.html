@@ -385,7 +385,7 @@ Tip
 
 </div>
 <script type="webr-2-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImVudmlyIjoiY2xhc3NfZW52IiwiZXZhbCI6dHJ1ZSwiZXhlcmNpc2UiOiJleF8xIiwibGFiZWwiOiJleC0xIn0sImNvZGUiOiJcbmxpYnJhcnkoZHBseXIpXG5saWJyYXJ5KHJlYWRyKVxubGlicmFyeShoZXJlKVxuXG4jIGxvYWQgZGF0YVxuZGZfZGF0YSA8LSByZWFkX2NzdihoZXJlKFwiZGF0YVwiLCBcInN0ZXBzX2NsZWFuLmNzdlwiKSlcblxuIyBjcmVhdGUgYmluYXJ5IG91dGNvbWUgdmFyaWFibGVcbmRmX2RhdGEgPC0gZGZfZGF0YSB8PlxuICBtdXRhdGUoXG4gICAgcGhxOV9wb3N0X2JpbiA9IF9fX19fKHBocTlfcG9zdCA8X18sIFwiTG93XCIsIFwiSGlnaFwiKSxcbiAgICBwaHE5X3Bvc3RfYmluID0gZmFjdG9yKHBocTlfcG9zdF9iaW4sIGxldmVscyA9IGMoXCJMb3dcIiwgXCJIaWdoXCIpKVxuICApXG5cbiMgQ2hlY2sgdGhlIGRpc3RyaWJ1dGlvblxudGFibGUoZGZfZGF0YSRwaHE5X3Bvc3RfYmluKSJ9
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImVudmlyIjoiY2xhc3NfZW52IiwiZXZhbCI6dHJ1ZSwiZXhlcmNpc2UiOiJleF8xIiwibGFiZWwiOiJleC0xIn0sImNvZGUiOiJcbmxpYnJhcnkoZHBseXIpXG5saWJyYXJ5KHJlYWRyKVxubGlicmFyeShoZXJlKVxuXG4jIGxvYWQgZGF0YVxuZGZfY2xlYW4gPC0gcmVhZF9jc3YoaGVyZShcImRhdGFcIiwgXCJzdGVwc19jbGVhbi5jc3ZcIikpXG5cbiMgY3JlYXRlIGJpbmFyeSBvdXRjb21lIHZhcmlhYmxlXG5kZl9jbGVhbiA8LSBkZl9jbGVhbiB8PlxuICBtdXRhdGUoXG4gICAgcGhxOV9wb3N0X2JpbiA9IF9fX19fKHBocTlfcG9zdCA8X18sIFwiTG93XCIsIFwiSGlnaFwiKSxcbiAgICBwaHE5X3Bvc3RfYmluID0gZmFjdG9yKHBocTlfcG9zdF9iaW4sIGxldmVscyA9IGMoXCJMb3dcIiwgXCJIaWdoXCIpKVxuICApXG5cbiMgQ2hlY2sgdGhlIGRpc3RyaWJ1dGlvblxudGFibGUoZGZfY2xlYW4kcGhxOV9wb3N0X2JpbikifQ==
 </script>
 </div>
 </div>
@@ -405,34 +405,34 @@ library(readr)
 library(here)
 
 # load data
-df_data &lt;- read_csv(here("data", "steps_clean.csv"))
+df_clean &lt;- read_csv(here("data", "steps_clean.csv"))
 
 # create binary outcome variable
-df_data &lt;- df_data |&gt;
+df_clean &lt;- df_clean |&gt;
   mutate(
     phq9_post_bin = if_else(phq9_post &lt;10, "Low", "High"),
     phq9_post_bin = factor(phq9_post_bin, levels = c("Low", "High"))
   )
 
 # Check the distribution
-table(df_data$phq9_post_bin)</code>
+table(df_clean$phq9_post_bin)</code>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="interpolate-5-1"><a href="#interpolate-5-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="interpolate-5-2"><a href="#interpolate-5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="interpolate-5-3"><a href="#interpolate-5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
 <span id="interpolate-5-4"><a href="#interpolate-5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
 <span id="interpolate-5-5"><a href="#interpolate-5-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="interpolate-5-6"><a href="#interpolate-5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># load data</span></span>
-<span id="interpolate-5-7"><a href="#interpolate-5-7" aria-hidden="true" tabindex="-1"></a>df_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"steps_clean.csv"</span>))</span>
+<span id="interpolate-5-7"><a href="#interpolate-5-7" aria-hidden="true" tabindex="-1"></a>df_clean <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"steps_clean.csv"</span>))</span>
 <span id="interpolate-5-8"><a href="#interpolate-5-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="interpolate-5-9"><a href="#interpolate-5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># create binary outcome variable</span></span>
-<span id="interpolate-5-10"><a href="#interpolate-5-10" aria-hidden="true" tabindex="-1"></a>df_data <span class="ot">&lt;-</span> df_data <span class="sc">|&gt;</span></span>
+<span id="interpolate-5-10"><a href="#interpolate-5-10" aria-hidden="true" tabindex="-1"></a>df_clean <span class="ot">&lt;-</span> df_clean <span class="sc">|&gt;</span></span>
 <span id="interpolate-5-11"><a href="#interpolate-5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
 <span id="interpolate-5-12"><a href="#interpolate-5-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">phq9_post_bin =</span> <span class="fu">if_else</span>(phq9_post <span class="sc">&lt;</span><span class="dv">10</span>, <span class="st">"Low"</span>, <span class="st">"High"</span>),</span>
 <span id="interpolate-5-13"><a href="#interpolate-5-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">phq9_post_bin =</span> <span class="fu">factor</span>(phq9_post_bin, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Low"</span>, <span class="st">"High"</span>))</span>
 <span id="interpolate-5-14"><a href="#interpolate-5-14" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="interpolate-5-15"><a href="#interpolate-5-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="interpolate-5-16"><a href="#interpolate-5-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the distribution</span></span>
-<span id="interpolate-5-17"><a href="#interpolate-5-17" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(df_data<span class="sc">$</span>phq9_post_bin)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="interpolate-5-17"><a href="#interpolate-5-17" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(df_clean<span class="sc">$</span>phq9_post_bin)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <ol type="1">
@@ -466,7 +466,7 @@ eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4
 
 </div>
 <script type="webr-7-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImVudmlyIjoiY2xhc3NfZW52IiwiZXZhbCI6dHJ1ZSwiZXhlcmNpc2UiOiJleF8yIiwibGFiZWwiOiJleC0yIn0sImNvZGUiOiJcbiMgbG9hZCB0aGUgdGlkeW1vZGVscyBwYWNrYWdlXG5saWJyYXJ5KHRpZHltb2RlbHMpXG5cbiMgZml0IGxvZ2lzdGljIHJlZ3Jlc3Npb24gbW9kZWxcbnBocTlfZml0IDwtIGxvZ2lzdGljX3JlZygpIHw+XG4gIHNldF9lbmdpbmUoXCJnbG1cIikgfD5cbiAgc2V0X21vZGUoXCJjbGFzc2lmaWNhdGlvblwiKSB8PlxuICBmaXQoX19fIH4gX19fICsgX19fLCBkYXRhID0gZGZfZGF0YSlcblxuIyBNYWtlIHByZWRpY3Rpb25zXG5waHE5X3ByZWQgPC0gcHJlZGljdChwaHE5X2ZpdCwgbmV3X2RhdGEgPSBkZl9kYXRhKSB8PlxuICBiaW5kX2NvbHMoZGZfZGF0YSlcblxuIyBDcmVhdGUgY29uZnVzaW9uIG1hdHJpeFxucGhxOV9jb25mX21hdCA8LSBjb25mX21hdChwaHE5X3ByZWQsIHRydXRoID0gcGhxOV9wb3N0X2JpbiwgZXN0aW1hdGUgPSAucHJlZF9jbGFzcylcblxuIyBEaXNwbGF5IGNvbmZ1c2lvbiBtYXRyaXhcbnBocTlfY29uZl9tYXQifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImVudmlyIjoiY2xhc3NfZW52IiwiZXZhbCI6dHJ1ZSwiZXhlcmNpc2UiOiJleF8yIiwibGFiZWwiOiJleC0yIn0sImNvZGUiOiJcbiMgbG9hZCB0aGUgdGlkeW1vZGVscyBwYWNrYWdlXG5saWJyYXJ5KHRpZHltb2RlbHMpXG5cbiMgZml0IGxvZ2lzdGljIHJlZ3Jlc3Npb24gbW9kZWxcbnBocTlfZml0IDwtIGxvZ2lzdGljX3JlZygpIHw+XG4gIHNldF9lbmdpbmUoXCJnbG1cIikgfD5cbiAgc2V0X21vZGUoXCJjbGFzc2lmaWNhdGlvblwiKSB8PlxuICBmaXQoX19fIH4gX19fICsgX19fLCBkYXRhID0gZGZfY2xlYW4pXG5cbiMgTWFrZSBwcmVkaWN0aW9uc1xucGhxOV9wcmVkIDwtIHByZWRpY3QocGhxOV9maXQsIG5ld19kYXRhID0gZGZfY2xlYW4pIHw+XG4gIGJpbmRfY29scyhkZl9jbGVhbilcblxuIyBDcmVhdGUgY29uZnVzaW9uIG1hdHJpeFxucGhxOV9jb25mX21hdCA8LSBjb25mX21hdChwaHE5X3ByZWQsIHRydXRoID0gcGhxOV9wb3N0X2JpbiwgZXN0aW1hdGUgPSAucHJlZF9jbGFzcylcblxuIyBEaXNwbGF5IGNvbmZ1c2lvbiBtYXRyaXhcbnBocTlfY29uZl9tYXQifQ==
 </script>
 </div>
 </div>
@@ -493,11 +493,11 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImVudmlyIjoiY2xhc3NfZW52IiwiZXZhbCI6dHJ1ZSwiZXhlcmNp
 phq9_fit &lt;- logistic_reg() |&gt; #&lt;1&gt;
   set_engine("glm") |&gt; #&lt;2&gt;
   set_mode("classification") |&gt; #&lt;3&gt;
-  fit(phq9_post_bin ~ phq9_screen + group, data = df_data) #&lt;4&gt;
+  fit(phq9_post_bin ~ phq9_screen + group, data = df_clean) #&lt;4&gt;
 
 # Make predictions
-phq9_pred &lt;- predict(phq9_fit, new_data = df_data) |&gt; #&lt;5&gt;
-  bind_cols(df_data)
+phq9_pred &lt;- predict(phq9_fit, new_data = df_clean) |&gt; #&lt;5&gt;
+  bind_cols(df_clean)
 
 # Create confusion matrix
 phq9_conf_mat &lt;- conf_mat(phq9_pred, truth = phq9_post_bin, estimate = .pred_class) #&lt;6&gt;
@@ -510,11 +510,11 @@ phq9_conf_mat</code>
 <a class="code-annotation-anchor" data-target-cell="interpolate-10" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="interpolate-10-4" class="code-annotation-target"><a href="#interpolate-10-4" aria-hidden="true" tabindex="-1"></a>phq9_fit <span class="ot">&lt;-</span> <span class="fu">logistic_reg</span>() <span class="sc">|&gt;</span></span>
 <a class="code-annotation-anchor" data-target-cell="interpolate-10" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="interpolate-10-5" class="code-annotation-target"><a href="#interpolate-10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"glm"</span>) <span class="sc">|&gt;</span></span>
 <a class="code-annotation-anchor" data-target-cell="interpolate-10" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="interpolate-10-6" class="code-annotation-target"><a href="#interpolate-10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"classification"</span>) <span class="sc">|&gt;</span></span>
-<a class="code-annotation-anchor" data-target-cell="interpolate-10" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="interpolate-10-7" class="code-annotation-target"><a href="#interpolate-10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(phq9_post_bin <span class="sc">~</span> phq9_screen <span class="sc">+</span> group, <span class="at">data =</span> df_data)</span>
+<a class="code-annotation-anchor" data-target-cell="interpolate-10" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="interpolate-10-7" class="code-annotation-target"><a href="#interpolate-10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(phq9_post_bin <span class="sc">~</span> phq9_screen <span class="sc">+</span> group, <span class="at">data =</span> df_clean)</span>
 <span id="interpolate-10-8"><a href="#interpolate-10-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="interpolate-10-9"><a href="#interpolate-10-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Make predictions</span></span>
-<a class="code-annotation-anchor" data-target-cell="interpolate-10" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="interpolate-10-10" class="code-annotation-target"><a href="#interpolate-10-10" aria-hidden="true" tabindex="-1"></a>phq9_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(phq9_fit, <span class="at">new_data =</span> df_data) <span class="sc">|&gt;</span></span>
-<span id="interpolate-10-11"><a href="#interpolate-10-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(df_data)</span>
+<a class="code-annotation-anchor" data-target-cell="interpolate-10" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="interpolate-10-10" class="code-annotation-target"><a href="#interpolate-10-10" aria-hidden="true" tabindex="-1"></a>phq9_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(phq9_fit, <span class="at">new_data =</span> df_clean) <span class="sc">|&gt;</span></span>
+<span id="interpolate-10-11"><a href="#interpolate-10-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(df_clean)</span>
 <span id="interpolate-10-12"><a href="#interpolate-10-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="interpolate-10-13"><a href="#interpolate-10-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Create confusion matrix</span></span>
 <a class="code-annotation-anchor" data-target-cell="interpolate-10" data-target-annotation="6" onclick="event.preventDefault();">6</a><span id="interpolate-10-14" class="code-annotation-target"><a href="#interpolate-10-14" aria-hidden="true" tabindex="-1"></a>phq9_conf_mat <span class="ot">&lt;-</span> <span class="fu">conf_mat</span>(phq9_pred, <span class="at">truth =</span> phq9_post_bin, <span class="at">estimate =</span> .pred_class)</span>

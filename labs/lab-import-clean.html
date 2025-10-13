@@ -754,7 +754,7 @@ eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4
 
 </div>
 <script type="webr-34-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNyIsImxhYmVsIjoiZXgtNyJ9LCJjb2RlIjoiXG5udW1fY29scyA8LSBjKFwibHNhc1wiLCBcImdhZFwiLCBcInBocTlcIiwgXCJiYnFcIiwgXCJzY3NcIiwgXCJkbXJzb2RmXCIsIFwiZGVyc1wiLCBcInBpZF81XCIpXG5cbiMgQ3JlYXRlIHRoZSBjbGVhbmVkIGRhdGFzZXRcbmRmX2NsZWFuZWQgPC0gZGZfcmF3ZGF0YSB8PiBcbiAgY2xlYW5fbmFtZXMoKSB8PiBcbiAgbXV0YXRlKGFjcm9zcyh3aGVyZShpcy5jaGFyYWN0ZXIpLCB+bmFfaWYoLiwgXCJtaXNzaW5nXCIpKSkgfD4gXG4gIG11dGF0ZShcbiAgICBhY3Jvc3Moc3RhcnRzX3dpdGgobnVtX2NvbHMpLCBhcy5udW1lcmljKVxuICApXG5cbiMgU2F2ZSB0aGUgY2xlYW5lZCBkYXRhIGFzIFwic3RlcHNfY2xlYW4uY3N2XCIgaW4gdGhlIFwiZGF0YVwiIGZvbGRlclxud3JpdGVfY3N2KGRmX2NsZWFuZWQsIF9fXykifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNyIsImxhYmVsIjoiZXgtNyJ9LCJjb2RlIjoiXG5udW1fY29scyA8LSBjKFwibHNhc1wiLCBcImdhZFwiLCBcInBocTlcIiwgXCJiYnFcIiwgXCJzY3NcIiwgXCJkbXJzb2RmXCIsIFwiZGVyc1wiLCBcInBpZF81XCIpXG5cbiMgQ3JlYXRlIHRoZSBjbGVhbmVkIGRhdGFzZXRcbmRmX2NsZWFuIDwtIGRmX3Jhd2RhdGEgfD4gXG4gIGNsZWFuX25hbWVzKCkgfD4gXG4gIG11dGF0ZShhY3Jvc3Mod2hlcmUoaXMuY2hhcmFjdGVyKSwgfm5hX2lmKC4sIFwibWlzc2luZ1wiKSkpIHw+IFxuICBtdXRhdGUoXG4gICAgYWNyb3NzKHN0YXJ0c193aXRoKG51bV9jb2xzKSwgYXMubnVtZXJpYylcbiAgKVxuXG4jIFNhdmUgdGhlIGNsZWFuZWQgZGF0YSBhcyBcInN0ZXBzX2NsZWFuLmNzdlwiIGluIHRoZSBcImRhdGFcIiBmb2xkZXJcbndyaXRlX2NzdihkZl9jbGVhbiwgX19fKSJ9
 </script>
 </div>
 </div>
@@ -772,7 +772,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNyIsImxhYmVsIjoi
 num_cols &lt;- c("lsas", "gad", "phq9", "bbq", "scs", "dmrsodf", "ders", "pid_5")
 
 # Create the cleaned dataset
-df_cleaned &lt;- df_rawdata |&gt; 
+df_clean &lt;- df_rawdata |&gt; 
   clean_names() |&gt; 
   mutate(across(where(is.character), ~na_if(., "missing"))) |&gt; 
   mutate(
@@ -780,12 +780,12 @@ df_cleaned &lt;- df_rawdata |&gt;
   )
 
 # Save the cleaned data
-write_csv(df_cleaned, here("data", "steps_clean.csv"))</code>
+write_csv(df_clean, here("data", "steps_clean.csv"))</code>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="interpolate-37-1"><a href="#interpolate-37-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="interpolate-37-2"><a href="#interpolate-37-2" aria-hidden="true" tabindex="-1"></a>num_cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"lsas"</span>, <span class="st">"gad"</span>, <span class="st">"phq9"</span>, <span class="st">"bbq"</span>, <span class="st">"scs"</span>, <span class="st">"dmrsodf"</span>, <span class="st">"ders"</span>, <span class="st">"pid_5"</span>)</span>
 <span id="interpolate-37-3"><a href="#interpolate-37-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="interpolate-37-4"><a href="#interpolate-37-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the cleaned dataset</span></span>
-<span id="interpolate-37-5"><a href="#interpolate-37-5" aria-hidden="true" tabindex="-1"></a>df_cleaned <span class="ot">&lt;-</span> df_rawdata <span class="sc">|&gt;</span> </span>
+<span id="interpolate-37-5"><a href="#interpolate-37-5" aria-hidden="true" tabindex="-1"></a>df_clean <span class="ot">&lt;-</span> df_rawdata <span class="sc">|&gt;</span> </span>
 <span id="interpolate-37-6"><a href="#interpolate-37-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>() <span class="sc">|&gt;</span> </span>
 <span id="interpolate-37-7"><a href="#interpolate-37-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character), <span class="sc">~</span><span class="fu">na_if</span>(., <span class="st">"missing"</span>))) <span class="sc">|&gt;</span> </span>
 <span id="interpolate-37-8"><a href="#interpolate-37-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
@@ -793,7 +793,7 @@ write_csv(df_cleaned, here("data", "steps_clean.csv"))</code>
 <span id="interpolate-37-10"><a href="#interpolate-37-10" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="interpolate-37-11"><a href="#interpolate-37-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="interpolate-37-12"><a href="#interpolate-37-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the cleaned data</span></span>
-<span id="interpolate-37-13"><a href="#interpolate-37-13" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(df_cleaned, <span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"steps_clean.csv"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="interpolate-37-13"><a href="#interpolate-37-13" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(df_clean, <span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"steps_clean.csv"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>

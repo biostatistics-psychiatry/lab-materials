@@ -346,14 +346,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div class="cell" data-setup="true" data-exercise="ex_1">
 <script type="exercise-setup-ex_1-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMSIsInNldHVwIjp0cnVlfSwiY29kZSI6IiMgTG9hZCB0aGUgQ1NWIGRhdGFcbmxpYnJhcnkoZHBseXIpXG5kZl9kYXRhIDwtIHJlYWQuY3N2KFwiZGF0YS9zdGVwc19jbGVhbi5jc3ZcIikifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMSIsInNldHVwIjp0cnVlfSwiY29kZSI6IiMgTG9hZCB0aGUgQ1NWIGRhdGFcbmxpYnJhcnkoZHBseXIpXG5kZl9jbGVhbiA8LSByZWFkLmNzdihcImRhdGEvc3RlcHNfY2xlYW4uY3N2XCIpIn0=
 </script>
 </div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Exercise 1</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Hints</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Solution</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<p>Use the functions described in the Import and clean data lab to get a quick overview of the dataset called <code>df_data</code>and give a brief summary of it.</p>
+<p>Use the functions described in the Import and clean data lab to get a quick overview of the dataset called <code>df_clean</code> and give a brief summary of it.</p>
 <div class="cell" data-exercise="ex_1">
 <div>
 <div id="webr-2" class="exercise-cell">
@@ -373,17 +373,17 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMSJ9LCJjb2RlIjoi
 <div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
 <div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_1">
 <p>The full solution is:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-1"><pre class="sourceCode r code-annotation-code code-with-copy"><code class="sourceCode r"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(d_bl)</span>
-<span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(d_bl)</span>
-<span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ncol</span>(d_bl)</span>
-<span id="annotated-cell-1-4"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(d_bl)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-1"><pre class="sourceCode r code-annotation-code code-with-copy"><code class="sourceCode r"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(df_clean)</span>
+<span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df_clean)</span>
+<span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ncol</span>(df_clean)</span>
+<span id="annotated-cell-1-4"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(df_clean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
 </div>
 <div class="cell" data-setup="true" data-exercise="ex_2">
 <script type="exercise-setup-ex_2-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMiIsInNldHVwIjp0cnVlfSwiY29kZSI6IiMgTG9hZCB0aGUgQ1NWIGRhdGFcbmxpYnJhcnkoZHBseXIpXG5kZl9kYXRhIDwtIHJlYWQuY3N2KFwiZGF0YS9zdGVwc19jbGVhbi5jc3ZcIikifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMiIsInNldHVwIjp0cnVlfSwiY29kZSI6IiMgTG9hZCB0aGUgQ1NWIGRhdGFcbmxpYnJhcnkoZHBseXIpXG5kZl9jbGVhbiA8LSByZWFkLmNzdihcImRhdGEvc3RlcHNfY2xlYW4uY3N2XCIpIn0=
 </script>
 </div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
@@ -397,7 +397,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMiIsInNldHVwIjp0
 
 </div>
 <script type="webr-4-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMiJ9LCJjb2RlIjoiI0NyZWF0aW5nIGEgZnVuY3Rpb24gdG8gZ2V0IHRoZSBtb2RlXG5nZXRfbW9kZSA8LSBmdW5jdGlvbih4KSB7XG4gIHV4IDwtIHVuaXF1ZSh4KVxuICB1eFt3aGljaC5tYXgodGFidWxhdGUobWF0Y2goeCwgdXgpKSldXG59XG5cbl9fXyhkZl9kYXRhJHBpZF81X3NjcmVlbilcblxuX19fKF9fX19waHE5X3NjcmVlbikifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMiJ9LCJjb2RlIjoiI0NyZWF0aW5nIGEgZnVuY3Rpb24gdG8gZ2V0IHRoZSBtb2RlXG5nZXRfbW9kZSA8LSBmdW5jdGlvbih4KSB7XG4gIHV4IDwtIHVuaXF1ZSh4KVxuICB1eFt3aGljaC5tYXgodGFidWxhdGUobWF0Y2goeCwgdXgpKSldXG59XG5cbl9fXyhkZl9jbGVhbiRwaWRfNV9zY3JlZW4pXG5cbl9fXyhfX19fcGhxOV9zY3JlZW4pIn0=
 </script>
 </div>
 </div>
@@ -411,16 +411,16 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMiJ9LCJjb2RlIjoi
 <div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_2">
 <p>The full solution is:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-2"><pre class="sourceCode r code-annotation-code code-with-copy"><code class="sourceCode r"><span id="annotated-cell-2-1"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#PHQ-9</span></span>
-<span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(df_data<span class="sc">$</span>phq9_screen)</span>
-<span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(df_data<span class="sc">$</span>phq9_screen)</span>
-<span id="annotated-cell-2-4"><a href="#annotated-cell-2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(df_data<span class="sc">$</span>phq9_screen)</span>
-<span id="annotated-cell-2-5"><a href="#annotated-cell-2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">get_mode</span>(df_data<span class="sc">$</span>phq9_screen)</span>
+<span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(df_clean<span class="sc">$</span>phq9_screen)</span>
+<span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(df_clean<span class="sc">$</span>phq9_screen)</span>
+<span id="annotated-cell-2-4"><a href="#annotated-cell-2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(df_clean<span class="sc">$</span>phq9_screen)</span>
+<span id="annotated-cell-2-5"><a href="#annotated-cell-2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">get_mode</span>(df_clean<span class="sc">$</span>phq9_screen)</span>
 <span id="annotated-cell-2-6"><a href="#annotated-cell-2-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-2-7"><a href="#annotated-cell-2-7" aria-hidden="true" tabindex="-1"></a><span class="co">#PID-5</span></span>
-<span id="annotated-cell-2-8"><a href="#annotated-cell-2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(df_data<span class="sc">$</span>pid_5_screen)</span>
-<span id="annotated-cell-2-9"><a href="#annotated-cell-2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(df_data<span class="sc">$</span>pid_5_screen)</span>
-<span id="annotated-cell-2-10"><a href="#annotated-cell-2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(df_data<span class="sc">$</span>pid_5_screen)</span>
-<span id="annotated-cell-2-11"><a href="#annotated-cell-2-11" aria-hidden="true" tabindex="-1"></a><span class="fu">get_mode</span>(df_data<span class="sc">$</span>pid_5_screen)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="annotated-cell-2-8"><a href="#annotated-cell-2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(df_clean<span class="sc">$</span>pid_5_screen)</span>
+<span id="annotated-cell-2-9"><a href="#annotated-cell-2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(df_clean<span class="sc">$</span>pid_5_screen)</span>
+<span id="annotated-cell-2-10"><a href="#annotated-cell-2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(df_clean<span class="sc">$</span>pid_5_screen)</span>
+<span id="annotated-cell-2-11"><a href="#annotated-cell-2-11" aria-hidden="true" tabindex="-1"></a><span class="fu">get_mode</span>(df_clean<span class="sc">$</span>pid_5_screen)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -481,7 +481,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMiJ9LCJjb2RlIjoi
 </div>
 <div class="cell" data-setup="true" data-exercise="ex_5">
 <script type="exercise-setup-ex_5-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNSIsInNldHVwIjp0cnVlfSwiY29kZSI6IiMgTG9hZCB0aGUgQ1NWIGRhdGFcbmxpYnJhcnkoZHBseXIpXG5kZl9kYXRhIDwtIHJlYWQuY3N2KFwiZGF0YS9zdGVwc19jbGVhbi5jc3ZcIikifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNSIsInNldHVwIjp0cnVlfSwiY29kZSI6IiMgTG9hZCB0aGUgQ1NWIGRhdGFcbmxpYnJhcnkoZHBseXIpXG5kZl9jbGVhbiA8LSByZWFkLmNzdihcImRhdGEvc3RlcHNfY2xlYW4uY3N2XCIpIn0=
 </script>
 </div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
@@ -495,7 +495,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNSIsInNldHVwIjp0
 
 </div>
 <script type="webr-6-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNSJ9LCJjb2RlIjoiXG5fX18oZGZfZGF0YSRsc2FzX3NjcmVlbilcbl9fXyhkZl9kYXRhJGxzYXNfc2NyZWVuKVxuX19fKGRmX2RhdGEkbHNhc19zY3JlZW4pXG5fX18oZGZfZGF0YSRsc2FzX3NjcmVlbilcbl9fXyhkZl9kYXRhJGxzYXNfc2NyZWVuKSJ9
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNSJ9LCJjb2RlIjoiXG5fX18oZGZfY2xlYW4kbHNhc19zY3JlZW4pXG5fX18oZGZfY2xlYW4kbHNhc19zY3JlZW4pXG5fX18oZGZfY2xlYW4kbHNhc19zY3JlZW4pXG5fX18oZGZfY2xlYW4kbHNhc19zY3JlZW4pXG5fX18oZGZfY2xlYW4kbHNhc19zY3JlZW4pIn0=
 </script>
 </div>
 </div>
@@ -508,11 +508,11 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNSJ9LCJjb2RlIjoi
 <div id="tabset-5-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-3-tab">
 <div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_5">
 <p>The full solution is:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-3"><pre class="sourceCode r code-annotation-code code-with-copy"><code class="sourceCode r"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(df_data<span class="sc">$</span>lsas_screen)</span>
-<span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(df_data<span class="sc">$</span>lsas_screen)</span>
-<span id="annotated-cell-3-3"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(df_data<span class="sc">$</span>lsas_screen)</span>
-<span id="annotated-cell-3-4"><a href="#annotated-cell-3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">IQR</span>(df_data<span class="sc">$</span>lsas_screen)</span>
-<span id="annotated-cell-3-5"><a href="#annotated-cell-3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(df_data<span class="sc">$</span>lsas_screen)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-3"><pre class="sourceCode r code-annotation-code code-with-copy"><code class="sourceCode r"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(df_clean<span class="sc">$</span>lsas_screen)</span>
+<span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(df_clean<span class="sc">$</span>lsas_screen)</span>
+<span id="annotated-cell-3-3"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(df_clean<span class="sc">$</span>lsas_screen)</span>
+<span id="annotated-cell-3-4"><a href="#annotated-cell-3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">IQR</span>(df_clean<span class="sc">$</span>lsas_screen)</span>
+<span id="annotated-cell-3-5"><a href="#annotated-cell-3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(df_clean<span class="sc">$</span>lsas_screen)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>where the historgram helps you determine which of the spread measures is most useful</p>
 </div>
 </div>
@@ -520,7 +520,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNSJ9LCJjb2RlIjoi
 </div>
 <div class="cell" data-setup="true" data-exercise="ex_6">
 <script type="exercise-setup-ex_6-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNiIsInNldHVwIjp0cnVlfSwiY29kZSI6IiMgTG9hZCB0aGUgQ1NWIGRhdGFcbmxpYnJhcnkoZHBseXIpXG5kZl9kYXRhIDwtIHJlYWQuY3N2KFwiZGF0YS9zdGVwc19jbGVhbi5jc3ZcIikifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNiIsInNldHVwIjp0cnVlfSwiY29kZSI6IiMgTG9hZCB0aGUgQ1NWIGRhdGFcbmxpYnJhcnkoZHBseXIpXG5kZl9jbGVhbiA8LSByZWFkLmNzdihcImRhdGEvc3RlcHNfY2xlYW4uY3N2XCIpIn0=
 </script>
 </div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
@@ -534,7 +534,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNiIsInNldHVwIjp0
 
 </div>
 <script type="webr-8-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNiJ9LCJjb2RlIjoiIyBTaW11bGF0ZSBhbiBpbmNvbWUgdmFyaWFibGVcbm4gPC0gbnJvdyhkZl9kYXRhKVxuaW5jb21lX2xldmVscyA8LSBjKFwiTG93XCIsIFwiTWVkaXVtXCIsIFwiSGlnaFwiKVxuaW5jb21lX3Byb2JzIDwtIGMoMC4yLCAwLjYsIDAuMikgIyBBZGp1c3QgcHJvYmFiaWxpdGllcyBhcyBuZWVkZWRcbmRmX2RhdGEkaW5jb21lIDwtIHNhbXBsZShpbmNvbWVfbGV2ZWxzLCBzaXplID0gbiwgcmVwbGFjZSA9IFRSVUUsIHByb2IgPSBpbmNvbWVfcHJvYnMpIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNiJ9LCJjb2RlIjoiIyBTaW11bGF0ZSBhbiBpbmNvbWUgdmFyaWFibGVcbm4gPC0gbnJvdyhkZl9jbGVhbilcbmluY29tZV9sZXZlbHMgPC0gYyhcIkxvd1wiLCBcIk1lZGl1bVwiLCBcIkhpZ2hcIilcbmluY29tZV9wcm9icyA8LSBjKDAuMiwgMC42LCAwLjIpICMgQWRqdXN0IHByb2JhYmlsaXRpZXMgYXMgbmVlZGVkXG5kZl9jbGVhbiRpbmNvbWUgPC0gc2FtcGxlKGluY29tZV9sZXZlbHMsIHNpemUgPSBuLCByZXBsYWNlID0gVFJVRSwgcHJvYiA9IGluY29tZV9wcm9icykifQ==
 </script>
 </div>
 </div>
@@ -548,13 +548,13 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNiJ9LCJjb2RlIjoi
 <div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_6">
 <p>The full solution is:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-4"><pre class="sourceCode r code-annotation-code code-with-copy"><code class="sourceCode r"><span id="annotated-cell-4-1"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># counts</span></span>
-<span id="annotated-cell-4-2"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(df_data<span class="sc">$</span>income)</span>
+<span id="annotated-cell-4-2"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(df_clean<span class="sc">$</span>income)</span>
 <span id="annotated-cell-4-3"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-4-4"><a href="#annotated-cell-4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># proportions</span></span>
-<span id="annotated-cell-4-5"><a href="#annotated-cell-4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(df_data<span class="sc">$</span>income)<span class="sc">/</span><span class="fu">nrow</span>(df_data)</span>
+<span id="annotated-cell-4-5"><a href="#annotated-cell-4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(df_clean<span class="sc">$</span>income)<span class="sc">/</span><span class="fu">nrow</span>(df_clean)</span>
 <span id="annotated-cell-4-6"><a href="#annotated-cell-4-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-4-7"><a href="#annotated-cell-4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># percentages</span></span>
-<span id="annotated-cell-4-8"><a href="#annotated-cell-4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(df_data<span class="sc">$</span>income)<span class="sc">/</span><span class="fu">nrow</span>(df_data)<span class="sc">*</span><span class="dv">100</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="annotated-cell-4-8"><a href="#annotated-cell-4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(df_clean<span class="sc">$</span>income)<span class="sc">/</span><span class="fu">nrow</span>(df_clean)<span class="sc">*</span><span class="dv">100</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>where the histogram helps you determine which of the spread measures is most useful</p>
 </div>
 </div>
@@ -562,7 +562,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNiJ9LCJjb2RlIjoi
 </div>
 <div class="cell" data-setup="true" data-exercise="ex_7">
 <script type="exercise-setup-ex_7-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNyIsInNldHVwIjp0cnVlfSwiY29kZSI6IiMgTG9hZCB0aGUgQ1NWIGRhdGFcbmxpYnJhcnkoZHBseXIpXG5kZl9kYXRhIDwtIHJlYWQuY3N2KFwiZGF0YS9zdGVwc19jbGVhbi5jc3ZcIikifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNyIsInNldHVwIjp0cnVlfSwiY29kZSI6IiMgTG9hZCB0aGUgQ1NWIGRhdGFcbmxpYnJhcnkoZHBseXIpXG5kZl9jbGVhbiA8LSByZWFkLmNzdihcImRhdGEvc3RlcHNfY2xlYW4uY3N2XCIpIn0=
 </script>
 </div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
@@ -589,14 +589,14 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNyJ9LCJjb2RlIjoi
 <div id="tabset-7-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-7-3-tab">
 <div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_7">
 <p>The full solution is:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-5"><pre class="sourceCode r code-annotation-code code-with-copy"><code class="sourceCode r"><span id="annotated-cell-5-1"><a href="#annotated-cell-5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(df_data<span class="sc">$</span>gad_screen, df_data<span class="sc">$</span>phq9_screen)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-5"><pre class="sourceCode r code-annotation-code code-with-copy"><code class="sourceCode r"><span id="annotated-cell-5-1"><a href="#annotated-cell-5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(df_clean<span class="sc">$</span>gad_screen, df_clean<span class="sc">$</span>phq9_screen)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
 </div>
 <div class="cell" data-setup="true" data-exercise="ex_8">
 <script type="exercise-setup-ex_8-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfOCIsInNldHVwIjp0cnVlfSwiY29kZSI6IiMgTG9hZCB0aGUgQ1NWIGRhdGFcbmxpYnJhcnkoZHBseXIpXG5kZl9kYXRhIDwtIHJlYWQuY3N2KFwiZGF0YS9zdGVwc19jbGVhbi5jc3ZcIikifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfOCIsInNldHVwIjp0cnVlfSwiY29kZSI6IiMgTG9hZCB0aGUgQ1NWIGRhdGFcbmxpYnJhcnkoZHBseXIpXG5kZl9jbGVhbiA8LSByZWFkLmNzdihcImRhdGEvc3RlcHNfY2xlYW4uY3N2XCIpIn0=
 </script>
 </div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
@@ -610,7 +610,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfOCIsInNldHVwIjp0
 
 </div>
 <script type="webr-12-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfOCJ9LCJjb2RlIjoiIyBmaXJzdCBzaW11bGF0ZSB0aGUgaW5jb21lIHZhcmlhYmxlIGFnYWluXG5uIDwtIG5yb3coZGZfZGF0YSlcbmluY29tZV9sZXZlbHMgPC0gYyhcIkxvd1wiLCBcIk1lZGl1bVwiLCBcIkhpZ2hcIilcbmluY29tZV9wcm9icyA8LSBjKDAuMiwgMC42LCAwLjIpICMgQWRqdXN0IHByb2JhYmlsaXRpZXMgYXMgbmVlZGVkXG5kZl9kYXRhJGluY29tZSA8LSBzYW1wbGUoaW5jb21lX2xldmVscywgc2l6ZSA9IG4sIHJlcGxhY2UgPSBUUlVFLCBwcm9iID0gaW5jb21lX3Byb2JzKSJ9
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfOCJ9LCJjb2RlIjoiIyBmaXJzdCBzaW11bGF0ZSB0aGUgaW5jb21lIHZhcmlhYmxlIGFnYWluXG5uIDwtIG5yb3coZGZfY2xlYW4pXG5pbmNvbWVfbGV2ZWxzIDwtIGMoXCJMb3dcIiwgXCJNZWRpdW1cIiwgXCJIaWdoXCIpXG5pbmNvbWVfcHJvYnMgPC0gYygwLjIsIDAuNiwgMC4yKSAjIEFkanVzdCBwcm9iYWJpbGl0aWVzIGFzIG5lZWRlZFxuZGZfY2xlYW4kaW5jb21lIDwtIHNhbXBsZShpbmNvbWVfbGV2ZWxzLCBzaXplID0gbiwgcmVwbGFjZSA9IFRSVUUsIHByb2IgPSBpbmNvbWVfcHJvYnMpIn0=
 </script>
 </div>
 </div>
@@ -623,7 +623,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfOCJ9LCJjb2RlIjoi
 <div id="tabset-8-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-8-3-tab">
 <div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_8">
 <p>The full solution is:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-6"><pre class="sourceCode r code-annotation-code code-with-copy"><code class="sourceCode r"><span id="annotated-cell-6-1"><a href="#annotated-cell-6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(df_data<span class="sc">$</span>lsas_screen <span class="sc">~</span>df_data<span class="sc">$</span>income,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-6"><pre class="sourceCode r code-annotation-code code-with-copy"><code class="sourceCode r"><span id="annotated-cell-6-1"><a href="#annotated-cell-6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(df_clean<span class="sc">$</span>lsas_screen <span class="sc">~</span>df_clean<span class="sc">$</span>income,</span>
 <span id="annotated-cell-6-2"><a href="#annotated-cell-6-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">"LSAS-SR"</span>,</span>
 <span id="annotated-cell-6-3"><a href="#annotated-cell-6-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"Income"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -632,7 +632,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfOCJ9LCJjb2RlIjoi
 </div>
 <div class="cell" data-setup="true" data-exercise="ex_9">
 <script type="exercise-setup-ex_9-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfOSIsInNldHVwIjp0cnVlfSwiY29kZSI6IiMgTG9hZCB0aGUgQ1NWIGRhdGFcbmxpYnJhcnkoZHBseXIpXG5kZl9kYXRhIDwtIHJlYWQuY3N2KFwiZGF0YS9zdGVwc19jbGVhbi5jc3ZcIikifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfOSIsInNldHVwIjp0cnVlfSwiY29kZSI6IiMgTG9hZCB0aGUgQ1NWIGRhdGFcbmxpYnJhcnkoZHBseXIpXG5kZl9jbGVhbiA8LSByZWFkLmNzdihcImRhdGEvc3RlcHNfY2xlYW4uY3N2XCIpIn0=
 </script>
 </div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
@@ -646,7 +646,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfOSIsInNldHVwIjp0
 
 </div>
 <script type="webr-14-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfOSJ9LCJjb2RlIjoibGlicmFyeSh0YWJsZW9uZSlcbiMgY3JlYXRlIGEgdmFyaWFibGUgZm9yIGhpZ2ggdnMgbG93IGRlcHJlc3Npb25cbmRmX2RhdGEkcGhxX2NhdCA8LSBpZmVsc2UoZGZfZGF0YSRwaHE5X3NjcmVlbiA+PSAxMCwgXCJIaWdoIGRlcHJlc3Npb25cIiwgXCJMb3cgZGVwcmVzc2lvblwiKSJ9
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfOSJ9LCJjb2RlIjoibGlicmFyeSh0YWJsZW9uZSlcbiMgY3JlYXRlIGEgdmFyaWFibGUgZm9yIGhpZ2ggdnMgbG93IGRlcHJlc3Npb25cbmRmX2NsZWFuJHBocV9jYXQgPC0gaWZlbHNlKGRmX2NsZWFuJHBocTlfc2NyZWVuID49IDEwLCBcIkhpZ2ggZGVwcmVzc2lvblwiLCBcIkxvdyBkZXByZXNzaW9uXCIpIn0=
 </script>
 </div>
 </div>
@@ -671,7 +671,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfOSJ9LCJjb2RlIjoi
 <span id="annotated-cell-7-10"><a href="#annotated-cell-7-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"pid_5_screen"</span></span>
 <span id="annotated-cell-7-11"><a href="#annotated-cell-7-11" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="annotated-cell-7-12"><a href="#annotated-cell-7-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-7-13"><a href="#annotated-cell-7-13" aria-hidden="true" tabindex="-1"></a><span class="fu">CreateTableOne</span>(<span class="at">vars=</span> vars, <span class="at">data =</span> df_data, <span class="at">strata =</span> <span class="st">"phq_cat"</span>, <span class="at">test =</span> <span class="cn">FALSE</span>)</span>
+<span id="annotated-cell-7-13"><a href="#annotated-cell-7-13" aria-hidden="true" tabindex="-1"></a><span class="fu">CreateTableOne</span>(<span class="at">vars=</span> vars, <span class="at">data =</span> df_clean, <span class="at">strata =</span> <span class="st">"phq_cat"</span>, <span class="at">test =</span> <span class="cn">FALSE</span>)</span>
 <span id="annotated-cell-7-14"><a href="#annotated-cell-7-14" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
@@ -679,7 +679,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfOSJ9LCJjb2RlIjoi
 </div>
 <div class="cell" data-setup="true" data-exercise="ex_10">
 <script type="exercise-setup-ex_10-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMTAiLCJzZXR1cCI6dHJ1ZX0sImNvZGUiOiIjIExvYWQgdGhlIENTViBkYXRhXG5saWJyYXJ5KGRwbHlyKVxuZGZfZGF0YSA8LSByZWFkLmNzdihcImRhdGEvc3RlcHNfY2xlYW4uY3N2XCIpIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMTAiLCJzZXR1cCI6dHJ1ZX0sImNvZGUiOiIjIExvYWQgdGhlIENTViBkYXRhXG5saWJyYXJ5KGRwbHlyKVxuZGZfY2xlYW4gPC0gcmVhZC5jc3YoXCJkYXRhL3N0ZXBzX2NsZWFuLmNzdlwiKSJ9
 </script>
 </div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
@@ -727,19 +727,19 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMTAifSwiY29kZSI6
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co"># variance</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="fu">pop_var</span>(df_data<span class="sc">$</span>lsas_screen) <span class="co"># population</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(df_data<span class="sc">$</span>lsas_screen) <span class="co">#sample</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="fu">pop_var</span>(df_clean<span class="sc">$</span>lsas_screen) <span class="co"># population</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(df_clean<span class="sc">$</span>lsas_screen) <span class="co">#sample</span></span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co"># SD</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="fu">pop_sd</span>(df_data<span class="sc">$</span>lsas_screen) <span class="co"># population </span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(df_data<span class="sc">$</span>lsas_screen) <span class="co"># sample</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="fu">pop_sd</span>(df_clean<span class="sc">$</span>lsas_screen) <span class="co"># population </span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(df_clean<span class="sc">$</span>lsas_screen) <span class="co"># sample</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
 </div>
 <div class="cell" data-setup="true" data-exercise="ex_11">
 <script type="exercise-setup-ex_11-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMTEiLCJzZXR1cCI6dHJ1ZX0sImNvZGUiOiIjIExvYWQgdGhlIENTViBkYXRhXG5saWJyYXJ5KGRwbHlyKVxuZGZfZGF0YSA8LSByZWFkLmNzdihcImRhdGEvc3RlcHNfY2xlYW4uY3N2XCIpIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMTEiLCJzZXR1cCI6dHJ1ZX0sImNvZGUiOiIjIExvYWQgdGhlIENTViBkYXRhXG5saWJyYXJ5KGRwbHlyKVxuZGZfY2xlYW4gPC0gcmVhZC5jc3YoXCJkYXRhL3N0ZXBzX2NsZWFuLmNzdlwiKSJ9
 </script>
 </div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
@@ -761,7 +761,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMTEifSwiY29kZSI6
 <div id="tabset-11-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-11-2-tab">
 <div class="hint webr-ojs-exercise exercise-hint d-none" data-exercise="ex_11">
 <p>You can use the following code to get the first 10 rows of your data</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df_data_10 <span class="ot">&lt;-</span> df_data[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df_clean_10 <span class="ot">&lt;-</span> df_clean[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <div id="tabset-11-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-11-3-tab">
@@ -778,15 +778,15 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMTEifSwiY29kZSI6
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">#create dataset with only the first 10 participants</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>df_data_10 <span class="ot">&lt;-</span> df_data[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,]</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>df_clean_10 <span class="ot">&lt;-</span> df_clean[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,]</span>
 <span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co"># variance</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="fu">pop_var</span>(df_data_10<span class="sc">$</span>lsas_screen)</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(df_data_10<span class="sc">$</span>lsas_screen)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="fu">pop_var</span>(df_clean_10<span class="sc">$</span>lsas_screen)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(df_clean_10<span class="sc">$</span>lsas_screen)</span>
 <span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co"># SD</span></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="fu">pop_sd</span>(df_data_10<span class="sc">$</span>lsas_screen)</span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(df_data_10<span class="sc">$</span>lsas_screen)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="fu">pop_sd</span>(df_clean_10<span class="sc">$</span>lsas_screen)</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(df_clean_10<span class="sc">$</span>lsas_screen)</span>
 <span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>

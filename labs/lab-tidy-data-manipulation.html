@@ -373,46 +373,46 @@ Tip
 <p>First, let’s load the packages and data.</p>
 <div class="cell" data-setup="true" data-exercise="[&quot;ex_1&quot;,&quot;ex_2&quot;,&quot;ex_3&quot;,&quot;ex_4&quot;,&quot;ex_5&quot;,&quot;ex_6&quot;,&quot;ex_7&quot;,&quot;ex_8&quot;,&quot;ex_9&quot;,&quot;ex_10&quot;,&quot;ex_11&quot;,&quot;ex_12&quot;,&quot;ex_13&quot;,&quot;ex_14&quot;]">
 <script type="exercise-setup-ex_1-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjpbImV4XzEiLCJleF8yIiwiZXhfMyIsImV4XzQiLCJleF81IiwiZXhfNiIsImV4XzciLCJleF84IiwiZXhfOSIsImV4XzEwIiwiZXhfMTEiLCJleF8xMiIsImV4XzEzIiwiZXhfMTQiXSwibGFiZWwiOiJzZXR1cCIsInNldHVwIjp0cnVlfSwiY29kZSI6IlxubGlicmFyeShkcGx5cilcbmxpYnJhcnkodGlkeXIpXG5saWJyYXJ5KHJlYWRyKVxubGlicmFyeShnZ3Bsb3QyKVxuXG4jIExvYWQgdGhlIGRhdGFcbmRmX2RhdGEgPC0gcmVhZF9jc3YoXCJkYXRhL3N0ZXBzX2NsZWFuLmNzdlwiKVxuXG4jIFF1aWNrIGNoZWNrXG5nbGltcHNlKGRmX2RhdGEpIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjpbImV4XzEiLCJleF8yIiwiZXhfMyIsImV4XzQiLCJleF81IiwiZXhfNiIsImV4XzciLCJleF84IiwiZXhfOSIsImV4XzEwIiwiZXhfMTEiLCJleF8xMiIsImV4XzEzIiwiZXhfMTQiXSwibGFiZWwiOiJzZXR1cCIsInNldHVwIjp0cnVlfSwiY29kZSI6IlxubGlicmFyeShkcGx5cilcbmxpYnJhcnkodGlkeXIpXG5saWJyYXJ5KHJlYWRyKVxubGlicmFyeShnZ3Bsb3QyKVxuXG4jIExvYWQgdGhlIGRhdGFcbmRmX2NsZWFuIDwtIHJlYWRfY3N2KFwiZGF0YS9zdGVwc19jbGVhbi5jc3ZcIilcblxuIyBRdWljayBjaGVja1xuZ2xpbXBzZShkZl9jbGVhbikifQ==
 </script>
 <script type="exercise-setup-ex_2-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjpbImV4XzEiLCJleF8yIiwiZXhfMyIsImV4XzQiLCJleF81IiwiZXhfNiIsImV4XzciLCJleF84IiwiZXhfOSIsImV4XzEwIiwiZXhfMTEiLCJleF8xMiIsImV4XzEzIiwiZXhfMTQiXSwibGFiZWwiOiJzZXR1cCIsInNldHVwIjp0cnVlfSwiY29kZSI6IlxubGlicmFyeShkcGx5cilcbmxpYnJhcnkodGlkeXIpXG5saWJyYXJ5KHJlYWRyKVxubGlicmFyeShnZ3Bsb3QyKVxuXG4jIExvYWQgdGhlIGRhdGFcbmRmX2RhdGEgPC0gcmVhZF9jc3YoXCJkYXRhL3N0ZXBzX2NsZWFuLmNzdlwiKVxuXG4jIFF1aWNrIGNoZWNrXG5nbGltcHNlKGRmX2RhdGEpIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjpbImV4XzEiLCJleF8yIiwiZXhfMyIsImV4XzQiLCJleF81IiwiZXhfNiIsImV4XzciLCJleF84IiwiZXhfOSIsImV4XzEwIiwiZXhfMTEiLCJleF8xMiIsImV4XzEzIiwiZXhfMTQiXSwibGFiZWwiOiJzZXR1cCIsInNldHVwIjp0cnVlfSwiY29kZSI6IlxubGlicmFyeShkcGx5cilcbmxpYnJhcnkodGlkeXIpXG5saWJyYXJ5KHJlYWRyKVxubGlicmFyeShnZ3Bsb3QyKVxuXG4jIExvYWQgdGhlIGRhdGFcbmRmX2NsZWFuIDwtIHJlYWRfY3N2KFwiZGF0YS9zdGVwc19jbGVhbi5jc3ZcIilcblxuIyBRdWljayBjaGVja1xuZ2xpbXBzZShkZl9jbGVhbikifQ==
 </script>
 <script type="exercise-setup-ex_3-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjpbImV4XzEiLCJleF8yIiwiZXhfMyIsImV4XzQiLCJleF81IiwiZXhfNiIsImV4XzciLCJleF84IiwiZXhfOSIsImV4XzEwIiwiZXhfMTEiLCJleF8xMiIsImV4XzEzIiwiZXhfMTQiXSwibGFiZWwiOiJzZXR1cCIsInNldHVwIjp0cnVlfSwiY29kZSI6IlxubGlicmFyeShkcGx5cilcbmxpYnJhcnkodGlkeXIpXG5saWJyYXJ5KHJlYWRyKVxubGlicmFyeShnZ3Bsb3QyKVxuXG4jIExvYWQgdGhlIGRhdGFcbmRmX2RhdGEgPC0gcmVhZF9jc3YoXCJkYXRhL3N0ZXBzX2NsZWFuLmNzdlwiKVxuXG4jIFF1aWNrIGNoZWNrXG5nbGltcHNlKGRmX2RhdGEpIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjpbImV4XzEiLCJleF8yIiwiZXhfMyIsImV4XzQiLCJleF81IiwiZXhfNiIsImV4XzciLCJleF84IiwiZXhfOSIsImV4XzEwIiwiZXhfMTEiLCJleF8xMiIsImV4XzEzIiwiZXhfMTQiXSwibGFiZWwiOiJzZXR1cCIsInNldHVwIjp0cnVlfSwiY29kZSI6IlxubGlicmFyeShkcGx5cilcbmxpYnJhcnkodGlkeXIpXG5saWJyYXJ5KHJlYWRyKVxubGlicmFyeShnZ3Bsb3QyKVxuXG4jIExvYWQgdGhlIGRhdGFcbmRmX2NsZWFuIDwtIHJlYWRfY3N2KFwiZGF0YS9zdGVwc19jbGVhbi5jc3ZcIilcblxuIyBRdWljayBjaGVja1xuZ2xpbXBzZShkZl9jbGVhbikifQ==
 </script>
 <script type="exercise-setup-ex_4-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjpbImV4XzEiLCJleF8yIiwiZXhfMyIsImV4XzQiLCJleF81IiwiZXhfNiIsImV4XzciLCJleF84IiwiZXhfOSIsImV4XzEwIiwiZXhfMTEiLCJleF8xMiIsImV4XzEzIiwiZXhfMTQiXSwibGFiZWwiOiJzZXR1cCIsInNldHVwIjp0cnVlfSwiY29kZSI6IlxubGlicmFyeShkcGx5cilcbmxpYnJhcnkodGlkeXIpXG5saWJyYXJ5KHJlYWRyKVxubGlicmFyeShnZ3Bsb3QyKVxuXG4jIExvYWQgdGhlIGRhdGFcbmRmX2RhdGEgPC0gcmVhZF9jc3YoXCJkYXRhL3N0ZXBzX2NsZWFuLmNzdlwiKVxuXG4jIFF1aWNrIGNoZWNrXG5nbGltcHNlKGRmX2RhdGEpIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjpbImV4XzEiLCJleF8yIiwiZXhfMyIsImV4XzQiLCJleF81IiwiZXhfNiIsImV4XzciLCJleF84IiwiZXhfOSIsImV4XzEwIiwiZXhfMTEiLCJleF8xMiIsImV4XzEzIiwiZXhfMTQiXSwibGFiZWwiOiJzZXR1cCIsInNldHVwIjp0cnVlfSwiY29kZSI6IlxubGlicmFyeShkcGx5cilcbmxpYnJhcnkodGlkeXIpXG5saWJyYXJ5KHJlYWRyKVxubGlicmFyeShnZ3Bsb3QyKVxuXG4jIExvYWQgdGhlIGRhdGFcbmRmX2NsZWFuIDwtIHJlYWRfY3N2KFwiZGF0YS9zdGVwc19jbGVhbi5jc3ZcIilcblxuIyBRdWljayBjaGVja1xuZ2xpbXBzZShkZl9jbGVhbikifQ==
 </script>
 <script type="exercise-setup-ex_5-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjpbImV4XzEiLCJleF8yIiwiZXhfMyIsImV4XzQiLCJleF81IiwiZXhfNiIsImV4XzciLCJleF84IiwiZXhfOSIsImV4XzEwIiwiZXhfMTEiLCJleF8xMiIsImV4XzEzIiwiZXhfMTQiXSwibGFiZWwiOiJzZXR1cCIsInNldHVwIjp0cnVlfSwiY29kZSI6IlxubGlicmFyeShkcGx5cilcbmxpYnJhcnkodGlkeXIpXG5saWJyYXJ5KHJlYWRyKVxubGlicmFyeShnZ3Bsb3QyKVxuXG4jIExvYWQgdGhlIGRhdGFcbmRmX2RhdGEgPC0gcmVhZF9jc3YoXCJkYXRhL3N0ZXBzX2NsZWFuLmNzdlwiKVxuXG4jIFF1aWNrIGNoZWNrXG5nbGltcHNlKGRmX2RhdGEpIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjpbImV4XzEiLCJleF8yIiwiZXhfMyIsImV4XzQiLCJleF81IiwiZXhfNiIsImV4XzciLCJleF84IiwiZXhfOSIsImV4XzEwIiwiZXhfMTEiLCJleF8xMiIsImV4XzEzIiwiZXhfMTQiXSwibGFiZWwiOiJzZXR1cCIsInNldHVwIjp0cnVlfSwiY29kZSI6IlxubGlicmFyeShkcGx5cilcbmxpYnJhcnkodGlkeXIpXG5saWJyYXJ5KHJlYWRyKVxubGlicmFyeShnZ3Bsb3QyKVxuXG4jIExvYWQgdGhlIGRhdGFcbmRmX2NsZWFuIDwtIHJlYWRfY3N2KFwiZGF0YS9zdGVwc19jbGVhbi5jc3ZcIilcblxuIyBRdWljayBjaGVja1xuZ2xpbXBzZShkZl9jbGVhbikifQ==
 </script>
 <script type="exercise-setup-ex_6-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjpbImV4XzEiLCJleF8yIiwiZXhfMyIsImV4XzQiLCJleF81IiwiZXhfNiIsImV4XzciLCJleF84IiwiZXhfOSIsImV4XzEwIiwiZXhfMTEiLCJleF8xMiIsImV4XzEzIiwiZXhfMTQiXSwibGFiZWwiOiJzZXR1cCIsInNldHVwIjp0cnVlfSwiY29kZSI6IlxubGlicmFyeShkcGx5cilcbmxpYnJhcnkodGlkeXIpXG5saWJyYXJ5KHJlYWRyKVxubGlicmFyeShnZ3Bsb3QyKVxuXG4jIExvYWQgdGhlIGRhdGFcbmRmX2RhdGEgPC0gcmVhZF9jc3YoXCJkYXRhL3N0ZXBzX2NsZWFuLmNzdlwiKVxuXG4jIFF1aWNrIGNoZWNrXG5nbGltcHNlKGRmX2RhdGEpIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjpbImV4XzEiLCJleF8yIiwiZXhfMyIsImV4XzQiLCJleF81IiwiZXhfNiIsImV4XzciLCJleF84IiwiZXhfOSIsImV4XzEwIiwiZXhfMTEiLCJleF8xMiIsImV4XzEzIiwiZXhfMTQiXSwibGFiZWwiOiJzZXR1cCIsInNldHVwIjp0cnVlfSwiY29kZSI6IlxubGlicmFyeShkcGx5cilcbmxpYnJhcnkodGlkeXIpXG5saWJyYXJ5KHJlYWRyKVxubGlicmFyeShnZ3Bsb3QyKVxuXG4jIExvYWQgdGhlIGRhdGFcbmRmX2NsZWFuIDwtIHJlYWRfY3N2KFwiZGF0YS9zdGVwc19jbGVhbi5jc3ZcIilcblxuIyBRdWljayBjaGVja1xuZ2xpbXBzZShkZl9jbGVhbikifQ==
 </script>
 <script type="exercise-setup-ex_7-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjpbImV4XzEiLCJleF8yIiwiZXhfMyIsImV4XzQiLCJleF81IiwiZXhfNiIsImV4XzciLCJleF84IiwiZXhfOSIsImV4XzEwIiwiZXhfMTEiLCJleF8xMiIsImV4XzEzIiwiZXhfMTQiXSwibGFiZWwiOiJzZXR1cCIsInNldHVwIjp0cnVlfSwiY29kZSI6IlxubGlicmFyeShkcGx5cilcbmxpYnJhcnkodGlkeXIpXG5saWJyYXJ5KHJlYWRyKVxubGlicmFyeShnZ3Bsb3QyKVxuXG4jIExvYWQgdGhlIGRhdGFcbmRmX2RhdGEgPC0gcmVhZF9jc3YoXCJkYXRhL3N0ZXBzX2NsZWFuLmNzdlwiKVxuXG4jIFF1aWNrIGNoZWNrXG5nbGltcHNlKGRmX2RhdGEpIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjpbImV4XzEiLCJleF8yIiwiZXhfMyIsImV4XzQiLCJleF81IiwiZXhfNiIsImV4XzciLCJleF84IiwiZXhfOSIsImV4XzEwIiwiZXhfMTEiLCJleF8xMiIsImV4XzEzIiwiZXhfMTQiXSwibGFiZWwiOiJzZXR1cCIsInNldHVwIjp0cnVlfSwiY29kZSI6IlxubGlicmFyeShkcGx5cilcbmxpYnJhcnkodGlkeXIpXG5saWJyYXJ5KHJlYWRyKVxubGlicmFyeShnZ3Bsb3QyKVxuXG4jIExvYWQgdGhlIGRhdGFcbmRmX2NsZWFuIDwtIHJlYWRfY3N2KFwiZGF0YS9zdGVwc19jbGVhbi5jc3ZcIilcblxuIyBRdWljayBjaGVja1xuZ2xpbXBzZShkZl9jbGVhbikifQ==
 </script>
 <script type="exercise-setup-ex_8-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjpbImV4XzEiLCJleF8yIiwiZXhfMyIsImV4XzQiLCJleF81IiwiZXhfNiIsImV4XzciLCJleF84IiwiZXhfOSIsImV4XzEwIiwiZXhfMTEiLCJleF8xMiIsImV4XzEzIiwiZXhfMTQiXSwibGFiZWwiOiJzZXR1cCIsInNldHVwIjp0cnVlfSwiY29kZSI6IlxubGlicmFyeShkcGx5cilcbmxpYnJhcnkodGlkeXIpXG5saWJyYXJ5KHJlYWRyKVxubGlicmFyeShnZ3Bsb3QyKVxuXG4jIExvYWQgdGhlIGRhdGFcbmRmX2RhdGEgPC0gcmVhZF9jc3YoXCJkYXRhL3N0ZXBzX2NsZWFuLmNzdlwiKVxuXG4jIFF1aWNrIGNoZWNrXG5nbGltcHNlKGRmX2RhdGEpIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjpbImV4XzEiLCJleF8yIiwiZXhfMyIsImV4XzQiLCJleF81IiwiZXhfNiIsImV4XzciLCJleF84IiwiZXhfOSIsImV4XzEwIiwiZXhfMTEiLCJleF8xMiIsImV4XzEzIiwiZXhfMTQiXSwibGFiZWwiOiJzZXR1cCIsInNldHVwIjp0cnVlfSwiY29kZSI6IlxubGlicmFyeShkcGx5cilcbmxpYnJhcnkodGlkeXIpXG5saWJyYXJ5KHJlYWRyKVxubGlicmFyeShnZ3Bsb3QyKVxuXG4jIExvYWQgdGhlIGRhdGFcbmRmX2NsZWFuIDwtIHJlYWRfY3N2KFwiZGF0YS9zdGVwc19jbGVhbi5jc3ZcIilcblxuIyBRdWljayBjaGVja1xuZ2xpbXBzZShkZl9jbGVhbikifQ==
 </script>
 <script type="exercise-setup-ex_9-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjpbImV4XzEiLCJleF8yIiwiZXhfMyIsImV4XzQiLCJleF81IiwiZXhfNiIsImV4XzciLCJleF84IiwiZXhfOSIsImV4XzEwIiwiZXhfMTEiLCJleF8xMiIsImV4XzEzIiwiZXhfMTQiXSwibGFiZWwiOiJzZXR1cCIsInNldHVwIjp0cnVlfSwiY29kZSI6IlxubGlicmFyeShkcGx5cilcbmxpYnJhcnkodGlkeXIpXG5saWJyYXJ5KHJlYWRyKVxubGlicmFyeShnZ3Bsb3QyKVxuXG4jIExvYWQgdGhlIGRhdGFcbmRmX2RhdGEgPC0gcmVhZF9jc3YoXCJkYXRhL3N0ZXBzX2NsZWFuLmNzdlwiKVxuXG4jIFF1aWNrIGNoZWNrXG5nbGltcHNlKGRmX2RhdGEpIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjpbImV4XzEiLCJleF8yIiwiZXhfMyIsImV4XzQiLCJleF81IiwiZXhfNiIsImV4XzciLCJleF84IiwiZXhfOSIsImV4XzEwIiwiZXhfMTEiLCJleF8xMiIsImV4XzEzIiwiZXhfMTQiXSwibGFiZWwiOiJzZXR1cCIsInNldHVwIjp0cnVlfSwiY29kZSI6IlxubGlicmFyeShkcGx5cilcbmxpYnJhcnkodGlkeXIpXG5saWJyYXJ5KHJlYWRyKVxubGlicmFyeShnZ3Bsb3QyKVxuXG4jIExvYWQgdGhlIGRhdGFcbmRmX2NsZWFuIDwtIHJlYWRfY3N2KFwiZGF0YS9zdGVwc19jbGVhbi5jc3ZcIilcblxuIyBRdWljayBjaGVja1xuZ2xpbXBzZShkZl9jbGVhbikifQ==
 </script>
 <script type="exercise-setup-ex_10-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjpbImV4XzEiLCJleF8yIiwiZXhfMyIsImV4XzQiLCJleF81IiwiZXhfNiIsImV4XzciLCJleF84IiwiZXhfOSIsImV4XzEwIiwiZXhfMTEiLCJleF8xMiIsImV4XzEzIiwiZXhfMTQiXSwibGFiZWwiOiJzZXR1cCIsInNldHVwIjp0cnVlfSwiY29kZSI6IlxubGlicmFyeShkcGx5cilcbmxpYnJhcnkodGlkeXIpXG5saWJyYXJ5KHJlYWRyKVxubGlicmFyeShnZ3Bsb3QyKVxuXG4jIExvYWQgdGhlIGRhdGFcbmRmX2RhdGEgPC0gcmVhZF9jc3YoXCJkYXRhL3N0ZXBzX2NsZWFuLmNzdlwiKVxuXG4jIFF1aWNrIGNoZWNrXG5nbGltcHNlKGRmX2RhdGEpIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjpbImV4XzEiLCJleF8yIiwiZXhfMyIsImV4XzQiLCJleF81IiwiZXhfNiIsImV4XzciLCJleF84IiwiZXhfOSIsImV4XzEwIiwiZXhfMTEiLCJleF8xMiIsImV4XzEzIiwiZXhfMTQiXSwibGFiZWwiOiJzZXR1cCIsInNldHVwIjp0cnVlfSwiY29kZSI6IlxubGlicmFyeShkcGx5cilcbmxpYnJhcnkodGlkeXIpXG5saWJyYXJ5KHJlYWRyKVxubGlicmFyeShnZ3Bsb3QyKVxuXG4jIExvYWQgdGhlIGRhdGFcbmRmX2NsZWFuIDwtIHJlYWRfY3N2KFwiZGF0YS9zdGVwc19jbGVhbi5jc3ZcIilcblxuIyBRdWljayBjaGVja1xuZ2xpbXBzZShkZl9jbGVhbikifQ==
 </script>
 <script type="exercise-setup-ex_11-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjpbImV4XzEiLCJleF8yIiwiZXhfMyIsImV4XzQiLCJleF81IiwiZXhfNiIsImV4XzciLCJleF84IiwiZXhfOSIsImV4XzEwIiwiZXhfMTEiLCJleF8xMiIsImV4XzEzIiwiZXhfMTQiXSwibGFiZWwiOiJzZXR1cCIsInNldHVwIjp0cnVlfSwiY29kZSI6IlxubGlicmFyeShkcGx5cilcbmxpYnJhcnkodGlkeXIpXG5saWJyYXJ5KHJlYWRyKVxubGlicmFyeShnZ3Bsb3QyKVxuXG4jIExvYWQgdGhlIGRhdGFcbmRmX2RhdGEgPC0gcmVhZF9jc3YoXCJkYXRhL3N0ZXBzX2NsZWFuLmNzdlwiKVxuXG4jIFF1aWNrIGNoZWNrXG5nbGltcHNlKGRmX2RhdGEpIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjpbImV4XzEiLCJleF8yIiwiZXhfMyIsImV4XzQiLCJleF81IiwiZXhfNiIsImV4XzciLCJleF84IiwiZXhfOSIsImV4XzEwIiwiZXhfMTEiLCJleF8xMiIsImV4XzEzIiwiZXhfMTQiXSwibGFiZWwiOiJzZXR1cCIsInNldHVwIjp0cnVlfSwiY29kZSI6IlxubGlicmFyeShkcGx5cilcbmxpYnJhcnkodGlkeXIpXG5saWJyYXJ5KHJlYWRyKVxubGlicmFyeShnZ3Bsb3QyKVxuXG4jIExvYWQgdGhlIGRhdGFcbmRmX2NsZWFuIDwtIHJlYWRfY3N2KFwiZGF0YS9zdGVwc19jbGVhbi5jc3ZcIilcblxuIyBRdWljayBjaGVja1xuZ2xpbXBzZShkZl9jbGVhbikifQ==
 </script>
 <script type="exercise-setup-ex_12-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjpbImV4XzEiLCJleF8yIiwiZXhfMyIsImV4XzQiLCJleF81IiwiZXhfNiIsImV4XzciLCJleF84IiwiZXhfOSIsImV4XzEwIiwiZXhfMTEiLCJleF8xMiIsImV4XzEzIiwiZXhfMTQiXSwibGFiZWwiOiJzZXR1cCIsInNldHVwIjp0cnVlfSwiY29kZSI6IlxubGlicmFyeShkcGx5cilcbmxpYnJhcnkodGlkeXIpXG5saWJyYXJ5KHJlYWRyKVxubGlicmFyeShnZ3Bsb3QyKVxuXG4jIExvYWQgdGhlIGRhdGFcbmRmX2RhdGEgPC0gcmVhZF9jc3YoXCJkYXRhL3N0ZXBzX2NsZWFuLmNzdlwiKVxuXG4jIFF1aWNrIGNoZWNrXG5nbGltcHNlKGRmX2RhdGEpIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjpbImV4XzEiLCJleF8yIiwiZXhfMyIsImV4XzQiLCJleF81IiwiZXhfNiIsImV4XzciLCJleF84IiwiZXhfOSIsImV4XzEwIiwiZXhfMTEiLCJleF8xMiIsImV4XzEzIiwiZXhfMTQiXSwibGFiZWwiOiJzZXR1cCIsInNldHVwIjp0cnVlfSwiY29kZSI6IlxubGlicmFyeShkcGx5cilcbmxpYnJhcnkodGlkeXIpXG5saWJyYXJ5KHJlYWRyKVxubGlicmFyeShnZ3Bsb3QyKVxuXG4jIExvYWQgdGhlIGRhdGFcbmRmX2NsZWFuIDwtIHJlYWRfY3N2KFwiZGF0YS9zdGVwc19jbGVhbi5jc3ZcIilcblxuIyBRdWljayBjaGVja1xuZ2xpbXBzZShkZl9jbGVhbikifQ==
 </script>
 <script type="exercise-setup-ex_13-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjpbImV4XzEiLCJleF8yIiwiZXhfMyIsImV4XzQiLCJleF81IiwiZXhfNiIsImV4XzciLCJleF84IiwiZXhfOSIsImV4XzEwIiwiZXhfMTEiLCJleF8xMiIsImV4XzEzIiwiZXhfMTQiXSwibGFiZWwiOiJzZXR1cCIsInNldHVwIjp0cnVlfSwiY29kZSI6IlxubGlicmFyeShkcGx5cilcbmxpYnJhcnkodGlkeXIpXG5saWJyYXJ5KHJlYWRyKVxubGlicmFyeShnZ3Bsb3QyKVxuXG4jIExvYWQgdGhlIGRhdGFcbmRmX2RhdGEgPC0gcmVhZF9jc3YoXCJkYXRhL3N0ZXBzX2NsZWFuLmNzdlwiKVxuXG4jIFF1aWNrIGNoZWNrXG5nbGltcHNlKGRmX2RhdGEpIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjpbImV4XzEiLCJleF8yIiwiZXhfMyIsImV4XzQiLCJleF81IiwiZXhfNiIsImV4XzciLCJleF84IiwiZXhfOSIsImV4XzEwIiwiZXhfMTEiLCJleF8xMiIsImV4XzEzIiwiZXhfMTQiXSwibGFiZWwiOiJzZXR1cCIsInNldHVwIjp0cnVlfSwiY29kZSI6IlxubGlicmFyeShkcGx5cilcbmxpYnJhcnkodGlkeXIpXG5saWJyYXJ5KHJlYWRyKVxubGlicmFyeShnZ3Bsb3QyKVxuXG4jIExvYWQgdGhlIGRhdGFcbmRmX2NsZWFuIDwtIHJlYWRfY3N2KFwiZGF0YS9zdGVwc19jbGVhbi5jc3ZcIilcblxuIyBRdWljayBjaGVja1xuZ2xpbXBzZShkZl9jbGVhbikifQ==
 </script>
 <script type="exercise-setup-ex_14-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjpbImV4XzEiLCJleF8yIiwiZXhfMyIsImV4XzQiLCJleF81IiwiZXhfNiIsImV4XzciLCJleF84IiwiZXhfOSIsImV4XzEwIiwiZXhfMTEiLCJleF8xMiIsImV4XzEzIiwiZXhfMTQiXSwibGFiZWwiOiJzZXR1cCIsInNldHVwIjp0cnVlfSwiY29kZSI6IlxubGlicmFyeShkcGx5cilcbmxpYnJhcnkodGlkeXIpXG5saWJyYXJ5KHJlYWRyKVxubGlicmFyeShnZ3Bsb3QyKVxuXG4jIExvYWQgdGhlIGRhdGFcbmRmX2RhdGEgPC0gcmVhZF9jc3YoXCJkYXRhL3N0ZXBzX2NsZWFuLmNzdlwiKVxuXG4jIFF1aWNrIGNoZWNrXG5nbGltcHNlKGRmX2RhdGEpIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjpbImV4XzEiLCJleF8yIiwiZXhfMyIsImV4XzQiLCJleF81IiwiZXhfNiIsImV4XzciLCJleF84IiwiZXhfOSIsImV4XzEwIiwiZXhfMTEiLCJleF8xMiIsImV4XzEzIiwiZXhfMTQiXSwibGFiZWwiOiJzZXR1cCIsInNldHVwIjp0cnVlfSwiY29kZSI6IlxubGlicmFyeShkcGx5cilcbmxpYnJhcnkodGlkeXIpXG5saWJyYXJ5KHJlYWRyKVxubGlicmFyeShnZ3Bsb3QyKVxuXG4jIExvYWQgdGhlIGRhdGFcbmRmX2NsZWFuIDwtIHJlYWRfY3N2KFwiZGF0YS9zdGVwc19jbGVhbi5jc3ZcIilcblxuIyBRdWljayBjaGVja1xuZ2xpbXBzZShkZl9jbGVhbikifQ==
 </script>
 </div>
 <div class="cell">
@@ -421,7 +421,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjpbImV4XzEiLCJleF8yIiwi
 
 </div>
 <script type="webr-3-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImxhYmVsIjoic2V0dXAtc2Vzc2lvbiJ9LCJjb2RlIjoiXG5saWJyYXJ5KGRwbHlyKVxubGlicmFyeSh0aWR5cilcbmxpYnJhcnkocmVhZHIpXG5cbiMgTG9hZCB0aGUgZGF0YVxuZGZfZGF0YSA8LSByZWFkX2NzdihcImRhdGEvc3RlcHNfY2xlYW4uY3N2XCIpXG5cbiMgUXVpY2sgY2hlY2tcbmdsaW1wc2UoZGZfZGF0YSkifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImxhYmVsIjoic2V0dXAtc2Vzc2lvbiJ9LCJjb2RlIjoiXG5saWJyYXJ5KGRwbHlyKVxubGlicmFyeSh0aWR5cilcbmxpYnJhcnkocmVhZHIpXG5cbiMgTG9hZCB0aGUgZGF0YVxuZGZfY2xlYW4gPC0gcmVhZF9jc3YoXCJkYXRhL3N0ZXBzX2NsZWFuLmNzdlwiKVxuXG4jIFF1aWNrIGNoZWNrXG5nbGltcHNlKGRmX2NsZWFuKSJ9
 </script>
 </div>
 </div>
@@ -443,7 +443,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImxhYmVsIjoic2V0dXAtc2Vzc2lvbiJ9LCJj
 
 </div>
 <script type="webr-4-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMSIsImxhYmVsIjoiZXgtMSJ9LCJjb2RlIjoiXG4jIFNlbGVjdCBzcGVjaWZpYyBjb2x1bW5zXG5kZl9zZWxlY3RlZCA8LSBkZl9kYXRhIHw+XG4gIHNlbGVjdChfX19fX18sIF9fX19fXywgX19fX19fKVxuXG4jIENoZWNrIHRoZSByZXN1bHRcbmhlYWQoZGZfc2VsZWN0ZWQpIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMSIsImxhYmVsIjoiZXgtMSJ9LCJjb2RlIjoiXG4jIFNlbGVjdCBzcGVjaWZpYyBjb2x1bW5zXG5kZl9zZWxlY3RlZCA8LSBkZl9jbGVhbiB8PlxuICBzZWxlY3QoX19fX19fLCBfX19fX18sIF9fX19fXylcblxuIyBDaGVjayB0aGUgcmVzdWx0XG5oZWFkKGRmX3NlbGVjdGVkKSJ9
 </script>
 </div>
 </div>
@@ -460,14 +460,14 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMSIsImxhYmVsIjoi
 <div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_1">
 <code id="interpolate-6" class="solution-code d-none">
 # Select specific columns
-df_selected &lt;- df_data |&gt;
+df_selected &lt;- df_clean |&gt;
   select(id, trt, lsas_screen) #&lt;1&gt;
 
 # Check the result
 head(df_selected)</code>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-7"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="interpolate-7-1"><a href="#interpolate-7-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="interpolate-7-2"><a href="#interpolate-7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Select specific columns</span></span>
-<span id="interpolate-7-3"><a href="#interpolate-7-3" aria-hidden="true" tabindex="-1"></a>df_selected <span class="ot">&lt;-</span> df_data <span class="sc">|&gt;</span></span>
+<span id="interpolate-7-3"><a href="#interpolate-7-3" aria-hidden="true" tabindex="-1"></a>df_selected <span class="ot">&lt;-</span> df_clean <span class="sc">|&gt;</span></span>
 <a class="code-annotation-anchor" data-target-cell="interpolate-7" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="interpolate-7-4" class="code-annotation-target"><a href="#interpolate-7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id, trt, lsas_screen)</span>
 <span id="interpolate-7-5"><a href="#interpolate-7-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="interpolate-7-6"><a href="#interpolate-7-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the result</span></span>
@@ -505,7 +505,7 @@ eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4
 
 </div>
 <script type="webr-9-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMiIsImxhYmVsIjoiZXgtMiJ9LCJjb2RlIjoiXG4jIFNlbGVjdCB1c2luZyBoZWxwZXIgZnVuY3Rpb25zXG5kZl9waHE5IDwtIGRmX2RhdGEgfD5cbiAgc2VsZWN0KGlkLCB0cnQsIF9fX19fXylcblxuIyBIb3cgbWFueSBjb2x1bW5zP1xubmNvbChkZl9waHE5KVxubmFtZXMoZGZfcGhxOSkifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMiIsImxhYmVsIjoiZXgtMiJ9LCJjb2RlIjoiXG4jIFNlbGVjdCB1c2luZyBoZWxwZXIgZnVuY3Rpb25zXG5kZl9waHE5IDwtIGRmX2NsZWFuIHw+XG4gIHNlbGVjdChpZCwgdHJ0LCBfX19fX18pXG5cbiMgSG93IG1hbnkgY29sdW1ucz9cbm5jb2woZGZfcGhxOSlcbm5hbWVzKGRmX3BocTkpIn0=
 </script>
 </div>
 </div>
@@ -522,7 +522,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMiIsImxhYmVsIjoi
 <div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_2">
 <code id="interpolate-11" class="solution-code d-none">
 # Select using helper functions
-df_phq9 &lt;- df_data |&gt;
+df_phq9 &lt;- df_clean |&gt;
   select(id, trt, starts_with("phq9")) #&lt;1&gt;
 
 # How many columns?
@@ -530,7 +530,7 @@ ncol(df_phq9)
 names(df_phq9)</code>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-12"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="interpolate-12-1"><a href="#interpolate-12-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="interpolate-12-2"><a href="#interpolate-12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Select using helper functions</span></span>
-<span id="interpolate-12-3"><a href="#interpolate-12-3" aria-hidden="true" tabindex="-1"></a>df_phq9 <span class="ot">&lt;-</span> df_data <span class="sc">|&gt;</span></span>
+<span id="interpolate-12-3"><a href="#interpolate-12-3" aria-hidden="true" tabindex="-1"></a>df_phq9 <span class="ot">&lt;-</span> df_clean <span class="sc">|&gt;</span></span>
 <a class="code-annotation-anchor" data-target-cell="interpolate-12" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="interpolate-12-4" class="code-annotation-target"><a href="#interpolate-12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id, trt, <span class="fu">starts_with</span>(<span class="st">"phq9"</span>))</span>
 <span id="interpolate-12-5"><a href="#interpolate-12-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="interpolate-12-6"><a href="#interpolate-12-6" aria-hidden="true" tabindex="-1"></a><span class="co"># How many columns?</span></span>
@@ -574,7 +574,7 @@ eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4
 
 </div>
 <script type="webr-14-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMyIsImxhYmVsIjoiZXgtMyJ9LCJjb2RlIjoiXG4jIEZpbHRlciBmb3Igb25lIGdyb3VwXG5kZl9ndWlkZWQgPC0gZGZfZGF0YSB8PlxuICBmaWx0ZXIodHJ0ID09IF9fX19fXylcblxuIyBIb3cgbWFueSBwYXJ0aWNpcGFudHM/XG5ucm93KGRmX2d1aWRlZCkifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMyIsImxhYmVsIjoiZXgtMyJ9LCJjb2RlIjoiXG4jIEZpbHRlciBmb3Igb25lIGdyb3VwXG5kZl9ndWlkZWQgPC0gZGZfY2xlYW4gfD5cbiAgZmlsdGVyKHRydCA9PSBfX19fX18pXG5cbiMgSG93IG1hbnkgcGFydGljaXBhbnRzP1xubnJvdyhkZl9ndWlkZWQpIn0=
 </script>
 </div>
 </div>
@@ -592,14 +592,14 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMyIsImxhYmVsIjoi
 <div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_3">
 <code id="interpolate-16" class="solution-code d-none">
 # Filter for one group
-df_guided &lt;- df_data |&gt;
+df_guided &lt;- df_clean |&gt;
   filter(trt == "therapist-guided") #&lt;1&gt;
 
 # How many participants?
 nrow(df_guided)</code>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-17"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="interpolate-17-1"><a href="#interpolate-17-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="interpolate-17-2"><a href="#interpolate-17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter for one group</span></span>
-<span id="interpolate-17-3"><a href="#interpolate-17-3" aria-hidden="true" tabindex="-1"></a>df_guided <span class="ot">&lt;-</span> df_data <span class="sc">|&gt;</span></span>
+<span id="interpolate-17-3"><a href="#interpolate-17-3" aria-hidden="true" tabindex="-1"></a>df_guided <span class="ot">&lt;-</span> df_clean <span class="sc">|&gt;</span></span>
 <a class="code-annotation-anchor" data-target-cell="interpolate-17" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="interpolate-17-4" class="code-annotation-target"><a href="#interpolate-17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(trt <span class="sc">==</span> <span class="st">"therapist-guided"</span>)</span>
 <span id="interpolate-17-5"><a href="#interpolate-17-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="interpolate-17-6"><a href="#interpolate-17-6" aria-hidden="true" tabindex="-1"></a><span class="co"># How many participants?</span></span>
@@ -641,7 +641,7 @@ eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4
 
 </div>
 <script type="webr-19-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNCIsImxhYmVsIjoiZXgtNCJ9LCJjb2RlIjoiXG4jIEZpbHRlciB3aXRoIG11bHRpcGxlIGNvbmRpdGlvbnNcbmRmX2d1aWRlZF9zZXZlcmUgPC0gZGZfZGF0YSB8PlxuICBmaWx0ZXIodHJ0ID09IF9fX19fXywgbHNhc19zY3JlZW4gPj0gX19fX19fKVxuXG5ucm93KGRmX2d1aWRlZF9zZXZlcmUpIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNCIsImxhYmVsIjoiZXgtNCJ9LCJjb2RlIjoiXG4jIEZpbHRlciB3aXRoIG11bHRpcGxlIGNvbmRpdGlvbnNcbmRmX2d1aWRlZF9zZXZlcmUgPC0gZGZfY2xlYW4gfD5cbiAgZmlsdGVyKHRydCA9PSBfX19fX18sIGxzYXNfc2NyZWVuID49IF9fX19fXylcblxubnJvdyhkZl9ndWlkZWRfc2V2ZXJlKSJ9
 </script>
 </div>
 </div>
@@ -659,13 +659,13 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNCIsImxhYmVsIjoi
 <div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_4">
 <code id="interpolate-21" class="solution-code d-none">
 # Filter with multiple conditions
-df_guided_severe &lt;- df_data |&gt;
+df_guided_severe &lt;- df_clean |&gt;
   filter(trt == "therapist-guided", lsas_screen &gt;= 60) #&lt;1&gt;
 
 nrow(df_guided_severe)</code>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-22"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="interpolate-22-1"><a href="#interpolate-22-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="interpolate-22-2"><a href="#interpolate-22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter with multiple conditions</span></span>
-<span id="interpolate-22-3"><a href="#interpolate-22-3" aria-hidden="true" tabindex="-1"></a>df_guided_severe <span class="ot">&lt;-</span> df_data <span class="sc">|&gt;</span></span>
+<span id="interpolate-22-3"><a href="#interpolate-22-3" aria-hidden="true" tabindex="-1"></a>df_guided_severe <span class="ot">&lt;-</span> df_clean <span class="sc">|&gt;</span></span>
 <a class="code-annotation-anchor" data-target-cell="interpolate-22" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="interpolate-22-4" class="code-annotation-target"><a href="#interpolate-22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(trt <span class="sc">==</span> <span class="st">"therapist-guided"</span>, lsas_screen <span class="sc">&gt;=</span> <span class="dv">60</span>)</span>
 <span id="interpolate-22-5"><a href="#interpolate-22-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="interpolate-22-6"><a href="#interpolate-22-6" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(df_guided_severe)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -706,7 +706,7 @@ eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4
 
 </div>
 <script type="webr-24-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNSIsImxhYmVsIjoiZXgtNSJ9LCJjb2RlIjoiXG4jIENyZWF0ZSBjaGFuZ2Ugc2NvcmVcbmRmX3dpdGhfY2hhbmdlIDwtIGRmX2RhdGEgfD5cbiAgc2VsZWN0KGlkLCB0cnQsIGxzYXNfc2NyZWVuLCBsc2FzX3Bvc3QpIHw+XG4gIG11dGF0ZShcbiAgICBsc2FzX2NoYW5nZSA9IF9fX19fXyAtIF9fX19fX1xuICApXG5cbmhlYWQoZGZfd2l0aF9jaGFuZ2UpIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNSIsImxhYmVsIjoiZXgtNSJ9LCJjb2RlIjoiXG4jIENyZWF0ZSBjaGFuZ2Ugc2NvcmVcbmRmX3dpdGhfY2hhbmdlIDwtIGRmX2NsZWFuIHw+XG4gIHNlbGVjdChpZCwgdHJ0LCBsc2FzX3NjcmVlbiwgbHNhc19wb3N0KSB8PlxuICBtdXRhdGUoXG4gICAgbHNhc19jaGFuZ2UgPSBfX19fX18gLSBfX19fX19cbiAgKVxuXG5oZWFkKGRmX3dpdGhfY2hhbmdlKSJ9
 </script>
 </div>
 </div>
@@ -724,7 +724,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNSIsImxhYmVsIjoi
 <div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_5">
 <code id="interpolate-26" class="solution-code d-none">
 # Create change score
-df_with_change &lt;- df_data |&gt;
+df_with_change &lt;- df_clean |&gt;
   select(id, trt, lsas_screen, lsas_post) |&gt;
   mutate(
     lsas_change = lsas_post - lsas_screen #&lt;1&gt;
@@ -733,7 +733,7 @@ df_with_change &lt;- df_data |&gt;
 head(df_with_change)</code>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-27"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="interpolate-27-1"><a href="#interpolate-27-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="interpolate-27-2"><a href="#interpolate-27-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Create change score</span></span>
-<span id="interpolate-27-3"><a href="#interpolate-27-3" aria-hidden="true" tabindex="-1"></a>df_with_change <span class="ot">&lt;-</span> df_data <span class="sc">|&gt;</span></span>
+<span id="interpolate-27-3"><a href="#interpolate-27-3" aria-hidden="true" tabindex="-1"></a>df_with_change <span class="ot">&lt;-</span> df_clean <span class="sc">|&gt;</span></span>
 <span id="interpolate-27-4"><a href="#interpolate-27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id, trt, lsas_screen, lsas_post) <span class="sc">|&gt;</span></span>
 <span id="interpolate-27-5"><a href="#interpolate-27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
 <a class="code-annotation-anchor" data-target-cell="interpolate-27" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="interpolate-27-6" class="code-annotation-target"><a href="#interpolate-27-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">lsas_change =</span> lsas_post <span class="sc">-</span> lsas_screen</span>
@@ -780,7 +780,7 @@ eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4
 
 </div>
 <script type="webr-29-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNiIsImxhYmVsIjoiZXgtNiJ9LCJjb2RlIjoiXG4jIENyZWF0ZSBjYXRlZ29yaWNhbCB2YXJpYWJsZVxuZGZfd2l0aF9zZXZlcml0eSA8LSBkZl9kYXRhIHw+XG4gIHNlbGVjdChpZCwgZ2FkX3NjcmVlbikgfD5cbiAgbXV0YXRlKFxuICAgIGdhZF9zZXZlcml0eSA9IGNhc2Vfd2hlbihcbiAgICAgIGdhZF9zY3JlZW4gPCA1IH4gXCJfX19fX19cIixcbiAgICAgIGdhZF9zY3JlZW4gPCAxMCB+IFwiX19fX19fXCIsXG4gICAgICBnYWRfc2NyZWVuIDwgMTUgfiBcIl9fX19fX1wiLFxuICAgICAgZ2FkX3NjcmVlbiA+PSAxNSB+IFwiX19fX19fXCJcbiAgICApXG4gIClcblxuIyBDaGVjayB0aGUgY2F0ZWdvcmllc1xudGFibGUoZGZfd2l0aF9zZXZlcml0eSRnYWRfc2V2ZXJpdHkpIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNiIsImxhYmVsIjoiZXgtNiJ9LCJjb2RlIjoiXG4jIENyZWF0ZSBjYXRlZ29yaWNhbCB2YXJpYWJsZVxuZGZfd2l0aF9zZXZlcml0eSA8LSBkZl9jbGVhbiB8PlxuICBzZWxlY3QoaWQsIGdhZF9zY3JlZW4pIHw+XG4gIG11dGF0ZShcbiAgICBnYWRfc2V2ZXJpdHkgPSBjYXNlX3doZW4oXG4gICAgICBnYWRfc2NyZWVuIDwgNSB+IFwiX19fX19fXCIsXG4gICAgICBnYWRfc2NyZWVuIDwgMTAgfiBcIl9fX19fX1wiLFxuICAgICAgZ2FkX3NjcmVlbiA8IDE1IH4gXCJfX19fX19cIixcbiAgICAgIGdhZF9zY3JlZW4gPj0gMTUgfiBcIl9fX19fX1wiXG4gICAgKVxuICApXG5cbiMgQ2hlY2sgdGhlIGNhdGVnb3JpZXNcbnRhYmxlKGRmX3dpdGhfc2V2ZXJpdHkkZ2FkX3NldmVyaXR5KSJ9
 </script>
 </div>
 </div>
@@ -799,7 +799,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNiIsImxhYmVsIjoi
 <div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_6">
 <code id="interpolate-31" class="solution-code d-none">
 # Create categorical variable
-df_with_severity &lt;- df_data |&gt;
+df_with_severity &lt;- df_clean |&gt;
   select(id, gad_screen) |&gt;
   mutate(
     gad_severity = case_when(
@@ -814,7 +814,7 @@ df_with_severity &lt;- df_data |&gt;
 table(df_with_severity$gad_severity)</code>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-32"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="interpolate-32-1"><a href="#interpolate-32-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="interpolate-32-2"><a href="#interpolate-32-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Create categorical variable</span></span>
-<span id="interpolate-32-3"><a href="#interpolate-32-3" aria-hidden="true" tabindex="-1"></a>df_with_severity <span class="ot">&lt;-</span> df_data <span class="sc">|&gt;</span></span>
+<span id="interpolate-32-3"><a href="#interpolate-32-3" aria-hidden="true" tabindex="-1"></a>df_with_severity <span class="ot">&lt;-</span> df_clean <span class="sc">|&gt;</span></span>
 <span id="interpolate-32-4"><a href="#interpolate-32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id, gad_screen) <span class="sc">|&gt;</span></span>
 <span id="interpolate-32-5"><a href="#interpolate-32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
 <span id="interpolate-32-6"><a href="#interpolate-32-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">gad_severity =</span> <span class="fu">case_when</span>(</span>
@@ -876,7 +876,7 @@ eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4
 
 </div>
 <script type="webr-34-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNyIsImxhYmVsIjoiZXgtNyJ9LCJjb2RlIjoiXG4jIENyZWF0ZSBvcmRlcmVkIGZhY3RvclxuZGZfd2l0aF9mYWN0b3IgPC0gZGZfZGF0YSB8PlxuICBzZWxlY3QoaWQsIHRydCkgfD5cbiAgbXV0YXRlKFxuICAgIHRydF9mYWN0b3IgPSBmYWN0b3IoXG4gICAgICB0cnQsXG4gICAgICBsZXZlbHMgPSBjKFwiX19fX19fXCIsIFwiX19fX19fXCIsIFwiX19fX19fXCIpXG4gICAgKVxuICApXG5cbiMgQ2hlY2sgdGhlIHJlc3VsdFxudGFibGUoZGZfd2l0aF9mYWN0b3IkdHJ0X2ZhY3RvcilcbmxldmVscyhkZl93aXRoX2ZhY3RvciR0cnRfZmFjdG9yKSJ9
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNyIsImxhYmVsIjoiZXgtNyJ9LCJjb2RlIjoiXG4jIENyZWF0ZSBvcmRlcmVkIGZhY3RvclxuZGZfd2l0aF9mYWN0b3IgPC0gZGZfY2xlYW4gfD5cbiAgc2VsZWN0KGlkLCB0cnQpIHw+XG4gIG11dGF0ZShcbiAgICB0cnRfZmFjdG9yID0gZmFjdG9yKFxuICAgICAgdHJ0LFxuICAgICAgbGV2ZWxzID0gYyhcIl9fX19fX1wiLCBcIl9fX19fX1wiLCBcIl9fX19fX1wiKVxuICAgIClcbiAgKVxuXG4jIENoZWNrIHRoZSByZXN1bHRcbnRhYmxlKGRmX3dpdGhfZmFjdG9yJHRydF9mYWN0b3IpXG5sZXZlbHMoZGZfd2l0aF9mYWN0b3IkdHJ0X2ZhY3RvcikifQ==
 </script>
 </div>
 </div>
@@ -897,7 +897,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNyIsImxhYmVsIjoi
 <div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_7">
 <code id="interpolate-36" class="solution-code d-none">
 # Create ordered factor
-df_with_factor &lt;- df_data |&gt;
+df_with_factor &lt;- df_clean |&gt;
   select(id, trt) |&gt;
   mutate(
     trt_factor = factor(
@@ -911,7 +911,7 @@ table(df_with_factor$trt_factor)
 levels(df_with_factor$trt_factor)</code>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-37"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="interpolate-37-1"><a href="#interpolate-37-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="interpolate-37-2"><a href="#interpolate-37-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Create ordered factor</span></span>
-<span id="interpolate-37-3"><a href="#interpolate-37-3" aria-hidden="true" tabindex="-1"></a>df_with_factor <span class="ot">&lt;-</span> df_data <span class="sc">|&gt;</span></span>
+<span id="interpolate-37-3"><a href="#interpolate-37-3" aria-hidden="true" tabindex="-1"></a>df_with_factor <span class="ot">&lt;-</span> df_clean <span class="sc">|&gt;</span></span>
 <span id="interpolate-37-4"><a href="#interpolate-37-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id, trt) <span class="sc">|&gt;</span></span>
 <span id="interpolate-37-5"><a href="#interpolate-37-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
 <span id="interpolate-37-6"><a href="#interpolate-37-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">trt_factor =</span> <span class="fu">factor</span>(</span>
@@ -960,7 +960,7 @@ eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4
 
 </div>
 <script type="webr-39-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfOCIsImxhYmVsIjoiZXgtOCJ9LCJjb2RlIjoiXG4jIEdyb3VwIGFuZCBzdW1tYXJpemVcbmdyb3VwX3N0YXRzIDwtIGRmX2RhdGEgfD5cbiAgZ3JvdXBfYnkoX19fX19fKSB8PlxuICBzdW1tYXJpemUoXG4gICAgbiA9IG4oKSxcbiAgICBtZWFuX2xzYXMgPSBtZWFuKF9fX19fXywgbmEucm0gPSBUUlVFKSxcbiAgICBzZF9sc2FzID0gc2QoX19fX19fLCBuYS5ybSA9IFRSVUUpLFxuICAgIC5ncm91cHMgPSBcImRyb3BcIlxuICApXG5cbmdyb3VwX3N0YXRzIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfOCIsImxhYmVsIjoiZXgtOCJ9LCJjb2RlIjoiXG4jIEdyb3VwIGFuZCBzdW1tYXJpemVcbmdyb3VwX3N0YXRzIDwtIGRmX2NsZWFuIHw+XG4gIGdyb3VwX2J5KF9fX19fXykgfD5cbiAgc3VtbWFyaXplKFxuICAgIG4gPSBuKCksXG4gICAgbWVhbl9sc2FzID0gbWVhbihfX19fX18sIG5hLnJtID0gVFJVRSksXG4gICAgc2RfbHNhcyA9IHNkKF9fX19fXywgbmEucm0gPSBUUlVFKSxcbiAgICAuZ3JvdXBzID0gXCJkcm9wXCJcbiAgKVxuXG5ncm91cF9zdGF0cyJ9
 </script>
 </div>
 </div>
@@ -986,7 +986,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfOCIsImxhYmVsIjoi
 <div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_8">
 <code id="interpolate-41" class="solution-code d-none">
 # Group and summarize
-group_stats &lt;- df_data |&gt;
+group_stats &lt;- df_clean |&gt;
   group_by(trt) |&gt;  #&lt;1&gt;
   summarize(
     n = n(),  #&lt;2&gt;
@@ -998,7 +998,7 @@ group_stats &lt;- df_data |&gt;
 group_stats</code>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-42"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="interpolate-42-1"><a href="#interpolate-42-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="interpolate-42-2"><a href="#interpolate-42-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Group and summarize</span></span>
-<span id="interpolate-42-3"><a href="#interpolate-42-3" aria-hidden="true" tabindex="-1"></a>group_stats <span class="ot">&lt;-</span> df_data <span class="sc">|&gt;</span></span>
+<span id="interpolate-42-3"><a href="#interpolate-42-3" aria-hidden="true" tabindex="-1"></a>group_stats <span class="ot">&lt;-</span> df_clean <span class="sc">|&gt;</span></span>
 <a class="code-annotation-anchor" data-target-cell="interpolate-42" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="interpolate-42-4" class="code-annotation-target"><a href="#interpolate-42-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(trt) <span class="sc">|&gt;</span></span>
 <span id="interpolate-42-5"><a href="#interpolate-42-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
 <a class="code-annotation-anchor" data-target-cell="interpolate-42" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="interpolate-42-6" class="code-annotation-target"><a href="#interpolate-42-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
@@ -1049,7 +1049,7 @@ eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4
 
 </div>
 <script type="webr-44-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfOSIsImxhYmVsIjoiZXgtOSJ9LCJjb2RlIjoiXG4jIFN1bW1hcml6ZSB3aXRoIC5ieVxuZ3JvdXBfc3RhdHNfYnkgPC0gZGZfZGF0YSB8PlxuICBzdW1tYXJpemUoXG4gICAgbiA9IG4oKSxcbiAgICBtZWFuX2xzYXMgPSBtZWFuKGxzYXNfc2NyZWVuLCBuYS5ybSA9IFRSVUUpLFxuICAgIHNkX2xzYXMgPSBzZChsc2FzX3NjcmVlbiwgbmEucm0gPSBUUlVFKSxcbiAgICAuYnkgPSBfX19fX19cbiAgKVxuXG5ncm91cF9zdGF0c19ieSJ9
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfOSIsImxhYmVsIjoiZXgtOSJ9LCJjb2RlIjoiXG4jIFN1bW1hcml6ZSB3aXRoIC5ieVxuZ3JvdXBfc3RhdHNfYnkgPC0gZGZfY2xlYW4gfD5cbiAgc3VtbWFyaXplKFxuICAgIG4gPSBuKCksXG4gICAgbWVhbl9sc2FzID0gbWVhbihsc2FzX3NjcmVlbiwgbmEucm0gPSBUUlVFKSxcbiAgICBzZF9sc2FzID0gc2QobHNhc19zY3JlZW4sIG5hLnJtID0gVFJVRSksXG4gICAgLmJ5ID0gX19fX19fXG4gIClcblxuZ3JvdXBfc3RhdHNfYnkifQ==
 </script>
 </div>
 </div>
@@ -1067,7 +1067,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfOSIsImxhYmVsIjoi
 <div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_9">
 <code id="interpolate-46" class="solution-code d-none">
 # Summarize with .by
-group_stats_by &lt;- df_data |&gt;
+group_stats_by &lt;- df_clean |&gt;
   summarize(
     n = n(),
     mean_lsas = mean(lsas_screen, na.rm = TRUE),
@@ -1078,7 +1078,7 @@ group_stats_by &lt;- df_data |&gt;
 group_stats_by</code>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-47"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="interpolate-47-1"><a href="#interpolate-47-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="interpolate-47-2"><a href="#interpolate-47-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarize with .by</span></span>
-<span id="interpolate-47-3"><a href="#interpolate-47-3" aria-hidden="true" tabindex="-1"></a>group_stats_by <span class="ot">&lt;-</span> df_data <span class="sc">|&gt;</span></span>
+<span id="interpolate-47-3"><a href="#interpolate-47-3" aria-hidden="true" tabindex="-1"></a>group_stats_by <span class="ot">&lt;-</span> df_clean <span class="sc">|&gt;</span></span>
 <span id="interpolate-47-4"><a href="#interpolate-47-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
 <span id="interpolate-47-5"><a href="#interpolate-47-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
 <span id="interpolate-47-6"><a href="#interpolate-47-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_lsas =</span> <span class="fu">mean</span>(lsas_screen, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
@@ -1128,7 +1128,7 @@ eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4
 
 </div>
 <script type="webr-49-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMTAiLCJsYWJlbCI6ImV4LTEwIn0sImNvZGUiOiJcbiMgUGl2b3QgdG8gbG9uZyBmb3JtYXRcbmRmX2xzYXNfbG9uZyA8LSBkZl9kYXRhIHw+XG4gIHNlbGVjdChpZCwgdHJ0LCBzdGFydHNfd2l0aChcImxzYXNcIikpIHw+XG4gIHBpdm90X2xvbmdlcihcbiAgICBjb2xzID0gc3RhcnRzX3dpdGgoXCJfX19fX19cIiksXG4gICAgbmFtZXNfdG8gPSBcIl9fX19fX1wiLFxuICAgIHZhbHVlc190byA9IFwiX19fX19fXCJcbiAgKVxuXG4jIENoZWNrIHRoZSByZXN1bHRcbmhlYWQoZGZfbHNhc19sb25nLCAxMikifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMTAiLCJsYWJlbCI6ImV4LTEwIn0sImNvZGUiOiJcbiMgUGl2b3QgdG8gbG9uZyBmb3JtYXRcbmRmX2xzYXNfbG9uZyA8LSBkZl9jbGVhbiB8PlxuICBzZWxlY3QoaWQsIHRydCwgc3RhcnRzX3dpdGgoXCJsc2FzXCIpKSB8PlxuICBwaXZvdF9sb25nZXIoXG4gICAgY29scyA9IHN0YXJ0c193aXRoKFwiX19fX19fXCIpLFxuICAgIG5hbWVzX3RvID0gXCJfX19fX19cIixcbiAgICB2YWx1ZXNfdG8gPSBcIl9fX19fX1wiXG4gIClcblxuIyBDaGVjayB0aGUgcmVzdWx0XG5oZWFkKGRmX2xzYXNfbG9uZywgMTIpIn0=
 </script>
 </div>
 </div>
@@ -1150,7 +1150,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMTAiLCJsYWJlbCI6
 <div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_10">
 <code id="interpolate-51" class="solution-code d-none">
 # Pivot to long format
-df_lsas_long &lt;- df_data |&gt;
+df_lsas_long &lt;- df_clean |&gt;
   select(id, trt, starts_with("lsas")) |&gt;  #&lt;1&gt;
   pivot_longer(
     cols = starts_with("lsas"),  #&lt;2&gt;
@@ -1162,7 +1162,7 @@ df_lsas_long &lt;- df_data |&gt;
 head(df_lsas_long, 12)</code>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-52"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="interpolate-52-1"><a href="#interpolate-52-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="interpolate-52-2"><a href="#interpolate-52-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Pivot to long format</span></span>
-<span id="interpolate-52-3"><a href="#interpolate-52-3" aria-hidden="true" tabindex="-1"></a>df_lsas_long <span class="ot">&lt;-</span> df_data <span class="sc">|&gt;</span></span>
+<span id="interpolate-52-3"><a href="#interpolate-52-3" aria-hidden="true" tabindex="-1"></a>df_lsas_long <span class="ot">&lt;-</span> df_clean <span class="sc">|&gt;</span></span>
 <a class="code-annotation-anchor" data-target-cell="interpolate-52" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="interpolate-52-4" class="code-annotation-target"><a href="#interpolate-52-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id, trt, <span class="fu">starts_with</span>(<span class="st">"lsas"</span>)) <span class="sc">|&gt;</span></span>
 <span id="interpolate-52-5"><a href="#interpolate-52-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
 <a class="code-annotation-anchor" data-target-cell="interpolate-52" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="interpolate-52-6" class="code-annotation-target"><a href="#interpolate-52-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">starts_with</span>(<span class="st">"lsas"</span>),</span>
@@ -1218,7 +1218,7 @@ eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4
 
 </div>
 <script type="webr-54-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMTEiLCJsYWJlbCI6ImV4LTExIn0sImNvZGUiOiJcbiMgQ2xlYW4gdGltZSB2YXJpYWJsZVxuZGZfbHNhc19sb25nIDwtIGRmX2RhdGEgfD5cbiAgc2VsZWN0KGlkLCB0cnQsIHN0YXJ0c193aXRoKFwibHNhc1wiKSkgfD5cbiAgcGl2b3RfbG9uZ2VyKFxuICAgIGNvbHMgPSBzdGFydHNfd2l0aChcImxzYXNcIiksXG4gICAgbmFtZXNfdG8gPSBcInRpbWVfcG9pbnRcIixcbiAgICB2YWx1ZXNfdG8gPSBcImxzYXNfc2NvcmVcIlxuICApIHw+XG4gIHNlcGFyYXRlKFxuICAgIF9fX19fXyxcbiAgICBpbnRvID0gYyhcIl9fX19fX1wiLCBcIl9fX19fX1wiKSxcbiAgICBzZXAgPSBcIl9fX19fX1wiXG4gIClcblxuaGVhZChkZl9sc2FzX2xvbmcpIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMTEiLCJsYWJlbCI6ImV4LTExIn0sImNvZGUiOiJcbiMgQ2xlYW4gdGltZSB2YXJpYWJsZVxuZGZfbHNhc19sb25nIDwtIGRmX2NsZWFuIHw+XG4gIHNlbGVjdChpZCwgdHJ0LCBzdGFydHNfd2l0aChcImxzYXNcIikpIHw+XG4gIHBpdm90X2xvbmdlcihcbiAgICBjb2xzID0gc3RhcnRzX3dpdGgoXCJsc2FzXCIpLFxuICAgIG5hbWVzX3RvID0gXCJ0aW1lX3BvaW50XCIsXG4gICAgdmFsdWVzX3RvID0gXCJsc2FzX3Njb3JlXCJcbiAgKSB8PlxuICBzZXBhcmF0ZShcbiAgICBfX19fX18sXG4gICAgaW50byA9IGMoXCJfX19fX19cIiwgXCJfX19fX19cIiksXG4gICAgc2VwID0gXCJfX19fX19cIlxuICApXG5cbmhlYWQoZGZfbHNhc19sb25nKSJ9
 </script>
 </div>
 </div>
@@ -1242,7 +1242,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMTEiLCJsYWJlbCI6
 <div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_11">
 <code id="interpolate-56" class="solution-code d-none">
 # Clean time variable
-df_lsas_long &lt;- df_data |&gt;
+df_lsas_long &lt;- df_clean |&gt;
   select(id, trt, starts_with("lsas")) |&gt;  #&lt;1&gt;
   pivot_longer(
     cols = starts_with("lsas"),
@@ -1258,7 +1258,7 @@ df_lsas_long &lt;- df_data |&gt;
 head(df_lsas_long)</code>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-57"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="interpolate-57-1"><a href="#interpolate-57-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="interpolate-57-2"><a href="#interpolate-57-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Clean time variable</span></span>
-<span id="interpolate-57-3"><a href="#interpolate-57-3" aria-hidden="true" tabindex="-1"></a>df_lsas_long <span class="ot">&lt;-</span> df_data <span class="sc">|&gt;</span></span>
+<span id="interpolate-57-3"><a href="#interpolate-57-3" aria-hidden="true" tabindex="-1"></a>df_lsas_long <span class="ot">&lt;-</span> df_clean <span class="sc">|&gt;</span></span>
 <a class="code-annotation-anchor" data-target-cell="interpolate-57" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="interpolate-57-4" class="code-annotation-target"><a href="#interpolate-57-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id, trt, <span class="fu">starts_with</span>(<span class="st">"lsas"</span>)) <span class="sc">|&gt;</span></span>
 <span id="interpolate-57-5"><a href="#interpolate-57-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
 <span id="interpolate-57-6"><a href="#interpolate-57-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">starts_with</span>(<span class="st">"lsas"</span>),</span>
@@ -1322,7 +1322,7 @@ eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4
 
 </div>
 <script type="webr-59-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMTIiLCJsYWJlbCI6ImV4LTEyIn0sImNvZGUiOiJcbiMgUHJlcGFyZSBsb25nIGRhdGEgd2l0aCBjbGVhbiB0aW1lIGxhYmVsc1xuZGZfbHNhc19sb25nIDwtIGRmX2RhdGEgfD5cbiAgc2VsZWN0KGlkLCB0cnQsIGxzYXNfc2NyZWVuLCBsc2FzX3Bvc3QpIHw+XG4gIHBpdm90X2xvbmdlcihcbiAgICBjb2xzID0gc3RhcnRzX3dpdGgoXCJsc2FzXCIpLFxuICAgIG5hbWVzX3RvID0gXCJ0aW1lX3BvaW50XCIsXG4gICAgdmFsdWVzX3RvID0gXCJsc2FzX3Njb3JlXCJcbiAgKSB8PlxuICBzZXBhcmF0ZShcbiAgICB0aW1lX3BvaW50LCBcbiAgICBpbnRvID0gYyhcIm1lYXN1cmVcIiwgXCJ0aW1lXCIpLCBcbiAgICBzZXAgPSBcIl9cIlxuICApIHw+XG4gIG11dGF0ZShcbiAgICB0cnRfZmFjdG9yID0gZmFjdG9yKFxuICAgICAgdHJ0LCBcbiAgICAgIGxldmVscyA9IGMoXCJ3YWl0bGlzdFwiLCBcInNlbGYtZ3VpZGVkXCIsIFwidGhlcmFwaXN0LWd1aWRlZFwiKVxuICAgIClcbiAgKVxuXG4jIFN1bW1hcml6ZVxubHNhc19zdW1tYXJ5IDwtIGRmX2xzYXNfbG9uZyB8PlxuICBzdW1tYXJpemUoXG4gICAgbWVhbl9sc2FzID0gbWVhbihsc2FzX3Njb3JlLCBuYS5ybSA9IFRSVUUpLFxuICAgIC5ieSA9IGModHJ0X2ZhY3RvciwgdGltZSlcbiAgKVxuXG4jIFBpdm90IHdpZGVyXG5sc2FzX3dpZGUgPC0gbHNhc19zdW1tYXJ5IHw+XG4gIHBpdm90X3dpZGVyKFxuICAgIG5hbWVzX2Zyb20gPSBfX19fX18sXG4gICAgdmFsdWVzX2Zyb20gPSBfX19fX19cbiAgKVxuXG5sc2FzX3dpZGUifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMTIiLCJsYWJlbCI6ImV4LTEyIn0sImNvZGUiOiJcbiMgUHJlcGFyZSBsb25nIGRhdGEgd2l0aCBjbGVhbiB0aW1lIGxhYmVsc1xuZGZfbHNhc19sb25nIDwtIGRmX2NsZWFuIHw+XG4gIHNlbGVjdChpZCwgdHJ0LCBsc2FzX3NjcmVlbiwgbHNhc19wb3N0KSB8PlxuICBwaXZvdF9sb25nZXIoXG4gICAgY29scyA9IHN0YXJ0c193aXRoKFwibHNhc1wiKSxcbiAgICBuYW1lc190byA9IFwidGltZV9wb2ludFwiLFxuICAgIHZhbHVlc190byA9IFwibHNhc19zY29yZVwiXG4gICkgfD5cbiAgc2VwYXJhdGUoXG4gICAgdGltZV9wb2ludCwgXG4gICAgaW50byA9IGMoXCJtZWFzdXJlXCIsIFwidGltZVwiKSwgXG4gICAgc2VwID0gXCJfXCJcbiAgKSB8PlxuICBtdXRhdGUoXG4gICAgdHJ0X2ZhY3RvciA9IGZhY3RvcihcbiAgICAgIHRydCwgXG4gICAgICBsZXZlbHMgPSBjKFwid2FpdGxpc3RcIiwgXCJzZWxmLWd1aWRlZFwiLCBcInRoZXJhcGlzdC1ndWlkZWRcIilcbiAgICApXG4gIClcblxuIyBTdW1tYXJpemVcbmxzYXNfc3VtbWFyeSA8LSBkZl9sc2FzX2xvbmcgfD5cbiAgc3VtbWFyaXplKFxuICAgIG1lYW5fbHNhcyA9IG1lYW4obHNhc19zY29yZSwgbmEucm0gPSBUUlVFKSxcbiAgICAuYnkgPSBjKHRydF9mYWN0b3IsIHRpbWUpXG4gIClcblxuIyBQaXZvdCB3aWRlclxubHNhc193aWRlIDwtIGxzYXNfc3VtbWFyeSB8PlxuICBwaXZvdF93aWRlcihcbiAgICBuYW1lc19mcm9tID0gX19fX19fLFxuICAgIHZhbHVlc19mcm9tID0gX19fX19fXG4gIClcblxubHNhc193aWRlIn0=
 </script>
 </div>
 </div>
@@ -1344,7 +1344,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMTIiLCJsYWJlbCI6
 <div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_12">
 <code id="interpolate-61" class="solution-code d-none">
 # Prepare long data with clean time labels
-df_lsas_long &lt;- df_data |&gt;
+df_lsas_long &lt;- df_clean |&gt;
   select(id, trt, lsas_screen, lsas_post) |&gt;  #&lt;1&gt;
   pivot_longer(
     cols = starts_with("lsas"),
@@ -1380,7 +1380,7 @@ lsas_wide &lt;- lsas_summary |&gt;
 lsas_wide</code>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-62"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="interpolate-62-1"><a href="#interpolate-62-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="interpolate-62-2"><a href="#interpolate-62-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare long data with clean time labels</span></span>
-<span id="interpolate-62-3"><a href="#interpolate-62-3" aria-hidden="true" tabindex="-1"></a>df_lsas_long <span class="ot">&lt;-</span> df_data <span class="sc">|&gt;</span></span>
+<span id="interpolate-62-3"><a href="#interpolate-62-3" aria-hidden="true" tabindex="-1"></a>df_lsas_long <span class="ot">&lt;-</span> df_clean <span class="sc">|&gt;</span></span>
 <a class="code-annotation-anchor" data-target-cell="interpolate-62" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="interpolate-62-4" class="code-annotation-target"><a href="#interpolate-62-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id, trt, lsas_screen, lsas_post) <span class="sc">|&gt;</span></span>
 <span id="interpolate-62-5"><a href="#interpolate-62-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
 <span id="interpolate-62-6"><a href="#interpolate-62-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">starts_with</span>(<span class="st">"lsas"</span>),</span>
@@ -1465,7 +1465,7 @@ eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4
 
 </div>
 <script type="webr-64-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMTMiLCJsYWJlbCI6ImV4LTEzIn0sImNvZGUiOiJcbiMgQ29tcGxldGUgcGlwZWxpbmVcbnJlbWlzc2lvbl9kZXNjIDwtIGRmX2RhdGEgfD5cbiAgIyBTZWxlY3QgcmVsZXZhbnQgY29sdW1uc1xuICBzZWxlY3QoX19fX19fLCBfX19fX18sIF9fX19fXykgfD5cbiAgIyBDcmVhdGUgcmVtaXNzaW9uIGluZGljYXRvclxuICBtdXRhdGUoXG4gICAgcmVtaXNzaW9uID0gbHNhc19wb3N0IDwgX19fX19fXG4gICkgfD5cbiAgIyBDYWxjdWxhdGUgcGVyY2VudGFnZSBieSB0cmVhdG1lbnQgZ3JvdXBcbiAgc3VtbWFyaXplKFxuICAgIG4gPSBuKCksXG4gICAgbl9yZW1pc3Npb24gPSBzdW0oX19fX19fLCBuYS5ybSA9IFRSVUUpLFxuICAgIHBjdF9yZW1pc3Npb24gPSAobl9yZW1pc3Npb24gLyBuKSAqIDEwMCxcbiAgICAuYnkgPSBfX19fX19cbiAgKVxuXG5yZW1pc3Npb25fZGVzYyJ9
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMTMiLCJsYWJlbCI6ImV4LTEzIn0sImNvZGUiOiJcbiMgQ29tcGxldGUgcGlwZWxpbmVcbnJlbWlzc2lvbl9kZXNjIDwtIGRmX2NsZWFuIHw+XG4gICMgU2VsZWN0IHJlbGV2YW50IGNvbHVtbnNcbiAgc2VsZWN0KF9fX19fXywgX19fX19fLCBfX19fX18pIHw+XG4gICMgQ3JlYXRlIHJlbWlzc2lvbiBpbmRpY2F0b3JcbiAgbXV0YXRlKFxuICAgIHJlbWlzc2lvbiA9IGxzYXNfcG9zdCA8IF9fX19fX1xuICApIHw+XG4gICMgQ2FsY3VsYXRlIHBlcmNlbnRhZ2UgYnkgdHJlYXRtZW50IGdyb3VwXG4gIHN1bW1hcml6ZShcbiAgICBuID0gbigpLFxuICAgIG5fcmVtaXNzaW9uID0gc3VtKF9fX19fXywgbmEucm0gPSBUUlVFKSxcbiAgICBwY3RfcmVtaXNzaW9uID0gKG5fcmVtaXNzaW9uIC8gbikgKiAxMDAsXG4gICAgLmJ5ID0gX19fX19fXG4gIClcblxucmVtaXNzaW9uX2Rlc2MifQ==
 </script>
 </div>
 </div>
@@ -1492,7 +1492,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMTMiLCJsYWJlbCI6
 <div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_13">
 <code id="interpolate-66" class="solution-code d-none">
 # Complete pipeline
-remission_desc &lt;- df_data |&gt;
+remission_desc &lt;- df_clean |&gt;
   # Select relevant columns
   select(id, trt, lsas_post) |&gt;  #&lt;1&gt;
   # Create remission indicator
@@ -1510,7 +1510,7 @@ remission_desc &lt;- df_data |&gt;
 remission_desc</code>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-67"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="interpolate-67-1"><a href="#interpolate-67-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="interpolate-67-2"><a href="#interpolate-67-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Complete pipeline</span></span>
-<span id="interpolate-67-3"><a href="#interpolate-67-3" aria-hidden="true" tabindex="-1"></a>remission_desc <span class="ot">&lt;-</span> df_data <span class="sc">|&gt;</span></span>
+<span id="interpolate-67-3"><a href="#interpolate-67-3" aria-hidden="true" tabindex="-1"></a>remission_desc <span class="ot">&lt;-</span> df_clean <span class="sc">|&gt;</span></span>
 <span id="interpolate-67-4"><a href="#interpolate-67-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Select relevant columns</span></span>
 <a class="code-annotation-anchor" data-target-cell="interpolate-67" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="interpolate-67-5" class="code-annotation-target"><a href="#interpolate-67-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id, trt, lsas_post) <span class="sc">|&gt;</span></span>
 <span id="interpolate-67-6"><a href="#interpolate-67-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Create remission indicator</span></span>
@@ -1582,7 +1582,7 @@ eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4
 
 </div>
 <script type="webr-69-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMTQiLCJsYWJlbCI6ImV4LTE0In0sImNvZGUiOiJcbiMgQ29udmVydCB0byBsb25nIGZvcm1hdCBhbmQgY3JlYXRlIHRpbWUgdmFyaWFibGVzXG5kZl9sc2FzX21pc3NpbmcgPC0gZGZfZGF0YSB8PlxuICBzZWxlY3QoaWQsIHRydCwgc3RhcnRzX3dpdGgoXCJfX19fX19cIikpIHw+XG4gIHBpdm90X2xvbmdlcihcbiAgICBjb2xzID0gc3RhcnRzX3dpdGgoXCJfX19fX19cIiksXG4gICAgbmFtZXNfdG8gPSBcIl9fX19fX1wiLFxuICAgIHZhbHVlc190byA9IFwiX19fX19fXCJcbiAgKSB8PlxuICBzZXBhcmF0ZShfX19fX18sIGludG8gPSBjKFwibWVhc3VyZVwiLCBcInRpbWVcIiksIHNlcCA9IFwiX1wiKSB8PlxuICBtdXRhdGUoXG4gICAgdGltZV9jbGVhbiA9IGNhc2Vfd2hlbihcbiAgICAgIHRpbWUgPT0gXCJzY3JlZW5cIiB+IFwiQmFzZWxpbmVcIixcbiAgICAgIHRpbWUgPT0gXCJ2MVwiIH4gXCJXZWVrIDFcIixcbiAgICAgIHRpbWUgPT0gXCJ2MlwiIH4gXCJXZWVrIDJcIixcbiAgICAgIHRpbWUgPT0gXCJ2M1wiIH4gXCJXZWVrIDNcIixcbiAgICAgIHRpbWUgPT0gXCJ2NFwiIH4gXCJXZWVrIDRcIixcbiAgICAgIHRpbWUgPT0gXCJ2NVwiIH4gXCJXZWVrIDVcIixcbiAgICAgIHRpbWUgPT0gXCJ2NlwiIH4gXCJXZWVrIDZcIixcbiAgICAgIHRpbWUgPT0gXCJ2N1wiIH4gXCJXZWVrIDdcIixcbiAgICAgIHRpbWUgPT0gXCJ2OFwiIH4gXCJXZWVrIDhcIixcbiAgICAgIHRpbWUgPT0gXCJwb3N0XCIgfiBcIlBvc3QtdHJlYXRtZW50XCIsXG4gICAgICB0aW1lID09IFwiZnU2XCIgfiBcIjYtbW9udGggZm9sbG93LXVwXCIsXG4gICAgICB0aW1lID09IFwiZnUxMlwiIH4gXCIxMi1tb250aCBmb2xsb3ctdXBcIlxuICAgICksXG4gICAgdGltZV9mYWN0b3IgPSBmYWN0b3IoXG4gICAgICB0aW1lX2NsZWFuLFxuICAgICAgbGV2ZWxzID0gYyhcbiAgICAgICAgXCJCYXNlbGluZVwiLCBcIldlZWsgMVwiLCBcIldlZWsgMlwiLCBcIldlZWsgM1wiLCBcIldlZWsgNFwiLFxuICAgICAgICBcIldlZWsgNVwiLCBcIldlZWsgNlwiLCBcIldlZWsgN1wiLCBcIldlZWsgOFwiLFxuICAgICAgICBcIlBvc3QtdHJlYXRtZW50XCIsIFwiNi1tb250aCBmb2xsb3ctdXBcIiwgXCIxMi1tb250aCBmb2xsb3ctdXBcIlxuICAgICAgKVxuICAgIClcbiAgKSB8PlxuICBzZWxlY3QoLW1lYXN1cmUpIHw+XG4gICMgRmlsdGVyIG91dCB3YWl0bGlzdCBhdCBmb2xsb3ctdXAgKG5vdCBtZWFzdXJlZClcbiAgZmlsdGVyKCEodHJ0ID09IFwiX19fX19fXCIgJiB0aW1lICVpbiUgYyhcIl9fX19fX1wiLCBcIl9fX19fX1wiKSkpXG5cbiMgQ2FsY3VsYXRlIG1pc3NpbmcgcGVyY2VudGFnZXNcbm1pc3NpbmcgPC0gZGZfbHNhc19taXNzaW5nIHw+XG4gIG11dGF0ZShcbiAgICBpc19taXNzaW5nID0gaXMubmEoX19fX19fKVxuICApIHw+XG4gIHN1bW1hcml6ZShcbiAgICBuID0gbigpLFxuICAgIG5fbWlzc2luZyA9IHN1bShfX19fX18pLFxuICAgIG1pc3NpbmdfcGVyY2VudCA9IChfX19fX18gLyBfX19fX18pICogMTAwLFxuICAgIC5ieSA9IGMoX19fX19fLCBfX19fX18pXG4gIClcblxuIyBQbG90XG5saWJyYXJ5KGdncGxvdDIpXG5nZ3Bsb3QoXG4gIG1pc3NpbmcsXG4gIGFlcyhcbiAgICBfX19fX18sXG4gICAgbWlzc2luZ19wZXJjZW50LFxuICAgIGdyb3VwID0gdHJ0LFxuICAgIGNvbG9yID0gdHJ0XG4gIClcbikgK1xuICBnZW9tX2xpbmUoKSArXG4gIGdlb21fcG9pbnQoKSArXG4gIGxhYnMoXG4gICAgdGl0bGUgPSBcIkxTQVMgUGVyY2VudCBtaXNzaW5nIG9ic2VydmF0aW9uc1wiLFxuICAgIHggPSBcIlRpbWVcIixcbiAgICB5ID0gXCJNaXNzaW5nICglKVwiLFxuICAgIGNvbG9yID0gXCJUcmVhdG1lbnRcIlxuICApICtcbiAgdGhlbWVfbWluaW1hbCgpICtcbiAgdGhlbWUoYXhpcy50ZXh0LnggPSBlbGVtZW50X3RleHQoYW5nbGUgPSA0NSwgaGp1c3QgPSAxKSkifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMTQiLCJsYWJlbCI6ImV4LTE0In0sImNvZGUiOiJcbiMgQ29udmVydCB0byBsb25nIGZvcm1hdCBhbmQgY3JlYXRlIHRpbWUgdmFyaWFibGVzXG5kZl9sc2FzX21pc3NpbmcgPC0gZGZfY2xlYW4gfD5cbiAgc2VsZWN0KGlkLCB0cnQsIHN0YXJ0c193aXRoKFwiX19fX19fXCIpKSB8PlxuICBwaXZvdF9sb25nZXIoXG4gICAgY29scyA9IHN0YXJ0c193aXRoKFwiX19fX19fXCIpLFxuICAgIG5hbWVzX3RvID0gXCJfX19fX19cIixcbiAgICB2YWx1ZXNfdG8gPSBcIl9fX19fX1wiXG4gICkgfD5cbiAgc2VwYXJhdGUoX19fX19fLCBpbnRvID0gYyhcIm1lYXN1cmVcIiwgXCJ0aW1lXCIpLCBzZXAgPSBcIl9cIikgfD5cbiAgbXV0YXRlKFxuICAgIHRpbWVfY2xlYW4gPSBjYXNlX3doZW4oXG4gICAgICB0aW1lID09IFwic2NyZWVuXCIgfiBcIkJhc2VsaW5lXCIsXG4gICAgICB0aW1lID09IFwidjFcIiB+IFwiV2VlayAxXCIsXG4gICAgICB0aW1lID09IFwidjJcIiB+IFwiV2VlayAyXCIsXG4gICAgICB0aW1lID09IFwidjNcIiB+IFwiV2VlayAzXCIsXG4gICAgICB0aW1lID09IFwidjRcIiB+IFwiV2VlayA0XCIsXG4gICAgICB0aW1lID09IFwidjVcIiB+IFwiV2VlayA1XCIsXG4gICAgICB0aW1lID09IFwidjZcIiB+IFwiV2VlayA2XCIsXG4gICAgICB0aW1lID09IFwidjdcIiB+IFwiV2VlayA3XCIsXG4gICAgICB0aW1lID09IFwidjhcIiB+IFwiV2VlayA4XCIsXG4gICAgICB0aW1lID09IFwicG9zdFwiIH4gXCJQb3N0LXRyZWF0bWVudFwiLFxuICAgICAgdGltZSA9PSBcImZ1NlwiIH4gXCI2LW1vbnRoIGZvbGxvdy11cFwiLFxuICAgICAgdGltZSA9PSBcImZ1MTJcIiB+IFwiMTItbW9udGggZm9sbG93LXVwXCJcbiAgICApLFxuICAgIHRpbWVfZmFjdG9yID0gZmFjdG9yKFxuICAgICAgdGltZV9jbGVhbixcbiAgICAgIGxldmVscyA9IGMoXG4gICAgICAgIFwiQmFzZWxpbmVcIiwgXCJXZWVrIDFcIiwgXCJXZWVrIDJcIiwgXCJXZWVrIDNcIiwgXCJXZWVrIDRcIixcbiAgICAgICAgXCJXZWVrIDVcIiwgXCJXZWVrIDZcIiwgXCJXZWVrIDdcIiwgXCJXZWVrIDhcIixcbiAgICAgICAgXCJQb3N0LXRyZWF0bWVudFwiLCBcIjYtbW9udGggZm9sbG93LXVwXCIsIFwiMTItbW9udGggZm9sbG93LXVwXCJcbiAgICAgIClcbiAgICApXG4gICkgfD5cbiAgc2VsZWN0KC1tZWFzdXJlKSB8PlxuICAjIEZpbHRlciBvdXQgd2FpdGxpc3QgYXQgZm9sbG93LXVwIChub3QgbWVhc3VyZWQpXG4gIGZpbHRlcighKHRydCA9PSBcIl9fX19fX1wiICYgdGltZSAlaW4lIGMoXCJfX19fX19cIiwgXCJfX19fX19cIikpKVxuXG4jIENhbGN1bGF0ZSBtaXNzaW5nIHBlcmNlbnRhZ2VzXG5taXNzaW5nIDwtIGRmX2xzYXNfbWlzc2luZyB8PlxuICBtdXRhdGUoXG4gICAgaXNfbWlzc2luZyA9IGlzLm5hKF9fX19fXylcbiAgKSB8PlxuICBzdW1tYXJpemUoXG4gICAgbiA9IG4oKSxcbiAgICBuX21pc3NpbmcgPSBzdW0oX19fX19fKSxcbiAgICBtaXNzaW5nX3BlcmNlbnQgPSAoX19fX19fIC8gX19fX19fKSAqIDEwMCxcbiAgICAuYnkgPSBjKF9fX19fXywgX19fX19fKVxuICApXG5cbiMgUGxvdFxubGlicmFyeShnZ3Bsb3QyKVxuZ2dwbG90KFxuICBtaXNzaW5nLFxuICBhZXMoXG4gICAgX19fX19fLFxuICAgIG1pc3NpbmdfcGVyY2VudCxcbiAgICBncm91cCA9IHRydCxcbiAgICBjb2xvciA9IHRydFxuICApXG4pICtcbiAgZ2VvbV9saW5lKCkgK1xuICBnZW9tX3BvaW50KCkgK1xuICBsYWJzKFxuICAgIHRpdGxlID0gXCJMU0FTIFBlcmNlbnQgbWlzc2luZyBvYnNlcnZhdGlvbnNcIixcbiAgICB4ID0gXCJUaW1lXCIsXG4gICAgeSA9IFwiTWlzc2luZyAoJSlcIixcbiAgICBjb2xvciA9IFwiVHJlYXRtZW50XCJcbiAgKSArXG4gIHRoZW1lX21pbmltYWwoKSArXG4gIHRoZW1lKGF4aXMudGV4dC54ID0gZWxlbWVudF90ZXh0KGFuZ2xlID0gNDUsIGhqdXN0ID0gMSkpIn0=
 </script>
 </div>
 </div>
@@ -1613,7 +1613,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMTQiLCJsYWJlbCI6
 <div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_14">
 <code id="interpolate-71" class="solution-code d-none">
 # Convert to long format and create time variables
-df_lsas_missing &lt;- df_data |&gt;
+df_lsas_missing &lt;- df_clean |&gt;
   select(id, trt, starts_with("lsas")) |&gt;  #&lt;1&gt;
   pivot_longer(
     cols = starts_with("lsas"),
@@ -1684,7 +1684,7 @@ ggplot(
   theme(axis.text.x = element_text(angle = 45, hjust = 1))</code>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-72"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="interpolate-72-1"><a href="#interpolate-72-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="interpolate-72-2"><a href="#interpolate-72-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to long format and create time variables</span></span>
-<span id="interpolate-72-3"><a href="#interpolate-72-3" aria-hidden="true" tabindex="-1"></a>df_lsas_missing <span class="ot">&lt;-</span> df_data <span class="sc">|&gt;</span></span>
+<span id="interpolate-72-3"><a href="#interpolate-72-3" aria-hidden="true" tabindex="-1"></a>df_lsas_missing <span class="ot">&lt;-</span> df_clean <span class="sc">|&gt;</span></span>
 <a class="code-annotation-anchor" data-target-cell="interpolate-72" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="interpolate-72-4" class="code-annotation-target"><a href="#interpolate-72-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id, trt, <span class="fu">starts_with</span>(<span class="st">"lsas"</span>)) <span class="sc">|&gt;</span></span>
 <span id="interpolate-72-5"><a href="#interpolate-72-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
 <span id="interpolate-72-6"><a href="#interpolate-72-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">starts_with</span>(<span class="st">"lsas"</span>),</span>

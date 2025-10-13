@@ -375,7 +375,7 @@ window.Quarto = {
 
 <div class="cell" data-setup="true" data-exercise="ex_1">
 <script type="exercise-setup-ex_1-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMSIsInNldHVwIjp0cnVlfSwiY29kZSI6IiMgTG9hZCB0aGUgQ1NWIGRhdGFcbmxpYnJhcnkoZHBseXIpXG5kZl9kYXRhIDwtIHJlYWQuY3N2KFwiZGF0YS9zdGVwc19jbGVhbi5jc3ZcIikifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMSIsInNldHVwIjp0cnVlfSwiY29kZSI6IiMgTG9hZCB0aGUgQ1NWIGRhdGFcbmxpYnJhcnkoZHBseXIpXG5kZl9jbGVhbiA8LSByZWFkLmNzdihcImRhdGEvc3RlcHNfY2xlYW4uY3N2XCIpIn0=
 </script>
 </div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
@@ -397,7 +397,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMSJ9LCJjb2RlIjoi
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <div class="hint webr-ojs-exercise exercise-hint d-none" data-exercise="ex_1">
 <p>You can calculate it using the <code>t.test()</code> function</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>df_data <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>df_clean <span class="sc">%&gt;%</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(trt <span class="sc">!=</span> <span class="st">"_____"</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">t.test</span>(______ <span class="sc">~</span> trt, <span class="at">data =</span> ., <span class="at">var.equal =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Or if you want to do it manually, you can use the following formulas</p>
@@ -419,17 +419,17 @@ s_p^2 = \frac{(n_1 - 1)s_1^2 + (n_2 - 1)s_2^2}{n_1 + n_2 - 2}
 <div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_1">
 <p>The full solution is:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-2"><pre class="sourceCode r code-annotation-code code-with-copy"><code class="sourceCode r"><span id="annotated-cell-2-1"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#using the t.test() function</span></span>
-<span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a>df_data <span class="sc">%&gt;%</span></span>
+<span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a>df_clean <span class="sc">%&gt;%</span></span>
 <span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(trt <span class="sc">!=</span> <span class="st">"self-guided"</span>) <span class="sc">%&gt;%</span></span>
 <span id="annotated-cell-2-4"><a href="#annotated-cell-2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">t.test</span>(lsas_post <span class="sc">~</span> trt, <span class="at">data =</span> ., <span class="at">var.equal =</span> <span class="cn">TRUE</span>)</span>
 <span id="annotated-cell-2-5"><a href="#annotated-cell-2-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-2-6"><a href="#annotated-cell-2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># or manually</span></span>
-<span id="annotated-cell-2-7"><a href="#annotated-cell-2-7" aria-hidden="true" tabindex="-1"></a>x_bar_tg <span class="ot">&lt;-</span> <span class="fu">mean</span>(df_data<span class="sc">$</span>lsas_post[df_data<span class="sc">$</span>trt<span class="sc">==</span><span class="st">"therapist-guided"</span>], <span class="at">na.rm=</span>T)</span>
-<span id="annotated-cell-2-8"><a href="#annotated-cell-2-8" aria-hidden="true" tabindex="-1"></a>x_bar_wl <span class="ot">&lt;-</span> <span class="fu">mean</span>(df_data<span class="sc">$</span>lsas_post[df_data<span class="sc">$</span>trt<span class="sc">==</span><span class="st">"waitlist"</span>], <span class="at">na.rm=</span>T)</span>
-<span id="annotated-cell-2-9"><a href="#annotated-cell-2-9" aria-hidden="true" tabindex="-1"></a>s_2_tg <span class="ot">&lt;-</span> <span class="fu">var</span>(df_data<span class="sc">$</span>lsas_post[df_data<span class="sc">$</span>trt<span class="sc">==</span><span class="st">"therapist-guided"</span>], <span class="at">na.rm=</span>T)</span>
-<span id="annotated-cell-2-10"><a href="#annotated-cell-2-10" aria-hidden="true" tabindex="-1"></a>s_2_wl <span class="ot">&lt;-</span> <span class="fu">var</span>(df_data<span class="sc">$</span>lsas_post[df_data<span class="sc">$</span>trt<span class="sc">==</span><span class="st">"waitlist"</span>], <span class="at">na.rm=</span>T)</span>
-<span id="annotated-cell-2-11"><a href="#annotated-cell-2-11" aria-hidden="true" tabindex="-1"></a>n_tg <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(df_data<span class="sc">$</span>lsas_post[df_data<span class="sc">$</span>trt<span class="sc">==</span><span class="st">"therapist-guided"</span>]))</span>
-<span id="annotated-cell-2-12"><a href="#annotated-cell-2-12" aria-hidden="true" tabindex="-1"></a>n_wl <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(df_data<span class="sc">$</span>lsas_post[df_data<span class="sc">$</span>trt<span class="sc">==</span><span class="st">"waitlist"</span>]))</span>
+<span id="annotated-cell-2-7"><a href="#annotated-cell-2-7" aria-hidden="true" tabindex="-1"></a>x_bar_tg <span class="ot">&lt;-</span> <span class="fu">mean</span>(df_clean<span class="sc">$</span>lsas_post[df_clean<span class="sc">$</span>trt<span class="sc">==</span><span class="st">"therapist-guided"</span>], <span class="at">na.rm=</span>T)</span>
+<span id="annotated-cell-2-8"><a href="#annotated-cell-2-8" aria-hidden="true" tabindex="-1"></a>x_bar_wl <span class="ot">&lt;-</span> <span class="fu">mean</span>(df_clean<span class="sc">$</span>lsas_post[df_clean<span class="sc">$</span>trt<span class="sc">==</span><span class="st">"waitlist"</span>], <span class="at">na.rm=</span>T)</span>
+<span id="annotated-cell-2-9"><a href="#annotated-cell-2-9" aria-hidden="true" tabindex="-1"></a>s_2_tg <span class="ot">&lt;-</span> <span class="fu">var</span>(df_clean<span class="sc">$</span>lsas_post[df_clean<span class="sc">$</span>trt<span class="sc">==</span><span class="st">"therapist-guided"</span>], <span class="at">na.rm=</span>T)</span>
+<span id="annotated-cell-2-10"><a href="#annotated-cell-2-10" aria-hidden="true" tabindex="-1"></a>s_2_wl <span class="ot">&lt;-</span> <span class="fu">var</span>(df_clean<span class="sc">$</span>lsas_post[df_clean<span class="sc">$</span>trt<span class="sc">==</span><span class="st">"waitlist"</span>], <span class="at">na.rm=</span>T)</span>
+<span id="annotated-cell-2-11"><a href="#annotated-cell-2-11" aria-hidden="true" tabindex="-1"></a>n_tg <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(df_clean<span class="sc">$</span>lsas_post[df_clean<span class="sc">$</span>trt<span class="sc">==</span><span class="st">"therapist-guided"</span>]))</span>
+<span id="annotated-cell-2-12"><a href="#annotated-cell-2-12" aria-hidden="true" tabindex="-1"></a>n_wl <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(df_clean<span class="sc">$</span>lsas_post[df_clean<span class="sc">$</span>trt<span class="sc">==</span><span class="st">"waitlist"</span>]))</span>
 <span id="annotated-cell-2-13"><a href="#annotated-cell-2-13" aria-hidden="true" tabindex="-1"></a>sp2 <span class="ot">&lt;-</span> ((n_tg <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> s_2_tg <span class="sc">+</span> (n_wl <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> s_2_wl) <span class="sc">/</span> (n_tg <span class="sc">+</span> n_wl <span class="sc">-</span> <span class="dv">2</span>) <span class="co"># pooled variance</span></span>
 <span id="annotated-cell-2-14"><a href="#annotated-cell-2-14" aria-hidden="true" tabindex="-1"></a>SE_pooled <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(sp2 <span class="sc">*</span> (<span class="dv">1</span><span class="sc">/</span>n_tg <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span>n_wl)) <span class="co"># pooled standard error</span></span>
 <span id="annotated-cell-2-15"><a href="#annotated-cell-2-15" aria-hidden="true" tabindex="-1"></a></span>
@@ -446,7 +446,7 @@ s_p^2 = \frac{(n_1 - 1)s_1^2 + (n_2 - 1)s_2^2}{n_1 + n_2 - 2}
 </div>
 <div class="cell" data-setup="true" data-exercise="ex_2">
 <script type="exercise-setup-ex_2-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMiIsInNldHVwIjp0cnVlfSwiY29kZSI6IiMgTG9hZCB0aGUgQ1NWIGRhdGFcbmxpYnJhcnkoZHBseXIpXG5kZl9kYXRhIDwtIHJlYWQuY3N2KFwiZGF0YS9zdGVwc19jbGVhbi5jc3ZcIikifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMiIsInNldHVwIjp0cnVlfSwiY29kZSI6IiMgTG9hZCB0aGUgQ1NWIGRhdGFcbmxpYnJhcnkoZHBseXIpXG5kZl9jbGVhbiA8LSByZWFkLmNzdihcImRhdGEvc3RlcHNfY2xlYW4uY3N2XCIpIn0=
 </script>
 </div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
@@ -468,15 +468,15 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMiJ9LCJjb2RlIjoi
 <div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
 <div class="hint webr-ojs-exercise exercise-hint d-none" data-exercise="ex_2">
 <p>You can check the variance of each group</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(df_data<span class="sc">$</span>______[df_data<span class="sc">$</span>trt<span class="sc">==</span><span class="st">"_____"</span>], <span class="at">na.rm=</span>T)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(df_data<span class="sc">$</span>_____[df_data<span class="sc">$</span>trt<span class="sc">==</span><span class="st">"therapist-guided"</span>], <span class="at">na.rm=</span>T)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(df_clean<span class="sc">$</span>______[df_clean<span class="sc">$</span>trt<span class="sc">==</span><span class="st">"_____"</span>], <span class="at">na.rm=</span>T)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(df_clean<span class="sc">$</span>_____[df_clean<span class="sc">$</span>trt<span class="sc">==</span><span class="st">"therapist-guided"</span>], <span class="at">na.rm=</span>T)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <div id="tabset-2-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-3-tab">
 <div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_2">
 <p>The full solution is:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-4"><pre class="sourceCode r code-annotation-code code-with-copy"><code class="sourceCode r"><span id="annotated-cell-4-1"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(df_data<span class="sc">$</span>lsas_post[df_data<span class="sc">$</span>trt<span class="sc">==</span><span class="st">"waitlist"</span>], <span class="at">na.rm=</span>T)</span>
-<span id="annotated-cell-4-2"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(df_data<span class="sc">$</span>lsas_post[df_data<span class="sc">$</span>trt<span class="sc">==</span><span class="st">"therapist-guided"</span>], <span class="at">na.rm=</span>T)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-4"><pre class="sourceCode r code-annotation-code code-with-copy"><code class="sourceCode r"><span id="annotated-cell-4-1"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(df_clean<span class="sc">$</span>lsas_post[df_clean<span class="sc">$</span>trt<span class="sc">==</span><span class="st">"waitlist"</span>], <span class="at">na.rm=</span>T)</span>
+<span id="annotated-cell-4-2"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(df_clean<span class="sc">$</span>lsas_post[df_clean<span class="sc">$</span>trt<span class="sc">==</span><span class="st">"therapist-guided"</span>], <span class="at">na.rm=</span>T)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>In these results show rather similar variances, although not equal</p>
 </div>
 </div>
@@ -484,7 +484,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMiJ9LCJjb2RlIjoi
 </div>
 <div class="cell" data-setup="true" data-exercise="ex_3">
 <script type="exercise-setup-ex_3-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMyIsInNldHVwIjp0cnVlfSwiY29kZSI6IiMgTG9hZCB0aGUgQ1NWIGRhdGFcbmxpYnJhcnkoZHBseXIpXG5kZl9kYXRhIDwtIHJlYWQuY3N2KFwiZGF0YS9zdGVwc19jbGVhbi5jc3ZcIikifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMyIsInNldHVwIjp0cnVlfSwiY29kZSI6IiMgTG9hZCB0aGUgQ1NWIGRhdGFcbmxpYnJhcnkoZHBseXIpXG5kZl9jbGVhbiA8LSByZWFkLmNzdihcImRhdGEvc3RlcHNfY2xlYW4uY3N2XCIpIn0=
 </script>
 </div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
@@ -506,7 +506,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMyJ9LCJjb2RlIjoi
 <div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
 <div class="hint webr-ojs-exercise exercise-hint d-none" data-exercise="ex_3">
 <p>You can again calculate it using the <code>t.test()</code> function, but need to change the setting of the var.equal argument</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df_data <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df_clean <span class="sc">%&gt;%</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(trt <span class="sc">!=</span> <span class="st">"_____"</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">t.test</span>(______ <span class="sc">~</span> trt, <span class="at">data =</span> ., <span class="at">var.equal =</span> _____)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -514,7 +514,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMyJ9LCJjb2RlIjoi
 <div id="tabset-3-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-3-tab">
 <div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_3">
 <p>The full solution is:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-6"><pre class="sourceCode r code-annotation-code code-with-copy"><code class="sourceCode r"><span id="annotated-cell-6-1"><a href="#annotated-cell-6-1" aria-hidden="true" tabindex="-1"></a>df_data <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-6"><pre class="sourceCode r code-annotation-code code-with-copy"><code class="sourceCode r"><span id="annotated-cell-6-1"><a href="#annotated-cell-6-1" aria-hidden="true" tabindex="-1"></a>df_clean <span class="sc">%&gt;%</span></span>
 <span id="annotated-cell-6-2"><a href="#annotated-cell-6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(trt <span class="sc">!=</span> <span class="st">"self-guided"</span>) <span class="sc">%&gt;%</span></span>
 <span id="annotated-cell-6-3"><a href="#annotated-cell-6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">t.test</span>(lsas_post <span class="sc">~</span> trt, <span class="at">data =</span> ., <span class="at">var.equal =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Results are very similar to when the variances where assumed to equal, so the difference in variance between the groups do not 0affect our results to any large degree</p>
@@ -524,7 +524,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMyJ9LCJjb2RlIjoi
 </div>
 <div class="cell" data-setup="true" data-exercise="ex_4">
 <script type="exercise-setup-ex_4-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNCIsInNldHVwIjp0cnVlfSwiY29kZSI6IiMgTG9hZCB0aGUgQ1NWIGRhdGFcbmxpYnJhcnkoZHBseXIpXG5kZl9kYXRhIDwtIHJlYWQuY3N2KFwiZGF0YS9zdGVwc19jbGVhbi5jc3ZcIikifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNCIsInNldHVwIjp0cnVlfSwiY29kZSI6IiMgTG9hZCB0aGUgQ1NWIGRhdGFcbmxpYnJhcnkoZHBseXIpXG5kZl9jbGVhbiA8LSByZWFkLmNzdihcImRhdGEvc3RlcHNfY2xlYW4uY3N2XCIpIn0=
 </script>
 </div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
@@ -546,7 +546,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNCJ9LCJjb2RlIjoi
 <div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
 <div class="hint webr-ojs-exercise exercise-hint d-none" data-exercise="ex_4">
 <p>You can again calculate it using the <code>t.test()</code> function</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df_data <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df_clean <span class="sc">%&gt;%</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(trt <span class="sc">!=</span> <span class="st">"_____"</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">t.test</span>(______ <span class="sc">~</span> trt, <span class="at">data =</span> ., <span class="at">var.equal =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Or if you want to do it manually, use the formula for the z-score 95% CI of mean differences</p>
@@ -563,19 +563,19 @@ SE_{z} = \sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}
 <div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_4">
 <p>The full solution is:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-8"><pre class="sourceCode r code-annotation-code code-with-copy"><code class="sourceCode r"><span id="annotated-cell-8-1"><a href="#annotated-cell-8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#using the t.test() function</span></span>
-<span id="annotated-cell-8-2"><a href="#annotated-cell-8-2" aria-hidden="true" tabindex="-1"></a>df_data <span class="sc">%&gt;%</span></span>
+<span id="annotated-cell-8-2"><a href="#annotated-cell-8-2" aria-hidden="true" tabindex="-1"></a>df_clean <span class="sc">%&gt;%</span></span>
 <span id="annotated-cell-8-3"><a href="#annotated-cell-8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(trt <span class="sc">!=</span> <span class="st">"self-guided"</span>) <span class="sc">%&gt;%</span></span>
 <span id="annotated-cell-8-4"><a href="#annotated-cell-8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">t.test</span>(lsas_post <span class="sc">~</span> trt, <span class="at">data =</span> ., <span class="at">var.equal =</span> <span class="cn">TRUE</span>)</span>
 <span id="annotated-cell-8-5"><a href="#annotated-cell-8-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-8-6"><a href="#annotated-cell-8-6" aria-hidden="true" tabindex="-1"></a><span class="co"># or manually</span></span>
 <span id="annotated-cell-8-7"><a href="#annotated-cell-8-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-8-8"><a href="#annotated-cell-8-8" aria-hidden="true" tabindex="-1"></a><span class="co">#get the parts of the formula</span></span>
-<span id="annotated-cell-8-9"><a href="#annotated-cell-8-9" aria-hidden="true" tabindex="-1"></a>x_bar_tg <span class="ot">&lt;-</span> <span class="fu">mean</span>(df_data<span class="sc">$</span>lsas_post[df_data<span class="sc">$</span>trt <span class="sc">==</span> <span class="st">"therapist-guided"</span>], <span class="at">na.rm =</span> T)</span>
-<span id="annotated-cell-8-10"><a href="#annotated-cell-8-10" aria-hidden="true" tabindex="-1"></a>x_bar_wl <span class="ot">&lt;-</span> <span class="fu">mean</span>(df_data<span class="sc">$</span>lsas_post[df_data<span class="sc">$</span>trt <span class="sc">==</span> <span class="st">"waitlist"</span>], <span class="at">na.rm =</span> T)</span>
-<span id="annotated-cell-8-11"><a href="#annotated-cell-8-11" aria-hidden="true" tabindex="-1"></a>s_2_tg <span class="ot">&lt;-</span> <span class="fu">var</span>(df_data<span class="sc">$</span>lsas_post[df_data<span class="sc">$</span>trt <span class="sc">==</span> <span class="st">"therapist-guided"</span>], <span class="at">na.rm =</span> T)</span>
-<span id="annotated-cell-8-12"><a href="#annotated-cell-8-12" aria-hidden="true" tabindex="-1"></a>s_2_wl <span class="ot">&lt;-</span> <span class="fu">var</span>(df_data<span class="sc">$</span>lsas_post[df_data<span class="sc">$</span>trt <span class="sc">==</span> <span class="st">"waitlist"</span>], <span class="at">na.rm =</span> T)</span>
-<span id="annotated-cell-8-13"><a href="#annotated-cell-8-13" aria-hidden="true" tabindex="-1"></a>n_tg <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(df_data<span class="sc">$</span>lsas_post[df_data<span class="sc">$</span>trt <span class="sc">==</span> <span class="st">"therapist-guided"</span>]))</span>
-<span id="annotated-cell-8-14"><a href="#annotated-cell-8-14" aria-hidden="true" tabindex="-1"></a>n_wl <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(df_data<span class="sc">$</span>lsas_post[df_data<span class="sc">$</span>trt <span class="sc">==</span> <span class="st">"waitlist"</span>]))</span>
+<span id="annotated-cell-8-9"><a href="#annotated-cell-8-9" aria-hidden="true" tabindex="-1"></a>x_bar_tg <span class="ot">&lt;-</span> <span class="fu">mean</span>(df_clean<span class="sc">$</span>lsas_post[df_clean<span class="sc">$</span>trt <span class="sc">==</span> <span class="st">"therapist-guided"</span>], <span class="at">na.rm =</span> T)</span>
+<span id="annotated-cell-8-10"><a href="#annotated-cell-8-10" aria-hidden="true" tabindex="-1"></a>x_bar_wl <span class="ot">&lt;-</span> <span class="fu">mean</span>(df_clean<span class="sc">$</span>lsas_post[df_clean<span class="sc">$</span>trt <span class="sc">==</span> <span class="st">"waitlist"</span>], <span class="at">na.rm =</span> T)</span>
+<span id="annotated-cell-8-11"><a href="#annotated-cell-8-11" aria-hidden="true" tabindex="-1"></a>s_2_tg <span class="ot">&lt;-</span> <span class="fu">var</span>(df_clean<span class="sc">$</span>lsas_post[df_clean<span class="sc">$</span>trt <span class="sc">==</span> <span class="st">"therapist-guided"</span>], <span class="at">na.rm =</span> T)</span>
+<span id="annotated-cell-8-12"><a href="#annotated-cell-8-12" aria-hidden="true" tabindex="-1"></a>s_2_wl <span class="ot">&lt;-</span> <span class="fu">var</span>(df_clean<span class="sc">$</span>lsas_post[df_clean<span class="sc">$</span>trt <span class="sc">==</span> <span class="st">"waitlist"</span>], <span class="at">na.rm =</span> T)</span>
+<span id="annotated-cell-8-13"><a href="#annotated-cell-8-13" aria-hidden="true" tabindex="-1"></a>n_tg <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(df_clean<span class="sc">$</span>lsas_post[df_clean<span class="sc">$</span>trt <span class="sc">==</span> <span class="st">"therapist-guided"</span>]))</span>
+<span id="annotated-cell-8-14"><a href="#annotated-cell-8-14" aria-hidden="true" tabindex="-1"></a>n_wl <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(df_clean<span class="sc">$</span>lsas_post[df_clean<span class="sc">$</span>trt <span class="sc">==</span> <span class="st">"waitlist"</span>]))</span>
 <span id="annotated-cell-8-15"><a href="#annotated-cell-8-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-8-16"><a href="#annotated-cell-8-16" aria-hidden="true" tabindex="-1"></a><span class="co"># z-value 95% CI</span></span>
 <span id="annotated-cell-8-17"><a href="#annotated-cell-8-17" aria-hidden="true" tabindex="-1"></a>se_z <span class="ot">&lt;-</span> <span class="fu">sqrt</span>((s_2_wl <span class="sc">/</span> n_wl) <span class="sc">+</span> (s_2_tg <span class="sc">/</span> n_tg))</span>
@@ -588,7 +588,7 @@ SE_{z} = \sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}
 </div>
 <div class="cell" data-setup="true" data-exercise="ex_5">
 <script type="exercise-setup-ex_5-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNSIsInNldHVwIjp0cnVlfSwiY29kZSI6IiMgTG9hZCB0aGUgQ1NWIGRhdGFcbmxpYnJhcnkoZHBseXIpXG5kZl9kYXRhIDwtIHJlYWQuY3N2KFwiZGF0YS9zdGVwc19jbGVhbi5jc3ZcIikifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNSIsInNldHVwIjp0cnVlfSwiY29kZSI6IiMgTG9hZCB0aGUgQ1NWIGRhdGFcbmxpYnJhcnkoZHBseXIpXG5kZl9jbGVhbiA8LSByZWFkLmNzdihcImRhdGEvc3RlcHNfY2xlYW4uY3N2XCIpIn0=
 </script>
 </div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
@@ -610,7 +610,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNSJ9LCJjb2RlIjoi
 <div id="tabset-5-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-2-tab">
 <div class="hint webr-ojs-exercise exercise-hint d-none" data-exercise="ex_5">
 <p>You can again calculate it using the <code>t.test()</code> function</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(df_data<span class="sc">$</span>_____, df_data<span class="sc">$</span>lsas_post, <span class="at">paired =</span> ____)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(df_clean<span class="sc">$</span>_____, df_clean<span class="sc">$</span>lsas_post, <span class="at">paired =</span> ____)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Or if you want to do it manually:</p>
 <p>For a paired samples t-test, the statistic is:</p>
 <p><span class="math display">\[
@@ -625,10 +625,10 @@ t = \frac{\bar{D}}{SE_D}
 <div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_5">
 <p>The full solution is:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-10"><pre class="sourceCode r code-annotation-code code-with-copy"><code class="sourceCode r"><span id="annotated-cell-10-1"><a href="#annotated-cell-10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># using the t-test function</span></span>
-<span id="annotated-cell-10-2"><a href="#annotated-cell-10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(df_data<span class="sc">$</span>lsas_fu12, df_data<span class="sc">$</span>lsas_post, <span class="at">paired =</span> <span class="cn">TRUE</span>)</span>
+<span id="annotated-cell-10-2"><a href="#annotated-cell-10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(df_clean<span class="sc">$</span>lsas_fu12, df_clean<span class="sc">$</span>lsas_post, <span class="at">paired =</span> <span class="cn">TRUE</span>)</span>
 <span id="annotated-cell-10-3"><a href="#annotated-cell-10-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-10-4"><a href="#annotated-cell-10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># or manually</span></span>
-<span id="annotated-cell-10-5"><a href="#annotated-cell-10-5" aria-hidden="true" tabindex="-1"></a>diff_post_12FU <span class="ot">&lt;-</span> df_data<span class="sc">$</span>lsas_fu12 <span class="sc">-</span> df_data<span class="sc">$</span>lsas_post</span>
+<span id="annotated-cell-10-5"><a href="#annotated-cell-10-5" aria-hidden="true" tabindex="-1"></a>diff_post_12FU <span class="ot">&lt;-</span> df_clean<span class="sc">$</span>lsas_fu12 <span class="sc">-</span> df_clean<span class="sc">$</span>lsas_post</span>
 <span id="annotated-cell-10-6"><a href="#annotated-cell-10-6" aria-hidden="true" tabindex="-1"></a>mean_diff <span class="ot">&lt;-</span> <span class="fu">mean</span>(diff_post_12FU, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
 <span id="annotated-cell-10-7"><a href="#annotated-cell-10-7" aria-hidden="true" tabindex="-1"></a>sd_diff <span class="ot">&lt;-</span> <span class="fu">sd</span>(diff_post_12FU, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
 <span id="annotated-cell-10-8"><a href="#annotated-cell-10-8" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(diff_post_12FU))</span>
@@ -644,7 +644,7 @@ t = \frac{\bar{D}}{SE_D}
 </div>
 <div class="cell" data-setup="true" data-exercise="ex_6">
 <script type="exercise-setup-ex_6-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNiIsInNldHVwIjp0cnVlfSwiY29kZSI6IiMgTG9hZCB0aGUgQ1NWIGRhdGFcbmxpYnJhcnkoZHBseXIpXG5kZl9kYXRhIDwtIHJlYWQuY3N2KFwiZGF0YS9zdGVwc19jbGVhbi5jc3ZcIikifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNiIsInNldHVwIjp0cnVlfSwiY29kZSI6IiMgTG9hZCB0aGUgQ1NWIGRhdGFcbmxpYnJhcnkoZHBseXIpXG5kZl9jbGVhbiA8LSByZWFkLmNzdihcImRhdGEvc3RlcHNfY2xlYW4uY3N2XCIpIn0=
 </script>
 </div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
@@ -674,7 +674,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNiJ9LCJjb2RlIjoi
 <div id="tabset-6-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-3-tab">
 <div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_6">
 <p>The full solution is:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-11"><pre class="sourceCode r code-annotation-code code-with-copy"><code class="sourceCode r"><span id="annotated-cell-11-1"><a href="#annotated-cell-11-1" aria-hidden="true" tabindex="-1"></a>diff_post_12FU <span class="ot">&lt;-</span> df_data<span class="sc">$</span>lsas_fu12 <span class="sc">-</span> df_data<span class="sc">$</span>lsas_post</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-11"><pre class="sourceCode r code-annotation-code code-with-copy"><code class="sourceCode r"><span id="annotated-cell-11-1"><a href="#annotated-cell-11-1" aria-hidden="true" tabindex="-1"></a>diff_post_12FU <span class="ot">&lt;-</span> df_clean<span class="sc">$</span>lsas_fu12 <span class="sc">-</span> df_clean<span class="sc">$</span>lsas_post</span>
 <span id="annotated-cell-11-2"><a href="#annotated-cell-11-2" aria-hidden="true" tabindex="-1"></a>mean_diff <span class="ot">&lt;-</span> <span class="fu">mean</span>(diff_post_12FU, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
 <span id="annotated-cell-11-3"><a href="#annotated-cell-11-3" aria-hidden="true" tabindex="-1"></a>sd_diff <span class="ot">&lt;-</span> <span class="fu">sd</span>(diff_post_12FU, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
 <span id="annotated-cell-11-4"><a href="#annotated-cell-11-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(diff_post_12FU))</span>

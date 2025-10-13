@@ -375,7 +375,7 @@ window.Quarto = {
 
 <div class="cell" data-setup="true" data-exercise="ex_1">
 <script type="exercise-setup-ex_1-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMSIsInNldHVwIjp0cnVlfSwiY29kZSI6IiMgTG9hZCB0aGUgQ1NWIGRhdGFcbmxpYnJhcnkoZHBseXIpXG5kZl9kYXRhIDwtIHJlYWQuY3N2KFwiZGF0YS9zdGVwc19jbGVhbi5jc3ZcIikifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMSIsInNldHVwIjp0cnVlfSwiY29kZSI6IiMgTG9hZCB0aGUgQ1NWIGRhdGFcbmxpYnJhcnkoZHBseXIpXG5kZl9jbGVhbiA8LSByZWFkLmNzdihcImRhdGEvc3RlcHNfY2xlYW4uY3N2XCIpIn0=
 </script>
 </div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
@@ -397,7 +397,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMSJ9LCJjb2RlIjoi
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <div class="hint webr-ojs-exercise exercise-hint d-none" data-exercise="ex_1">
 <p>You can calculate it manually using the formula in the P-values and confidence intervals chapter or use the <code>t.test()</code> function</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-1"><pre class="sourceCode r code-annotation-code code-with-copy"><code class="sourceCode r"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(df_data<span class="sc">$</span>phq9_screen,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-1"><pre class="sourceCode r code-annotation-code code-with-copy"><code class="sourceCode r"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(df_clean<span class="sc">$</span>phq9_screen,</span>
 <span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">mu=</span>___,</span>
 <span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">alternative =</span> <span class="st">"____"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -406,14 +406,14 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMSJ9LCJjb2RlIjoi
 <div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_1">
 <p>The full solution is:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-2"><pre class="sourceCode r code-annotation-code code-with-copy"><code class="sourceCode r"><span id="annotated-cell-2-1"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#calculate manually</span></span>
-<span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a>x_bar <span class="ot">&lt;-</span> <span class="fu">mean</span>(df_data<span class="sc">$</span>phq9_screen)</span>
-<span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a>se <span class="ot">&lt;-</span> <span class="fu">sd</span>(df_data<span class="sc">$</span>phq9_screen) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">nrow</span>(df_data))</span>
+<span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a>x_bar <span class="ot">&lt;-</span> <span class="fu">mean</span>(df_clean<span class="sc">$</span>phq9_screen)</span>
+<span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a>se <span class="ot">&lt;-</span> <span class="fu">sd</span>(df_clean<span class="sc">$</span>phq9_screen) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">nrow</span>(df_clean))</span>
 <span id="annotated-cell-2-4"><a href="#annotated-cell-2-4" aria-hidden="true" tabindex="-1"></a>t_value <span class="ot">&lt;-</span> (x_bar <span class="sc">-</span> <span class="dv">9</span>) <span class="sc">/</span> se</span>
 <span id="annotated-cell-2-5"><a href="#annotated-cell-2-5" aria-hidden="true" tabindex="-1"></a>(<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pt</span>(t_value, <span class="at">df =</span> <span class="dv">180</span>))<span class="sc">*</span><span class="dv">2</span></span>
 <span id="annotated-cell-2-6"><a href="#annotated-cell-2-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-2-7"><a href="#annotated-cell-2-7" aria-hidden="true" tabindex="-1"></a><span class="co">#or using the t.test function</span></span>
 <span id="annotated-cell-2-8"><a href="#annotated-cell-2-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-2-9"><a href="#annotated-cell-2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(df_data<span class="sc">$</span>phq9_screen,</span>
+<span id="annotated-cell-2-9"><a href="#annotated-cell-2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(df_clean<span class="sc">$</span>phq9_screen,</span>
 <span id="annotated-cell-2-10"><a href="#annotated-cell-2-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">mu=</span><span class="dv">9</span>,</span>
 <span id="annotated-cell-2-11"><a href="#annotated-cell-2-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -422,7 +422,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMSJ9LCJjb2RlIjoi
 </div>
 <div class="cell" data-setup="true" data-exercise="ex_2">
 <script type="exercise-setup-ex_2-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMiIsInNldHVwIjp0cnVlfSwiY29kZSI6IiMgTG9hZCB0aGUgQ1NWIGRhdGFcbmxpYnJhcnkoZHBseXIpXG5kZl9kYXRhIDwtIHJlYWQuY3N2KFwiZGF0YS9zdGVwc19jbGVhbi5jc3ZcIikifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMiIsInNldHVwIjp0cnVlfSwiY29kZSI6IiMgTG9hZCB0aGUgQ1NWIGRhdGFcbmxpYnJhcnkoZHBseXIpXG5kZl9jbGVhbiA8LSByZWFkLmNzdihcImRhdGEvc3RlcHNfY2xlYW4uY3N2XCIpIn0=
 </script>
 </div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
@@ -444,7 +444,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMiJ9LCJjb2RlIjoi
 <div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
 <div class="hint webr-ojs-exercise exercise-hint d-none" data-exercise="ex_2">
 <p>You can calculate it manually using the formula in the P-values and confidence intervals chapter or again use the <code>t.test()</code> function</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-3"><pre class="sourceCode r code-annotation-code code-with-copy"><code class="sourceCode r"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(df_data<span class="sc">$</span>phq9_screen,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-3"><pre class="sourceCode r code-annotation-code code-with-copy"><code class="sourceCode r"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(df_clean<span class="sc">$</span>phq9_screen,</span>
 <span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">mu=</span>___,</span>
 <span id="annotated-cell-3-3"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">alternative =</span> <span class="st">"____"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -452,8 +452,8 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMiJ9LCJjb2RlIjoi
 <div id="tabset-2-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-3-tab">
 <div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_2">
 <p>The full solution is:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-4"><pre class="sourceCode r code-annotation-code code-with-copy"><code class="sourceCode r"><span id="annotated-cell-4-1"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a>x_bar <span class="ot">&lt;-</span> <span class="fu">mean</span>(df_data<span class="sc">$</span>phq9_screen)</span>
-<span id="annotated-cell-4-2"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a>se <span class="ot">&lt;-</span> <span class="fu">sd</span>(df_data<span class="sc">$</span>phq9_screen) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">nrow</span>(df_data))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-4"><pre class="sourceCode r code-annotation-code code-with-copy"><code class="sourceCode r"><span id="annotated-cell-4-1"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a>x_bar <span class="ot">&lt;-</span> <span class="fu">mean</span>(df_clean<span class="sc">$</span>phq9_screen)</span>
+<span id="annotated-cell-4-2"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a>se <span class="ot">&lt;-</span> <span class="fu">sd</span>(df_clean<span class="sc">$</span>phq9_screen) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">nrow</span>(df_clean))</span>
 <span id="annotated-cell-4-3"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fl">1.96</span></span>
 <span id="annotated-cell-4-4"><a href="#annotated-cell-4-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-4-5"><a href="#annotated-cell-4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#upper confidence limit</span></span>
@@ -464,7 +464,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMiJ9LCJjb2RlIjoi
 <span id="annotated-cell-4-10"><a href="#annotated-cell-4-10" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">c</span>(lcl, ucl))</span>
 <span id="annotated-cell-4-11"><a href="#annotated-cell-4-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-4-12"><a href="#annotated-cell-4-12" aria-hidden="true" tabindex="-1"></a><span class="co">#or</span></span>
-<span id="annotated-cell-4-13"><a href="#annotated-cell-4-13" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(df_data<span class="sc">$</span>phq9_screen,</span>
+<span id="annotated-cell-4-13"><a href="#annotated-cell-4-13" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(df_clean<span class="sc">$</span>phq9_screen,</span>
 <span id="annotated-cell-4-14"><a href="#annotated-cell-4-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">mu=</span><span class="dv">9</span>,</span>
 <span id="annotated-cell-4-15"><a href="#annotated-cell-4-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -473,7 +473,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMiJ9LCJjb2RlIjoi
 </div>
 <div class="cell" data-setup="true" data-exercise="ex_3">
 <script type="exercise-setup-ex_3-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMyIsInNldHVwIjp0cnVlfSwiY29kZSI6IiMgTG9hZCB0aGUgQ1NWIGRhdGFcbmxpYnJhcnkoZHBseXIpXG5kZl9kYXRhIDwtIHJlYWQuY3N2KFwiZGF0YS9zdGVwc19jbGVhbi5jc3ZcIikifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMyIsInNldHVwIjp0cnVlfSwiY29kZSI6IiMgTG9hZCB0aGUgQ1NWIGRhdGFcbmxpYnJhcnkoZHBseXIpXG5kZl9jbGVhbiA8LSByZWFkLmNzdihcImRhdGEvc3RlcHNfY2xlYW4uY3N2XCIpIn0=
 </script>
 </div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
@@ -487,14 +487,14 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMyIsInNldHVwIjp0
 
 </div>
 <script type="webr-6-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMyJ9LCJjb2RlIjoiIyBTaW11bGF0aW5nIGEgZ2VuZGVyIHZhcmlhYmxlXG5uIDwtIG5yb3coZGZfZGF0YSlcbmRmX2RhdGEkZ2VuZGVyIDwtIHJiaW5vbShuLCAxLCAwLjcpXG5kZl9kYXRhJGdlbmRlciA8LSBpZmVsc2UoZGZfZGF0YSRnZW5kZXIgPT0gMSwgXCJXb21hblwiLCBcIk1hblwiKSJ9
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMyJ9LCJjb2RlIjoiIyBTaW11bGF0aW5nIGEgZ2VuZGVyIHZhcmlhYmxlXG5uIDwtIG5yb3coZGZfY2xlYW4pXG5kZl9jbGVhbiRnZW5kZXIgPC0gcmJpbm9tKG4sIDEsIDAuNylcbmRmX2NsZWFuJGdlbmRlciA8LSBpZmVsc2UoZGZfY2xlYW4kZ2VuZGVyID09IDEsIFwiV29tYW5cIiwgXCJNYW5cIikifQ==
 </script>
 </div>
 </div>
 </div>
 <div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
 <div class="hint webr-ojs-exercise exercise-hint d-none" data-exercise="ex_3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.test</span>(<span class="at">x=</span> <span class="fu">sum</span>(df_data<span class="sc">$</span>gender<span class="sc">==</span><span class="st">"Man"</span>), </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.test</span>(<span class="at">x=</span> <span class="fu">sum</span>(df_clean<span class="sc">$</span>gender<span class="sc">==</span><span class="st">"Man"</span>), </span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">n=</span> <span class="fu">length</span>(____), </span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">p=</span>___,</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">alternative=</span><span class="st">"less"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -504,12 +504,12 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMyJ9LCJjb2RlIjoi
 <div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_3">
 <p>The full solution is:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-6"><pre class="sourceCode r code-annotation-code code-with-copy"><code class="sourceCode r"><span id="annotated-cell-6-1"><a href="#annotated-cell-6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulating a gender variable</span></span>
-<span id="annotated-cell-6-2"><a href="#annotated-cell-6-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(df_data)</span>
-<span id="annotated-cell-6-3"><a href="#annotated-cell-6-3" aria-hidden="true" tabindex="-1"></a>df_data<span class="sc">$</span>gender <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.7</span>)</span>
-<span id="annotated-cell-6-4"><a href="#annotated-cell-6-4" aria-hidden="true" tabindex="-1"></a>df_data<span class="sc">$</span>gender <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(df_data<span class="sc">$</span>gender <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"Woman"</span>, <span class="st">"Man"</span>)</span>
+<span id="annotated-cell-6-2"><a href="#annotated-cell-6-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(df_clean)</span>
+<span id="annotated-cell-6-3"><a href="#annotated-cell-6-3" aria-hidden="true" tabindex="-1"></a>df_clean<span class="sc">$</span>gender <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.7</span>)</span>
+<span id="annotated-cell-6-4"><a href="#annotated-cell-6-4" aria-hidden="true" tabindex="-1"></a>df_clean<span class="sc">$</span>gender <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(df_clean<span class="sc">$</span>gender <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"Woman"</span>, <span class="st">"Man"</span>)</span>
 <span id="annotated-cell-6-5"><a href="#annotated-cell-6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-6-6"><a href="#annotated-cell-6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.test</span>(<span class="at">x=</span> <span class="fu">sum</span>(df_data<span class="sc">$</span>gender<span class="sc">==</span><span class="st">"Man"</span>), </span>
-<span id="annotated-cell-6-7"><a href="#annotated-cell-6-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">n=</span> <span class="fu">length</span>(df_data<span class="sc">$</span>gender), </span>
+<span id="annotated-cell-6-6"><a href="#annotated-cell-6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.test</span>(<span class="at">x=</span> <span class="fu">sum</span>(df_clean<span class="sc">$</span>gender<span class="sc">==</span><span class="st">"Man"</span>), </span>
+<span id="annotated-cell-6-7"><a href="#annotated-cell-6-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">n=</span> <span class="fu">length</span>(df_clean<span class="sc">$</span>gender), </span>
 <span id="annotated-cell-6-8"><a href="#annotated-cell-6-8" aria-hidden="true" tabindex="-1"></a>          <span class="at">p=</span><span class="fl">0.4</span>,</span>
 <span id="annotated-cell-6-9"><a href="#annotated-cell-6-9" aria-hidden="true" tabindex="-1"></a>          <span class="at">alternative=</span><span class="st">"less"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -518,7 +518,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMyJ9LCJjb2RlIjoi
 </div>
 <div class="cell" data-setup="true" data-exercise="ex_4">
 <script type="exercise-setup-ex_4-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNCIsInNldHVwIjp0cnVlfSwiY29kZSI6IiMgTG9hZCB0aGUgQ1NWIGRhdGFcbmxpYnJhcnkoZHBseXIpXG5kZl9kYXRhIDwtIHJlYWQuY3N2KFwiZGF0YS9zdGVwc19jbGVhbi5jc3ZcIikifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNCIsInNldHVwIjp0cnVlfSwiY29kZSI6IiMgTG9hZCB0aGUgQ1NWIGRhdGFcbmxpYnJhcnkoZHBseXIpXG5kZl9jbGVhbiA8LSByZWFkLmNzdihcImRhdGEvc3RlcHNfY2xlYW4uY3N2XCIpIn0=
 </script>
 </div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
@@ -532,7 +532,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNCIsInNldHVwIjp0
 
 </div>
 <script type="webr-8-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNCJ9LCJjb2RlIjoiIyBTaW11bGF0aW5nIGEgZ2VuZGVyIHZhcmlhYmxlXG5uIDwtIG5yb3coZGZfZGF0YSlcbmRmX2RhdGEkZ2VuZGVyIDwtIHJiaW5vbShuLCAxLCAwLjcpXG5kZl9kYXRhJGdlbmRlciA8LSBpZmVsc2UoZGZfZGF0YSRnZW5kZXIgPT0gMSwgXCJXb21hblwiLCBcIk1hblwiKSJ9
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNCJ9LCJjb2RlIjoiIyBTaW11bGF0aW5nIGEgZ2VuZGVyIHZhcmlhYmxlXG5uIDwtIG5yb3coZGZfY2xlYW4pXG5kZl9jbGVhbiRnZW5kZXIgPC0gcmJpbm9tKG4sIDEsIDAuNylcbmRmX2NsZWFuJGdlbmRlciA8LSBpZmVsc2UoZGZfY2xlYW4kZ2VuZGVyID09IDEsIFwiV29tYW5cIiwgXCJNYW5cIikifQ==
 </script>
 </div>
 </div>
@@ -547,12 +547,12 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNCJ9LCJjb2RlIjoi
 <div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_4">
 <p>The full solution is:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-8"><pre class="sourceCode r code-annotation-code code-with-copy"><code class="sourceCode r"><span id="annotated-cell-8-1"><a href="#annotated-cell-8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulating a gender variable</span></span>
-<span id="annotated-cell-8-2"><a href="#annotated-cell-8-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(df_data)</span>
-<span id="annotated-cell-8-3"><a href="#annotated-cell-8-3" aria-hidden="true" tabindex="-1"></a>df_data<span class="sc">$</span>gender <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.7</span>)</span>
-<span id="annotated-cell-8-4"><a href="#annotated-cell-8-4" aria-hidden="true" tabindex="-1"></a>df_data<span class="sc">$</span>gender <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(df_data<span class="sc">$</span>gender <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"Woman"</span>, <span class="st">"Man"</span>)</span>
+<span id="annotated-cell-8-2"><a href="#annotated-cell-8-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(df_clean)</span>
+<span id="annotated-cell-8-3"><a href="#annotated-cell-8-3" aria-hidden="true" tabindex="-1"></a>df_clean<span class="sc">$</span>gender <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.7</span>)</span>
+<span id="annotated-cell-8-4"><a href="#annotated-cell-8-4" aria-hidden="true" tabindex="-1"></a>df_clean<span class="sc">$</span>gender <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(df_clean<span class="sc">$</span>gender <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"Woman"</span>, <span class="st">"Man"</span>)</span>
 <span id="annotated-cell-8-5"><a href="#annotated-cell-8-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-8-6"><a href="#annotated-cell-8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#getting ci </span></span>
-<span id="annotated-cell-8-7"><a href="#annotated-cell-8-7" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.test</span>(<span class="fu">table</span>(df_data<span class="sc">$</span>gender))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="annotated-cell-8-7"><a href="#annotated-cell-8-7" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.test</span>(<span class="fu">table</span>(df_clean<span class="sc">$</span>gender))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -577,7 +577,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNCJ9LCJjb2RlIjoi
 </div>
 <div class="cell" data-setup="true" data-exercise="ex_6">
 <script type="exercise-setup-ex_6-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNiIsInNldHVwIjp0cnVlfSwiY29kZSI6IiMgTG9hZCB0aGUgQ1NWIGRhdGFcbmxpYnJhcnkoZHBseXIpXG5kZl9kYXRhIDwtIHJlYWQuY3N2KFwiZGF0YS9zdGVwc19jbGVhbi5jc3ZcIilcbiMgU2ltdWxhdGluZyBhIGdlbmRlciB2YXJpYWJsZVxubiA8LSBucm93KGRmX2RhdGEpXG5kZl9kYXRhJGdlbmRlciA8LSByYmlub20obiwgMSwgMC43KVxuZGZfZGF0YSRnZW5kZXIgPC0gaWZlbHNlKGRmX2RhdGEkZ2VuZGVyID09IDEsIFwiV29tYW5cIiwgXCJNYW5cIikifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNiIsInNldHVwIjp0cnVlfSwiY29kZSI6IiMgTG9hZCB0aGUgQ1NWIGRhdGFcbmxpYnJhcnkoZHBseXIpXG5kZl9jbGVhbiA8LSByZWFkLmNzdihcImRhdGEvc3RlcHNfY2xlYW4uY3N2XCIpXG4jIFNpbXVsYXRpbmcgYSBnZW5kZXIgdmFyaWFibGVcbm4gPC0gbnJvdyhkZl9jbGVhbilcbmRmX2NsZWFuJGdlbmRlciA8LSByYmlub20obiwgMSwgMC43KVxuZGZfY2xlYW4kZ2VuZGVyIDwtIGlmZWxzZShkZl9jbGVhbiRnZW5kZXIgPT0gMSwgXCJXb21hblwiLCBcIk1hblwiKSJ9
 </script>
 </div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
@@ -601,7 +601,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNiJ9LCJjb2RlIjoi
 <p>you can use the formula for the standard error of the proportion: <span class="math display">\[ \mathrm{SE}(p) = \sqrt{\frac{p(1 - p)}{n}} \]</span></p>
 <p>and combine with the formula for the z-scores</p>
 <p><span class="math display">\[ z= \frac{p - \hat{p}}{SE} \]</span></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>p_hat <span class="ot">&lt;-</span> <span class="fu">mean</span>(df_data<span class="sc">$</span>gender<span class="sc">==</span><span class="st">"___"</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>p_hat <span class="ot">&lt;-</span> <span class="fu">mean</span>(df_clean<span class="sc">$</span>gender<span class="sc">==</span><span class="st">"___"</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="fu">nrow</span>(____)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>se <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(p_hat<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p_hat)<span class="sc">/</span>n)</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>z<span class="ot">=</span> <span class="fl">1.96</span></span>
@@ -619,8 +619,8 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNiJ9LCJjb2RlIjoi
 <div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_6">
 <p>The full solution is:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="annotated-cell-10"><pre class="sourceCode r code-annotation-code code-with-copy"><code class="sourceCode r"><span id="annotated-cell-10-1"><a href="#annotated-cell-10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># manual Wald CI</span></span>
-<span id="annotated-cell-10-2"><a href="#annotated-cell-10-2" aria-hidden="true" tabindex="-1"></a>p_hat <span class="ot">&lt;-</span> <span class="fu">mean</span>(df_data<span class="sc">$</span>gender<span class="sc">==</span><span class="st">"Man"</span>)</span>
-<span id="annotated-cell-10-3"><a href="#annotated-cell-10-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="fu">nrow</span>(df_data)</span>
+<span id="annotated-cell-10-2"><a href="#annotated-cell-10-2" aria-hidden="true" tabindex="-1"></a>p_hat <span class="ot">&lt;-</span> <span class="fu">mean</span>(df_clean<span class="sc">$</span>gender<span class="sc">==</span><span class="st">"Man"</span>)</span>
+<span id="annotated-cell-10-3"><a href="#annotated-cell-10-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="fu">nrow</span>(df_clean)</span>
 <span id="annotated-cell-10-4"><a href="#annotated-cell-10-4" aria-hidden="true" tabindex="-1"></a>se <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(p_hat<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p_hat)<span class="sc">/</span>n)</span>
 <span id="annotated-cell-10-5"><a href="#annotated-cell-10-5" aria-hidden="true" tabindex="-1"></a>z<span class="ot">=</span> <span class="fl">1.96</span></span>
 <span id="annotated-cell-10-6"><a href="#annotated-cell-10-6" aria-hidden="true" tabindex="-1"></a><span class="co">#upper coinfidence limit</span></span>
@@ -631,14 +631,14 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNiJ9LCJjb2RlIjoi
 <span id="annotated-cell-10-11"><a href="#annotated-cell-10-11" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">c</span>(lcl,ucl))</span>
 <span id="annotated-cell-10-12"><a href="#annotated-cell-10-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-10-13"><a href="#annotated-cell-10-13" aria-hidden="true" tabindex="-1"></a><span class="co"># and from prop.test</span></span>
-<span id="annotated-cell-10-14"><a href="#annotated-cell-10-14" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.test</span>(<span class="fu">table</span>(df_data<span class="sc">$</span>gender))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="annotated-cell-10-14"><a href="#annotated-cell-10-14" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.test</span>(<span class="fu">table</span>(df_clean<span class="sc">$</span>gender))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
 </div>
 <div class="cell" data-setup="true" data-exercise="ex_7">
 <script type="exercise-setup-ex_7-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNyIsInNldHVwIjp0cnVlfSwiY29kZSI6IiMgTG9hZCB0aGUgQ1NWIGRhdGFcbmxpYnJhcnkoZHBseXIpXG5kZl9kYXRhIDwtIHJlYWQuY3N2KFwiZGF0YS9zdGVwc19jbGVhbi5jc3ZcIikifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNyIsInNldHVwIjp0cnVlfSwiY29kZSI6IiMgTG9hZCB0aGUgQ1NWIGRhdGFcbmxpYnJhcnkoZHBseXIpXG5kZl9jbGVhbiA8LSByZWFkLmNzdihcImRhdGEvc3RlcHNfY2xlYW4uY3N2XCIpIn0=
 </script>
 </div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
@@ -652,7 +652,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNyIsInNldHVwIjp0
 
 </div>
 <script type="webr-12-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNyJ9LCJjb2RlIjoibl9zYW1wbGVzIDwtIDFlNCAjIHRoZSBudW1iZXIgb2Ygc2FtcGxlc1xuc21wX3NpemUgPC0gMTAgIyB0aGUgc2l6ZSBvZiBvdXIgc2FtcGxlc1xubWVhbnMgPC0gcmVwKE5BLCBuX3NhbXBsZXMpICMgYW4gZW1wdHkgdmVjdG9yIHRvIGNvbnRhaW4gb3VyIG1lYW4gdmFsdWVzXG5cbmZvciAoaSBpbiAxOm5fc2FtcGxlcykge1xuICB4IDwtIHJub3JtKHNtcF9zaXplLCBtZWFuID0gODIsIHNkID0gc2QoZGZfZGF0YSRsc2FzX3NjcmVlbikpXG4gIG1lYW5zW2ldIDwtIG1lYW4oeClcbn1cblxubWVhbihtZWFucyA+PSBtZWFuKGRmX2RhdGEkbHNhc19zY3JlZW4pKSAjIHByb3BvcnRpb24gb2Ygc2ltdWxhdGVkIG1lYW5zIHRoYXQgYXJlIGxhcmdlciB0aGFuIG91ciBvYnNlcnZlZCBtZWFuIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNyJ9LCJjb2RlIjoibl9zYW1wbGVzIDwtIDFlNCAjIHRoZSBudW1iZXIgb2Ygc2FtcGxlc1xuc21wX3NpemUgPC0gMTAgIyB0aGUgc2l6ZSBvZiBvdXIgc2FtcGxlc1xubWVhbnMgPC0gcmVwKE5BLCBuX3NhbXBsZXMpICMgYW4gZW1wdHkgdmVjdG9yIHRvIGNvbnRhaW4gb3VyIG1lYW4gdmFsdWVzXG5cbmZvciAoaSBpbiAxOm5fc2FtcGxlcykge1xuICB4IDwtIHJub3JtKHNtcF9zaXplLCBtZWFuID0gODIsIHNkID0gc2QoZGZfY2xlYW4kbHNhc19zY3JlZW4pKVxuICBtZWFuc1tpXSA8LSBtZWFuKHgpXG59XG5cbm1lYW4obWVhbnMgPj0gbWVhbihkZl9jbGVhbiRsc2FzX3NjcmVlbikpICMgcHJvcG9ydGlvbiBvZiBzaW11bGF0ZWQgbWVhbnMgdGhhdCBhcmUgbGFyZ2VyIHRoYW4gb3VyIG9ic2VydmVkIG1lYW4ifQ==
 </script>
 </div>
 </div>
@@ -664,11 +664,11 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNyJ9LCJjb2RlIjoi
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>means <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, n_samples) <span class="co"># an empty vector to contain our mean values</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_samples) {</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(smp_size, <span class="at">mean =</span> <span class="dv">82</span>, <span class="at">sd =</span> <span class="fu">sd</span>(df_data<span class="sc">$</span>lsas_screen))</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(smp_size, <span class="at">mean =</span> <span class="dv">82</span>, <span class="at">sd =</span> <span class="fu">sd</span>(df_clean<span class="sc">$</span>lsas_screen))</span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  means[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(x)</span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(means <span class="sc">&gt;=</span> <span class="fu">mean</span>(df_data<span class="sc">$</span>lsas_screen)) <span class="co"># proportion of simulated means that are larger than our observed mean</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(means <span class="sc">&gt;=</span> <span class="fu">mean</span>(df_clean<span class="sc">$</span>lsas_screen)) <span class="co"># proportion of simulated means that are larger than our observed mean</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <div id="tabset-7-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-7-3-tab">
@@ -680,11 +680,11 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNyJ9LCJjb2RlIjoi
 <span id="annotated-cell-12-4"><a href="#annotated-cell-12-4" aria-hidden="true" tabindex="-1"></a>means <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, n_samples) <span class="co"># an empty vector to contain our mean values</span></span>
 <span id="annotated-cell-12-5"><a href="#annotated-cell-12-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-12-6"><a href="#annotated-cell-12-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_samples) {</span>
-<span id="annotated-cell-12-7"><a href="#annotated-cell-12-7" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(smp_size, <span class="at">mean =</span> <span class="dv">82</span>, <span class="at">sd =</span> <span class="fu">sd</span>(df_data<span class="sc">$</span>lsas_screen))</span>
+<span id="annotated-cell-12-7"><a href="#annotated-cell-12-7" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(smp_size, <span class="at">mean =</span> <span class="dv">82</span>, <span class="at">sd =</span> <span class="fu">sd</span>(df_clean<span class="sc">$</span>lsas_screen))</span>
 <span id="annotated-cell-12-8"><a href="#annotated-cell-12-8" aria-hidden="true" tabindex="-1"></a>  means[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(x)</span>
 <span id="annotated-cell-12-9"><a href="#annotated-cell-12-9" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="annotated-cell-12-10"><a href="#annotated-cell-12-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-12-11"><a href="#annotated-cell-12-11" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(means <span class="sc">&gt;=</span> <span class="fu">mean</span>(df_data<span class="sc">$</span>lsas_screen)) <span class="co"># proportion of simulated means that are larger than our observed mean</span></span>
+<span id="annotated-cell-12-11"><a href="#annotated-cell-12-11" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(means <span class="sc">&gt;=</span> <span class="fu">mean</span>(df_clean<span class="sc">$</span>lsas_screen)) <span class="co"># proportion of simulated means that are larger than our observed mean</span></span>
 <span id="annotated-cell-12-12"><a href="#annotated-cell-12-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-12-13"><a href="#annotated-cell-12-13" aria-hidden="true" tabindex="-1"></a><span class="co"># for a sample size of 100</span></span>
 <span id="annotated-cell-12-14"><a href="#annotated-cell-12-14" aria-hidden="true" tabindex="-1"></a></span>
@@ -693,11 +693,11 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNyJ9LCJjb2RlIjoi
 <span id="annotated-cell-12-17"><a href="#annotated-cell-12-17" aria-hidden="true" tabindex="-1"></a>means <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, n_samples) <span class="co"># an empty vector to contain our mean values</span></span>
 <span id="annotated-cell-12-18"><a href="#annotated-cell-12-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-12-19"><a href="#annotated-cell-12-19" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_samples) {</span>
-<span id="annotated-cell-12-20"><a href="#annotated-cell-12-20" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(smp_size, <span class="at">mean =</span> <span class="dv">82</span>, <span class="at">sd =</span> <span class="fu">sd</span>(df_data<span class="sc">$</span>lsas_screen))</span>
+<span id="annotated-cell-12-20"><a href="#annotated-cell-12-20" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(smp_size, <span class="at">mean =</span> <span class="dv">82</span>, <span class="at">sd =</span> <span class="fu">sd</span>(df_clean<span class="sc">$</span>lsas_screen))</span>
 <span id="annotated-cell-12-21"><a href="#annotated-cell-12-21" aria-hidden="true" tabindex="-1"></a>  means[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(x)</span>
 <span id="annotated-cell-12-22"><a href="#annotated-cell-12-22" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="annotated-cell-12-23"><a href="#annotated-cell-12-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-12-24"><a href="#annotated-cell-12-24" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(means <span class="sc">&gt;=</span> <span class="fu">mean</span>(df_data<span class="sc">$</span>lsas_screen)) <span class="co"># proportion of simulated means that are larger than our observed mean</span></span>
+<span id="annotated-cell-12-24"><a href="#annotated-cell-12-24" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(means <span class="sc">&gt;=</span> <span class="fu">mean</span>(df_clean<span class="sc">$</span>lsas_screen)) <span class="co"># proportion of simulated means that are larger than our observed mean</span></span>
 <span id="annotated-cell-12-25"><a href="#annotated-cell-12-25" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-12-26"><a href="#annotated-cell-12-26" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-12-27"><a href="#annotated-cell-12-27" aria-hidden="true" tabindex="-1"></a><span class="co"># for a sample size of 1000 </span></span>
@@ -707,11 +707,11 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNyJ9LCJjb2RlIjoi
 <span id="annotated-cell-12-31"><a href="#annotated-cell-12-31" aria-hidden="true" tabindex="-1"></a>means <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, n_samples) <span class="co"># an empty vector to contain our mean values</span></span>
 <span id="annotated-cell-12-32"><a href="#annotated-cell-12-32" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-12-33"><a href="#annotated-cell-12-33" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_samples) {</span>
-<span id="annotated-cell-12-34"><a href="#annotated-cell-12-34" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(smp_size, <span class="at">mean =</span> <span class="dv">82</span>, <span class="at">sd =</span> <span class="fu">sd</span>(df_data<span class="sc">$</span>lsas_screen))</span>
+<span id="annotated-cell-12-34"><a href="#annotated-cell-12-34" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(smp_size, <span class="at">mean =</span> <span class="dv">82</span>, <span class="at">sd =</span> <span class="fu">sd</span>(df_clean<span class="sc">$</span>lsas_screen))</span>
 <span id="annotated-cell-12-35"><a href="#annotated-cell-12-35" aria-hidden="true" tabindex="-1"></a>  means[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(x)</span>
 <span id="annotated-cell-12-36"><a href="#annotated-cell-12-36" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="annotated-cell-12-37"><a href="#annotated-cell-12-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-12-38"><a href="#annotated-cell-12-38" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(means <span class="sc">&gt;=</span> <span class="fu">mean</span>(df_data<span class="sc">$</span>lsas_screen)) <span class="co"># proportion of simulated means that are larger than our observed mean</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="annotated-cell-12-38"><a href="#annotated-cell-12-38" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(means <span class="sc">&gt;=</span> <span class="fu">mean</span>(df_clean<span class="sc">$</span>lsas_screen)) <span class="co"># proportion of simulated means that are larger than our observed mean</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
