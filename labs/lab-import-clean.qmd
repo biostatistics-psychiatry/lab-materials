@@ -45,7 +45,7 @@ library(here)
 library(janitor)
 
 # Load the data
-df_rawdata <- read_csv2(here("data", "steps_raw.csv"))
+df_rawdata <- read_csv(here("data", "steps_raw.csv"))
 
 ```
 
@@ -59,7 +59,7 @@ library(here)
 library(janitor)
 
 # Load the data
-df_rawdata <- read_csv2(here("data", "steps_raw.csv"))
+df_rawdata <- read_csv(here("data", "steps_raw.csv"))
 ```
 
 # Inspect data using glimpse()
