@@ -447,6 +447,10 @@ num_cols <- c("lsas", "gad", "phq9", "bbq", "scs", "dmrsodf", "ders", "pid_5")
 # Create the cleaned dataset
 df_clean <- df_rawdata |> 
   clean_names() |> 
+  rename_with(~ .x |> 
+    str_replace_all("screening", "screen") |> 
+    str_replace_all("ders_16|ders16", "ders") |> 
+    str_replace_all("phq_9|phq9", "phq9")) |> 
   mutate(across(where(is.character), ~na_if(., "missing"))) |> 
   mutate(
     across(starts_with(num_cols), as.numeric)
@@ -479,6 +483,10 @@ num_cols <- c("lsas", "gad", "phq9", "bbq", "scs", "dmrsodf", "ders", "pid_5")
 # Create the cleaned dataset
 df_clean <- df_rawdata |> 
   clean_names() |> 
+  rename_with(~ .x |> 
+    str_replace_all("screening", "screen") |> 
+    str_replace_all("ders_16|ders16", "ders") |> 
+    str_replace_all("phq_9|phq9", "phq9")) |>   
   mutate(across(where(is.character), ~na_if(., "missing"))) |> 
   mutate(
     across(starts_with(num_cols), as.numeric)
