@@ -14,6 +14,8 @@ resources:
 
 {{< include ../_extensions/r-wasm/live/_knitr.qmd >}}
 
+In this lab, we'll practice calculating p-values and confidence intervals for the difference between *two means*. This is based on the [Testing two means and contingency tables](../chapters/testing-two-means.qmd) chapter.
+
 ```{webr}
 #| setup: true
 #| exercise: ex_1
@@ -22,15 +24,27 @@ library(dplyr)
 df_clean <- read.csv("data/steps_clean.csv")
 ```
 
+If you are working in R Studio, first load packages and data:
+
+```{webr}
+#| label: setup-session
+library(dplyr)
+
+# Load the CSV data
+df_clean <- read.csv("data/steps_clean.csv")
+```
+
 
 ::::: panel-tabset
 ## Exercise 1
 
-Calculate the mean difference in post-treatment LSAS scores, and the associated two-sided p-value for the mean difference between the therapist-guided and the wait list group
+Calculate the mean difference and the associated two-sided p-value for post-treatment LSAS scores (`lsas_post`) between the therapist-guided and the wait-list group using the `t.test()` function.
 
 ```{webr}
 #| exercise: ex_1
-
+df_clean %>%
+  filter(trt != "_____") %>% # here we want to filter away the "self-guided" group
+  ____(______ ~ trt, data = ., var.equal = TRUE) # and then perform a t-test
 
 ```
 
@@ -40,8 +54,8 @@ Calculate the mean difference in post-treatment LSAS scores, and the associated 
 You can calculate it using the `t.test()` function
 ``` r
 df_clean %>%
-  filter(trt != "_____") %>%
-  t.test(______ ~ trt, data = ., var.equal = TRUE)
+  filter(trt != "self-guided") %>% # filters away the self-guided group
+  t.test(______ ~ trt, data = ., var.equal = TRUE) # performs a t-test, but on what variable?
 ```
 
 Or if you want to do it manually, you can use the following formulas
@@ -112,7 +126,7 @@ df_clean <- read.csv("data/steps_clean.csv")
 ::::: panel-tabset
 ## Exercise 2
 
-Do you think the assumption of equal variance between the groups is justified?
+Do you think the assumption of equal variance between the groups is justified? Remember that you can use the `var()` function to get the variance.  
 
 ```{webr}
 #| exercise: ex_2
@@ -141,7 +155,7 @@ var(df_clean$lsas_post[df_clean$trt=="waitlist"], na.rm=T)
 var(df_clean$lsas_post[df_clean$trt=="therapist-guided"], na.rm=T)
  #<2>
 ```
-In these results show rather similar variances, although not equal
+In these results show rather similar variances, although not exactly equal
 :::
 :::::
 
@@ -157,7 +171,7 @@ df_clean <- read.csv("data/steps_clean.csv")
 ::::: panel-tabset
 ## Exercise 3
 
-How do the results differ if you use the Welch t-test instead, that does not assume equal variances? 
+How do the results differ if you use the *Welch t-test* instead, that **does not** assume equal variances? You can have a look at the different setting of the t-test function by typing `?t.test()` into R Studio. 
 
 ```{webr}
 #| exercise: ex_3
@@ -171,8 +185,8 @@ How do the results differ if you use the Welch t-test instead, that does not ass
 You can again calculate it using the `t.test()` function, but need to change the setting of the var.equal argument
 ``` r
 df_clean %>%
-  filter(trt != "_____") %>%
-  t.test(______ ~ trt, data = ., var.equal = _____)
+  filter(trt != "_____") %>% # here we want to filer away the "self-guided" group
+  t.test(______ ~ trt, data = ., var.equal = _____) # and get rid of the assumption of equal variances (before it was set to TRUE)
 ```
 :::
 
@@ -204,11 +218,13 @@ df_clean <- read.csv("data/steps_clean.csv")
 ::::: panel-tabset
 ## Exercise 4
 
-Also calculate the 95% confidence interval for the difference in LSAS post-treatment scores between the therapist-guided and waitlist group
+Also calculate the 95% confidence interval for the difference in LSAS post-treatment scores (`lsas_post`) between the therapist-guided and wait-list group. Again you can use the `t.test` function. 
 
 ```{webr}
 #| exercise: ex_4
-
+df_clean %>%
+  filter(trt != "_____") %>%
+  _____(______ ~ trt, data = ., var.equal = TRUE)
 
 ```
 
@@ -281,12 +297,11 @@ df_clean <- read.csv("data/steps_clean.csv")
 ::::: panel-tabset
 ##  Exercise 5
 
-Conduct a dependent t-test for the difference in LSAS-scores between post-treatment and 12-month follow-up and interprets its meaning 
+Conduct a dependent t-test for the difference in LSAS-scores between post-treatment (`lsas_post`) and 12-month follow-up (`lsas_fu12`) and interprets its meaning. Again, type `?t.test()` into R Studio to get some info on how the function works.
 
 ```{webr}
 #| exercise: ex_5
-
-
+t.test(_____, _____, paired = ____)
 ```
 
 ## Hints
@@ -348,7 +363,7 @@ df_clean <- read.csv("data/steps_clean.csv")
 ::::: panel-tabset
 ##  BONUS Exercise 6
 
-Also calculate the 95% confidence interval for this difference, using the z-value formula and provide an interpretation of its meaning
+Also calculate the 95% confidence interval for the mean difference in LSAS-scores between post-treatment (`lsas_post`) and 12-month follow-up (`lsas_fu12`), using the z-value formula and provide an interpretation of its meaning
 
 ```{webr}
 #| exercise: ex_6
