@@ -39,8 +39,7 @@ Calculate the standard error of the GAD-7 scale at the screening (`df_clean$gad_
 
 ```{webr}
 #| exercise: ex_1
-
-
+______
 ```
 
 ## Hints
@@ -55,7 +54,7 @@ You can save the different parts of the formula as objects in your R environment
 ``` r
 s2 <-  var(df_clean$gad_screen)
 n <- length(df_clean$gad_screen)
-se <- sqrt(_________)
+se <- sqrt(______)
  #<1>
 ```
 :::
@@ -66,9 +65,9 @@ se <- sqrt(_________)
 The full solution is:
 
 ``` r
-s2 <-  sd(df_clean$gad_screen)
+s2 <- sd(df_clean$gad_screen)
 n <- length(df_clean$gad_screen)
-se <- sqrt(s2/n)
+se <- sqrt(s2 / n)
 se
  #<1>
 ```
@@ -93,11 +92,14 @@ Calculate the standard error for the proportion of participants with a high inco
 ```{webr}
 #| exercise: ex_2
 #simulate some income data
-n= nrow(df_clean)
+n <- nrow(df_clean)
 income_levels <- c("Low", "Medium", "High")
 income_probs <- c(0.2, 0.6, 0.2) # Adjust probabilities as needed
 df_clean$income <- sample(income_levels, size = n, replace = TRUE, prob = income_probs)
-
+______
+______
+______
+______
 ```
 
 ## Hints
@@ -111,8 +113,8 @@ $$
 You can save the different parts of the formula as objects in your R environment:
 ``` r
 p <- mean(df_clean$income=="High") # using the mean function to get the probability, please ask about how this works :)
-n <- nrow(___) # the number of observations (since we have no NA values) 
-se <- sqrt(___) # standard error 
+n <- nrow(______) # the number of observations (since we have no NA values) 
+se <- sqrt(______) # standard error 
 se
  #<2>
 ```
@@ -125,12 +127,12 @@ The full solution is:
 
 ``` r
 #simulate some income data
-n= nrow(df_clean)
+n <- nrow(df_clean)
 income_levels <- c("Low", "Medium", "High")
 income_probs <- c(0.2, 0.6, 0.2) # Adjust probabilities as needed
 df_clean$income <- sample(income_levels, size = n, replace = TRUE, prob = income_probs)
 
-p <- mean(df_clean$income=="High") # using the mean function to get the probability 
+p <- mean(df_clean$income == "High") # using the mean function to get the probability 
 n <- nrow(df_clean) # the number of observations (since we have no NA values) 
 se <- sqrt(p * (1 - p) / n) # standard error 
 se
