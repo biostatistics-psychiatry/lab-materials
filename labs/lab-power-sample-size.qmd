@@ -622,8 +622,10 @@ Use `expand_grid()` to create all combinations of effect sizes and sample sizes,
 #| label: ex-3c
 #| exercise: ex_3c
 library(pwr)
+library(dplyr)
 library(ggplot2)
 library(purrr)
+library(tidyr)
 
 # Define effect sizes and sample sizes
 effect_sizes <- c(0.2, 0.5, 0.8)
@@ -706,8 +708,10 @@ power_comparison <- expand_grid(
 #| exercise: ex_3c
 #| solution: true
 library(pwr)
+library(dplyr)
 library(ggplot2)
 library(purrr)
+library(tidyr)
 
 # Define effect sizes and sample sizes
 effect_sizes <- c(0.2, 0.5, 0.8)
