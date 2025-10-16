@@ -394,7 +394,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImxhYmVsIjoic2V0dXAtc2Vzc2lvbiJ9LCJj
 
 </div>
 <script type="webr-4-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMSIsImxhYmVsIjoiZXgtMSJ9LCJjb2RlIjoicG5vcm0oX19fLF9fXyxfX18pIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMSIsImxhYmVsIjoiZXgtMSJ9LCJjb2RlIjoibHNhc19tZWFuIDwtIG1lYW4oZGZfY2xlYW4kX19fX19fKVxubHNhc19zZCA8LSBzZChkZl9jbGVhbiRfX19fX18pXG5wbm9ybShxID0gX19fX19fLCBtZWFuID0gX19fX19fLCBzZCA9IF9fX19fXykifQ==
 </script>
 </div>
 </div>
@@ -418,12 +418,12 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImxhYmVsIjoiZXgtMS1oaW50In0sImNvZGUi
 <div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_1">
 <div class="cell" data-exercise="ex_1" data-solution="true">
 <div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_1">
-<code id="interpolate-7" class="solution-code d-none">mean &lt;- mean(df_clean$lsas_screen)
-sd &lt;- sd(df_clean$lsas_screen)
-pnorm(80, mean, sd)</code>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="interpolate-8-1"><a href="#interpolate-8-1" aria-hidden="true" tabindex="-1"></a>mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(df_clean<span class="sc">$</span>lsas_screen)</span>
-<span id="interpolate-8-2"><a href="#interpolate-8-2" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="fu">sd</span>(df_clean<span class="sc">$</span>lsas_screen)</span>
-<span id="interpolate-8-3"><a href="#interpolate-8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="dv">80</span>, mean, sd)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<code id="interpolate-7" class="solution-code d-none">lsas_mean &lt;- mean(df_clean$lsas_screen)
+lsas_sd &lt;- sd(df_clean$lsas_screen)
+pnorm(q = 80, mean = lsas_mean, sd = lsas_sd)</code>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="interpolate-8-1"><a href="#interpolate-8-1" aria-hidden="true" tabindex="-1"></a>lsas_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(df_clean<span class="sc">$</span>lsas_screen)</span>
+<span id="interpolate-8-2"><a href="#interpolate-8-2" aria-hidden="true" tabindex="-1"></a>lsas_sd <span class="ot">&lt;-</span> <span class="fu">sd</span>(df_clean<span class="sc">$</span>lsas_screen)</span>
+<span id="interpolate-8-3"><a href="#interpolate-8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="at">q =</span> <span class="dv">80</span>, <span class="at">mean =</span> lsas_mean, <span class="at">sd =</span> lsas_sd)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -449,7 +449,7 @@ eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4
 
 </div>
 <script type="webr-10-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMiIsImxhYmVsIjoiZXgtMiJ9LCJjb2RlIjoicG5vcm0oX19fLF9fXyxfX18pIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMiIsImxhYmVsIjoiZXgtMiJ9LCJjb2RlIjoibHNhc19tZWFuIDwtIG1lYW4oZGZfY2xlYW4kX19fX19fKVxubHNhc19zZCA8LSBzZChkZl9jbGVhbiRfX19fX18pXG5wbm9ybShxID0gX19fX19fLCBtZWFuID0gX19fX19fLCBzZCA9IF9fX19fXykifQ==
 </script>
 </div>
 </div>
@@ -464,7 +464,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMiIsImxhYmVsIjoi
 
 </div>
 <script type="webr-11-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImxhYmVsIjoiZXgtMi1oaW50In0sImNvZGUiOiJtZWFuIDwtIG1lYW4oZGZfY2xlYW4kbHNhc19zY3JlZW4pXG5zZCA8LSBzZChkZl9jbGVhbiRsc2FzX3NjcmVlbilcbjEtcG5vcm0oX19fLF9fXyxfX18pIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImxhYmVsIjoiZXgtMi1oaW50In0sImNvZGUiOiJsc2FzX21lYW4gPC0gbWVhbihkZl9jbGVhbiRsc2FzX3NjcmVlbilcbmxzYXNfc2QgPC0gc2QoZGZfY2xlYW4kbHNhc19zY3JlZW4pXG4xIC0gcG5vcm0ocSA9IF9fX19fXywgbWVhbiA9IF9fX19fXywgc2QgPSBfX19fX18pIn0=
 </script>
 </div>
 </div>
@@ -474,12 +474,12 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImxhYmVsIjoiZXgtMi1oaW50In0sImNvZGUi
 <div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_2">
 <div class="cell" data-exercise="ex_2" data-solution="true">
 <div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_2">
-<code id="interpolate-13" class="solution-code d-none">mean &lt;- mean(df_clean$lsas_screen)
-sd &lt;- sd(df_clean$lsas_screen)
-1-pnorm(100, mean, sd)</code>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="interpolate-14-1"><a href="#interpolate-14-1" aria-hidden="true" tabindex="-1"></a>mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(df_clean<span class="sc">$</span>lsas_screen)</span>
-<span id="interpolate-14-2"><a href="#interpolate-14-2" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="fu">sd</span>(df_clean<span class="sc">$</span>lsas_screen)</span>
-<span id="interpolate-14-3"><a href="#interpolate-14-3" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">-</span><span class="fu">pnorm</span>(<span class="dv">100</span>, mean, sd)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<code id="interpolate-13" class="solution-code d-none">lsas_mean &lt;- mean(df_clean$lsas_screen)
+lsas_sd &lt;- sd(df_clean$lsas_screen)
+1 - pnorm(q = 100, mean = lsas_mean, sd = lsas_sd)</code>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="interpolate-14-1"><a href="#interpolate-14-1" aria-hidden="true" tabindex="-1"></a>lsas_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(df_clean<span class="sc">$</span>lsas_screen)</span>
+<span id="interpolate-14-2"><a href="#interpolate-14-2" aria-hidden="true" tabindex="-1"></a>lsas_sd <span class="ot">&lt;-</span> <span class="fu">sd</span>(df_clean<span class="sc">$</span>lsas_screen)</span>
+<span id="interpolate-14-3"><a href="#interpolate-14-3" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="at">q =</span> <span class="dv">100</span>, <span class="at">mean =</span> lsas_mean, <span class="at">sd =</span> lsas_sd)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -505,7 +505,7 @@ eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4
 
 </div>
 <script type="webr-16-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMyIsImxhYmVsIjoiZXgtMyJ9LCJjb2RlIjoicF9fX18oX19fXyxfX19fKSJ9
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMyIsImxhYmVsIjoiZXgtMyJ9LCJjb2RlIjoicF9fX19fXyhxID0gX19fX19fLCBsYW1iZGEgPSBfX19fX18pIn0=
 </script>
 </div>
 </div>
@@ -519,7 +519,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfMyIsImxhYmVsIjoi
 
 </div>
 <script type="webr-17-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImxhYmVsIjoiZXgtMy1oaW50In0sImNvZGUiOiJwcG9pcyhfX19fLF9fX18pIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImxhYmVsIjoiZXgtMy1oaW50In0sImNvZGUiOiJwcG9pcyhxID0gX19fX19fLCBsYW1iZGEgPSBfX19fX18pIn0=
 </script>
 </div>
 </div>
@@ -529,10 +529,8 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImxhYmVsIjoiZXgtMy1oaW50In0sImNvZGUi
 <div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_3">
 <div class="cell" data-exercise="ex_3" data-solution="true">
 <div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_3">
-<code id="interpolate-19" class="solution-code d-none">lambda = 5
-ppois(3,5)</code>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="interpolate-20-1"><a href="#interpolate-20-1" aria-hidden="true" tabindex="-1"></a>lambda <span class="ot">=</span> <span class="dv">5</span></span>
-<span id="interpolate-20-2"><a href="#interpolate-20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ppois</span>(<span class="dv">3</span>,<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<code id="interpolate-19" class="solution-code d-none">ppois(q = 3, lambda = 5)</code>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="interpolate-20-1"><a href="#interpolate-20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ppois</span>(<span class="at">q =</span> <span class="dv">3</span>, <span class="at">lambda =</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -558,7 +556,7 @@ eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4
 
 </div>
 <script type="webr-22-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNCIsImxhYmVsIjoiZXgtNCJ9LCJjb2RlIjoiZF9fX18oeCA9IF9fXywgc2l6ZT1fX18sIHA9X19fKSJ9
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNCIsImxhYmVsIjoiZXgtNCJ9LCJjb2RlIjoiX19fX19fKHggPSBfX19fX18sIHNpemUgPSBfX19fX18sIHAgPSBfX19fX18pIn0=
 </script>
 </div>
 </div>
@@ -572,7 +570,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXhfNCIsImxhYmVsIjoi
 
 </div>
 <script type="webr-23-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImxhYmVsIjoiZXgtNC1oaW50In0sImNvZGUiOiJkYmlub20oeD1fX19fLHNpemU9X19fLHA9IF9fXykifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImxhYmVsIjoiZXgtNC1oaW50In0sImNvZGUiOiJkYmlub20oeCA9IF9fX19fXywgc2l6ZSA9IF9fX19fXywgcCA9IF9fX19fXykifQ==
 </script>
 </div>
 </div>
@@ -582,18 +580,20 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImxhYmVsIjoiZXgtNC1oaW50In0sImNvZGUi
 <div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_4">
 <div class="cell" data-exercise="ex_4" data-solution="true">
 <div class="webr-ojs-exercise exercise-solution d-none" data-exercise="ex_4">
-<code id="interpolate-25" class="solution-code d-none">dbinom(x=5, size = 5, prob = 0.78)
-
-# or since these are random events, we could get the joint probability by multiplying the probabilities 5 times
-0.78*0.78*0.78*0.78*0.78
-#which is the same as
-0.78^5</code>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="interpolate-26-1"><a href="#interpolate-26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbinom</span>(<span class="at">x=</span><span class="dv">5</span>, <span class="at">size =</span> <span class="dv">5</span>, <span class="at">prob =</span> <span class="fl">0.78</span>)</span>
-<span id="interpolate-26-2"><a href="#interpolate-26-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="interpolate-26-3"><a href="#interpolate-26-3" aria-hidden="true" tabindex="-1"></a><span class="co"># or since these are random events, we could get the joint probability by multiplying the probabilities 5 times</span></span>
-<span id="interpolate-26-4"><a href="#interpolate-26-4" aria-hidden="true" tabindex="-1"></a><span class="fl">0.78</span><span class="sc">*</span><span class="fl">0.78</span><span class="sc">*</span><span class="fl">0.78</span><span class="sc">*</span><span class="fl">0.78</span><span class="sc">*</span><span class="fl">0.78</span></span>
-<span id="interpolate-26-5"><a href="#interpolate-26-5" aria-hidden="true" tabindex="-1"></a><span class="co">#which is the same as</span></span>
-<span id="interpolate-26-6"><a href="#interpolate-26-6" aria-hidden="true" tabindex="-1"></a><span class="fl">0.78</span><span class="sc">^</span><span class="dv">5</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<code id="interpolate-25" class="solution-code d-none">dbinom(x = 5, size = 5, prob = 0.78)</code>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="interpolate-26-1"><a href="#interpolate-26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbinom</span>(<span class="at">x =</span> <span class="dv">5</span>, <span class="at">size =</span> <span class="dv">5</span>, <span class="at">prob =</span> <span class="fl">0.78</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>Or since these are random events, we could get the joint probability by multiplying the probabilities 5 times</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.78</span> <span class="sc">*</span> <span class="fl">0.78</span> <span class="sc">*</span> <span class="fl">0.78</span> <span class="sc">*</span> <span class="fl">0.78</span> <span class="sc">*</span> <span class="fl">0.78</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2887174</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># which is the same as</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fl">0.78</span><span class="sc">^</span><span class="dv">5</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2887174</code></pre>
 </div>
 </div>
 </div>
