@@ -64,5 +64,6 @@ exercises/*.html
 labs/tables/*.docx
 
 # locally rendered files
-/docs/
+**/docs/
 **/*.quarto_ipynb
+_site/

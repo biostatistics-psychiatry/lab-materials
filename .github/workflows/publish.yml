@@ -7,6 +7,10 @@ on:
   pull_request:
     branches: [ main ]
 
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,25 +21,38 @@ jobs:
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
-      - name: Render site
-        uses: quarto-dev/quarto-actions/render@v2
+      - name: Render landing page
+        run: quarto render index.qmd
+
+      - name: Render Course 1
+        run: quarto render courses/course-1
+
+      - name: Render Course 2
+        run: quarto render courses/course-2
+
+      - name: Collect all rendered projects
+        run: |
+          rm -rf _site
+          mkdir -p _site
+          if [ -d docs ]; then cp -R docs/* _site/ || true; fi
+          mkdir -p _site/course-1 _site/course-2
+          if [ -d courses/course-1/docs ]; then cp -R courses/course-1/docs/* _site/course-1/ || true; fi
+          if [ -d courses/course-2/docs ]; then cp -R courses/course-2/docs/* _site/course-2/ || true; fi
+          if [ -f index.html ] && [ ! -f _site/index.html ]; then cp index.html _site/index.html; fi
+      - name: Upload Pages artifact (main only)
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
 
   deploy:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      pages: write
+      id-token: write
     needs: build
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Set up Quarto
-        uses: quarto-dev/quarto-actions/setup@v2
-
-      - name: Render and Publish
-        uses: quarto-dev/quarto-actions/publish@v2
-        with:
-          target: gh-pages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
+    

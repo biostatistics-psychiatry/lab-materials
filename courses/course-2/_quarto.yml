@@ -1,0 +1,47 @@
+project:
+  type: website
+  output-dir: docs
+
+execute:
+  freeze: auto
+
+website:
+  title: "Biostatistics - Research School in Clinical Psychiatry"
+  page-navigation: true
+  repo-url: https://github.com/biostatistics-psychiatry/lab-materials
+  repo-actions: [edit, issue]
+
+  sidebar:
+    title: "Biostatistics - II"
+    pinned: true
+    align: center
+
+    style: docked
+    search: true
+    collapse-level: 1
+
+    contents:
+      - section: "Course information"
+        contents:
+          - href: index.qmd
+            text: Overview
+
+      - section: "Chapters"
+        contents:
+          - href: chapters/template.qmd
+            text: Introduction
+      - section: "Labs"
+        contents:
+          - href: labs/template.qmd
+            text: Template
+
+format:
+  html:
+    theme: flatly
+    toc: true
+    toc-depth: 6
+    crossref:
+      custom:
+        - kind: float
+          reference-prefix: "Exercise"
+          key: "exr"

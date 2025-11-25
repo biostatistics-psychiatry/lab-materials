@@ -1,81 +1,8 @@
 project:
-  type: website
+  type: default
   output-dir: docs
-
-execute:
-  freeze: auto
-
-website:
-  page-navigation: true
-  title: "Biostatistics - Research School in Clinical Psychiatry"
-  repo-url: https://github.com/biostatistics-psychiatry/lab-materials
-  repo-actions: [edit, issue]
-
-  sidebar:
-    pinned: true
-    align: center
-
-    style: docked
-    search: true
-    collapse-level: 1
-
-    contents:
-      - section: "Course information"
-        contents:
-          - href: index.qmd
-            text: Overview
-          - href: r-setup.qmd
-            text: R and RStudio setup
-          - href: why-learn-r.qmd
-            text: Why Learn R?
-      - section: "Chapters"
-        contents:
-          - href: chapters/import-clean.qmd
-            text: Import and clean data
-          - href: chapters/descriptive-statistics.qmd
-            text: Descriptive statistics
-          - href: chapters/tidy-data-manipulation.qmd
-            text: Tidy data manipulation
-          - href: chapters/probability-distributions.qmd
-            text: Probability distributions in R
-          - href: chapters/sampling.qmd
-            text: Sampling from a population
-          - href: chapters/p-values-ci.qmd
-            text: P-values and confidence intervals
-          - href: chapters/probability-rules.qmd
-            text: Probability rules
-          - href: chapters/classification.qmd
-            text: Classification
-          - href: chapters/testing-two-means.qmd
-            text: Testing two means
-          - href: chapters/power-sample-size.qmd
-            text: Power and sample size
-      - section: "Labs"
-        contents:
-          - href: labs/lab-import-clean.qmd
-            text: Import and clean data
-          - href: labs/lab-descriptive-statistics.qmd
-            text: Descriptive statistics
-          - href: labs/lab-tidy-data-manipulation.qmd
-            text: Tidy data manipulation
-          - href: labs/lab-probability-distributions.qmd
-            text: Probability distributions in R
-          - href: labs/lab-sampling.qmd
-            text: Sampling from a population
-          - href: labs/lab-p-value-ci.qmd
-            text: P-values and confidence intervals
-          - href: labs/lab-probability-rules.qmd
-            text: Probability rules
-          - href: labs/lab-classification.qmd
-            text: Classification
-          - href: labs/lab-testing-two-means.qmd
-            text: Testing two means
-          - href: labs/lab-power-sample-size.qmd
-            text: Power and sample size
-            
-
-
-
+  render:
+    - index.qmd
 
 format:
   html:

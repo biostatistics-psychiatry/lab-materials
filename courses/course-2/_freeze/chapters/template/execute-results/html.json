@@ -1,0 +1,15 @@
+{
+  "hash": "0f11f7927840a42163b10bc319f420be",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: Template chapter\n---\n\nWelcome to the template chapter.\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nrnorm(10)\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n [1] -2.1008959 -0.7602400  0.2562913  1.3849294 -0.4076116 -1.2496037\n [7]  1.0809707 -0.2990591  0.5132891 -0.6006564\n```\n\n\n:::\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
