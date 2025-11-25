@@ -68,7 +68,7 @@ https://biostatistics-psychiatry.github.io/lab-materials/
 ### CI/CD Workflow Overview
 
 - **Pull Requests (PRs)**: Build runs rendering all courses for status checks. No deployment occurs.
-- **Push to `main`**: Build renders once, assembles a unified `_site/` directory, uploads a Pages artifact, then the `deploy-pages` action publishes it.
+- **Merging PRs into `main`**: Build renders once, assembles a unified `_site/` directory, uploads a Pages artifact, then the `deploy-pages` action publishes it.
 - **Assembly**: `_site/` is created fresh each run (first step removes any previous `_site`). Contents copied:
    - Root rendered `docs/` (landing page)
    - Each course's rendered `docs/` into `_site/course-1/`, `_site/course-2/`, etc.
@@ -81,7 +81,7 @@ This project uses `freeze: auto` to cache R computations. This means:
 - **First render**: R code executes and results are cached in `_freeze/`
 - **Subsequent renders**: Cached results are used (no R execution needed)
 - **GitHub Actions**: Only renders HTML from frozen content (no R required)
-    **Render before pushing**: If you add a new chunk or modify code, run a normal render first so the cache populates, then commit any changes under `courses/course-*/_freeze/` before pushing. 
+    - **Render before pushing**: If you add a new chunk or modify code, run a normal render first so the cache populates, then commit any changes under `courses/course-*/_freeze/` before pushing. 
 
 ### Local Full-Site Preview
 To mimic the CI page assembly, use the helper script:
