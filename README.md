@@ -6,7 +6,7 @@ Instructions and other materials related to the afternoon labs in the Biostatist
 This repository is organized as monorepo to support multiple courses:
 
 ```
-cpf-biostat-lab-materials/
+. 
 ├── courses/
 │   ├── course-1/          # First biostatistics course
 │   │   ├── chapters/      # Course content chapters
