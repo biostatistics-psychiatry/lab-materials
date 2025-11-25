@@ -2,9 +2,9 @@
 title: Template chapter
 ---
 
-Welcome to the template chapter.
+Welcome to the template chapter. 
 
 
 ```{r}
-rnorm(10)
+rnorm(11)
 ```
