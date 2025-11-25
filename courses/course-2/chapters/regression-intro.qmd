@@ -71,13 +71,43 @@ There are *no predictors*, so the model formula is simply:
 lsas_post ~ 1
 ```
 
-This is R syntax for the formula:
+## 2.1 Formula for linear regression
+
+In the context of linear regression, this is R syntax for the formula:
 
 $$E(LSAS_{post}) = \beta_0$$
 
-Where *E* refers to the expected value (mean or median)
+Where $E$ refers to the expected value (mean), and $\beta_0$, denotes the intercept. Sometimes, you may see this same model described using this formula:
 
-## 2.1 Linear regression (mean)
+$$LSAS_{post_i} = \beta_0 + \varepsilon_i$$
+
+That describes the same model, but highlights that the individual predictions, denoted by $i$, are a function of the predictors (in this case only the intercept), $\beta_0$, and the individual deviations from the predicted value, $\varepsilon_i$, also known as the residuals.
+
+## 2.2 Formula for Quantile Regression
+
+Quantile regression allows us to model **a chosen quantile** of the outcome rather than the mean. For an **intercept-only** model estimating the $\tau$-th quantile, the corresponding formula is:
+
+$$
+Q_{LSAS\_{post}}(\tau) = \beta_{\tau}
+$$
+
+Here, $Q_{LSAS\_{post}}(\tau)$ denotes the $\tau$-th quantile of the outcome. For example, if $\tau = 0.5$, the model estimates the **median**.
+
+A parallel way to write this model, showing individual observations, denoted by $i$, is:
+
+$$LSAS_{post_i} = \beta_{\tau} + e_i $$
+
+This makes explicit that the “error term” $e_i$ is not assumed to have mean zero. Instead, it satisfies $P(e_i \le 0) = \tau$, meaning that:
+
+-    when $\tau = 0.5$, half of the residuals fall below zero
+
+-   when $\tau = 0.25$, 25% of residuals fall below zero
+
+-   and so on
+
+Thus, whereas linear regression models the **mean**, quantile regression models the **chosen quantile** of the outcome distribution, offering a more complete view when the distribution is skewed, heavy-tailed, or heterogeneous.
+
+## Linear regression (mean)
 
 So let's fit an intercept-only model for the score of the LSAS scale at post-treatment in the STePS study. First we use the `lm()`function to fit the regression model. To be able to easily access the model, we save in in an object calles `mod_lm.` Using the `summary()` function on this regression object gives the most essential information on the model.
 
