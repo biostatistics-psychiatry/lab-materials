@@ -1,0 +1,10 @@
+---
+title: Template lab
+---
+
+Welcome to the template chapter.
+
+
+```{r}
+1 + 1
+```

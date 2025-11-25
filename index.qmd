@@ -1,17 +1,35 @@
 ---
-title: "Research school in clinical psychiatry"
+title: "Research School in Clinical Psychiatry"
+subtitle: "Biostatistics Course Materials"
 date: last-modified
 ---
 
-Welcome to the course materials for Biostatistics courses in the Research School in Clinical Psychiatry at Karolinska Institutet. This website contains all materials related to the afternoon lab sessions of the courses.
+Welcome to the course materials for the Biostatistics courses in the Research School in Clinical Psychiatry at Karolinska Institutet. This website contains all materials related to the afternoon lab sessions.
 
-::: {.callout-note}
-## Using AI tools
+## Available Courses
 
-We will not police your use of generative AI tools (ChatGPT, Claude, Co-pilot etc) in these lab sessions. They are useful for generating code that *works*, but you are still responsible for making sure that it is the *correct* code. We use some of these tools in our own day-to-day work and find them useful. However, we often have to correct subtle errors that are not immediately obvious. So please use them with care.
+Select the course you are enrolled in:
+
+::: {.grid}
+
+::: {.g-col-12 .g-col-md-6}
+### [Course 1](course-1/index.html)
+
+Fundamentals of biostatistics for clinical research, including descriptive statistics, probability, hypothesis testing, and power analysis.
+
+[Enter Course 1 →](course-1/index.html){.btn .btn-primary}
+:::
+
+::: {.g-col-12 .g-col-md-6}
+### [Course 2](course-2/index.html)
+
+Regression analysis (WIP)
+
+[Enter Course 2 →](course-2/index.html){.btn .btn-secondary}
+:::
 
 :::
 
-# Teaching team
+## Teaching Team
 
 The course director is [Matteo Bottai](https://ki.se/en/people/matteo-bottai), Professor of Biostatistics at Karolinska Institutet. Course leaders are [Kristoffer Magnusson](https://ki.se/en/people/kristoffer-magnusson), [Fred Johansson](https://ki.se/en/people/fredrik-johansson) and [Oskar Flygare](https://ki.se/en/people/oskar-flygare), all researchers at Centre for Psychiatry Research, Karolinska Institutet.

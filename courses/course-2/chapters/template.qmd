@@ -1,0 +1,10 @@
+---
+title: Template chapter
+---
+
+Welcome to the template chapter.
+
+
+```{r}
+rnorm(10)
+```

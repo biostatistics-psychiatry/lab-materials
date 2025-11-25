@@ -1,0 +1,6 @@
+---
+title: "Course 2"
+date: last-modified
+---
+
+Welcome to course 2

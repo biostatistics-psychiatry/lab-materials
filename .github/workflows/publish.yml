@@ -7,6 +7,10 @@ on:
   pull_request:
     branches: [ main ]
 
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,25 +21,72 @@ jobs:
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
-      - name: Render site
-        uses: quarto-dev/quarto-actions/render@v2
+      - name: Render site content
+        run: |
+          set -e
+          echo "Starting root render" 
+          echo "::group::Render landing page"
+          start_root=$(date +%s)
+          quarto render index.qmd
+          end_root=$(date +%s)
+          echo "Landing page render duration: $((end_root-start_root))s"
+          echo "::notice title=Landing Page::Rendered successfully in $((end_root-start_root))s"
+          echo "::endgroup::"
+
+          # Render every course directory with grouped logs
+          for d in courses/course-*; do
+            if [ -d "$d" ]; then
+              cname=$(basename "$d")
+              echo "::group::Render $cname"
+              start_course=$(date +%s)
+              if ! quarto render "$d"; then
+                echo "::error file=$d title=Render Failed::$cname failed to render"
+                exit 1
+              fi
+              end_course=$(date +%s)
+              echo "Render duration: $((end_course-start_course))s"
+              echo "::notice title=Rendered::$cname completed in $((end_course-start_course))s"
+              echo "::endgroup::"
+            fi
+          done
+
+      - name: Collect all rendered projects
+        run: |
+          set -e
+          rm -rf _site
+          mkdir -p _site
+          # Copy root docs (landing page) if present
+          if [ -d docs ]; then cp -R docs/* _site/ || true; fi
+          # Loop through any courses matching courses/course-* and copy rendered docs
+          for d in courses/course-*; do
+            if [ -d "$d/docs" ]; then
+              cname=$(basename "$d")
+              mkdir -p "_site/$cname"
+              cp -R "$d/docs"/* "_site/$cname/" || true
+            fi
+          done
+          # Verify index.html exists (it should)
+          if [ ! -f _site/index.html ]; then
+            echo "Missing index.html after assembly" >&2
+            exit 1
+          fi
+      - name: Upload Pages artifact (main only)
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
 
   deploy:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      pages: write
+      id-token: write
     needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Set up Quarto
-        uses: quarto-dev/quarto-actions/setup@v2
-
-      - name: Render and Publish
-        uses: quarto-dev/quarto-actions/publish@v2
-        with:
-          target: gh-pages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
+    
