@@ -1,0 +1,55 @@
+---
+title: "Lab: One categorical predictor"
+execute:
+  eval: false
+---
+
+In this lab, you will practice fitting regression models with one categorical predictor. Analyze the STePS-study data and document your findings in a Quarto notebook.
+
+# Scenario
+
+Your supervisor hasn't responded to your email about reading the updated version of your ISP. This is expected, after all, since they are a highly cited researcher with many ongoing projects. While working on the main project of your PhD studies, your supervisor suddenly appears at your desk:
+
+"Hey, at the conference last week I started a collaboration with a colleague from Prestige University. We both thought it would be exciting to evaluate the relationship between education and LSAS-scores in the STePS-study. Could you help me with that?"
+
+Use the tools you have learned about in the previous chapters to analyze the data. Write down your findings and data analysis decisions in a Quarto notebook.
+
+# Setup
+
+## Download data
+
+Make sure you have downloaded the STePS-study data, and added it to the `data` folder inside your project. You can find the dataset on canvas.
+
+## Load packages
+
+```{r}
+library(tidyverse) # Data wrangling and plotting
+library(broom) # Converting model objects into tidy tables
+library(quantreg) # Quantile regression (rq())
+library(marginaleffects) # Predictions and uncertainty estimates
+library(here) # File path management
+```
+
+Load the data into your project.
+
+```{r}
+df_rawdata <- read_csv("data/steps_clean.csv")
+```
+
+## Check data structure
+
+Do a quick check of the data structure to verify that the CSV-file was loaded correctly.
+
+```{r}
+glimpse(df_rawdata)
+```
+
+# Data cleaning
+
+Are there any data cleaning steps you need to take? Check for missing or weird values, odd responses succh as extreme outliers or implausible values.
+
+Other types of data cleaning might involve creating new variables with simpler or new categories, or new ways to code existing variables.
+
+# Analysis
+
+Up to you. Look at the resources in the course chapters for help. Try to fit at least one model, extract the results, and create a plot showing your findings.

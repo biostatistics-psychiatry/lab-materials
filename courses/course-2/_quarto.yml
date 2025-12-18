@@ -45,6 +45,14 @@ website:
         contents:
           - href: labs/quarto-notebooks.qmd
             text: Quarto notebooks
+          - href: labs/one-categorical-predictor.qmd
+            text: One categorical predictor
+          - href: labs/one-numeric-predictor.qmd
+            text: One numeric predictor
+          - href: labs/categorical-predictor-interactions.qmd
+            text: Categorical predictor interactions
+          - href: labs/categorical-linear-predictor-interactions.qmd
+            text: Categorical and linear predictor interactions
 
 format:
   html:
