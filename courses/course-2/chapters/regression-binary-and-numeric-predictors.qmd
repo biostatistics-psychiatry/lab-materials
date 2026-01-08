@@ -1,0 +1,407 @@
+---
+title: "Chapter 6: Regression with One Binary and One Numeric Predictor"
+format: html
+editor: visual
+toc: true
+toc-depth: 3
+---
+
+# Introduction
+
+In the previous chapter, we studied regression models with **two binary predictors**, and learned how to distinguish between:
+
+-   **additive models** (no interaction)
+-   **interaction models** (effect modification)
+
+In this chapter, we extend these ideas to a model with:
+
+-   one **binary** predictor: `trt` (therapist-guided vs waitlist)
+-   one **numeric** predictor: `phq9_screen` (baseline depression severity)
+
+This allows us to introduce conditional effects when the moderator is numeric, and to distinguish between:
+
+-   **parallel slopes** (no interaction): the treatment effect is constant across `phq9_screen`
+-   **effect modification** (interaction): the treatment effect varies with `phq9_screen`
+
+You will learn:
+
+-   how to interpret models with one binary and one numeric predictor
+-   how conditional treatment effects vary across values of a numeric variable
+-   how interactions change interpretation
+-   how to estimate conditional and marginal effects using `marginaleffects`
+-   how to visualize interactions with predicted values
+
+# 1. Packages and Data
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse) 
+library(broom) 
+library(quantreg) 
+library(marginaleffects) 
+library(here)
+```
+
+## Load data
+
+```{r}
+df <- read.csv(here("data", "steps_clean.csv"))
+df <- df %>% rename(grp = group)
+```
+
+As before, we use treatment group as our binary predictor. We subset the data to include only participants in the therapist-guided and waitlist conditions.
+
+```{r}
+df_red <- subset(df, trt == "therapist-guided" | trt == "waitlist")
+
+df_red$trt <- factor(df_red$trt,
+levels = c("waitlist", "therapist-guided"))
+```
+
+The other predictor will be baseline depression severity measured continuously using `phq9_screen`.
+
+```{r}
+summary(df_red$phq9_screen)
+```
+
+# 2. One Binary and One Numeric Predictor without Interaction (Additive Model)
+
+We begin with a model that includes both predictors **without** an interaction.
+
+## 2.1 Model formula
+
+```{r}
+lsas_post ~ trt + phq9_screen
+```
+
+This corresponds to the linear regression model:
+
+$$ E(LSAS_{post}) = \beta_0 + \beta_1 \cdot trt + \beta_2 \cdot phq9\_{screen}$$Where:
+
+-   $\beta_0$ = mean outcome when `trt = waitlist` and `phq9_screen = 0`
+
+-   $\beta_1$ = conditional treatment effect **holding PHQ-9 constant**
+
+-   $\beta_2$ = conditional effect of PHQ-9 **holding treatment constant**
+
+## 2.2 Interpretation of conditional effects
+
+In this model:
+
+-   the treatment effect is assumed to be **the same at all values of PHQ-9**
+
+-   the PHQ-9 slope is assumed to be **the same in both treatment groups**
+
+This is an **additive model** (parallel slopes).
+
+# 3. Linear Regression without Interaction
+
+## 3.1 Fit the model
+
+```{r}
+mod_lm_add <- lm(lsas_post ~ trt + phq9_screen, data = df_red)
+summary(mod_lm_add)
+```
+
+### Interpretation
+
+-   **Intercept**: mean LSAS at post when `trt = waitlist` and `phq9_screen = 0`\
+    (note: `phq9_screen = 0` may be outside the range of the data, so the intercept is often not directly meaningful)
+
+-   **trt coefficient**: treatment effect adjusted for PHQ-9
+
+-   **phq9_screen coefficient**: association between baseline depression and post-treatment LSAS, adjusted for treatment
+
+## 3.2 Predicted means for each treatment group (averaged over PHQ-9)
+
+```{r}
+avg_predictions(mod_lm_add, by = "trt")
+```
+
+## 3.3 Treatment effect as a conditional contrast
+
+Because there is no interaction, the conditional treatment effect is the same for all PHQ-9 values.
+
+```{r}
+avg_comparisons(mod_lm_add, variables = "trt",
+                by= "phq9_screen")
+```
+
+# 4. Adding an Interaction
+
+Now we allow the treatment effect to differ depending on baseline depression severity.
+
+## 4.1 Model formula with interaction
+
+```{r}
+lsas_post ~ trt * phq9_screen
+```
+
+Which expands to: $$ E(LSAS_{post}) = \beta_0 + \beta_1 trt + \beta_2 phq9\_{screen} + \beta_3 (trt \times phq9\_{screen})$$
+
+-   $\beta_3$ is the **interaction term**
+
+-   it captures how the treatment effect changes as PHQ-9 increases
+
+We now allow the treatment effect to differ **depending on baseline depression**, rather than remaining constant across PHQ-9 values.
+
+# 5. Linear Regression with Interaction
+
+## 5.1 Fit the interaction model
+
+```{r}
+mod_lm_int <- lm(lsas_post ~ trt * phq9_screen, data = df_red)
+summary(mod_lm_int)
+```
+
+### Interpretation
+
+-   The treatment effect is **conditional on PHQ-9**
+
+-   Main effects are interpreted **at the reference level** of the other variable:
+
+    -   the `trt` coefficient is the treatment effect when `phq9_screen = 0`
+
+    -   the `phq9_screen` coefficient is the PHQ-9 slope in the waitlist group (reference level)
+
+-   The interaction coefficient represents **how much the treatment effect changes for a one-unit increase in PHQ-9 (0.4 points)**.\
+    For example, a negative interaction means the treatment effect becomes more negative (larger improvement) at higher PHQ-9.
+
+## 5.2 Conditional treatment effects at selected PHQ-9 values
+
+A simple way to interpret the interaction is to estimate the treatment effect at several meaningful PHQ-9 values (e.g., low, medium, high).
+
+```{r}
+phq_vals <- quantile(df_red$phq9_screen, probs = c(.25, .50, .75), na.rm = TRUE)
+phq_vals
+```
+
+```{r}
+avg_comparisons(
+mod_lm_int,
+variables = "trt",
+# creating a new dataframe that only has three levels for phq9_screen
+newdata = datagrid( 
+newdata = df_red,
+phq9_screen = phq_vals
+),
+by = "phq9_screen"
+)
+
+```
+
+These estimates answer:
+
+> *What is the treatment effect at low, medium, and high baseline depression?*
+
+## 5.3 Marginal treatment effect
+
+```{r}
+avg_comparisons(
+mod_lm_int,
+variables = "trt"
+)
+
+```
+
+This is the **marginal (population-average) treatment effect**, obtained by averaging the conditional treatment effects over the observed distribution of PHQ-9 values in the sample.
+
+# 6. Quantile Regression with One Binary and One Numeric Predictor
+
+Now let's do the same thing with quantile regression (median regression).
+
+## 6.1 Additive model (median differences)
+
+```{r, warning = FALSE}
+mod_rq_add <- rq(
+lsas_post ~ trt + phq9_screen,
+tau = 0.5,
+data = df_red
+)
+summary(mod_rq_add)
+```
+
+## 6.2 Interaction model (median differences)
+
+```{r, warning= FALSE}
+mod_rq_int <- rq(
+lsas_post ~ trt * phq9_screen,
+tau = 0.5,
+data = df_red
+)
+summary(mod_rq_int)
+```
+
+## 6.3 Conditional median treatment effects at selected PHQ-9 values
+
+```{r}
+avg_comparisons(
+mod_rq_int,
+variables = "trt",
+newdata = datagrid(
+newdata = df_red,
+phq9_screen = phq_vals
+),
+by = "phq9_screen"
+)
+```
+
+## 6.4 Marginal median treatment effect
+
+```{r}
+avg_comparisons(
+mod_rq_int,
+variables = "trt"
+)
+```
+
+# 7. Visualization
+
+To visualize conditional effects when the moderator is numeric, it is useful to plot predicted values as a function of `phq9_screen`, separately by treatment group.
+
+## 7.1 Predicted means across PHQ-9 (additive model)
+
+```{r}
+newdat <- datagrid(
+newdata = df_red,
+phq9_screen = seq(
+min(df_red$phq9_screen, na.rm = TRUE),
+max(df_red$phq9_screen, na.rm = TRUE),
+length.out = 60
+),
+trt = levels(df_red$trt)
+)
+
+pred_add <- predictions(mod_lm_add, newdata = newdat)
+
+ggplot(pred_add, aes(x = phq9_screen, y = estimate, color = trt)) +
+geom_line(linewidth = 1) +
+geom_ribbon(aes(ymin = conf.low, ymax = conf.high, fill = trt), alpha = 0.15, color = NA) +
+labs(
+x = "PHQ-9 at screening",
+y = "Estimated Mean LSAS (95% CI)",
+color = "Treatment group",
+fill = "Treatment group",
+title = "Additive Model: Parallel Slopes (No Interaction)"
+) +
+theme_minimal()
+
+```
+
+In the additive model, the lines are parallel: the difference between treatment groups is constant across PHQ-9.
+
+## 7.2 Predicted means across PHQ-9 (interaction model)
+
+```{r}
+pred_int <- predictions(mod_lm_int, newdata = newdat)
+
+ggplot(pred_int, aes(x = phq9_screen, y = estimate, color = trt)) +
+geom_line(linewidth = 1) +
+geom_ribbon(aes(ymin = conf.low, ymax = conf.high, fill = trt), alpha = 0.15, color = NA) +
+labs(
+x = "PHQ-9 at screening",
+y = "Estimated Mean LSAS (95% CI)",
+color = "Treatment group",
+fill = "Treatment group",
+title = "Interaction Model: Treatment Effect Varies with PHQ-9"
+) +
+theme_minimal()
+
+```
+
+If the lines are not parallel, the treatment effect depends on baseline depression severity.
+
+## 7.3 Visualizing the conditional treatment effect across PHQ-9
+
+Instead of plotting predicted means, we can directly plot the estimated treatment effect as a function of PHQ-9.
+
+```{r}
+cmp_curve <- comparisons(
+mod_lm_int,
+variables = "trt",
+newdata = datagrid(
+newdata = df_red,
+phq9_screen = seq(
+min(df_red$phq9_screen, na.rm = TRUE),
+max(df_red$phq9_screen, na.rm = TRUE),
+length.out = 60
+)
+)
+)
+
+ggplot(cmp_curve, aes(x = phq9_screen, y = estimate)) +
+geom_hline(yintercept = 0, linetype = "dashed") +
+geom_line(linewidth = 1) +
+geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = 0.2) +
+labs(
+x = "PHQ-9 at screening",
+y = "Estimated Treatment Effect (95% CI)",
+title = "Conditional Treatment Effect Across Baseline Depression"
+) +
+theme_minimal()
+
+```
+
+## 7.4 Visualizing conditional treatment effects at three PHQ-9 levels
+
+We can also visualize the treatment effect at low, medium, and high baseline depression by estimating the treatment effect at three values of `phq9_screen` (here: the 25th, 50th, and 75th percentiles).
+
+```{r}
+# pick three PHQ-9 values (low, medium, high)
+phq_vals <- with(df_red, quantile(phq9_screen, probs = c(.25, .50, .75), na.rm = TRUE))
+
+# conditional treatment effects at these values
+cmp_3 <- avg_comparisons(
+mod_lm_int,
+variables = "trt",
+# creating a new dataframe that only has three levels for phq9_screen
+newdata = datagrid( 
+newdata = df_red,
+phq9_screen = phq_vals
+),
+by = "phq9_screen"
+)
+
+cmp_3
+```
+
+To make the plot easier to read, we label the three values as low/medium/high.
+
+```{r}
+cmp_3 <- cmp_3 %>%
+mutate(
+phq_level = factor(
+phq9_screen,
+levels = phq_vals,
+labels = c("Low (25th pct)", "Medium (50th pct)", "High (75th pct)")
+)
+)
+
+ggplot(cmp_3, aes(x = phq_level, y = estimate)) +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  geom_point(size = 3) +
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0.1) +
+  labs(
+    x = "Baseline depression severity (PHQ-9)",
+    y = "Estimated Treatment Effect (95% CI)",
+    title = "Conditional Treatment Effects at Three PHQ-9 Levels"
+  ) +
+  theme_minimal()
+```
+
+# Summary
+
+In this chapter you learned:
+
+-   how to fit regression models with one binary and one numeric predictor
+
+-   how conditional effects are interpreted when a moderator is continuous
+
+-   the difference between additive (parallel slopes) and interaction models
+
+-   how interactions change coefficient interpretation
+
+-   how to estimate conditional and marginal effects using `marginaleffects`
+
+-   how to visualize interactions using predicted values and treatment-effect curves
+
+This chapter continues the foundation for working with **multiple predictors**, including both categorical and numeric variables.

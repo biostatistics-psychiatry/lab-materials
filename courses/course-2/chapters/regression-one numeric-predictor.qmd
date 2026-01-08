@@ -396,7 +396,7 @@ theme_minimal()
 
 Finally, we compare:
 
--    a linear model
+-   a linear model
 
 -   a quadratic polynomial model
 

@@ -1,0 +1,320 @@
+---
+title: "Chapter 5: Regression with Two Binary Predictors"
+format: html
+editor: visual
+toc: true
+toc-depth: 3
+---
+
+# Introduction
+
+In the previous chapters, we studied regression models with:
+
+-   a single binary predictor
+-   a categorical predictor with multiple levels
+-   a numeric predictor
+
+In this chapter, we extend these ideas to **two binary predictors**.\
+This allows us to introduce the important concept of **conditional effects** and to distinguish between:
+
+-   **additive models** (no interaction)
+-   **interaction models** (effect modification)
+
+You will learn:
+
+-   how to interpret models with two binary predictors
+-   what *conditional effects* mean
+-   how interactions change interpretation
+-   how to estimate and visualize effects using `marginaleffects`
+-   how linear and quantile regression handle interactions
+
+# 1. Packages and Data
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse) 
+library(broom) 
+library(quantreg) 
+library(marginaleffects) 
+library(here)
+```
+
+## Load data
+
+```{r}
+df <- read.csv(here("data", "steps_clean.csv"))
+df <- df %>% rename(grp = group)
+```
+
+One of the predictors will be treatment-group. To get a binary variable (i.e. one with only two levels), we will subset the data, to include only participants in the therapist-guided or wait-list conditions. We'll called this reduced dataset `df_red.`
+
+```{r}
+df_red <- subset(df, trt== "therapist-guided" | trt== "waitlist")
+```
+
+We convert `trt` to a factor and set `waitlist` as the reference group.
+
+```{r}
+df_red$trt <- factor(df_red$trt, 
+                     levels = c("waitlist", "therapist-guided")) # covert to factor,  level" of the factor
+```
+
+The other predictor will be depression severity. To get a binary variable, we dichotomize the phq9 measure from the screening time point.
+
+```{r}
+df_red$dep_bin <- ifelse(df_red$phq9_screen>median(df_red$phq9_screen), "High", "Low")
+
+df_red$dep_bin <- factor(df_red$dep_bin, levels = c("Low", "High")) # convert to factor
+
+table(df_red$dep_bin) # show distribution
+```
+
+# 2. Two Binary Predictors without Interaction (Additive Model)
+
+We begin with a model that includes both predictors **without** an interaction.
+
+## 2.1 Model formula
+
+```{r}
+
+lsas_post ~ trt + dep_bin
+```
+
+This corresponds to the linear regression model:
+
+$$E(LSAS_{post}) = \beta_0 + \beta_1 \cdot trt + \beta_2 \cdot dep\_bin $$
+
+Where:
+
+-   $\beta_0$ = mean outcome in the reference group\
+    (waitlist & low depression)
+
+-   $\beta_1$ = conditional treatment effect **holding depression constant**
+
+-   $\beta_2$ = conditional depression effect **holding treatment constant**
+
+## 2.2 Interpretation of conditional effects
+
+In this model:
+
+-   the effect of treatment is assumed to be **the same** for low and high depression
+
+-   the effect of depression is assumed to be **the same** in both treatment groups
+
+This is called an **additive model**, (because the effects of the two predictors are added to each other).
+
+# 3. Linear Regression without Interaction
+
+## 3.1 Fit the model
+
+```{r}
+mod_lm_add <- lm(lsas_post ~ trt + dep_bin, data = df_red)
+summary(mod_lm_add)
+
+```
+
+### Interpretation
+
+-   **Intercept**: mean LSAS at post-treatment in waitlist & low depression.
+
+-   **trt coefficient**: mean difference between therapist-guided and waitlist,\
+    adjusted for depression. The mean LSAS psot score in the therapist-guided group is \~21 points lower than in the waitlist group.
+
+-   **dep_bin coefficient**: mean difference between high and low depression,\
+    adjusted for treatment. The mean LSAS psot score in the low-depression group is \~8 points lower than in the high-depression group.
+
+## 3.2 Predicted means by group
+
+We can now use the `marginaleffects` package to get the estimated means for each of the four groups, i.e. the *conditional* estimated means.
+
+```{r}
+avg_predictions(mod_lm_add, by = c("trt", "dep_bin"))
+```
+
+## 3.3 Treatment effect as a conditional contrast
+
+We can get the conditional treatment effects across both groups using the `marginaleffects` package.
+
+```{r}
+avg_comparisons(mod_lm_add, 
+                variables = "trt",
+                by = "dep_bin")
+```
+
+Since we specified the model as additive, the treatment effect is the same in both depression groups.
+
+## 3.4 Treatment effect as a marginal contrast
+
+The marginal contrast averages over the conditional contrasts. Since these are the same in this model, the marginal effect will be identical to the conditional effects.
+
+```{r}
+avg_comparisons(mod_lm_add, variables = "trt")
+```
+
+# 4. Adding an Interaction
+
+Now we allow the treatment effect to differ depending on depression severity.
+
+## 4.1 Model formula with interaction
+
+```{r}
+lsas_post ~ trt * dep_bin
+```
+
+Which expands to:
+
+$$ E(LSAS_{post}) = \beta_0 + \beta_1 trt + \beta_2 dep\_bin + \beta_3 (trt \times dep\_bin)$$
+
+-   $\beta_3$ is the **interaction term**
+
+-   it captures how the treatment effect changes with depression level
+
+We now allow for different treatment effects **depending on the level of depression**, rather that the treatment effect just adding to the depression effect as in the additive model.
+
+# 5. Linear Regression with Interaction
+
+## 5.1 Fit the interaction model
+
+```{r}
+mod_lm_int <- lm(lsas_post ~ trt * dep_bin, data = df_red)
+summary(mod_lm_int)
+```
+
+### Interpretation
+
+-   The treatment effect is **conditional on depression severity**
+
+-   Main effects are now interpreted **at the reference level** of the other variable
+
+-   The interaction coefficient represents the **difference in the treatment effect between participants with high versus low depression**. It tells us that the treatment effect is \~6 points greater in the high-depression group compared with the treatment effect in the low-depression group.
+
+## 5.2 Conditional treatment effects
+
+```{r}
+avg_comparisons(
+  mod_lm_int,
+  variables = "trt",
+  by = "dep_bin"
+)
+```
+
+These estimates answer:
+
+> What is the treatment effect **within each level of depression severity** (low vs high)?
+
+In this interaction model, the treatment effect is allowed to differ depending on baseline depression.
+
+## 5.2 Marginal treatment effects
+
+```{r}
+avg_comparisons(
+mod_lm_int,
+variables = "trt"
+)
+```
+
+This estimate is the **marginal (population-average) treatment effect.** It is obtained by averaging the conditional treatment effects over the observed distribution of low and high depression in the sample. Because we allowed the effect to differ between the depression groups, this estimate is no longer identical to the conditional estimate of `trt` from the model, or to the conditional contrasts above.
+
+# 6. Quantile Regression with Two Binary Predictors
+
+Now let's do the same thing with quantile regression
+
+## 6.1 Additive model (median differences)
+
+```{r, warning= FALSE}
+mod_rq_add <- rq(
+lsas_post ~ trt + dep_bin,
+tau = 0.5,
+data = df_red
+)
+summary(mod_rq_add)
+```
+
+## 6.2 Interaction model (median differences)
+
+```{r, warning= FALSE}
+mod_rq_int <- rq(
+lsas_post ~ trt * dep_bin,
+tau = 0.5,
+data = df_red
+)
+summary(mod_rq_int)
+```
+
+## 6.3 Conditional median treatment effects
+
+```{r}
+avg_comparisons(
+mod_rq_int,
+variables = "trt",
+by = "dep_bin"
+)
+```
+
+## 6.4 Marginal median treatment effects
+
+```{r}
+avg_comparisons(
+mod_rq_int,
+variables = "trt"
+)
+```
+
+# 7. Visualization
+
+## 7.1 Group means (additive model)
+
+```{r}
+ap <- avg_predictions(mod_lm_add, by = c("trt", "dep_bin"))
+
+ggplot(ap, aes(x = trt, y = estimate, color = dep_bin, group = dep_bin)) +
+geom_point(size = 3) +
+geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0.1) +
+geom_line() +
+labs(
+x = "Treatment group",
+y = "Estimated Mean LSAS (95% CI)",
+color = "Depression",
+title = "Additive Model: Group Means"
+) +
+theme_minimal()
+
+```
+
+## 7.2 Group means (interaction model)
+
+```{r}
+ap <- avg_predictions(mod_lm_int, by = c("trt", "dep_bin"))
+
+ggplot(ap, aes(x = trt, y = estimate, color = dep_bin, group = dep_bin)) +
+geom_point(size = 3) +
+geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0.1) +
+geom_line() +
+labs(
+x = "Treatment group",
+y = "Estimated Mean LSAS (95% CI)",
+color = "Depression",
+title = "Interaction Model: Conditional Means"
+) +
+theme_minimal()
+
+```
+
+Here we see the difference between the additive and the interaction model clearly. Since the additive model assumed additivity, the lines are exactly parallel (i.e. the tratment effect is the same for the low vs high depression group). In the interaction model, we have allowed the treatment effects to differ by depression level, and we see that the high-depression group improves more than the low depression group.
+
+# Summary
+
+In this chapter you learned:
+
+-   how to fit regression models with **two binary predictors**
+
+-   the meaning of **conditional effects**
+
+-   the difference between additive and interaction models
+
+-   how interactions change coefficient interpretation
+
+-   how to estimate conditional effects using `marginaleffects`
+
+-   how to visualize interactions using predicted values
+
+This chapter completes the foundation for understanding **effect modification**, which is essential for applied regression and causal interpretation.
