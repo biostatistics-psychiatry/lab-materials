@@ -1,7 +1,6 @@
 ---
 title: "Chapter 6: Regression with One Binary and One Numeric Predictor"
 format: html
-editor: visual
 toc: true
 toc-depth: 3
 ---

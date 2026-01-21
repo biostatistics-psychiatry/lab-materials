@@ -1,7 +1,6 @@
 ---
 title: "Chapter 4: Regression with a Numeric Predictor"
 format: html
-editor: visual
 toc: true
 toc-depth: 3
 ---

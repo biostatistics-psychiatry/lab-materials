@@ -1,7 +1,6 @@
 ---
 title: "Chapter 5: Regression with Two Binary Predictors"
 format: html
-editor: visual
 toc: true
 toc-depth: 3
 ---
