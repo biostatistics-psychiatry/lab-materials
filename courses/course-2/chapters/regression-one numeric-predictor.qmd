@@ -11,9 +11,9 @@ toc-depth: 3
 
 In the previous chapters, we studied regression models with:
 
--   no predictors (intercept-only models)
--   binary predictors
--   categorical predictors with multiple levels
+- no predictors (intercept-only models)
+- binary predictors
+- categorical predictors with multiple levels
 
 In this chapter, we move to a **numeric predictor**, called `gad_screen`.
 
@@ -21,13 +21,13 @@ Numeric predictors allow us to model **continuous relationships**, where the exp
 
 You will learn:
 
--   how numeric predictors enter regression models
--   how to interpret intercepts and slopes
--   how linear regression models **mean trends**
--   how quantile regression models **quantile trends**
--   how to obtain predicted values across a range of the predictor
--   how to visualize regression lines and uncertainty
--   how to account for non-linear relationships between the predictor and the outcome
+- how numeric predictors enter regression models
+- how to interpret intercepts and slopes
+- how linear regression models **mean trends**
+- how quantile regression models **quantile trends**
+- how to obtain predicted values across a range of the predictor
+- how to visualize regression lines and uncertainty
+- how to account for non-linear relationships between the predictor and the outcome
 
 # 1. Packages and Data
 
@@ -89,8 +89,8 @@ $$
 
 Where:
 
--   $\beta_0$ is the expected LSAS score when `gad_screen = 0`
--   $\beta_1$ is the expected **change in the mean LSAS** for a one-unit increase in `gad_screen`
+- $\beta_0$ is the expected LSAS score when `gad_screen = 0`
+- $\beta_1$ is the expected **change in the mean LSAS** for a one-unit increase in `gad_screen`
 
 For individual observations:
 
@@ -110,8 +110,8 @@ summary(mod_lm)
 
 ### Interpretation
 
--   The **intercept** represents the estimated mean LSAS score when `gad_screen = 0`
--   The **slope** (coefficient) represents how much the mean LSAS score changes per unit increase in baseline anxiety
+- The **intercept** represents the estimated mean LSAS score when `gad_screen = 0`
+- The **slope** (coefficient) represents how much the mean LSAS score changes per unit increase in baseline anxiety
 
 A positive slope indicates higher post-treatment LSAS scores among participants with higher baseline anxiety. For each one-unit increase in GAD-7 at screening, the expected mean LSAS at post increases by approximately 0.97 points.
 
@@ -149,8 +149,8 @@ $$
 Q_{LSAS_{post} \mid gad\_screen}(\tau \mid gad\_screen_i) =  \beta_0(\tau) + \beta_1(\tau) \, gad\_screen_i
 $$
 
--   $\beta_0(\tau)$ = $\tau$-th quantile when `gad_screen = 0`
--   $\beta_1(\tau)$ = change in the $\tau$-th quantile per one-unit increase in `gad_screen`
+- $\beta_0(\tau)$ = $\tau$-th quantile when `gad_screen = 0`
+- $\beta_1(\tau)$ = change in the $\tau$-th quantile per one-unit increase in `gad_screen`
 
 ## 4.2 Fit a median regression
 
@@ -172,8 +172,8 @@ names(mod_lm)
 coef(mod_lm)
 ```
 
--   `(Intercept)`: expected mean at `gad_screen = 0`
--   `gad_screen`: mean change per unit increase
+- `(Intercept)`: expected mean at `gad_screen = 0`
+- `gad_screen`: mean change per unit increase
 
 ## 5.2 Quantile regression object
 
@@ -308,9 +308,9 @@ summary(mod_lm_poly)
 
 #### Interpretation
 
--   The **intercept** is the expected LSAS score when `lsas_screen = 0`
--   The **linear term** captures the overall trend
--   The **quadratic term** captures curvature
+- The **intercept** is the expected LSAS score when `lsas_screen = 0`
+- The **linear term** captures the overall trend
+- The **quadratic term** captures curvature
 
 Because individual coefficients are difficult to interpret, we rely on **predicted values and visualization**.
 
@@ -394,9 +394,9 @@ plot_predictions(
 
 Finally, we compare:
 
--   a linear model
--   a quadratic polynomial model
--   a spline model
+- a linear model
+- a quadratic polynomial model
+- a spline model
 
 ```{r}
 #| label: compare-fits
