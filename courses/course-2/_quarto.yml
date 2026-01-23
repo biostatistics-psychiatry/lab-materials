@@ -28,8 +28,8 @@ website:
 
       - section: "Chapters"
         contents:
-          - href: chapters/template.qmd
-            text: Introduction
+          - href: chapters/regression-intro.qmd
+            text: Introduction to Linear and Quantile Regression in R
       - section: "Labs"
         contents:
           - href: labs/template.qmd
