@@ -1,6 +1,8 @@
 ---
 title: "Chapter 1: Introduction to Linear and Quantile Regression in R"
-format: html
+format: 
+   html:
+     df-print: kable
 toc: true
 toc-depth: 3
 ---
@@ -48,8 +50,20 @@ We'll again use the dataset from the STePS study, which is an RCT comparing guid
 #| label: load-data
 df_clean <- read.csv(here("data", "steps_clean.csv"))
 
-# we also rename the "group" variable, otherwise it causes issues with the `marginaleffects` package
+# we also rename the "group" variable, otherwise it causes issues with the
+# `marginaleffects` package
 df_clean <- df_clean |> rename(grp = group)
+```
+
+```{r}
+#| label: setup-packages-rendering
+#| message: false
+#| warning: false
+#| echo: false
+options(
+  marginaleffects_print_omit = c("s.value"),
+  marginaleffects_print_style = ifelse(interactive(), "summary", "tinytable")
+)
 ```
 
 We assign this dataset to an object called `df_clean`.
@@ -155,7 +169,7 @@ You can use different functions to access information from the regression R obje
 names(mod_lm) # gives the names of the different parts of the regression object
 coef(mod_lm) # returns the coefficients from the object
 head(fitted(mod_lm)) # gets the predicted values for each individual
-head(residuals(mod_lm)) # returns the residuals (observed value - predicted value)
+head(residuals(mod_lm)) # returns the residuals
 ```
 
 Key parts:
@@ -168,7 +182,8 @@ You can also access specific information from the regression object by using the
 
 ```{r}
 #| label: lm-components-dollar
-mod_lm$coefficients # the coefficients of the model (right now only the intercept)
+# the coefficients of the model (right now only the intercept)
+mod_lm$coefficients
 head(mod_lm$residuals) # the residuals (observed value - predicted value)
 ```
 
@@ -249,7 +264,8 @@ ggplot(df_clean, aes(lsas_post)) +
   labs(
     title = "Estimated Mean (Intercept-Only Linear Model)",
     x = "LSAS post-treatment score", y = "Frequency"
-  )
+  ) +
+  theme_minimal()
 ```
 
 ## 5.2 Estimated mean with confidence interval (linear model)
@@ -270,7 +286,7 @@ df_plot <- tibble(
 ggplot(df_plot, aes(y = 1, x = mean_est)) +
   geom_point(size = 3) +
   # add confidence interval
-  geom_errorbar(aes(xmin = lcl, xmax = ucl), width = 0.1, linewidth = 1) + 
+  geom_errorbar(aes(xmin = lcl, xmax = ucl), width = 0.1, linewidth = 1) +
   scale_y_continuous(breaks = NULL) + # remove the y-axis scale
   scale_x_continuous(limits = c(50, 90)) + # set x-axis range
   labs( # set labels
@@ -292,7 +308,8 @@ ggplot(df_clean, aes(lsas_post)) +
   labs(
     title = "Estimated Median (Intercept-Only Quantile Regression)",
     x = "LSAS post-treatment score", y = "Frequency"
-  )
+  ) +
+  theme_minimal()
 ```
 
 ## 5.4 Estimated median with confidence interval (quantile regression)
@@ -312,7 +329,8 @@ df_plot <- tibble(
 # use ggplot to create a plot
 ggplot(df_plot, aes(y = 1, x = med_est)) +
   geom_point(size = 3) +
-  geom_errorbar(aes(xmin = lcl, xmax = ucl), width = 0.1, linewidth = 1) + # add confidence interval
+  # add confidence interval
+  geom_errorbar(aes(xmin = lcl, xmax = ucl), width = 0.1, linewidth = 1) +
   scale_y_continuous(breaks = NULL) + # remove the y-axis scale
   scale_x_continuous(limits = c(50, 90)) + # # set x-axis range
   labs( # set labels
