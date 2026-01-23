@@ -136,7 +136,7 @@ Alternatively, we can also use the `parameters`-package to get standardized coef
 
 ```{r}
 #| label: standardize-parameters
-standardize_parameters(mod_lm, method = "basic")
+standardize_parameters(mod_lm, method = "basic") |> display()
 ```
 
 # 4. Quantile Regression (Quantile Trends)
@@ -440,18 +440,23 @@ ggplot(df_clean, aes(x = lsas_screen, y = lsas_post)) +
 
 We can also formally compare the models.
 ```{r}
-#| label: compare-performance
+#| label: compare-anova
 # only for "nested" models
 anova(
   mod_lm_linear,
   mod_lm_poly,
   mod_lm_spline
 )
+```
+
+```{r}
+#| label: compare-performance
+
 performance::compare_performance(
   mod_lm_linear,
   mod_lm_poly,
   mod_lm_spline
-)
+) |> display()
 ```
 
 When comparing, the differences between the non-linear fits and the straight line are small; non-linearities could arguably be ignored in modeling.
