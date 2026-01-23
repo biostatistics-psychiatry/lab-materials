@@ -34,7 +34,7 @@ website:
             text: Regression with a Binary Predictor
           - href: chapters/regression-one-cat-pred.qmd
             text: Regression with a Categorical Predictor
-          - href: chapters/regression-one numeric-predictor.qmd
+          - href: chapters/regression-one-numeric-predictor.qmd
             text: Regression with a Numeric Predictor
           - href: chapters/regression-two-binary-predictors.qmd
             text: Regression with Two Binary Predictors
