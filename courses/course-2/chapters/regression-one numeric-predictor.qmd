@@ -1,0 +1,477 @@
+---
+title: "Chapter 4: Regression with a Numeric Predictor"
+format: 
+   html:
+     df-print: kable
+toc: true
+toc-depth: 3
+---
+
+# Introduction
+
+In the previous chapters, we studied regression models with:
+
+- no predictors (intercept-only models)
+- binary predictors
+- categorical predictors with multiple levels
+
+In this chapter, we move to a **numeric predictor**, called `gad_screen`.
+
+Numeric predictors allow us to model **continuous relationships**, where the expected outcome changes smoothly as the predictor changes.
+
+You will learn:
+
+- how numeric predictors enter regression models
+- how to interpret intercepts and slopes
+- how linear regression models **mean trends**
+- how quantile regression models **quantile trends**
+- how to obtain predicted values across a range of the predictor
+- how to visualize regression lines and uncertainty
+- how to account for non-linear relationships between the predictor and the outcome
+
+# 1. Packages and Data
+
+```{r, message=FALSE, warning=FALSE}
+#| label: setup-packages
+library(tidyverse)
+library(broom)
+library(quantreg)
+library(marginaleffects)
+library(parameters)
+library(here)
+```
+
+```{r}
+#| label: setup-packages-rendering
+#| message: false
+#| warning: false
+#| echo: false
+options(
+  marginaleffects_print_omit = c("s.value"),
+  marginaleffects_print_style = ifelse(interactive(), "summary", "tinytable")
+)
+```
+
+## Load data
+
+```{r}
+#| label: load-data
+df_clean <- read.csv(here("data", "steps_clean.csv"))
+df_clean <- df_clean |> rename(grp = group)
+```
+
+We will use `gad_screen`, a numeric measure of generalized anxiety symptoms at screening, as our predictor.
+
+```{r}
+#| label: inspect-gad-summary
+summary(df_clean$gad_screen)
+```
+
+# 2. Regression with a Numeric Predictor
+
+With a numeric predictor, the regression model estimates:
+
+1.  the expected outcome when the predictor equals zero
+2.  the **change in the outcome** associated with a one-unit increase in the predictor
+
+## 2.1 Model formula
+
+```{r, echo= FALSE}
+#| label: model-formula-display
+lsas_post ~ gad_screen
+```
+
+This corresponds to the linear regression model for the conditional mean:
+
+$$
+\mathbb{E}(LSAS_{post,i} \mid gad\_screen_i) = \beta_0 + \beta_1\, gad\_screen_i
+$$
+
+Where:
+
+- $\beta_0$ is the expected LSAS score when `gad_screen = 0`
+- $\beta_1$ is the expected **change in the mean LSAS** for a one-unit increase in `gad_screen`
+
+For individual observations:
+
+$$
+LSAS_{post,i} = \beta_0 + \beta_1 \, gad\_screen_i + \epsilon_i
+$$
+
+# 3. Linear Regression (Mean Trend)
+
+## 3.1 Fit the model
+
+```{r}
+#| label: fit-lm-numeric
+mod_lm <- lm(lsas_post ~ gad_screen, data = df_clean)
+summary(mod_lm)
+```
+
+### Interpretation
+
+- The **intercept** represents the estimated mean LSAS score when `gad_screen = 0`
+- The **slope** (coefficient) represents how much the mean LSAS score changes per unit increase in baseline anxiety
+
+A positive slope indicates higher post-treatment LSAS scores among participants with higher baseline anxiety. For each one-unit increase in GAD-7 at screening, the expected mean LSAS at post increases by approximately 0.97 points.
+
+## 3.2 Relationship to correlation
+
+With a single numeric predictor, linear regression is closely related to Pearson correlation:
+
+```{r}
+#| label: pearson-correlation
+cor(df_clean$lsas_post, df_clean$gad_screen, use = "complete.obs")
+```
+
+In fact, if we standardize both the predictor and the outcome to z-scores with mean = 0 and SD = 1, the correlation and the coefficient will be almost identical with only one numeric predictor. This can be done using the `scale()` function within the regression:
+
+```{r}
+#| label: zscore-coefficient
+coef(lm(scale(lsas_post) ~ scale(gad_screen), data = df_clean))[2]
+cor(df_clean$lsas_post, df_clean$gad_screen, use = "complete.obs")
+```
+
+Alternatively, we can also use the `parameters`-package to get standardized coefficients.
+
+```{r}
+#| label: standardize-parameters
+standardize_parameters(mod_lm, method = "basic") |> display()
+```
+
+# 4. Quantile Regression (Quantile Trends)
+
+## 4.1 Model formulation
+
+For quantile regression at quantile $\tau$:
+
+$$
+Q_{LSAS_{post} \mid gad\_screen}(\tau \mid gad\_screen_i) =  \beta_0(\tau) + \beta_1(\tau) \, gad\_screen_i
+$$
+
+- $\beta_0(\tau)$ = $\tau$-th quantile when `gad_screen = 0`
+- $\beta_1(\tau)$ = change in the $\tau$-th quantile per one-unit increase in `gad_screen`
+
+## 4.2 Fit a median regression
+
+```{r}
+#| label: fit-rq-numeric
+mod_rq <- rq(lsas_post ~ gad_screen, tau = 0.5, data = df_clean)
+summary(mod_rq)
+```
+
+The slope now describes how the **median** LSAS score changes as baseline anxiety increases.
+
+# 5. Model Objects and Coefficients
+
+## 5.1 Linear regression object
+
+```{r}
+#| label: lm-object
+names(mod_lm)
+coef(mod_lm)
+```
+
+- `(Intercept)`: expected mean at `gad_screen = 0`
+- `gad_screen`: mean change per unit increase
+
+## 5.2 Quantile regression object
+
+```{r}
+#| label: rq-coefs
+coef(mod_rq)
+```
+
+# 6. Predictions Using `marginaleffects`
+
+With numeric predictors, predictions depend on the value of the predictor. We therefore compute predictions across a **range of values**.
+
+## 6.1 Predicted means across `gad_screen`
+
+```{r}
+#| label: make-prediction-grid
+# Create a grid of gad_screen values (50 points from min to max)
+newdat <- datagrid(
+  newdata = df_clean,
+  gad_screen = seq(
+    min(df_clean$gad_screen, na.rm = TRUE),
+    max(df_clean$gad_screen, na.rm = TRUE),
+    length.out = 50
+  )
+)
+
+# Get predictions from the linear model at those values
+pred_lm <- predictions(mod_lm, newdata = newdat)
+pred_lm
+```
+
+The `Estimate` column shows the predicted **mean** value of `lsas_post` across a range of `gad_screen` values.
+
+## 6.2 Predicted medians across `gad_screen`
+
+```{r}
+#| label: rq-predictions-grid
+pred_rq <- predictions(mod_rq, newdata = newdat)
+pred_rq
+```
+
+The `estimate` column shows the predicted **median** value of `lsas_post` across a range of `gad_screen` values.
+
+## 6.3 Marginal effect (slope)
+
+For numeric predictors, contrasts correspond to **slopes**. These will be the same as the coefficient you got using the `summary()` function above.
+
+```{r}
+#| label: lm-avg-slopes
+avg_slopes(mod_lm)
+```
+
+For quantile regression:
+
+```{r}
+#| label: rq-avg-slopes
+avg_slopes(mod_rq)
+```
+
+# 7. Visualization
+
+We can now visualize the relationship using the predicted values we got using the `predictions()` function earlier. Remember that these were saved using in the objects `pred_lm` and `pred_rq`
+
+## 7.1 Linear regression line with confidence interval
+
+```{r, warning=FALSE}
+#| label: plot-lm-line
+plot_predictions(mod_lm, condition = "gad_screen", points = 0.4) +
+  labs(
+    x = "GAD score at screening",
+    y = "LSAS post-treatment",
+    title = "Linear Regression: Mean LSAS vs Baseline Anxiety"
+  ) +
+  theme_minimal()
+```
+
+## 7.2 Median regression line with confidence interval
+
+```{r, warning=FALSE}
+#| label: plot-rq-line
+plot_predictions(mod_rq, condition = "gad_screen", points = 0.4) +
+
+  labs(
+    x = "GAD score at screening",
+    y = "LSAS post-treatment",
+    title = "Quantile Regression: Median LSAS vs Baseline Anxiety"
+  ) +
+  theme_minimal()
+```
+
+# 8. Modeling Non-Linear Relationships
+
+So far, we have assumed that the relationship between baseline severity and post-treatment severity is **linear**.
+
+However, clinical change processes are sometimes **non-linear**. For example:
+
+- participants with very low baseline severity have limited room for improvement
+- participants with very high baseline severity may show diminishing returns
+- treatment effects may level off at the extremes
+
+To explore this, we now examine the relationship between **baseline LSAS score** (`lsas_screen`) and **post-treatment LSAS score** (`lsas_post`).
+
+In this section, we illustrate two common approaches to modeling non-linearity:
+
+1.  **Polynomial regression**
+2.  **Spline regression**
+
+------------------------------------------------------------------------
+
+### 8.1 Polynomial regression
+
+Polynomial regression models nonlinear relationships by adding powers of the predictor (e.g., quadratic, cubic), allowing the mean trend to deviate from straight line.
+
+#### Model formulation
+
+A quadratic polynomial model can be written as:
+$$
+\mathbb{E}(LSAS_{post,i} \mid lsas\_screen_i) = \beta_0 + \beta_1 \, lsas\_screen_i + \beta_2 \, lsas\_screen_i^2
+$$
+
+This allows the relationship to be **curved** rather than straight.
+
+#### Fit a quadratic model
+
+In R, we use the `poly()` function. Setting `raw = TRUE` makes the coefficients correspond directly to powers of the predictor.
+
+```{r}
+#| label: fit-lm-poly
+mod_lm_poly <- lm(lsas_post ~ poly(lsas_screen, 2, raw = TRUE), data = df_clean)
+summary(mod_lm_poly)
+```
+
+#### Interpretation
+
+- The **intercept** is the expected LSAS score when `lsas_screen = 0`
+- The **linear term** captures the overall trend
+- The **quadratic term** captures curvature
+
+Because individual coefficients are difficult to interpret, we rely on **predicted values and visualization**.
+
+#### Visualizing the polynomial fit
+
+```{r, warning=FALSE}
+#| label: plot-poly
+plot_predictions(
+  mod_lm_poly,
+  condition = "lsas_screen",
+  points = 0.4
+) + labs(
+  x = "LSAS score at screening",
+  y = "LSAS post-treatment",
+  title = "Polynomial Regression (Quadratic Relationship)"
+) +
+  theme_minimal()
+```
+
+### 8.2 Spline regression
+
+Polynomial models impose a **global shape** on the data. Spline regression offers a more flexible approach by fitting the relationship **locally**, while maintaining smoothness.
+
+#### Model formulation
+
+Using splines, the model is written as:
+$$
+\mathbb{E}(LSAS_{post} \mid lsas\_screen) = \beta_0 + f(lsas\_screen)
+$$
+where $f(\cdot)$ is a smooth function estimated from the data. In practice, splines approximate $f$ with a set of piecewise cubic polynomials that are joined at a small number of locations called “knots.” The pieces are constrained to join smoothly, typically ensuring the function and its first two derivatives are continuous across knots. This allows the curve to adapt to local patterns without imposing a single global shape.
+
+::: {.callout-tip}
+##### What is a natural cubic spline?
+
+A natural cubic spline is a cubic spline with additional boundary constraints: outside the boundary knots, the function is constrained to be linear. This stabilizes the fit near the extremes of the predictor and reduces spurious wiggles in the tails. In R, `splines::ns()` can be used to constructs a natural cubic spline. You can control flexibility via either `df` or `knots` (internal knot locations). If `knots` is supplied, `df` is ignored.
+
+- `df`: controls flexibility, e.g. how many knots that are used to construct the spline. With `df` and no `knots`, `ns()` places internal knots at equally spaced quantiles of the predictor within the boundary knots (by default the min and max).
+- `knots`: Numeric vector of internal knot locations (on the predictor’s scale). When provided, `ns()` uses them exactly and ignores `df`. Use `Boundary.knots` to change the default min/max if needed. 
+
+So for `ns(df_clean$lsas_screen, df = 4)` we construct 4 columns, i.e. the model estimates four spline coefficients plus an intercept. This corresponds to a natural cubic spline with 2 boundary knots and 3 knots in-between.
+:::
+
+#### Fit a spline model
+
+```{r}
+#| label: fit-lm-spline
+library(splines)
+
+mod_lm_spline <- lm(
+  lsas_post ~ ns(lsas_screen, df = 4),
+  data = df_clean
+)
+summary(mod_lm_spline)
+```
+
+As with polynomials, spline coefficients are **not interpreted individually**.
+
+#### Visualizing the spline fit
+
+```{r, warning=FALSE}
+#| label: plot-spline
+
+knots <- ns(df_clean$lsas_screen, df = 4) |> attr("knots")
+
+plot_predictions(
+  mod_lm_spline,
+  condition = "lsas_screen",
+  points = 0.4
+) +
+  geom_vline(xintercept = knots, linetype = "dashed") +
+  labs(
+    x = "LSAS score at screening",
+    y = "LSAS post-treatment",
+    title = "Spline Regression (Natural Cubic Spline)",
+    caption = "Vertical dashed lines show knots placement"
+  ) +
+  theme_minimal()
+```
+
+### 8.3 Comparing linear and non-linear fits
+
+Finally, we compare:
+
+- a linear model
+- a quadratic polynomial model
+- a spline model
+
+```{r}
+#| label: compare-fits
+mod_lm_linear <- lm(lsas_post ~ lsas_screen, data = df_clean)
+
+# Grid for lsas_screen
+newdat_lsas <- datagrid(
+  newdata = df_clean,
+  lsas_screen = seq(
+    min(df_clean$lsas_screen, na.rm = TRUE),
+    max(df_clean$lsas_screen, na.rm = TRUE),
+    length.out = 100
+  )
+)
+
+# Get predictions from each model
+pred_linear <- predictions(mod_lm_linear, newdata = newdat_lsas) |>
+  mutate(model = "Linear")
+pred_poly <- predictions(mod_lm_poly, newdata = newdat_lsas) |>
+  mutate(model = "Quadratic")
+pred_spline <- predictions(mod_lm_spline, newdata = newdat_lsas) |>
+  mutate(model = "Natural Cubic Spline")
+# Combine into one data frame
+pred_both <- bind_rows(
+  pred_linear,
+  pred_poly,
+  pred_spline
+)
+
+# Plot
+ggplot(df_clean, aes(x = lsas_screen, y = lsas_post)) +
+  geom_point(alpha = 0.4) +
+  geom_line(data = pred_both, aes(y = estimate, color = model), linewidth = 1) +
+  labs(
+    x = "LSAS score at screening",
+    y = "LSAS post-treatment",
+    title = "Linear vs Quadratic vs Spline Fits"
+  ) +
+  theme_minimal()
+```
+
+We can also formally compare the models.
+```{r}
+#| label: compare-anova
+# only for "nested" models
+anova(
+  mod_lm_linear,
+  mod_lm_poly,
+  mod_lm_spline
+)
+```
+
+```{r}
+#| label: compare-performance
+
+performance::compare_performance(
+  mod_lm_linear,
+  mod_lm_poly,
+  mod_lm_spline
+) |> display()
+```
+
+When comparing, the differences between the non-linear fits and the straight line are small; non-linearities could arguably be ignored in modeling.
+
+# Summary
+
+In this chapter you learned:
+
+- how numeric predictors enter regression models
+- how intercepts and slopes are interpreted
+- how linear regression models **mean trends**
+- how quantile regression models **quantile trends**
+- how to compute predictions across a range of predictor values
+- how to estimate and interpret marginal effects (slopes)
+- how to visualize regression lines with confidence intervals
+- how to allow for non-linear relationships
+
+This chapter completes the foundation for regression models with a **single predictor**. In the next chapter, we will combine **multiple predictors** in the same model.

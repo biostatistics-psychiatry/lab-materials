@@ -1,0 +1,359 @@
+---
+title: "Chapter 3: Regression with a Categorical Predictor"
+format: 
+   html:
+     df-print: kable
+toc: true
+toc-depth: 3
+---
+
+# Introduction
+
+In the previous chapter, we studied regression with a **binary predictor**.\
+In this chapter, we extend that framework to a **categorical predictor with three levels**, called `trt`.
+
+This is a common situation in experiments with more than two arms (e.g., waitlist vs two treatment variants). The main difference compared to the binary case is that the model now estimates:
+
+-   the expected outcome in a **reference group**
+-   the difference between each other group and the reference group
+
+You will learn:
+
+-   how categorical predictors are represented using factors in R
+-   how to interpret intercepts and coefficients with 3+ groups
+-   how to obtain predicted values for each group
+-   how to compute and visualize pairwise group differences
+-   how linear (mean) and quantile (median) regression handle categorical predictors
+
+# 1. Packages and Data
+
+```{r}
+#| label: setup-packages
+#| message: false
+#| warning: false
+library(tidyverse)
+library(broom)
+library(quantreg)
+library(marginaleffects)
+library(here)
+```
+
+```{r}
+#| label: setup-packages-rendering
+#| message: false
+#| warning: false
+#| echo: false
+options(
+  marginaleffects_print_omit = c("s.value"),
+  marginaleffects_print_style = "tinytable"
+  )
+```
+
+## Load data
+
+```{r}
+#| label: load-data
+df_clean <- read.csv(here("data", "steps_clean.csv"))
+df_clean <- df_clean |> rename(grp = group)
+```
+
+We will again use the treatment indicator variable `trt` as our predictor. In the original data, this indicator has three levels:
+
+```{r}
+#| label: inspect-trt-levels
+table(df_clean$trt)
+```
+
+To make sure R treats `trt` as a categorical predictor, we convert it to a factor and choose a reference level.
+
+As in the last chapter, we set `waitlist` as the reference group.
+
+```{r}
+#| label: relevel-trt
+df_clean <- df_clean |>
+  mutate(trt = factor(trt,
+    levels = c("waitlist", "therapist-guided", "self-guided")
+  ))
+levels(df_clean$trt)
+```
+
+Now we have the dummy coding:
+
+```{r}
+#| label: contrasts-trt
+contrasts(df_clean$trt)
+```
+
+# 2. Regression with a Categorical Predictor
+
+With a categorical predictor with three levels, the regression model estimates:
+
+1.  the expected outcome in the reference group
+2.  the difference between each of the other groups and the reference group
+
+## 2.1 Model formula
+
+```{r, echo=FALSE}
+#| label: model-formula-display
+lsas_post ~ trt
+```
+
+The R syntax is the same as with the binary predictor. However, when `trt` has three levels, R uses **dummy coding** by default (also called treatment coding).
+
+If `waitlist` is the reference group, the linear regression model can be written:
+
+$$
+\mathbb{E}(LSAS_{post} \mid trt) = \beta_0 + \beta_1 \, \mathbf{1}\{trt = \text{therapist-guided}\} + \beta_2 \, \mathbf{1}\{trt = \text{self-guided}\}
+$$
+
+Where:
+
+- $\beta_0$ is the expected outcome in the reference group (`waitlist`)
+- $\beta_1$ is the mean difference between therapist-guided and waitlist
+- $\beta_2$ is the mean difference between self-guided and waitlist
+- $\mathbf{1}\{\cdot\}$ is the [indicator function](https://en.wikipedia.org/wiki/Indicator_function) which is 1 if the condition holds and 0 otherwise
+
+| trt              | Predicted value     |
+|------------------|---------------------|
+| waitlist         | $\beta_0$           |
+| therapist-guided | $\beta_0 + \beta_1$ |
+| self-guided      | $\beta_0 + \beta_2$ |
+
+So the coefficients compare each treatment arm to the reference group.
+
+# 3. Linear Regression (Mean Differences)
+
+## 3.1 Fit the model
+
+```{r}
+#| label: fit-lm-cat
+mod_lm <- lm(lsas_post ~ trt, data = df_clean)
+summary(mod_lm)
+```
+
+::: {.callout-tip}
+### Interpretation
+
+-   **Intercept**: estimated mean LSAS score in the waitlist group
+-   **trt coefficients**: estimated mean differences vs waitlist
+
+We can verify group means directly:
+
+```{r}
+#| label: group-means
+df_clean |>
+  group_by(trt) |>
+  summarize(mean_lsas = mean(lsas_post, na.rm = TRUE))
+```
+:::
+
+## 3.2 Relationship to one-way ANOVA
+
+A linear regression with one categorical predictor (3+ groups) is equivalent to a one-way ANOVA:
+
+```{r}
+#| label: anova-lm
+anova(mod_lm)
+```
+
+The ANOVA table tests whether there is evidence that **at least one group mean differs**.
+
+# 4. Quantile Regression (Quantile Differences)
+
+## 4.1 Model formulation
+
+For quantile regression at quantile $\tau$:
+
+$$
+Q_{LSAS_{post}}(\tau) =  \beta_0(\tau) + \beta_1(\tau) \, \mathbf{1}\{trt = \text{therapist-guided}\} + \beta_2(\tau) \, \mathbf{1}\{trt = \text{self-guided}\}
+$$
+
+- $\beta_0(\tau)$ = $\tau$-th quantile in waitlist
+- $\beta_1(\tau)$ = $\tau$-th quantile difference (therapist-guided − waitlist)
+- $\beta_2(\tau)$ = $\tau$-th quantile difference (self-guided − waitlist)
+
+## 4.2 Fit a median regression
+
+```{r}
+#| label: fit-rq-cat
+mod_rq <- rq(lsas_post ~ trt, tau = 0.5, data = df_clean)
+summary(mod_rq)
+```
+
+Verify group medians directly:
+
+```{r}
+#| label: group-medians
+df_clean |>
+  group_by(trt) |>
+  summarize(median_lsas = median(lsas_post, na.rm = TRUE))
+```
+
+# 5. Model Objects and Coefficients
+
+## 5.1 Linear regression object
+
+```{r}
+#| label: lm-object
+names(mod_lm)
+coef(mod_lm)
+```
+
+-   `(Intercept)`: waitlist mean
+-   `trttherapist-guided`: mean difference vs waitlist
+-   `trtself-guided`: mean difference vs waitlist
+
+## 5.2 Quantile regression object
+
+```{r}
+#| label: rq-coefs
+coef(mod_rq)
+```
+
+Interpretation is parallel, but for quantiles (e.g., medians).
+
+# 6. Predictions Using `marginaleffects`
+
+As in the binary predictor case, `marginaleffects` makes it easy to get:
+
+-   predicted values for each group
+-   uncertainty (SEs and CIs)
+-   group differences as contrasts
+
+## 6.1 Predicted means by group (linear regression)
+
+```{r}
+#| label: lm-avg-preds-by-group
+avg_predictions(mod_lm, by = "trt")
+```
+
+## 6.2 Predicted medians by group (quantile regression)
+
+```{r}
+#| label: rq-avg-preds-by-group
+avg_predictions(mod_rq, by = "trt")
+```
+
+## 6.3 Group differences as contrasts
+
+### Mean differences (linear regression)
+
+With three groups, there is no single “treatment − control” difference. Instead, we usually calculate the **pairwise mean differences** between all groups.
+
+```{r}
+#| label: lm-pairwise-mean-cmp
+cmp <- avg_comparisons(mod_lm, variables = list("trt" = "pairwise"))
+cmp
+```
+
+### Median differences (quantile regression)
+
+```{r}
+#| label: rq-pairwise-mean-cmp
+cmp_med <- avg_comparisons(mod_rq, variables = list("trt" = "pairwise"))
+cmp_med
+```
+
+# 7. Visualization
+
+## 7.1 Group means with confidence intervals
+
+```{r}
+#| label: plot-group-means
+plot_predictions(mod_lm, by = "trt") +
+  labs(
+    x = "Treatment group",
+    y = "Estimated Mean LSAS (95% CI)",
+    title = "Estimated Group Means from Linear Regression"
+  ) +
+  theme_minimal()
+```
+
+## 7.2 Group medians with confidence intervals
+
+```{r}
+#| label: plot-group-medians
+plot_predictions(mod_rq, by = "trt") +
+  labs(
+    x = "Treatment group",
+    y = "Estimated Median LSAS (95% CI)",
+    title = "Estimated Group Medians from Quantile Regression"
+  ) +
+  theme_minimal()
+```
+
+## 7.3 Mean differences (pairwise) with confidence intervals
+
+```{r}
+#| label: plot-pairwise-mean-diffs
+cmp |>
+  ggplot(aes(y = contrast, x = estimate)) +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  geom_point(size = 3) +
+  geom_errorbar(aes(xmin = conf.low, xmax = conf.high), width = 0.1) +
+  labs(
+    y = "",
+    x = "Estimated Mean Difference (95% CI)",
+    title = "Pairwise Mean Differences (Linear Regression)"
+  ) +
+  theme_minimal()
+```
+
+## 7.4 Median differences (pairwise) with confidence intervals
+
+```{r}
+#| label: plot-pairwise-median-diffs
+ggplot(cmp_med, aes(y = contrast, x = estimate)) +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  geom_point(size = 3) +
+  geom_errorbar(aes(xmin = conf.low, xmax = conf.high), width = 0.1) +
+  labs(
+    y = "",
+    x = "Estimated Median Difference (95% CI)",
+    title = "Pairwise Median Differences (Quantile Regression)"
+  ) +
+  theme_minimal()
+```
+
+## Ratio of Means and Other Hypotheses
+As before, we can answer a range of other hypotheses. For example, the ratio of group outcomes.
+```{r}
+#| label: pairwise-mean-ratio
+avg_comparisons(
+  mod_lm,
+  variables = list("trt" = "pairwise"),
+  comparison = "ratio"
+)
+```
+
+We could also compare each treatment group to the grand mean, instead of contrasting them with a reference group (the waitlist).
+```{r}
+#| label: group-means-meandev
+avg_predictions(
+  mod_lm,
+  by = "trt",
+  hypothesis = ~meandev
+)
+```
+
+```{r}
+#| label: meandev-illustration
+#| eval: false
+#| echo: false
+
+# Meandev illustration
+df_clean |>
+  summarize(grp_mean = mean(lsas_post, na.rm = TRUE), .by = trt) |>
+  mutate(meandev = grp_mean - mean(df_clean$lsas_post, na.rm = TRUE))
+```
+
+# Summary
+
+In this chapter you learned:
+
+- how to fit regression models with a categorical predictor (3 levels)
+- how dummy coding works (reference group + differences)
+- how linear regression estimates **mean differences** across groups
+- how quantile regression estimates **quantile differences** across groups
+- how to extract predicted values and contrasts using `marginaleffects`
+- how to visualize group means/medians and pairwise differences with confidence intervals

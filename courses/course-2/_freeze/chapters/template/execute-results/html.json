@@ -2,10 +2,8 @@
   "hash": "0b81de9c639effa50d68cc4661c18792",
   "result": {
     "engine": "knitr",
-    "markdown": "---\ntitle: Template chapter\n---\n\nWelcome to the template chapter. \n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nrnorm(11)\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n [1] -0.3203351  0.8975370 -1.5132639  0.4736664 -0.2798399  1.7241700\n [7]  0.8945741  0.7970181 -0.9957032  0.4429940 -1.1091591\n```\n\n\n:::\n:::\n",
-    "supporting": [
-      "template_files"
-    ],
+    "markdown": "---\ntitle: Template chapter\n---\n\nWelcome to the template chapter. \n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nrnorm(11)\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n [1]  0.81723539  1.12115632  0.23915285 -0.59856681  0.26897246 -1.50673928\n [7] -1.12874652 -0.08437416 -1.42704361  0.05951718  0.20536349\n```\n\n\n:::\n:::\n",
+    "supporting": [],
     "filters": [
       "rmarkdown/pagebreak.lua"
     ],

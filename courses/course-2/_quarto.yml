@@ -30,6 +30,17 @@ website:
         contents:
           - href: chapters/regression-intro.qmd
             text: Introduction to Linear and Quantile Regression in R
+          - href: chapters/regression-one-binary-predictor.qmd
+            text: Regression with a Binary Predictor
+          - href: chapters/regression-one-cat-pred.qmd
+            text: Regression with a Categorical Predictor
+          - href: chapters/regression-one numeric-predictor.qmd
+            text: Regression with a Numeric Predictor
+          - href: chapters/regression-two-binary-predictors.qmd
+            text: Regression with Two Binary Predictors
+          - href: chapters/regression-binary-and-numeric-predictors.qmd
+            text: Regression with One Binary and One Numeric Predictor
+            
       - section: "Labs"
         contents:
           - href: labs/template.qmd
