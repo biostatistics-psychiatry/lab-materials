@@ -46,10 +46,10 @@ glimpse(df_rawdata)
 
 # Data cleaning
 
-Are there any data cleaning steps you need to take? Check for missing or weird values, odd responses succh as extreme outliers or implausible values.
+Are there any data cleaning steps you need to take? Check for missing or weird values, odd responses such as extreme outliers or implausible values.
 
 Other types of data cleaning might involve creating new variables with simpler or new categories, or new ways to code existing variables.
 
 # Analysis
 
-Up to you. Look at the resources in the course chapters for help. Try to fit at least one model, extract the results, and create a plot showing your findings.
+This part is up to you. Look at the resources in the course chapters for help. Try to fit at least one model, extract the results, and create a plot showing your findings.
