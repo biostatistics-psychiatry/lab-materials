@@ -56,8 +56,7 @@ options(
 
 ```{r}
 #| label: load-data
-df_clean <- read.csv(here("data", "steps_clean.csv"))
-df_clean <- df_clean |> rename(grp = group)
+df_clean <- read_csv2(here("data", "steps_clean.csv"))
 ```
 
 We will use `gad_screen`, a numeric measure of generalized anxiety symptoms at screening, as our predictor.

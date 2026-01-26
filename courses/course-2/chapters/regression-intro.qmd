@@ -48,11 +48,7 @@ We'll again use the dataset from the STePS study, which is an RCT comparing guid
 
 ```{r, message=FALSE, warning=FALSE}
 #| label: load-data
-df_clean <- read.csv(here("data", "steps_clean.csv"))
-
-# we also rename the "group" variable, otherwise it causes issues with the
-# `marginaleffects` package
-df_clean <- df_clean |> rename(grp = group)
+df_clean <- read_csv2(here("data", "steps_clean.csv"))
 ```
 
 ```{r}

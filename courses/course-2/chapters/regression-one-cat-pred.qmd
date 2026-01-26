@@ -46,15 +46,14 @@ library(here)
 options(
   marginaleffects_print_omit = c("s.value"),
   marginaleffects_print_style = "tinytable"
-  )
+)
 ```
 
 ## Load data
 
 ```{r}
 #| label: load-data
-df_clean <- read.csv(here("data", "steps_clean.csv"))
-df_clean <- df_clean |> rename(grp = group)
+df_clean <- read_csv2(here("data", "steps_clean.csv"))
 ```
 
 We will again use the treatment indicator variable `trt` as our predictor. In the original data, this indicator has three levels:

@@ -58,8 +58,7 @@ options(
 
 ```{r}
 #| label: load-data
-df_clean <- read.csv(here("data", "steps_clean.csv"))
-df_clean <- df_clean |> rename(grp = group)
+df_clean <- read_csv2(here("data", "steps_clean.csv"))
 ```
 
 As before, we use treatment group as our binary predictor. We subset the data to include only participants in the therapist-guided and waitlist conditions.
