@@ -1,6 +1,28 @@
 ---
-title: "Course 2"
+title: "Course 2 - Introduction to regression analysis"
 date: last-modified
 ---
 
-Welcome to course 2
+Welcome to week 2 of the Biostatistics course! This week is all about regression analysis, and we will teach you how to use R when fitting regression models. Since regression is a very common statistical method, there are multiple ways to fit the models in R. For this course, we have chosen to work with the `marginaleffects` package which we have found to be very useful.
+
+You will also practice creating and using *Quarto notebooks* to document your work. These notebooks help you keep track of your work and share it with others. Refer to the [Quarto documentation](https://quarto.org/docs/) for more information on how to use Quarto.
+
+# Group work during lab sessions
+
+This website contains the material for the afternoon lab sessions. During these sessions, you will be tasked with producing a Quarto notebook that documents the analyses related to the labs. This work will be done in small groups, and each group will present for the rest of the class at some point during the week. Use the template notebook (uploaded to Canvas) as a starting point.
+
+We have been intentionally vague about the lab instructions to allow you to explore and discuss different approaches to the same problem. Refer to the chapters on this website for guidance on how to perform the analyses.
+
+# Intended learning outcomes
+
+After completing this course, the participant is expected to be able to
+
+- Explain core statistical concepts such as probability, random variables, probability
+distributions and summary statistics.
+- Discuss the role of statistics in clinical psychiatric research.
+- Apply principles of statistical reasoning when interpreting research findings.
+- Interpret results from statistical analysis in psychiatric research.
+- Calculate and present descriptive statistics in both written form, tables and graphically.
+- Perform basic statistical analysis and interpret the data output.
+- Discuss strengths and limitations of scientific articles based on statistical methods and data
+analysis.
