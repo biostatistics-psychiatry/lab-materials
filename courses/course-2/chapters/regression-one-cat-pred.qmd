@@ -46,7 +46,7 @@ library(here)
 options(
   marginaleffects_print_omit = c("s.value"),
   marginaleffects_print_style = "tinytable"
-  )
+)
 ```
 
 ## Load data
