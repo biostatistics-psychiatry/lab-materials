@@ -55,8 +55,7 @@ options(
 
 ```{r}
 #| label: load-data
-df_clean <- read.csv(here("data", "steps_clean.csv"))
-df_clean <- df_clean |> rename(grp = group)
+df_clean <- read_csv2(here("data", "steps_clean.csv"))
 ```
 
 One of the predictors will be treatment group. To get a binary variable (i.e., one with only two levels), we subset the data to include only participants in the therapist-guided or waitlist conditions. We'll call this reduced dataset `df_red`.
