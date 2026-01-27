@@ -1,10 +1,54 @@
 ---
-title: Template lab
+title: "Lab: Regression with a binary predictor"
+author: "John Doe"
+date: last-modified
+format:
+  html:
+    toc: true
+    toc-depth: 3
 ---
 
-Welcome to the template chapter.
+# Background
 
+The task for this lab is to ...
+
+# Load packages
 
 ```{r}
-1 + 1
+#| label: load-packages
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(broom)
+library(quantreg)
+library(marginaleffects)
+library(here)
+
 ```
+
+# Load data
+
+```{r}
+#| label: load-data
+
+df_clean <- read_csv2(here("data", "steps_clean.csv"))
+```
+
+# Explore data structure
+
+Write a few comments about the data structure. How many rows and columns are there? Do you find any immediate problems after reading the data? Which are the key variables needed for the analysis?
+
+```{r}
+glimpse(df_clean)
+```
+
+*There are probably some things to adjust before starting to fit models. Add more code chunks and sub-headings as needed.*
+
+# Fit models
+
+- Fit one or more models to answer the questions. Document your findings in the notebook. Use text, tables, and figures as needed.
+
+# Conclusions
+
+Write down a short summary of your findings. Why did you choose the models you did? What did you learn about the datafrom fitting the models?
