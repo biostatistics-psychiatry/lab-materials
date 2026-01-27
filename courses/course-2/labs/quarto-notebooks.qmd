@@ -4,9 +4,11 @@ title: "Quarto Notebooks"
 
 ```{r warning = FALSE, message = FALSE}
 library(tidyverse)
+library(here)
 library(tinytable)
-```
 
+df_clean <- read_csv2(here("data", "steps_clean.csv"))
+```
 
 # Introducing notebooks
 
@@ -23,7 +25,7 @@ This entire course website is made up of Quarto notebooks. You can find the sour
 
 When we write scientific manuscripts, we typically use something like Word to create the document. These often have options to insert tables, figures, and reference lists needed for the manuscript. One drawback of these documents is that they don't handle code very well. You can't run code in a Word file, and you can't see the link between code and output. And when you need to update your manuscript with new results after making some adjustments, you need to manually enter the new results in tables and other parts of the document.
 
-Notebooks combine code and output in a single document, so that any changes you make will be reflected in the output (figures, tables, etc). This means you avoid the tedious manual work, and you lower the risk of errors from manual entry.
+Notebooks combine code and output in a single document, so that any changes you make will be reflected in the output (figures, tables, etc). This means you avoid tedious manual work, and you lower the risk of errors from manual entry.
 
 ## Notebooks vs .R scripts
 
@@ -74,29 +76,44 @@ In RStudio, you can use the keyboard shortcut `Cmd + Opt + I` to insert a new co
 
 ## Displaying output
 
-You can show plots and tables directly in your notebook. To enable direct references to the figure or table, you add some information in the beginning of the code chunk. Now when you reference `@fig-mtcars-example`, it will show @fig-mtcars-example. And writing `@tbl-mtcars-example` gives us @tbl-mtcars-example.
+You can show plots and tables directly in your notebook. To enable direct references to the figure or table, you add some information in the beginning of the code chunk. Now when you reference `@fig-phq9-screen`, it will show @fig-phq9-screen. And writing `@tbl-phq9-screen` gives us @tbl-phq9-screen.
 
-Text, code, and output all in the same place. This is why notebooks are great tools for statistical analysis!
+Text, code, and output all in the same place. This is why notebooks are great tools for statistical analysis.
 
 ```{r}
-#| label: fig-mtcars-example
-#| fig-cap: "Scatterplot of horsepower and miles per gallon. mtcars data"
+#| label: fig-phq9-screen
+#| fig-cap: "Scatterplot of baseline PHQ-9 score by treatment group"
 
-mtcars |>
-  ggplot(aes(x = hp, y = mpg)) +
-  geom_point()
+df_clean |>
+  ggplot(aes(x = trt, y = phq9_screen)) +
+  geom_point(
+    position = position_jitter(width = 0.2)
+  ) +
+  labs(
+    x = "Treatment group",
+    y = "Baseline PHQ-9 score"
+  )
 ```
 
 ```{r}
-#| label: tbl-mtcars-example
-#| tbl-cap: Mean weight, grouped by number of cylinders
+#| label: tbl-phq9-screen
+#| tbl-cap: Mean baseline PHQ-9 score, grouped by treatment group
 
-mtcars |>
+df_clean |>
   summarise(
-    mean_wt = mean(wt),
+    mean_phq9 = mean(phq9_screen, na.rm = TRUE),
     n = n(),
-    .by = cyl
+    .by = trt
   ) |>
   tt()
 ```
 
+# Your task for the lab sessions
+
+Your task for the lab sessions is to create Quarto notebooks to answer the questions. You can use the template notebook uploaded to Canvas as a starting point.
+
+## Where to get help
+
+- Ask us!
+- Check the chapters for course 2
+- Check the [Quarto documentation](https://quarto.org/docs/guide/) for help with Quarto
