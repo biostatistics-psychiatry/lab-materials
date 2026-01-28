@@ -1,0 +1,13 @@
+---
+title: "Lab: One numeric predictor"
+execute:
+  eval: false
+---
+
+# Scenario
+
+In a lab meeting, another PhD student presents recent findings from one of their projects. They found that depressive symptoms before treatment predicted treatment response, and you become interested in evaluating the same thing in your own data. Your supervisor agrees.
+
+# Analysis
+
+Use the tools described in the course chapters to analyze the data. Present your findings in a Quarto notebook, and include both model output and visualizations. Discuss your data analysis decisions in the notebook.

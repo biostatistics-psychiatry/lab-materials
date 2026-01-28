@@ -12,7 +12,7 @@ df_clean <- read_csv2(here("data", "steps_clean.csv"))
 
 # Introducing notebooks
 
-This chapter describes how to use [Quarto notebooks](https://quarto.org/docs/guide/) to document your work. If you are familiar with things like Jupyter notebooks or R markdown, Quarto works the same way. Notebooks are a type of document where you can mix text, code, and output. This is particularly helpful in projects that require statistical analysis, because you can keep everything in one place. We have found them to be useful in our own work, especially in the early stages of statistical analyses when we are trying to understand the data and need to explore different models and approaches. Is the concept of notebooks new? Then it might help to compare notebooks to other types of documents you are familiar with.
+This chapter describes how to use [Quarto notebooks](https://quarto.org/docs/guide/) to document your work. If you are familiar with things like Jupyter notebooks or R Markdown, Quarto works the same way. Notebooks are a type of document where you can mix text, code, and output. This is particularly helpful in projects that require statistical analysis, because you can keep everything in one place. We have found them to be useful in our own work, especially in the early stages of statistical analyses when we are trying to understand the data and need to explore different models and approaches. Is the concept of notebooks new? Then it might help to compare notebooks to other types of documents you are familiar with.
 
 ::: {.callout-note}
 ## This website is built with Quarto
@@ -29,17 +29,17 @@ Notebooks combine code and output in a single document, so that any changes you 
 
 ## Notebooks vs .R scripts
 
-R scripts are files of the type `.R` which contain code that you can run in R. They are the most straightforward way to write down your R-code, but they are not the best way to document your work. Output is not saved in the script, and comments can only be added by adding `#` at the beginning of the line. As your R-script becomes longer and longer, it is often difficult to keep track of everything going on.
+R scripts are files of the type `.R` which contain code that you can run in R. They are the most straightforward way to write down your R code, but they are not the best way to document your work. Output is not saved in the script, and comments can only be added by adding `#` at the beginning of the line. As your R script becomes longer and longer, it is often difficult to keep track of everything going on.
 
 An advantage of notebooks is that you can easily comment your code and discuss the results in the same place, and it is easy to add structure to your document by using headings, as well as referencing specific tables or figures by name.
 
 # Contents of a Quarto notebook
 
-The typical Quarto notebook contains *meta-data*, *text* and *code*. Meta-data is provided on the first line of the notebook, and text or code is then added to the rest of the notebook, in any order you like.
+The typical Quarto notebook contains *metadata*, *text* and *code*. Metadata is provided on the first line of the notebook, and text or code is then added to the rest of the notebook, in any order you like.
 
-## Meta-data
+## Metadata
 
-The first lines of a Quarto notebook are used to provide meta-data about the notebook. This often includes the title of the notebook, the author, and the date of creation. The meta-data is written in YAML format, and is enclosed in `---` and `---` lines.
+The first lines of a Quarto notebook are used to provide metadata about the notebook. This often includes the title of the notebook, the author, and the date of creation. The metadata is written in YAML format, and is enclosed in `---` and `---` lines.
 
 (We added the `date: last-modified` option to automatically update the date of the notebook when you save it. This is helpful when you are sending around versions of your notebook to others.)
 
@@ -68,7 +68,7 @@ two
 The code block is executed when the notebook is rendered, and the output is displayed below the code block. You can also run each code chunk individually by clicking the green play button in the top right corner. This is helpful when you are developing your code and want to test things as you go along.
 
 ::: {.callout-note}
-## Keyboard shortcut to create code chunk
+## Keyboard shortcut to create a code chunk
 
 In RStudio, you can use the keyboard shortcut `Cmd + Opt + I` to insert a new code chunk on Mac. This is a helpful shortcut to learn when working with Quarto notebooks!
 
@@ -76,7 +76,7 @@ In RStudio, you can use the keyboard shortcut `Cmd + Opt + I` to insert a new co
 
 ## Displaying output
 
-You can show plots and tables directly in your notebook. To enable direct references to the figure or table, you add some information in the beginning of the code chunk. Now when you reference `@fig-phq9-screen`, it will show @fig-phq9-screen. And writing `@tbl-phq9-screen` gives us @tbl-phq9-screen.
+You can show plots and tables directly in your notebook. To enable direct references to the figure or table, you add some information at the beginning of the code chunk. Now when you reference `@fig-phq9-screen`, it will show @fig-phq9-screen. And writing `@tbl-phq9-screen` gives us @tbl-phq9-screen.
 
 Text, code, and output all in the same place. This is why notebooks are great tools for statistical analysis.
 
