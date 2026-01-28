@@ -43,8 +43,8 @@ website:
             
       - section: "Labs"
         contents:
-          - href: labs/template.qmd
-            text: Template
+          - href: labs/quarto-notebooks.qmd
+            text: Quarto notebooks
 
 format:
   html:
