@@ -5,6 +5,7 @@ format:
      df-print: kable
 toc: true
 toc-depth: 3
+number-sections: true
 ---
 
 # Introduction
@@ -15,21 +16,21 @@ In this chapter, we extend that framework by adding **one binary predictor**, ca
 
 This is the simplest possible *comparative* regression model and corresponds to:
 
-- a **two-sample t-test** in linear regression
-- a **comparison of quantiles** in quantile regression
+-   a **two-sample t-test** in linear regression
+-   a **comparison of quantiles** in quantile regression
 
 This chapter introduces how regression models encode **group differences**.
 
 You will learn:
 
-- how binary predictors enter regression models
-- how to interpret intercepts and slopes with binary variables
-- how group means and differences are estimated
-- how to obtain predicted values for each group
-- how to visualize group comparisons
-- how linear and quantile regression differ in interpretation
+-   how binary predictors enter regression models
+-   how to interpret intercepts and slopes with binary variables
+-   how group means and differences are estimated
+-   how to obtain predicted values for each group
+-   how to visualize group comparisons
+-   how linear and quantile regression differ in interpretation
 
-# 1. Packages and Data
+# Packages and Data
 
 We use the same packages as before.
 
@@ -93,14 +94,14 @@ By listing waitlist as the first level, it becomes the reference level. We can c
 contrasts(df_red$trt)
 ```
 
-# 2. Regression with a Binary Predictor
+# Regression with a Binary Predictor
 
 With a binary predictor, the regression model estimates **two quantities**:
 
 1.  the expected outcome in the reference group
 2.  the difference between groups
 
-## 2.1 Model formula
+## Model formula
 
 Here is the R syntax for the regression model for the LSAS post-treatment score, `lsas_post`, including only an intercept and the `trt` variable as a predictor (the intercept `~1` from the last model is implied, but can also be written out).
 
@@ -118,8 +119,8 @@ $$
 
 Where:
 
-- $\beta_0$ is the expected outcome when `trt = 0` (waitlist group, since this is coded as the reference level)
-- $\beta_1$ is the **mean difference** between the therapist-guided and waitlist groups (therapist-guided minus waitlist)
+-   $\beta_0$ is the expected outcome when `trt = 0` (waitlist group, since this is coded as the reference level)
+-   $\beta_1$ is the **mean difference** between the therapist-guided and waitlist groups (therapist-guided minus waitlist)
 
 For individual observations:
 
@@ -127,7 +128,7 @@ $$
 LSAS_{post,i} = \beta_0 + \beta_1\, trt_i + \epsilon_i 
 $$
 
-## 2.2 Interpretation of coefficients
+## Interpretation of coefficients
 
 | trt                  | Predicted value     |
 |----------------------|---------------------|
@@ -136,12 +137,12 @@ $$
 
 Thus:
 
-- $\beta_0$ = mean (or quantile) in the control group
-- $\beta_1$ = difference in mean (or quantile) between the groups (i.e., treatment effect)
+-   $\beta_0$ = mean (or quantile) in the control group
+-   $\beta_1$ = difference in mean (or quantile) between the groups (i.e., treatment effect)
 
-# 3. Linear Regression (Mean Differences)
+# Linear Regression (Mean Differences)
 
-## 3.1 Fit the model
+## Fit the model
 
 ```{r}
 #| label: fit-lm-binary
@@ -149,10 +150,11 @@ mod_lm <- lm(lsas_post ~ trt, data = df_red)
 summary(mod_lm)
 ```
 
-::: {.callout-tip}
+::: callout-tip
 ### Interpretation
-- **Intercept**: estimated mean LSAS score in the control group
-- **trt coefficient**: estimated mean difference (therapist-guided minus waitlist). A negative value indicates lower mean LSAS at post in the therapist-guided group compared to the waitlist group. We can see that the mean value of LSAS at post was 21 point lower in the therapist-guided group than in the waitlist group.
+
+-   **Intercept**: estimated mean LSAS score in the control group
+-   **trt coefficient**: estimated mean difference (therapist-guided minus waitlist). A negative value indicates lower mean LSAS at post in the therapist-guided group compared to the waitlist group. We can see that the mean value of LSAS at post was 21 point lower in the therapist-guided group than in the waitlist group.
 
 We can verify these directly from the data:
 
@@ -166,7 +168,7 @@ df_red |>
 The difference between these two means equals the estimated coefficient for `trt`.
 :::
 
-## 3.2 Relationship to the t-test
+## Relationship to the t-test
 
 This regression model is mathematically equivalent to a two-sample t-test:
 
@@ -177,13 +179,13 @@ t.test(lsas_post ~ trt, data = df_red, var.equal = TRUE)
 
 Regression generalizes the t-test by allowing:
 
-- additional predictors
-- non-normal outcomes
-- different estimands (e.g., quantiles)
+-   additional predictors
+-   non-normal outcomes
+-   different estimands (e.g., quantiles)
 
-# 4. Quantile Regression (Quantile Differences)
+# Quantile Regression (Quantile Differences)
 
-## 4.1 Model formulation
+## Model formulation
 
 For quantile regression at quantile $\tau$:
 
@@ -191,10 +193,10 @@ $$
 Q_{LSAS_{post} \mid trt}(\tau \mid trt_i) =  \beta_{0}(\tau) + \beta_{1}(\tau)\, trt_i 
 $$
 
-- $\beta_{0}(\tau)$ = $\tau$-th quantile in the control group
-- $\beta_{1}(\tau)$ = difference in quantiles between groups
+-   $\beta_{0}(\tau)$ = $\tau$-th quantile in the control group
+-   $\beta_{1}(\tau)$ = difference in quantiles between groups
 
-## 4.2 Fit a median regression
+## Fit a median regression
 
 ```{r}
 #| label: fit-rq-binary
@@ -211,9 +213,9 @@ df_red |>
   summarize(median_lsas = median(lsas_post, na.rm = TRUE))
 ```
 
-# 5. Model Objects and Coefficients
+# Model Objects and Coefficients
 
-## 5.1 Linear regression object
+## Linear regression object
 
 ```{r}
 #| label: lm-object
@@ -221,8 +223,8 @@ names(mod_lm)
 coef(mod_lm)
 ```
 
-- `(Intercept)`: control group mean
-- `trt`: mean difference
+-   `(Intercept)`: control group mean
+-   `trt`: mean difference
 
 Predicted values for the first few participants (determined only by their group)
 
@@ -231,7 +233,7 @@ Predicted values for the first few participants (determined only by their group)
 head(fitted(mod_lm))
 ```
 
-## 5.2 Quantile regression object
+## Quantile regression object
 
 ```{r}
 #| label: rq-coefs
@@ -240,11 +242,11 @@ coef(mod_rq)
 
 Interpretation is parallel, but refers to **quantiles instead of means**.
 
-# 6. Predictions Using `marginaleffects`
+# Predictions Using `marginaleffects`
 
 The `marginaleffects` package allows us to compute **group-specific predictions**. This allows us to see confidence intervals for the mean (or quantile) for each group, as well as the CI for the mean (or quantile) difference between the groups.
 
-## 6.1 Predicted means by group (linear regression)
+## Predicted means by group (linear regression)
 
 ```{r}
 #| label: lm-avg-preds-by-group
@@ -253,18 +255,18 @@ avg_predictions(mod_lm, by = "trt")
 
 This returns:
 
-- predicted mean in each group
-- standard errors
-- confidence intervals for each predicted mean
+-   predicted mean in each group
+-   standard errors
+-   confidence intervals for each predicted mean
 
-## 6.2 Predicted medians by group (quantile regression)
+## Predicted medians by group (quantile regression)
 
 ```{r}
 #| label: rq-avg-preds-by-group
 avg_predictions(mod_rq, by = "trt")
 ```
 
-## 6.3 Treatment effect as a contrast
+## Treatment effect as a contrast
 
 ```{r}
 #| label: lm-avg-comparisons
@@ -278,8 +280,10 @@ For quantile regression:
 avg_comparisons(mod_rq, variables = "trt")
 ```
 
-## 6.4 Ratios
+## Ratios
+
 `marginaleffects` is highly flexible with regards to what hypothesis we can answer. For we example we can compare the ratio of mean outcomes.
+
 ```{r}
 #| label: ratio-hypotheses
 #| warning: false
@@ -301,6 +305,7 @@ hypotheses(
 ```
 
 We can also change the reference level without having to refit the model (and much more).
+
 ```{r}
 #| label: change-ref-level
 avg_comparisons(
@@ -309,8 +314,10 @@ avg_comparisons(
 )
 ```
 
-## 6.5 Standardized Effect Sizes
+## Standardized Effect Sizes
+
 If we want to report standardized mean differences (Cohen's d), we can simply scale the estimates using an appropriate standardizer, for example the standard deviation at baseline.
+
 ```{r}
 #| label: smd-baseline
 sd_baseline <- sd(df_red$lsas_screen, na.rm = TRUE)
@@ -335,10 +342,12 @@ avg_comparisons(
 )
 ```
 
-# 7. Visualization
+# Visualization
 
-## 7.1 Group means with confidence intervals
+## Group means with confidence intervals
+
 Using `marginaleffects::plot_predictions`
+
 ```{r}
 #| label: plot-group-means
 plot_predictions(mod_lm, by = "trt") +
@@ -350,7 +359,7 @@ plot_predictions(mod_lm, by = "trt") +
   theme_minimal()
 ```
 
-## 7.2 Group medians with confidence intervals
+## Group medians with confidence intervals
 
 ```{r}
 #| label: plot-group-medians
@@ -363,18 +372,16 @@ plot_predictions(mod_rq, by = "trt") +
   theme_minimal()
 ```
 
-
-
 # Summary
 
 In this chapter you learned:
 
-- how binary predictors enter regression models
-- how intercepts and coefficients (slopes) encode group means and differences
-- how linear regression estimates **mean differences**
-- how quantile regression estimates **quantile differences**
-- how regression relates to t-tests
-- how to obtain predictions, contrasts, and confidence intervals
-- how to visualize group comparisons
+-   how binary predictors enter regression models
+-   how intercepts and coefficients (slopes) encode group means and differences
+-   how linear regression estimates **mean differences**
+-   how quantile regression estimates **quantile differences**
+-   how regression relates to t-tests
+-   how to obtain predictions, contrasts, and confidence intervals
+-   how to visualize group comparisons
 
 This chapter provides the foundation for models with **categorical predictors and later numeric predictors, and multiple predictors**.

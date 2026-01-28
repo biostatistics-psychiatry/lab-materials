@@ -5,31 +5,32 @@ format:
      df-print: kable
 toc: true
 toc-depth: 3
+number-sections: true
 ---
 
 # Introduction
 
 In the previous chapters, we studied regression models with:
 
-- a single binary predictor
-- a categorical predictor with multiple levels
-- a numeric predictor
+-   a single binary predictor
+-   a categorical predictor with multiple levels
+-   a numeric predictor
 
 In this chapter, we extend these ideas to **two binary predictors**.\
 This allows us to introduce the important concept of **conditional effects** and to distinguish between:
 
-- **additive models** (no interaction)
-- **interaction models** (effect modification)
+-   **additive models** (no interaction)
+-   **interaction models** (effect modification)
 
 You will learn:
 
-- how to interpret models with two binary predictors
-- what *conditional effects* mean
-- how interactions change interpretation
-- how to estimate and visualize effects using `marginaleffects`
-- how linear and quantile regression handle interactions
+-   how to interpret models with two binary predictors
+-   what *conditional effects* mean
+-   how interactions change interpretation
+-   how to estimate and visualize effects using `marginaleffects`
+-   how linear and quantile regression handle interactions
 
-# 1. Packages and Data
+# Packages and Data
 
 ```{r, message=FALSE, warning=FALSE}
 #| label: setup-packages
@@ -91,11 +92,11 @@ df_red <- df_red |>
 table(df_red$dep_bin) # show distribution
 ```
 
-# 2. Two Binary Predictors without Interaction (Additive Model)
+# Two Binary Predictors without Interaction (Additive Model)
 
 We begin with a model that includes both predictors **without** an interaction.
 
-## 2.1 Model formula
+## Model formula
 
 ```{r}
 #| label: formula-additive
@@ -114,23 +115,22 @@ $$
 
 Where:
 
-- $\beta_0$: mean outcome in the reference group (waitlist & Low depression)
-- $\beta_1$: conditional treatment effect, holding depression constant
-- $\beta_2$: conditional depression effect, holding treatment constant
+-   $\beta_0$: mean outcome in the reference group (waitlist & Low depression)
+-   $\beta_1$: conditional treatment effect, holding depression constant
+-   $\beta_2$: conditional depression effect, holding treatment constant
 
-## 2.2 Interpretation of conditional effects
+## Interpretation of conditional effects
 
 In this model:
 
-- the effect of treatment is assumed to be **the same** for low and high depression
-- the effect of depression is assumed to be **the same** in both treatment groups
+-   the effect of treatment is assumed to be **the same** for low and high depression
+-   the effect of depression is assumed to be **the same** in both treatment groups
 
-This is called an **additive model** (because the effects of the two predictors are added to each other).
-Under additivity, the treatment effect is assumed the same in Low and High depression, and the depression effect is assumed the same in both treatment groups.
+This is called an **additive model** (because the effects of the two predictors are added to each other). Under additivity, the treatment effect is assumed the same in Low and High depression, and the depression effect is assumed the same in both treatment groups.
 
-# 3. Linear Regression without Interaction
+# Linear Regression without Interaction
 
-## 3.1 Fit the model
+## Fit the model
 
 ```{r}
 #| label: fit-lm-additive
@@ -140,11 +140,11 @@ summary(mod_lm_add)
 
 ### Interpretation
 
-- **Intercept**: mean LSAS at post-treatment in waitlist & low depression.
-- **trt coefficient**: mean difference between therapist-guided and waitlist, adjusted for depression. The mean LSAS post score in the therapist-guided group is ~21 points lower than in the waitlist group.
-- **dep_bin coefficient**: mean difference between High and Low depression, adjusted for treatment. The mean LSAS post score in the Low-depression group is ~8 points lower than in the High-depression group.
+-   **Intercept**: mean LSAS at post-treatment in waitlist & low depression.
+-   **trt coefficient**: mean difference between therapist-guided and waitlist, adjusted for depression. The mean LSAS post score in the therapist-guided group is \~21 points lower than in the waitlist group.
+-   **dep_bin coefficient**: mean difference between High and Low depression, adjusted for treatment. The mean LSAS post score in the Low-depression group is \~8 points lower than in the High-depression group.
 
-## 3.2 Predicted means by group
+## Predicted means by group
 
 We can now use the `marginaleffects` package to get the estimated means for each of the four groups, i.e., the *conditional* estimated means.
 
@@ -153,7 +153,7 @@ We can now use the `marginaleffects` package to get the estimated means for each
 avg_predictions(mod_lm_add, by = c("trt", "dep_bin"))
 ```
 
-## 3.3 Treatment effect as a conditional contrast
+## Treatment effect as a conditional contrast
 
 We can get the conditional treatment effects across both groups using the `marginaleffects` package.
 
@@ -167,7 +167,7 @@ avg_comparisons(mod_lm_add,
 
 Since we specified the model as additive, the treatment effect is the same in both depression groups.
 
-## 3.4 Treatment effect as a marginal contrast
+## Treatment effect as a marginal contrast
 
 The marginal contrast averages over the conditional contrasts. Since these are the same in this model, the marginal effect will be identical to the conditional effects.
 
@@ -176,11 +176,11 @@ The marginal contrast averages over the conditional contrasts. Since these are t
 avg_comparisons(mod_lm_add, variables = "trt")
 ```
 
-# 4. Adding an Interaction
+# Adding an Interaction
 
 Now we allow the treatment effect to differ depending on depression severity.
 
-## 4.1 Model formula with interaction
+## Model formula with interaction
 
 ```{r}
 #| label: formula-interaction
@@ -198,14 +198,14 @@ $$
 \end{aligned}
 $$
 
-- $\beta_3$ is the **interaction term**
-- it captures how the treatment effect changes with depression level
+-   $\beta_3$ is the **interaction term**
+-   it captures how the treatment effect changes with depression level
 
 We now allow for different treatment effects **depending on the level of depression**, rather than the treatment effect simply adding to the depression effect as in the additive model.
 
-# 5. Linear Regression with Interaction
+# Linear Regression with Interaction
 
-## 5.1 Fit the interaction model
+## Fit the interaction model
 
 ```{r}
 #| label: fit-lm-interaction
@@ -215,11 +215,11 @@ summary(mod_lm_int)
 
 ### Interpretation
 
-- The treatment effect is **conditional on depression severity**
-- Main effects are now interpreted **at the reference level** of the other variable
-- The interaction coefficient represents the **difference in the treatment effect between participants with high versus low depression**. It tells us that the treatment effect is \~6 points greater in the high-depression group compared with the treatment effect in the low-depression group.
+-   The treatment effect is **conditional on depression severity**
+-   Main effects are now interpreted **at the reference level** of the other variable
+-   The interaction coefficient represents the **difference in the treatment effect between participants with high versus low depression**. It tells us that the treatment effect is \~6 points greater in the high-depression group compared with the treatment effect in the low-depression group.
 
-## 5.2 Conditional treatment effects
+## Conditional treatment effects
 
 ```{r}
 #| label: avg-comparisons-int-by-dep
@@ -236,7 +236,7 @@ These estimates answer:
 
 In this interaction model, the treatment effect is allowed to differ depending on baseline depression.
 
-## 5.3 Marginal treatment effects
+## Marginal treatment effects
 
 ```{r}
 #| label: avg-comparisons-int-marginal
@@ -248,11 +248,11 @@ avg_comparisons(
 
 This estimate is the **marginal (population-average) treatment effect.** It is obtained by averaging the conditional treatment effects over the observed distribution of low and high depression in the sample. Because we allowed the effect to differ between the depression groups, this estimate is no longer identical to the conditional estimate of `trt` from the model, or to the conditional contrasts above.
 
-# 6. Quantile Regression with Two Binary Predictors
+# Quantile Regression with Two Binary Predictors
 
 Now let's do the same thing with quantile regression.
 
-## 6.1 Additive model (median differences)
+## Additive model (median differences)
 
 ```{r, warning= FALSE}
 #| label: fit-rq-additive
@@ -264,7 +264,7 @@ mod_rq_add <- rq(
 summary(mod_rq_add)
 ```
 
-## 6.2 Interaction model (median differences)
+## Interaction model (median differences)
 
 ```{r, warning= FALSE}
 #| label: fit-rq-interaction
@@ -276,7 +276,7 @@ mod_rq_int <- rq(
 summary(mod_rq_int)
 ```
 
-## 6.3 Conditional median treatment effects
+## Conditional median treatment effects
 
 ```{r}
 #| label: rq-avg-comparisons-int-by-dep
@@ -287,7 +287,7 @@ avg_comparisons(
 )
 ```
 
-## 6.4 Marginal median treatment effects
+## Marginal median treatment effects
 
 ```{r}
 #| label: rq-avg-comparisons-int-marginal
@@ -297,9 +297,9 @@ avg_comparisons(
 )
 ```
 
-# 7. Visualization
+# Visualization
 
-## 7.1 Group means (additive vs interaction model)
+## Group means (additive vs interaction model)
 
 ```{r}
 #| label: plot-means-additive
@@ -351,11 +351,11 @@ Here we see the difference between the additive and the interaction model clearl
 
 In this chapter you learned:
 
-- how to fit regression models with **two binary predictors**
-- the meaning of **conditional effects**
-- the difference between additive and interaction models
-- how interactions change coefficient interpretation
-- how to estimate conditional effects using `marginaleffects`
-- how to visualize interactions using predicted values
+-   how to fit regression models with **two binary predictors**
+-   the meaning of **conditional effects**
+-   the difference between additive and interaction models
+-   how interactions change coefficient interpretation
+-   how to estimate conditional effects using `marginaleffects`
+-   how to visualize interactions using predicted values
 
 This chapter completes the foundation for understanding **effect modification**, which is essential for applied regression and causal interpretation.
