@@ -4,7 +4,7 @@ format:
    html:
      df-print: kable
 toc: true
-toc-depth: 
+toc-depth: 3
 number-sections: true
 ---
 
@@ -59,6 +59,8 @@ options(
 
 ```{r}
 #| label: load-data
+#| message: false
+#| warning: false
 df_clean <- read_csv2(here("data", "steps_clean.csv"))
 ```
 
@@ -358,21 +360,6 @@ plot_comparisons(
   theme_minimal()
 ```
 
-## Visualizing conditional treatment effects at three PHQ-9 levels
-
-We can also calculate the treatment effect at low, medium, and high baseline depression by estimating the treatment effect at three values of `phq9_screen` (here: the 25th, 50th, and 75th percentiles).
-
-```{r}
-#| label: plot-three-levels
-cmp_3 <- avg_comparisons(
-  mod_lm_int,
-  variables = "trt",
-  by = "phq9_screen",
-  # we can use functions with datagrid
-  newdata = datagrid(phq9_screen = \(x) quantile(x, probs = c(.25, .50, .75)))
-)
-cmp_3
-```
 
 ## Non-linear interaction (Spline)
 

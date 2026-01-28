@@ -9,16 +9,16 @@ toc-depth: 3
 
 ## Introduction
 
-In the previous chapters, we studied regression models with various types of predictors. 
+In the previous chapters, we studied regression models with various types of predictors.
 
 In this chapter, we focus on the key assumptions behind the linear regression model and practical ways to diagnose them in R.
 
 You will learn the assumptions that most matter in practice:
 
-- Linearity / correct specification
-- Independent errors
-- Constant error variance (homoscedasticity)
-- Normality of errors (usually less critical for large sample sizes)
+-   Linearity / correct specification
+-   Independent errors
+-   Constant error variance (homoscedasticity)
+-   Normality of errors (usually less critical for large sample sizes)
 
 We use the `performance` package to quickly diagnose issues and show simple remedies. See the [`check_model` vignette](https://easystats.github.io/performance/articles/check_model.html) for details on the plots.
 
@@ -57,6 +57,7 @@ df_clean <- read_csv2(here("data", "steps_clean.csv"))
 ```
 
 ## STePS Model
+
 Let's perform a quick diagnostic of the ANCOVA‑style STePS model.
 
 ```{r}
@@ -73,9 +74,11 @@ check_model(mod_lm)
 There are some possible problematic residual values in the left tail: a few participants report much lower observed values than predicted by the model. This is likely not a substantive issue.
 
 ## Using Fake-Data Simulation to Understand Assumptions
+
 Simulating data is a great way to understand model assumptions.
 
 ### A Well-Behaved Base Model
+
 ```{r}
 #| label: sim-good-model
 #| fig-height: 10
@@ -114,7 +117,9 @@ check_model(m_lin)
 We can see that there are many issues with the model.
 
 ### Fix 1: Add Polynomial Term
-If we add a quadratic term then most issues should disappear. 
+
+If we add a quadratic term then most issues should disappear.
+
 ```{r}
 #| label: sim-quad-fit
 #| fig-height: 10
@@ -199,6 +204,7 @@ check_heteroscedasticity(m_het)
 ```
 
 We can see a clear deviation from constant variance. One remedy is to use robust standard errors.
+
 ```{r}
 #| label: het-robust-se
 
@@ -273,7 +279,6 @@ sim_sum
 
 We see that the estimated standard error is too small, and the confidence intervals include the true parameter value in only `r round(sim_sum$CI_coverage * 100)`% of simulations. Let's try with robust SEs.
 
-
 ```{r}
 #| label: sim-het-run2
 #| cache: true
@@ -295,6 +300,7 @@ Now `r round(sim_sum2$CI_coverage * 100)`% of the CIs include the true value.
 ## Outliers and Influential Points
 
 Outliers can be problematic under certain circumstances, for example due to data errors. Let's add a clearly faulty observation to the STePS data to see how it appears in the model diagnostics.
+
 ```{r}
 #| label: outlier-data
 # add extreme outlier
@@ -309,7 +315,7 @@ compare_parameters(m_clean, m_outlier) |>
   display()
 ```
 
-The relation between LSAS at post and PHQ-9 at baseline is severely impacted by our extreme observation. 
+The relation between LSAS at post and PHQ-9 at baseline is severely impacted by our extreme observation.
 
 ```{r}
 #| label: outlier-diagnostics
@@ -369,8 +375,9 @@ sim_sum3
 
 Because we assumed a large therapist effect, the SEs are much smaller in the linear model that ignores clustering, and the confidence intervals include the true treatment effect in only `r round(sim_sum3$CI_coverage * 100)`% of simulations. This happens because the data generation treats therapists as a random factor: each therapist has a random effect drawn from a distribution, which induces correlation among patients of the same therapist and adds a therapist-level variance component. Ignoring this structure violates independence and typically underestimates SEs. To remedy this, use cluster-robust standard errors or fit a multilevel (random-effects) model with, for example, random intercepts for therapists.
 
-::: {.callout-note}
+::: callout-note
 ## Validity, Representativeness and Fixed versus Random Effects
+
 The clustering example illustrates issues of *validity* and *representativeness*, not just statistical assumptions. In our simulation, therapists are treated as a random factor: for each dataset, 20 therapist effects are drawn from a normal distribution. This induces within-therapist correlation and a therapist-level variance component.
 
 However, fitting a random-effects model does not, by itself, make your study therapists representative of a wider population. Representativeness is a property of your sampling and study design, not the analysis model. Moreover, we might not want to generalize beyond the therapists in our study. From that perspective, the random-effects assumption may not match our research question. In this case, we could treat therapists as a fixed factor and condition on the therapists we include in our study. This reduces uncertainty about the treatment effect because we assume the therapists and their skill levels would be identical across hypothetical repetitions of our study. Neither perspective is right or wrong from a statistical perspective, it depends in what your inferential goals are.
@@ -380,8 +387,8 @@ However, fitting a random-effects model does not, by itself, make your study the
 
 In this chapter you learned:
 
-- Run a quick diagnostic check with `check_model()`
-- Diagnose and fix nonlinearity using polynomials and natural splines
-- Detect heteroskedasticity
-- Identify outliers and influence
-- Non-independent errors
+-   Run a quick diagnostic check with `check_model()`
+-   Diagnose and fix nonlinearity using polynomials and natural splines
+-   Detect heteroskedasticity
+-   Identify outliers and influence
+-   Non-independent errors

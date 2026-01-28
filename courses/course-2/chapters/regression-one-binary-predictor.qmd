@@ -62,6 +62,8 @@ We load the same data as before.
 
 ```{r}
 #| label: load-data
+#| message: false
+#| warning: false
 df_clean <- read_csv2(here("data", "steps_clean.csv"))
 ```
 
@@ -72,14 +74,14 @@ We will use the treatment indicator variable `trt` as our predictor. In the orig
 levels(as.factor(df_clean$trt))
 ```
 
-To get a binary variable (i.e., one with only two levels), we subset the data to include only participants in the therapist-guided or waitlist conditions. We'll call this reduced dataset `df_red`.
+To get a binary variable (i.e., one with only two levels), we subset the data to include only participants in the therapist-guided or wait-list conditions. We'll call this reduced dataset `df_red`.
 
 ```{r}
 #| label: subset-binary-trt
 df_red <- filter(df_clean, trt %in% c("therapist-guided", "waitlist"))
 ```
 
-We transform the `trt` variable to a factor, and make sure that the waitlist condition is used as the reference.
+We transform the `trt` variable to a factor, and make sure that the wait-list condition is used as the reference.
 
 ```{r}
 #| label: relevel-trt
@@ -87,7 +89,7 @@ df_red <- df_red |>
   mutate(trt = factor(trt, levels = c("waitlist", "therapist-guided")))
 ```
 
-By listing waitlist as the first level, it becomes the reference level. We can check how R converts the factor to regression contrasts using `contrasts`.
+By listing wait-list as the first level, it becomes the reference level. We can check how R converts the factor to regression contrasts using `contrasts`.
 
 ```{r}
 #| label: check-contrast-coding
@@ -200,11 +202,13 @@ $$
 
 ```{r}
 #| label: fit-rq-binary
+#| message: false
+#| warning: false
 mod_rq <- rq(lsas_post ~ trt, tau = 0.5, data = df_red)
 summary(mod_rq)
 ```
 
-We can again verify group medians directly:
+Interpretation is parallel to that for linear regression, but refers to **quantiles instead of means**. We can again verify group medians directly form the observed data:
 
 ```{r}
 #| label: group-medians
@@ -212,35 +216,6 @@ df_red |>
   group_by(trt) |>
   summarize(median_lsas = median(lsas_post, na.rm = TRUE))
 ```
-
-# Model Objects and Coefficients
-
-## Linear regression object
-
-```{r}
-#| label: lm-object
-names(mod_lm)
-coef(mod_lm)
-```
-
--   `(Intercept)`: control group mean
--   `trt`: mean difference
-
-Predicted values for the first few participants (determined only by their group)
-
-```{r}
-#| label: lm-fitted-head
-head(fitted(mod_lm))
-```
-
-## Quantile regression object
-
-```{r}
-#| label: rq-coefs
-coef(mod_rq)
-```
-
-Interpretation is parallel, but refers to **quantiles instead of means**.
 
 # Predictions Using `marginaleffects`
 

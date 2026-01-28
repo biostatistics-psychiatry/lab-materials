@@ -56,10 +56,12 @@ options(
 
 ```{r}
 #| label: load-data
+#| message: false
+#| warning: false
 df_clean <- read_csv2(here("data", "steps_clean.csv"))
 ```
 
-One of the predictors will be treatment group. To get a binary variable (i.e., one with only two levels), we subset the data to include only participants in the therapist-guided or waitlist conditions. We'll call this reduced dataset `df_red`.
+One of the predictors will be treatment group. To get a binary variable (i.e., one with only two levels), we subset the data to include only participants in the therapist-guided or wait-list conditions. We'll call this reduced dataset `df_red`.
 
 ```{r}
 #| label: subset-binary-trt
@@ -126,7 +128,7 @@ In this model:
 -   the effect of treatment is assumed to be **the same** for low and high depression
 -   the effect of depression is assumed to be **the same** in both treatment groups
 
-This is called an **additive model** (because the effects of the two predictors are added to each other). Under additivity, the treatment effect is assumed the same in Low and High depression, and the depression effect is assumed the same in both treatment groups.
+This is called an **additive model** (because the effects of the two predictors are added to each other). Under additivity, the treatment effect is assumed the same in Low and High depression groups, and the depression effect is assumed the same in both treatment groups.
 
 # Linear Regression without Interaction
 

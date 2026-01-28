@@ -134,8 +134,9 @@ summary(mod_lm)
 ::: callout-tip
 ### Interpretation
 
--   **Intercept**: estimated mean LSAS score in the waitlist group
--   **trt coefficients**: estimated mean differences vs waitlist
+-   `(Intercept)`: wait-list mean
+-   `trttherapist-guided`: mean difference for the therapist-guided vs wait-list
+-   `trtself-guided`: mean difference for the self-guided group vs wait-list
 
 We can verify group means directly:
 
@@ -176,9 +177,12 @@ $$
 
 ```{r}
 #| label: fit-rq-cat
+#| warning: false
 mod_rq <- rq(lsas_post ~ trt, tau = 0.5, data = df_clean)
 summary(mod_rq)
 ```
+
+Again, the interpretation of the coefficients is the same as in linear regression, but now refers to quantiles.
 
 Verify group medians directly:
 
@@ -188,29 +192,6 @@ df_clean |>
   group_by(trt) |>
   summarize(median_lsas = median(lsas_post, na.rm = TRUE))
 ```
-
-# Model Objects and Coefficients
-
-## Linear regression object
-
-```{r}
-#| label: lm-object
-names(mod_lm)
-coef(mod_lm)
-```
-
--   `(Intercept)`: waitlist mean
--   `trttherapist-guided`: mean difference vs waitlist
--   `trtself-guided`: mean difference vs waitlist
-
-## Quantile regression object
-
-```{r}
-#| label: rq-coefs
-coef(mod_rq)
-```
-
-Interpretation is parallel, but for quantiles (e.g., medians).
 
 # Predictions Using `marginaleffects`
 

@@ -57,6 +57,8 @@ options(
 
 ```{r}
 #| label: load-data
+#| warning: false
+#| echo: false
 df_clean <- read_csv2(here("data", "steps_clean.csv"))
 ```
 
@@ -110,8 +112,8 @@ summary(mod_lm)
 
 ### Interpretation
 
--   The **intercept** represents the estimated mean LSAS score when `gad_screen = 0`
--   The **slope** (coefficient) represents how much the mean LSAS score changes per unit increase in baseline anxiety
+-   `(Intercept)`: expected mean at `gad_screen = 0`
+-   `gad_screen`: how much the mean LSAS score changes per unit increase in baseline anxiety
 
 A positive slope indicates higher post-treatment LSAS scores among participants with higher baseline anxiety. For each one-unit increase in GAD-7 at screening, the expected mean LSAS at post increases by approximately 0.97 points.
 
@@ -161,26 +163,6 @@ summary(mod_rq)
 ```
 
 The slope now describes how the **median** LSAS score changes as baseline anxiety increases.
-
-# Model Objects and Coefficients
-
-## Linear regression object
-
-```{r}
-#| label: lm-object
-names(mod_lm)
-coef(mod_lm)
-```
-
--   `(Intercept)`: expected mean at `gad_screen = 0`
--   `gad_screen`: mean change per unit increase
-
-## Quantile regression object
-
-```{r}
-#| label: rq-coefs
-coef(mod_rq)
-```
 
 # Predictions Using `marginaleffects`
 
