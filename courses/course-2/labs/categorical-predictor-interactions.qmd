@@ -6,7 +6,7 @@ execute:
 
 # Scenario
 
-You chat with a colleague about the STePS-study, who says the following: "These types of studies have no real impact in the real world. They are designed by and for the unversity graduates in big cities." You decide to check if their claim is supported by the data in your study, and decide to evaluate the interaction between education and treatment group when predicting LSAS-scores after treatment.
+You chat with a colleague about the STePS-study, who says the following: "These types of studies have no real impact in the real world. They are designed by and for the university graduates in big cities." You decide to check if their claim is supported by the data in your study, and evaluate the interaction between education and treatment group when predicting LSAS scores after treatment.
 
 # Analysis
 

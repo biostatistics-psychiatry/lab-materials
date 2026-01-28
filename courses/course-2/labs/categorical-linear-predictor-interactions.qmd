@@ -1,13 +1,13 @@
 ---
-title: "Lab: Categorial and linear predictor interactions"
+title: "Lab: Categorical and linear predictor interactions"
 ---
 
 # Scenario
 
-Right when you are about to submit your paper for peer-review, a new collaborator joins the project. Beacuse the only way we measure contributions is by the number of comments and edits to Word-files, shortly after the collaborator joins you get the manuscript back with tons of changes. One of them reads:
+Right when you are about to submit your paper for peer review, a new collaborator joins the project. Because the only way we measure contributions is by the number of comments and edits to Word files, shortly after the collaborator joins, you get the manuscript back with tons of changes. One of them reads:
 
 "Surely there must be important interactions between the predictor variables. Please check if gender interacts with depression level."
 
 # Analysis
 
-Fit a model with gender, PHQ-9, and LSAS-scores as the outcome. Evaluate the interaction between gender and PHQ-9. Analyze the data and document your findings in a Quarto notebook.
+Fit a model with gender, PHQ-9, and LSAS scores as the outcome. Evaluate the interaction between gender and PHQ-9. Analyze the data and document your findings in a Quarto notebook.

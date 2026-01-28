@@ -18,7 +18,7 @@ Use the tools you have learned about in the previous chapters to analyze the dat
 
 ## Download data
 
-Make sure you have downloaded the STePS-study data, and added it to the `data` folder inside your project. You can find the dataset on canvas.
+Make sure you have downloaded the STePS-study data, and added it to the `data` folder inside your project. You can find the dataset on Canvas.
 
 ## Load packages
 
@@ -33,15 +33,15 @@ library(here) # File path management
 Load the data into your project.
 
 ```{r}
-df_rawdata <- read_csv("data/steps_clean.csv")
+df_clean <- read_csv("data/steps_clean.csv")
 ```
 
 ## Check data structure
 
-Do a quick check of the data structure to verify that the CSV-file was loaded correctly.
+Do a quick check of the data structure to verify that the CSV file was loaded correctly.
 
 ```{r}
-glimpse(df_rawdata)
+glimpse(df_clean)
 ```
 
 # Data cleaning

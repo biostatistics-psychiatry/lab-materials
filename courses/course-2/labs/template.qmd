@@ -51,4 +51,4 @@ glimpse(df_clean)
 
 # Conclusions
 
-Write down a short summary of your findings. Why did you choose the models you did? What did you learn about the datafrom fitting the models?
+Write down a short summary of your findings. Why did you choose the models you did? What did you learn about the data from fitting the models?
