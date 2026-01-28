@@ -40,7 +40,9 @@ website:
             text: Two Binary Predictors
           - href: chapters/regression-binary-and-numeric-predictors.qmd
             text: One Binary and One Numeric Predictor
-            
+          - href: chapters/regression-diagnostics.qmd
+            text: Model Assumptions and Diagnostics
+          
       - section: "Labs"
         contents:
           - href: labs/quarto-notebooks.qmd
