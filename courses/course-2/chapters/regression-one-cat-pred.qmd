@@ -5,6 +5,7 @@ format:
      df-print: kable
 toc: true
 toc-depth: 3
+number-sections: true
 ---
 
 # Introduction
@@ -25,7 +26,7 @@ You will learn:
 -   how to compute and visualize pairwise group differences
 -   how linear (mean) and quantile (median) regression handle categorical predictors
 
-# 1. Packages and Data
+# Packages and Data
 
 ```{r}
 #| label: setup-packages
@@ -83,14 +84,14 @@ Now we have the dummy coding:
 contrasts(df_clean$trt)
 ```
 
-# 2. Regression with a Categorical Predictor
+# Regression with a Categorical Predictor
 
 With a categorical predictor with three levels, the regression model estimates:
 
 1.  the expected outcome in the reference group
 2.  the difference between each of the other groups and the reference group
 
-## 2.1 Model formula
+## Model formula
 
 ```{r, echo=FALSE}
 #| label: model-formula-display
@@ -107,10 +108,10 @@ $$
 
 Where:
 
-- $\beta_0$ is the expected outcome in the reference group (`waitlist`)
-- $\beta_1$ is the mean difference between therapist-guided and waitlist
-- $\beta_2$ is the mean difference between self-guided and waitlist
-- $\mathbf{1}\{\cdot\}$ is the [indicator function](https://en.wikipedia.org/wiki/Indicator_function) which is 1 if the condition holds and 0 otherwise
+-   $\beta_0$ is the expected outcome in the reference group (`waitlist`)
+-   $\beta_1$ is the mean difference between therapist-guided and waitlist
+-   $\beta_2$ is the mean difference between self-guided and waitlist
+-   $\mathbf{1}\{\cdot\}$ is the [indicator function](https://en.wikipedia.org/wiki/Indicator_function) which is 1 if the condition holds and 0 otherwise
 
 | trt              | Predicted value     |
 |------------------|---------------------|
@@ -120,9 +121,9 @@ Where:
 
 So the coefficients compare each treatment arm to the reference group.
 
-# 3. Linear Regression (Mean Differences)
+# Linear Regression (Mean Differences)
 
-## 3.1 Fit the model
+## Fit the model
 
 ```{r}
 #| label: fit-lm-cat
@@ -130,11 +131,12 @@ mod_lm <- lm(lsas_post ~ trt, data = df_clean)
 summary(mod_lm)
 ```
 
-::: {.callout-tip}
+::: callout-tip
 ### Interpretation
 
--   **Intercept**: estimated mean LSAS score in the waitlist group
--   **trt coefficients**: estimated mean differences vs waitlist
+-   `(Intercept)`: wait-list mean
+-   `trttherapist-guided`: mean difference for the therapist-guided vs wait-list
+-   `trtself-guided`: mean difference for the self-guided group vs wait-list
 
 We can verify group means directly:
 
@@ -146,7 +148,7 @@ df_clean |>
 ```
 :::
 
-## 3.2 Relationship to one-way ANOVA
+## Relationship to one-way ANOVA
 
 A linear regression with one categorical predictor (3+ groups) is equivalent to a one-way ANOVA:
 
@@ -157,9 +159,9 @@ anova(mod_lm)
 
 The ANOVA table tests whether there is evidence that **at least one group mean differs**.
 
-# 4. Quantile Regression (Quantile Differences)
+# Quantile Regression (Quantile Differences)
 
-## 4.1 Model formulation
+## Model formulation
 
 For quantile regression at quantile $\tau$:
 
@@ -167,17 +169,20 @@ $$
 Q_{LSAS_{post}}(\tau) =  \beta_0(\tau) + \beta_1(\tau) \, \mathbf{1}\{trt = \text{therapist-guided}\} + \beta_2(\tau) \, \mathbf{1}\{trt = \text{self-guided}\}
 $$
 
-- $\beta_0(\tau)$ = $\tau$-th quantile in waitlist
-- $\beta_1(\tau)$ = $\tau$-th quantile difference (therapist-guided − waitlist)
-- $\beta_2(\tau)$ = $\tau$-th quantile difference (self-guided − waitlist)
+-   $\beta_0(\tau)$ = $\tau$-th quantile in waitlist
+-   $\beta_1(\tau)$ = $\tau$-th quantile difference (therapist-guided − waitlist)
+-   $\beta_2(\tau)$ = $\tau$-th quantile difference (self-guided − waitlist)
 
-## 4.2 Fit a median regression
+## Fit a median regression
 
 ```{r}
 #| label: fit-rq-cat
+#| warning: false
 mod_rq <- rq(lsas_post ~ trt, tau = 0.5, data = df_clean)
 summary(mod_rq)
 ```
+
+Again, the interpretation of the coefficients is the same as in linear regression, but now refers to quantiles.
 
 Verify group medians directly:
 
@@ -188,30 +193,7 @@ df_clean |>
   summarize(median_lsas = median(lsas_post, na.rm = TRUE))
 ```
 
-# 5. Model Objects and Coefficients
-
-## 5.1 Linear regression object
-
-```{r}
-#| label: lm-object
-names(mod_lm)
-coef(mod_lm)
-```
-
--   `(Intercept)`: waitlist mean
--   `trttherapist-guided`: mean difference vs waitlist
--   `trtself-guided`: mean difference vs waitlist
-
-## 5.2 Quantile regression object
-
-```{r}
-#| label: rq-coefs
-coef(mod_rq)
-```
-
-Interpretation is parallel, but for quantiles (e.g., medians).
-
-# 6. Predictions Using `marginaleffects`
+# Predictions Using `marginaleffects`
 
 As in the binary predictor case, `marginaleffects` makes it easy to get:
 
@@ -219,21 +201,21 @@ As in the binary predictor case, `marginaleffects` makes it easy to get:
 -   uncertainty (SEs and CIs)
 -   group differences as contrasts
 
-## 6.1 Predicted means by group (linear regression)
+## Predicted means by group (linear regression)
 
 ```{r}
 #| label: lm-avg-preds-by-group
 avg_predictions(mod_lm, by = "trt")
 ```
 
-## 6.2 Predicted medians by group (quantile regression)
+## Predicted medians by group (quantile regression)
 
 ```{r}
 #| label: rq-avg-preds-by-group
 avg_predictions(mod_rq, by = "trt")
 ```
 
-## 6.3 Group differences as contrasts
+## Group differences as contrasts
 
 ### Mean differences (linear regression)
 
@@ -253,9 +235,9 @@ cmp_med <- avg_comparisons(mod_rq, variables = list("trt" = "pairwise"))
 cmp_med
 ```
 
-# 7. Visualization
+# Visualization
 
-## 7.1 Group means with confidence intervals
+## Group means with confidence intervals
 
 ```{r}
 #| label: plot-group-means
@@ -268,7 +250,7 @@ plot_predictions(mod_lm, by = "trt") +
   theme_minimal()
 ```
 
-## 7.2 Group medians with confidence intervals
+## Group medians with confidence intervals
 
 ```{r}
 #| label: plot-group-medians
@@ -281,7 +263,7 @@ plot_predictions(mod_rq, by = "trt") +
   theme_minimal()
 ```
 
-## 7.3 Mean differences (pairwise) with confidence intervals
+## Mean differences (pairwise) with confidence intervals
 
 ```{r}
 #| label: plot-pairwise-mean-diffs
@@ -298,7 +280,7 @@ cmp |>
   theme_minimal()
 ```
 
-## 7.4 Median differences (pairwise) with confidence intervals
+## Median differences (pairwise) with confidence intervals
 
 ```{r}
 #| label: plot-pairwise-median-diffs
@@ -315,7 +297,9 @@ ggplot(cmp_med, aes(y = contrast, x = estimate)) +
 ```
 
 ## Ratio of Means and Other Hypotheses
+
 As before, we can answer a range of other hypotheses. For example, the ratio of group outcomes.
+
 ```{r}
 #| label: pairwise-mean-ratio
 avg_comparisons(
@@ -326,6 +310,7 @@ avg_comparisons(
 ```
 
 We could also compare each treatment group to the grand mean, instead of contrasting them with a reference group (the waitlist).
+
 ```{r}
 #| label: group-means-meandev
 avg_predictions(
@@ -350,9 +335,9 @@ df_clean |>
 
 In this chapter you learned:
 
-- how to fit regression models with a categorical predictor (3 levels)
-- how dummy coding works (reference group + differences)
-- how linear regression estimates **mean differences** across groups
-- how quantile regression estimates **quantile differences** across groups
-- how to extract predicted values and contrasts using `marginaleffects`
-- how to visualize group means/medians and pairwise differences with confidence intervals
+-   how to fit regression models with a categorical predictor (3 levels)
+-   how dummy coding works (reference group + differences)
+-   how linear regression estimates **mean differences** across groups
+-   how quantile regression estimates **quantile differences** across groups
+-   how to extract predicted values and contrasts using `marginaleffects`
+-   how to visualize group means/medians and pairwise differences with confidence intervals

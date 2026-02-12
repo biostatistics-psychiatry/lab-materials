@@ -5,6 +5,7 @@ format:
      df-print: kable
 toc: true
 toc-depth: 3
+number-sections: true
 ---
 
 # Introduction
@@ -21,7 +22,7 @@ Even though the model is simple, it allows us to illustrate all core components 
 -   how to visualize regression results
 -   how to compute confidence intervals and standard errors
 
-# 1. Packages and Functions
+# Packages and Functions
 
 In this lab we use four core packages.
 
@@ -46,6 +47,8 @@ library(here)
 
 We'll again use the dataset from the STePS study, which is an RCT comparing guided and unguided internet-delivered psychodynamic therapy for social anxiety disorder. The study [is published online](https://www.nature.com/articles/s44184-024-00063-0).
 
+We assign this dataset to an object called `df_clean`.
+
 ```{r, message=FALSE, warning=FALSE}
 #| label: load-data
 df_clean <- read_csv2(here("data", "steps_clean.csv"))
@@ -62,35 +65,33 @@ options(
 )
 ```
 
-We assign this dataset to an object called `df_clean`.
-
-# 2. Syntax of Intercept-Only Models in R
+# Syntax of Intercept-Only Models in R
 
 An intercept-only model estimates a **single number**:
 
 -   the **mean** for linear regression
 -   a **quantile** (e.g., median) for quantile regression
 
-There are *no predictors*, so the model formula is simply:
+There are *no predictors*, so the model formula in R is simply:
 
 ```{r, echo=FALSE}
 #| label: formula-intercept-only
 lsas_post ~ 1
 ```
 
-## 2.1 Formula for linear regression
+## Formula for linear regression
 
 In the context of linear regression, this is R syntax for the formula:
 
-$$E(LSAS_{post}) = \beta_0$$
+$$\mathbb{E}(LSAS_{post}) = \beta_0$$
 
-Where $E$ refers to the expected value (mean), and $\beta_0$ denotes the intercept. Sometimes, you may see this same model described using this formula:
+Where $\mathbb{E}$ refers to the expected value (mean), and $\beta_0$ denotes the intercept. Sometimes, you may see this same model described using this formula:
 
-$$LSAS_{post_i} = \beta_0 + \varepsilon_i$$
+$$LSAS_{post_i} = \beta_0 + \epsilon_i $$
 
-That describes the same model, but highlights that the individual observations, denoted by $i$, are a function of the model intercept, $\beta_0$, and the error term, $\varepsilon_i$. The error term represents the unknown deviation of each observation from the population mean. Errors are closely related to **residuals**, which are the estimated errors calculated as the difference between observed values and fitted values.
+That describes the same model, but highlights that the individual observations, denoted by $i$, are a function of the model intercept, $\beta_0$, and the error term, \$\epsilon\_i \$. The error term represents the unknown deviation of each observation from the population mean. Errors are closely related to **residuals**, which are the estimated errors calculated as the difference between observed values and fitted values.
 
-## 2.2 Formula for Quantile Regression
+## Formula for Quantile Regression
 
 Quantile regression allows us to model **a chosen quantile** of the outcome rather than the mean. For an **intercept-only** model estimating the $\tau$-th quantile, the corresponding formula is:
 
@@ -112,7 +113,7 @@ This makes explicit that the “error term” $e_i$ is not assumed to have mean 
 
 Thus, whereas linear regression models the **mean**, quantile regression models the **chosen quantile** of the outcome distribution, offering a more complete view when the distribution is skewed, heavy-tailed, or heterogeneous.
 
-## 2.3 Linear regression (mean)
+## Linear regression (mean)
 
 So let's fit an intercept-only model for the score of the LSAS scale at post-treatment in the STePS study. First we use the `lm()` function to fit the regression model. To be able to easily access the model, we save it in an object called `mod_lm`. Using the `summary()` function on this regression object gives the most essential information about the model.
 
@@ -129,7 +130,7 @@ Here, the coefficient represents the **estimated mean** of the outcome. As this 
 mean(df_clean$lsas_post, na.rm = TRUE)
 ```
 
-## 2.4 Quantile regression (median)
+## Quantile regression (median)
 
 Here we do the same thing as above, but use the `rq()` function to fit a quantile regression model, and the `summary()` function to get the most essential information.
 
@@ -142,21 +143,31 @@ summary(mod_rq)
 The parameter `tau` sets the quantile:
 
 -   `tau = 0.5` → median
--   `tau = 0.1` → 10th percentile
--   `tau = 0.9` → 90th percentile
+-   `tau = 0.25` → 25th percentile
+-   `tau = 0.75` → 75th percentile
 
-The value of the intercept is the **estimated quantile** of the outcome. Again, since this is an intercept-only model, the value is the same as the median in the sample.
+## Quantile regression (25th percentile, median, 75th percentile)
+
+We can also do the same for more than one quantile
+
+```{r}
+#| label: fit-rq-intercept-only-multi-tau
+mod_rq_ext <- rq(lsas_post ~ 1, tau = c(0.25, 0.5, 0.75), data = df_clean)
+summary(mod_rq_ext)
+```
+
+The value of the intercept is the **estimated quantile** of the outcome. Again, since this is an intercept-only model, the value is the same as these quantiles in the sample.
 
 ```{r}
 #| label: sample-median-check
-median(df_clean$lsas_post, na.rm = TRUE)
+quantile(df_clean$lsas_post, na.rm = TRUE)
 ```
 
-# 3. Parts of the Regression Object
+# Parts of the Regression Object
 
 Model objects contain all components needed for inference. While the `summary()` function gives an overall summary of the model, there are several other functions to retrieve specific information from the regression objects.
 
-## 3.1 Components of the linear model
+## Components of the linear model
 
 You can use different functions to access information from the regression R object.
 
@@ -183,7 +194,7 @@ mod_lm$coefficients
 head(mod_lm$residuals) # the residuals (observed value - predicted value)
 ```
 
-## 3.2 Components of the quantile regression model
+## Components of the quantile regression model
 
 ```{r}
 #| label: rq-components-inspect
@@ -202,7 +213,7 @@ head(mod_rq$residuals) # the residuals (observed value - predicted value)
 head(df_clean$lsas_post)
 ```
 
-# 4. Getting Estimates from the Model Using `marginaleffects`
+# Getting Estimates Using `marginaleffects`
 
 The `marginaleffects` package lets us extract:
 
@@ -212,7 +223,7 @@ The `marginaleffects` package lets us extract:
 
 For intercept-only models, predictions are **constant**. As we have no predictors that can vary between subjects, predicted values are the same across all subjects.
 
-## 4.1 Average prediction (linear regression)
+## Average prediction (linear regression)
 
 ```{r}
 #| label: lm-avg-predictions
@@ -225,7 +236,7 @@ This returns:
 -   standard error
 -   confidence interval
 
-## 4.2 Individual predictions
+## Individual predictions
 
 ```{r}
 #| label: lm-individual-predictions
@@ -234,7 +245,7 @@ predictions(mod_lm) |> head()
 
 These are equal for every observation because there are no predictors.
 
-## 4.3 Median prediction (quantile regression)
+## Median prediction (quantile regression)
 
 ```{r}
 #| label: rq-avg-predictions
@@ -243,11 +254,11 @@ avg_predictions(mod_rq)
 
 This returns the estimated median (or any other quantile selected).
 
-# 5. Visualizing the Model with `ggplot2`
+# Visualizing the Model with `ggplot2`
 
 The visualization step shows how the estimated mean or median aligns with the empirical distribution.
 
-## 5.1 Histogram with the estimated mean (linear model)
+## Histogram with the estimated mean (linear model)
 
 ```{r, warning=FALSE}
 #| label: plot-hist-mean-lm
@@ -264,7 +275,7 @@ ggplot(df_clean, aes(lsas_post)) +
   theme_minimal()
 ```
 
-## 5.2 Estimated mean with confidence interval (linear model)
+## Estimated mean with confidence interval (linear model)
 
 ```{r}
 #| label: plot-mean-ci-lm
@@ -292,7 +303,7 @@ ggplot(df_plot, aes(y = 1, x = mean_est)) +
   theme_minimal()
 ```
 
-## 5.3 Histogram with median (quantile regression)
+## Histogram with median (quantile regression)
 
 ```{r}
 #| label: plot-hist-median-rq
@@ -308,7 +319,7 @@ ggplot(df_clean, aes(lsas_post)) +
   theme_minimal()
 ```
 
-## 5.4 Estimated median with confidence interval (quantile regression)
+## Estimated median with confidence interval (quantile regression)
 
 ```{r}
 #| label: plot-median-ci-rq
@@ -336,11 +347,11 @@ ggplot(df_plot, aes(y = 1, x = med_est)) +
   theme_minimal()
 ```
 
-# 6. Confidence Intervals and Standard Errors
+# Confidence Intervals and Standard Errors
 
 Regression models estimate a population quantity. As in the prior course, we need a measure of uncertainty.
 
-## 6.1 Linear regression
+## Linear regression
 
 R directly computes model-based CIs (which you can also get using the `avg_predictions` function):
 
@@ -356,7 +367,7 @@ For an intercept-only linear regression model, these confidence intervals are id
 t.test(df_clean$lsas_post)
 ```
 
-## 6.2 Quantile regression
+## Quantile regression
 
 Quantile regression standard errors rely on resampling:
 
@@ -367,7 +378,7 @@ summary(mod_rq, se = "boot")
 
 Bootstrap SEs are often more stable for quantiles.
 
-## 6.3 Using marginaleffects for CIs
+## Using marginaleffects for CIs
 
 ### Linear regression
 
