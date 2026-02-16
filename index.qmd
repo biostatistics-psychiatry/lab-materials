@@ -23,7 +23,7 @@ Fundamentals of biostatistics for clinical research, including descriptive stati
 ::: {.g-col-12 .g-col-md-6}
 ### [Course 2](course-2/index.html)
 
-Regression analysis (WIP)
+Fundamentals of regression modeling for clinical research, including interpreting results using the `marginaleffects` package.
 
 [Enter Course 2 →](course-2/index.html){.btn .btn-secondary}
 :::
