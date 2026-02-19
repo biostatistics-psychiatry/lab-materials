@@ -55,6 +55,8 @@ website:
             text: Categorical predictor interactions
           - href: labs/categorical-linear-predictor-interactions.qmd
             text: Categorical and linear predictor interactions
+          - href: labs/paper-seminar.qmd
+            text: Seminar - paper discussion
 
 format:
   html:

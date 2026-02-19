@@ -1,0 +1,16 @@
+---
+title: "Seminar - discuss regression analysis from a real paper"
+---
+
+On day 5, you have the option read and discuss a paper using regression analysis. Feel free to choose a paper that you are interested in, or use this one (available as PDF on Canvas): [Pramipexole augmentation for the acute phase of treatment-resistant, unipolar depression: a placebo-controlled, double-blind, randomised trial in the UK](https://www.thelancet.com/journals/lanpsy/article/PIIS2215-0366(25)00194-4/fulltext).
+
+Use the content of the chapters and labs as a reference point. Please ignore the "mixed-effects" part for now, it's part of a later course!
+
+# Discussion points
+
+- How would you describe the main research question?
+- Look at the statistical analysis section. What method is used to analyse the primary outcome QIDS-SR?
+- What are their findings on the primary outcome?
+- Look at table 2, primary efficacy endpoint for QIDS-SR. Interpret the results presented. For example, what part of the regression model is presented in the "Treatment effect" column? 
+- Look at Figure 2. Based on this figure, what alternative ways of fitting the models could be useful?
+
