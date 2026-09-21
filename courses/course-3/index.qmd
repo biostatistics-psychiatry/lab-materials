@@ -1,0 +1,15 @@
+---
+title: "Course 3 - Regression Models for Binary and Categorical Outcomes"
+date: last-modified
+---
+
+Welcome to Biostatistics III!
+This course covers regression models for binary and categorical outcomes.
+
+# Group work during lab sessions
+
+*To be added.*
+
+# Intended learning outcomes
+
+*To be added.*
