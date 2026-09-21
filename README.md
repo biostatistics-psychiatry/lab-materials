@@ -13,7 +13,8 @@ This repository is organized as monorepo to support multiple courses:
 │   │   ├── labs/          # Lab exercises
 │   │   ├── _quarto.yml    # Course-specific config
 │   │   └── index.qmd      # Course landing page
-│   └── course-2/          # Second biostatistics course
+│   ├── course-2/          # Second biostatistics course
+│   └── course-3/          # Third biostatistics course
 ├── index.qmd             # Landing page source
 └── _quarto.yml           # Root configuration
 ```
@@ -33,6 +34,9 @@ quarto render courses/course-1
 
 # Render Course 2  
 quarto render courses/course-2
+
+# Render Course 3
+quarto render courses/course-3
 
 # (and so on for additional courses)
 ```

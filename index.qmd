@@ -12,7 +12,7 @@ Select the course you are enrolled in:
 
 ::: {.grid}
 
-::: {.g-col-12 .g-col-md-6}
+::: {.g-col-12 .g-col-md-4}
 ### [Course 1](course-1/index.html)
 
 Fundamentals of biostatistics for clinical research, including descriptive statistics, probability, hypothesis testing, and power analysis.
@@ -20,12 +20,20 @@ Fundamentals of biostatistics for clinical research, including descriptive stati
 [Enter Course 1 →](course-1/index.html){.btn .btn-primary}
 :::
 
-::: {.g-col-12 .g-col-md-6}
+::: {.g-col-12 .g-col-md-4}
 ### [Course 2](course-2/index.html)
 
 Fundamentals of regression modeling for clinical research, including interpreting results using the `marginaleffects` package.
 
 [Enter Course 2 →](course-2/index.html){.btn .btn-secondary}
+:::
+
+::: {.g-col-12 .g-col-md-4}
+### Course 3
+
+Regression models for binary and categorical outcomes in clinical research, including logistic, X and Y regression.
+
+[Coming soon]{.btn .btn-outline-secondary .disabled}
 :::
 
 :::
