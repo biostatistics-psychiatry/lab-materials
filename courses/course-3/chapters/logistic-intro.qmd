@@ -1,5 +1,5 @@
 ---
-title: "Logistic-regression foundations"
+title: "Logistic regression foundations"
 format:
   html:
     df-print: kable
@@ -10,20 +10,18 @@ number-sections: true
 
 # Why logistic regression?
 
-Course 2 used regression to model continuous outcomes such as post-treatment LSAS scores. In many psychiatric research questions, the outcome is instead binary:
+Course 2 used linear and quantile regression to model continuous outcomes such as post-treatment LSAS scores. In many psychiatric research questions, the outcome is instead binary:
 
 - remission versus non-remission;
 - response versus non-response;
 - attendance versus dropout; or
 - an adverse event versus no adverse event.
 
-A linear model can produce values below 0 or above 1 when applied to a binary outcome. Logistic regression instead models a probability while keeping model-based predictions between 0 and 1.
+Logistic regression and its multinomial extension are helpful tools when you want to analyse a binary or categorical outcome. This chapter uses a binary post-treatment social-anxiety outcome. Our main question is:
 
-This chapter uses a binary post-treatment social-anxiety outcome. Our main question is:
+> How does the probability of treatment response differ between treatment groups?
 
-> How does the probability of a low post-treatment LSAS score differ between treatment groups?
-
-The answer will be expressed primarily as estimated probabilities and **probability differences in percentage points**. We will also inspect odds ratios, because they are common in the literature, but an odds ratio is not a probability difference.
+But first, some setup.
 
 # Packages and data
 
@@ -47,12 +45,12 @@ options(
 #| message: false
 #| warning: false
 df_clean <- read_csv2(here("data", "steps_clean.csv")) |>
-  filter(!is.na(lsas_post)) |>
+  filter(!is.na(lsas_screen), !is.na(lsas_post)) |>
   mutate(
     # The second factor level is the event modelled by binomial glm().
-    lsas_post_bin = factor(
-      if_else(lsas_post < 50, "Low", "High"),
-      levels = c("High", "Low")
+    lsas_response = factor(
+      if_else((lsas_screen - lsas_post) / lsas_screen >= 0.30, "Response", "No response"),
+      levels = c("No response", "Response")
     ),
     trt = factor(
       trt,
@@ -61,38 +59,38 @@ df_clean <- read_csv2(here("data", "steps_clean.csv")) |>
   )
 
 df_clean |>
-  count(lsas_post_bin, .drop = FALSE)
+  count(lsas_response, .drop = FALSE)
 ```
 
-The binary outcome is deliberately simple:
+The binary outcome is treatment response:
 
 ```r
-lsas_post_bin = "Low"  if lsas_post < 50
-lsas_post_bin = "High" if lsas_post >= 50
+lsas_response = "Response"    if LSAS decreases by at least 30%
+lsas_response = "No response" otherwise
 ```
 
-This matches the Course 1 classification example. It is useful for learning, but it discards information: LSAS scores of 49 and 12 are both labelled `Low`, while scores of 50 and 120 are both labelled `High`. The original continuous score remains important.
+This follows the practical treatment-follow-up guidance for LSAS-SR, which describes improvement as an approximately 30% reduction in total score [Nationell formulärsamling](https://patientenkat.se/nationellpatientenkat/nationellformularsamling/sokformularbeskrivningar/lsassrsocialangest.92403.html). In a German treated-SAD sample, the empirically derived LSAS-SR response cut-point was 28% [@vonGlischinski2018LSAS]. We use the rounded 30% definition in this course.
 
 # Defining the binary outcome
 
 The LSAS-SR is often used to screen for social anxiety disorder. The original clinical LSAS study found total-score cut-points of 30 for social anxiety disorder and 60 for the then-defined generalised subtype [@Mennin2002LSAS]. A study of the self-report LSAS-SR found the same cut-points had a useful sensitivity/specificity balance [@Rytwinski2009LSASSR].
 
-Thresholds can also serve different purposes. In a treated German social-anxiety sample, an LSAS-SR score of 35 was an empirically derived remission cut-point, and a 28% reduction identified response [@vonGlischinski2018LSAS]. Those are not automatically the right definitions for every study or clinical decision.
+Thresholds can serve different purposes. In the same treated German sample, an LSAS-SR score of 35 was an empirically derived remission cut-point [@vonGlischinski2018LSAS]. Response, remission, and diagnostic screening are different outcomes and should not be used interchangeably.
 
 ::: {.callout-caution}
-## A threshold is an analysis decision
+## A response definition is an analysis decision
 
-The `<50` teaching outcome is neither a diagnosis nor a remission definition. Before dichotomising a clinical scale in your own work, specify the purpose, identify a defensible external threshold where one exists, and report the information lost by categorisation.
+The 30% response definition is useful for this course, but it is not a diagnosis or a remission definition. Before creating a binary clinical outcome in your own work, specify the purpose and identify a defensible external definition.
 :::
 
 # Intercept-only logistic regression
 
-We first ignore treatment group and estimate one probability: the probability that a participant has a low LSAS score at post-treatment.
+We first ignore treatment group and estimate one probability: the probability that a participant has treatment response at post-treatment.
 
 The model is:
 
 $$
-\operatorname{logit}\left[P(Y_i = \text{Low})\right] = \beta_0,
+\operatorname{logit}\left[P(Y_i = \text{Response})\right] = \beta_0,
 $$
 
 where the logit transforms a probability $p$ into log-odds:
@@ -104,7 +102,7 @@ $$
 ```{r}
 #| label: fit-intercept-only
 mod_intercept <- glm(
-  lsas_post_bin ~ 1,
+  lsas_response ~ 1,
   family = binomial,
   data = df_clean
 )
@@ -123,7 +121,7 @@ p_overall
 ::: {.callout-tip collapse="true"}
 ## Model interpretation
 
-The estimated probability of a low post-treatment LSAS score in the full analysis sample is **`r sprintf("%.1f", 100 * p_overall$estimate[1])`%** (95% CI **`r sprintf("%.1f", 100 * p_overall$conf.low[1])`%** to **`r sprintf("%.1f", 100 * p_overall$conf.high[1])`%**).
+The estimated probability of treatment response in the full analysis sample is **`r sprintf("%.1f", 100 * p_overall$estimate[1])`%** (95% CI **`r sprintf("%.1f", 100 * p_overall$conf.low[1])`%** to **`r sprintf("%.1f", 100 * p_overall$conf.high[1])`%**).
 
 This is a model-based estimate of an overall probability, not a treatment effect. The intercept printed by `summary()` is the log-odds corresponding to this probability.
 :::
@@ -139,20 +137,20 @@ df_binary <- df_clean |>
   droplevels()
 
 df_binary |>
-  count(trt, lsas_post_bin, .drop = FALSE)
+  count(trt, lsas_response, .drop = FALSE)
 ```
 
 The logistic model is:
 
 $$
-\operatorname{logit}\left[P(Y_i = \text{Low} \mid trt_i)\right] =
+\operatorname{logit}\left[P(Y_i = \text{Response} \mid trt_i)\right] =
 \beta_0 + \beta_1\,\mathbf{1}\{trt_i = \text{therapist-guided}\}.
 $$
 
 ```{r}
 #| label: fit-treatment-model
 mod_trt <- glm(
-  lsas_post_bin ~ trt,
+  lsas_response ~ trt,
   family = binomial,
   data = df_binary
 )
@@ -178,9 +176,9 @@ trt_difference
 ::: {.callout-tip collapse="true"}
 ## Model interpretation
 
-Compared with waitlist, therapist-guided treatment changes the estimated probability of a low post-treatment LSAS score by **`r sprintf("%.1f", 100 * trt_difference$estimate[1])` percentage points** (95% CI **`r sprintf("%.1f", 100 * trt_difference$conf.low[1])`** to **`r sprintf("%.1f", 100 * trt_difference$conf.high[1])` percentage points**).
+Compared with waitlist, therapist-guided treatment changes the estimated probability of treatment response by **`r sprintf("%.1f", 100 * trt_difference$estimate[1])` percentage points** (95% CI **`r sprintf("%.1f", 100 * trt_difference$conf.low[1])`** to **`r sprintf("%.1f", 100 * trt_difference$conf.high[1])` percentage points**).
 
-This is an unadjusted treatment contrast in the restricted waitlist-versus-therapist-guided sample. A positive value means that therapist-guided treatment has a higher estimated probability of a low post-treatment LSAS score.
+This is an unadjusted treatment contrast in the restricted waitlist-versus-therapist-guided sample. A positive value means that therapist-guided treatment has a higher estimated probability of treatment response.
 :::
 
 ## Visualise the estimated probabilities
@@ -189,10 +187,10 @@ This is an unadjusted treatment contrast in the restricted waitlist-versus-thera
 #| label: plot-treatment-probabilities
 plot_predictions(mod_trt, by = "trt", type = "response") +
   labs(
-    title = "Estimated probability of low post-treatment LSAS",
+    title = "Estimated probability of treatment response",
     subtitle = "Binary logistic regression; 95% confidence intervals",
     x = "Treatment group",
-    y = "Probability of low post-treatment LSAS"
+    y = "Probability of treatment response"
   ) +
   theme_minimal()
 ```

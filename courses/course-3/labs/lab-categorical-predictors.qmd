@@ -22,9 +22,7 @@ Create a group Quarto notebook with these sections:
    waitlist, therapist-guided treatment, and self-guided treatment. State the
    direction explicitly (for example, therapist-guided minus waitlist) and say
    why that comparison is useful.
-2. **Outcome and data check** — Define `lsas_post_bin` as `< 50` versus `>= 50`.
-   State that this is a teaching/analysis threshold rather than a diagnostic or
-   remission definition. Report the number of participants and outcome counts
+2. **Outcome and data check** — Define `lsas_response` as a reduction of at least 30% from baseline LSAS. State that this is a response outcome rather than a diagnostic or remission definition. Report the number of participants and outcome counts
    in each treatment arm, including how you handled missing post-treatment LSAS
    values.
 3. **Model** — Fit a three-arm binary logistic model. Identify the reference
@@ -60,12 +58,12 @@ options(
 )
 
 df_categorical <- read_csv2(here("data", "steps_clean.csv")) |>
-  filter(!is.na(lsas_post)) |>
+  filter(!is.na(lsas_screen), !is.na(lsas_post)) |>
   mutate(
     # The second level is the event modelled by binomial glm().
-    lsas_post_bin = factor(
-      if_else(lsas_post < 50, "Low", "High"),
-      levels = c("High", "Low")
+    lsas_response = factor(
+      if_else((lsas_screen - lsas_post) / lsas_screen >= 0.30, "Response", "No response"),
+      levels = c("No response", "Response")
     ),
     trt = factor(
       trt,
@@ -78,7 +76,7 @@ df_categorical <- read_csv2(here("data", "steps_clean.csv")) |>
 #| label: check-treatment-outcomes
 # Decide what missing outcome values mean for the analysis before fitting a model.
 df_categorical |>
-  count(trt, lsas_post_bin, .drop = FALSE)
+  count(trt, lsas_response, .drop = FALSE)
 
 contrasts(df_categorical$trt)
 ```
@@ -88,7 +86,7 @@ contrasts(df_categorical$trt)
 #| message: false
 #| warning: false
 mod_categorical_lab <- stats::glm(
-  lsas_post_bin ~ trt,
+  lsas_response ~ trt,
   family = binomial,
   data = df_categorical
 )
@@ -133,10 +131,10 @@ percentage-point difference.
 #| label: probability-scale-figure
 plot_predictions(mod_categorical_lab, by = "trt", type = "response") +
   labs(
-    title = "Estimated probability of low post-treatment LSAS",
+    title = "Estimated probability of treatment response",
     subtitle = "Three-arm logistic regression; 95% confidence intervals",
     x = "Treatment group",
-    y = "Probability of low post-treatment LSAS"
+    y = "Probability of treatment response"
   ) +
   theme_minimal()
 ```
@@ -157,8 +155,7 @@ plot_predictions(mod_categorical_lab, by = "trt", type = "response") +
 # Before presenting
 
 - [ ] Our contrast names the first group, second group, and direction.
-- [ ] We define the modelled event and do not call `< 50` a diagnostic or
-      remission threshold.
+- [ ] We define treatment response and do not call it a diagnosis or remission threshold.
 - [ ] We report group probabilities and a percentage-point probability
 difference with a 95% CI.
 - [ ] Our figure has a probability-scale y-axis and makes its 95% CIs clear.

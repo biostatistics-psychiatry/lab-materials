@@ -13,7 +13,7 @@ number-sections: true
 In [logistic regression with two binary predictors](logistic-two-binary-predictors.qmd), baseline depression was grouped as below or at least 10 on the PHQ-9. That can be useful for a clearly defined clinical decision, but it also turns different scores into the same group. Here we retain the observed
 continuous `phq9_screen` score and ask:
 
-> How does the estimated probability of a low post-treatment LSAS score differ
+> How does the estimated probability of treatment response differ
 > between therapist-guided treatment and waitlist at different baseline PHQ-9
 > scores?
 
@@ -49,12 +49,12 @@ options(
 #| message: false
 #| warning: false
 df_binary <- read_csv2(here("data", "steps_clean.csv")) |>
-  filter(!is.na(lsas_post)) |>
+  filter(!is.na(lsas_screen), !is.na(lsas_post)) |>
   mutate(
     # The second factor level is the event modelled by binomial glm().
-    lsas_post_bin = factor(
-      if_else(lsas_post < 50, "Low", "High"),
-      levels = c("High", "Low")
+    lsas_response = factor(
+      if_else((lsas_screen - lsas_post) / lsas_screen >= 0.30, "Response", "No response"),
+      levels = c("No response", "Response")
     ),
     trt = factor(
       trt,
@@ -62,7 +62,7 @@ df_binary <- read_csv2(here("data", "steps_clean.csv")) |>
     )
   ) |>
   filter(trt %in% c("waitlist", "therapist-guided")) |>
-  drop_na(lsas_post_bin, phq9_screen) |>
+  drop_na(lsas_response, phq9_screen) |>
   droplevels()
 
 phq_values <- c(5, 10, 15)
@@ -75,10 +75,7 @@ df_binary |>
   )
 ```
 
-`Low` means `lsas_post < 50`; `High` means `lsas_post >= 50`. This is the
-Course 3 teaching outcome, not a diagnostic or remission definition. Waitlist
-is the treatment reference group, and `Low` is the event whose probability is
-modelled. We restrict this chapter to the waitlist and therapist-guided arms so
+`Response` means a reduction of at least 30% from baseline LSAS. This is a response outcome, not a diagnostic or remission definition. Waitlist is the treatment reference group, and `Response` is the event whose probability is modelled. We restrict this chapter to the waitlist and therapist-guided arms so
 that every treatment contrast has one clear direction.
 
 # Additive logistic model
@@ -88,7 +85,7 @@ that every treatment contrast has one clear direction.
 The additive model has a treatment term and a PHQ-9 term, but no product term:
 
 $$
-\operatorname{logit}\{P(Y_i = \text{Low} \mid trt_i, PHQ9_i)\} =
+\operatorname{logit}\{P(Y_i = \text{Response} \mid trt_i, PHQ9_i)\} =
 \beta_0 +
 \beta_1\mathbf{1}\{trt_i = \text{therapist-guided}\} +
 \beta_2 PHQ9_i.
@@ -105,7 +102,7 @@ near 0, 0.5, and 1.
 #| message: false
 #| warning: false
 mod_additive <- stats::glm(
-  lsas_post_bin ~ trt + phq9_screen,
+  lsas_response ~ trt + phq9_screen,
   family = binomial,
   data = df_binary
 )
@@ -124,13 +121,13 @@ additive_trt_difference
 ## Model interpretation
 
 Averaged over the observed baseline PHQ-9 distribution, therapist-guided
-treatment is estimated to change the probability of a low post-treatment LSAS
+treatment is estimated to change the probability of a treatment response
 score by **`r sprintf("%.1f", 100 * additive_trt_difference$estimate[1])` percentage points**
 compared with waitlist (95% CI **`r sprintf("%.1f", 100 * additive_trt_difference$conf.low[1])`**
 to **`r sprintf("%.1f", 100 * additive_trt_difference$conf.high[1])` percentage points**).
 
 This is therapist-guided minus waitlist; a positive value favours a higher
-estimated probability of a low score with therapist guidance. It is a
+estimated probability of response with therapist guidance. It is a
 population-average probability contrast over this analysis sample, conditional
 on the additive model—not a coefficient interpreted as a percentage-point
 change.
@@ -138,7 +135,7 @@ change.
 
 ```{r}
 #| label: plot-additive-probabilities
-#| fig-cap: "Additive-model estimated probabilities of a low post-treatment LSAS score, with 95% confidence intervals."
+#| fig-cap: "Additive-model estimated probabilities of treatment response, with 95% confidence intervals."
 plot_predictions(
   mod_additive,
   by = c("phq9_screen", "trt"),
@@ -148,7 +145,7 @@ plot_predictions(
     title = "Additive logistic model",
     subtitle = "Estimated probabilities with 95% confidence intervals",
     x = "Baseline PHQ-9 score",
-    y = "Probability of low post-treatment LSAS",
+    y = "Probability of treatment response",
     colour = "Treatment group",
     fill = "Treatment group"
   ) +
@@ -167,7 +164,7 @@ The interaction model adds a product term:
 
 $$
 \begin{aligned}
-\operatorname{logit}\{P(Y_i = \text{Low} \mid trt_i, PHQ9_i)\} =
+\operatorname{logit}\{P(Y_i = \text{Response} \mid trt_i, PHQ9_i)\} =
 &\ \beta_0 + \beta_1\mathbf{1}\{trt_i = \text{therapist-guided}\} + \\
 &\ \beta_2 PHQ9_i +
 \beta_3\mathbf{1}\{trt_i = \text{therapist-guided}\} \times PHQ9_i.
@@ -184,7 +181,7 @@ differences at prespecified, observed-range scores.
 #| message: false
 #| warning: false
 mod_interaction <- stats::glm(
-  lsas_post_bin ~ trt * phq9_screen,
+  lsas_response ~ trt * phq9_screen,
   family = binomial,
   data = df_binary
 )
@@ -205,7 +202,7 @@ conditional_trt_difference
 ## Model interpretation
 
 At PHQ-9 = 5, therapist-guided minus waitlist is an estimated
-**`r sprintf("%.1f", 100 * conditional_trt_difference$estimate[conditional_trt_difference$phq9_screen == 5])` percentage-point** difference in the probability of a low post-treatment LSAS score (95% CI **`r sprintf("%.1f", 100 * conditional_trt_difference$conf.low[conditional_trt_difference$phq9_screen == 5])`** to **`r sprintf("%.1f", 100 * conditional_trt_difference$conf.high[conditional_trt_difference$phq9_screen == 5])`**).
+**`r sprintf("%.1f", 100 * conditional_trt_difference$estimate[conditional_trt_difference$phq9_screen == 5])` percentage-point** difference in the probability of treatment response (95% CI **`r sprintf("%.1f", 100 * conditional_trt_difference$conf.low[conditional_trt_difference$phq9_screen == 5])`** to **`r sprintf("%.1f", 100 * conditional_trt_difference$conf.high[conditional_trt_difference$phq9_screen == 5])`**).
 
 At PHQ-9 = 10, the corresponding difference is **`r sprintf("%.1f", 100 * conditional_trt_difference$estimate[conditional_trt_difference$phq9_screen == 10])` percentage points** (95% CI **`r sprintf("%.1f", 100 * conditional_trt_difference$conf.low[conditional_trt_difference$phq9_screen == 10])`** to **`r sprintf("%.1f", 100 * conditional_trt_difference$conf.high[conditional_trt_difference$phq9_screen == 10])`**); at PHQ-9 = 15 it is **`r sprintf("%.1f", 100 * conditional_trt_difference$estimate[conditional_trt_difference$phq9_screen == 15])` percentage points** (95% CI **`r sprintf("%.1f", 100 * conditional_trt_difference$conf.low[conditional_trt_difference$phq9_screen == 15])`** to **`r sprintf("%.1f", 100 * conditional_trt_difference$conf.high[conditional_trt_difference$phq9_screen == 15])`**).
 
@@ -217,7 +214,7 @@ clinically relevant probability difference changes across PHQ-9.
 
 ```{r}
 #| label: plot-interaction-probabilities
-#| fig-cap: "Interaction-model estimated probabilities of a low post-treatment LSAS score, with 95% confidence intervals."
+#| fig-cap: "Interaction-model estimated probabilities of treatment response, with 95% confidence intervals."
 plot_predictions(
   mod_interaction,
   by = c("phq9_screen", "trt"),
@@ -227,7 +224,7 @@ plot_predictions(
     title = "Interaction logistic model",
     subtitle = "Estimated probabilities with 95% confidence intervals",
     x = "Baseline PHQ-9 score",
-    y = "Probability of low post-treatment LSAS",
+    y = "Probability of treatment response",
     colour = "Treatment group",
     fill = "Treatment group"
   ) +

@@ -3,15 +3,13 @@ title: "Course 3 - Regression Models for Binary and Categorical Outcomes"
 date: last-modified
 ---
 
-Welcome to Biostatistics III. This week extends the regression workflow from Course 2 to **binary and categorical outcomes**. We will use logistic-regression models to answer clinical questions with estimated probabilities, probability differences, confidence intervals, and effect plots.
+Welcome to Biostatistics III. This week is all about **binary and categorical outcomes**, analysed with logistic-regression models. Odds ratios and log-odds often appear in the literature, so we will learn what they mean. We will also interpret results on the probability scale.
 
-Odds ratios and log-odds appear often in psychiatric research papers, so we will learn what they mean. However, our primary interpretation will be on the **probability scale**: how much does the estimated probability of an outcome change, for whom, and with what uncertainty?
-
-We will continue to work with the STePS randomised trial of internet-delivered psychodynamic therapy for social anxiety disorder. The course uses a post-treatment LSAS outcome grouped into low/no-to-mild, moderate/marked, and severe/very severe symptom categories. These are useful teaching categories; they are not presented as validated diagnostic or remission thresholds.
+We will continue to work with the STePS randomised trial of internet-delivered psychodynamic therapy for social anxiety disorder. The course uses a post-treatment LSAS outcome grouped into low/no-to-mild, moderate/marked, and severe/very severe symptom categories.
 
 # Group work during lab sessions
 
-This website contains the material for the afternoon lab sessions. During these sessions, you will be tasked with producing a Quarto notebook that documents the analyses related to the labs. This work will be done in small groups, and each group will present for the rest of the class at some point during the week. Use the template notebook uploaded to Canvas as a starting point.
+During the afternoon lab sessions, you will be tasked with producing a Quarto notebook that documents the analyses related to each day's lab. This work will be done in small groups, and each group will present for the rest of the class at some point during the week. Use the template notebook uploaded to Canvas as a starting point.
 
 We have been intentionally vague about the lab instructions to allow you to explore and discuss different approaches to the same problem. Refer to the chapters on this website for guidance on how to perform the analyses.
 
@@ -21,12 +19,11 @@ After completing this course, you should be able to:
 
 - define and fit binary logistic-regression models in R;
 - distinguish probabilities, odds, log-odds, and odds ratios;
-- communicate binary-model results as estimated probabilities and probability differences with 95% confidence intervals;
 - use `marginaleffects` to estimate and visualise model-based predictions and contrasts;
 - fit and interpret models with binary, categorical, and numeric predictors;
 - interpret interaction models using conditional treatment effects on the probability scale; and
-- reshape data to a long format and interpret multinomial-logit probabilities.
+- interpret multinomial-logit probabilities.
 
 # Using AI tools
 
-You may use generative AI tools in lab sessions. They can generate code that runs, but they can also generate confident statistical mistakes. You remain responsible for understanding the model, checking whether the code answers the stated question, and verifying every numerical claim before presenting it.
+You may use generative AI tools in lab sessions. They can generate code that runs, but they can also generate confident statistical mistakes. You remain responsible for understanding the model and checking whether the code answers the stated question.

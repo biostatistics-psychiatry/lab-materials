@@ -16,7 +16,7 @@ therapist-guided treatment, and self-guided treatment.
 
 Our primary questions are:
 
-1. What is the model-derived probability of a low post-treatment LSAS score in
+1. What is the model-derived probability of treatment response in
    each treatment arm?
 2. How do those probabilities differ between clinically relevant pairs of arms?
 
@@ -46,12 +46,12 @@ options(
 #| message: false
 #| warning: false
 df_categorical <- read_csv2(here("data", "steps_clean.csv")) |>
-  filter(!is.na(lsas_post)) |>
+  filter(!is.na(lsas_screen), !is.na(lsas_post)) |>
   mutate(
     # The second level is the event modelled by binomial glm().
-    lsas_post_bin = factor(
-      if_else(lsas_post < 50, "Low", "High"),
-      levels = c("High", "Low")
+    lsas_response = factor(
+      if_else((lsas_screen - lsas_post) / lsas_screen >= 0.30, "Response", "No response"),
+      levels = c("No response", "Response")
     ),
     trt = factor(
       trt,
@@ -60,11 +60,10 @@ df_categorical <- read_csv2(here("data", "steps_clean.csv")) |>
   )
 
 df_categorical |>
-  count(trt, lsas_post_bin, .drop = FALSE)
+  count(trt, lsas_response, .drop = FALSE)
 ```
 
-`Low` is the teaching outcome `lsas_post < 50`, and `High` is
-`lsas_post >= 50`; it is not a diagnostic or remission definition. We order
+`Response` is a reduction of at least 30% from baseline LSAS; it is not a diagnostic or remission definition. We order
 the outcome so that `Low` is the event in the binomial model, and we explicitly
 set `waitlist` as the treatment reference category.
 
@@ -79,7 +78,7 @@ contrasts(df_categorical$trt)
 With waitlist as the reference, R uses two indicator variables. The model is
 
 $$
-\operatorname{logit}\left[P(Y_i = \text{Low} \mid trt_i)\right] =
+\operatorname{logit}\left[P(Y_i = \text{Response} \mid trt_i)\right] =
 \beta_0 +
 \beta_1\,\mathbf{1}\{trt_i = \text{therapist-guided}\} +
 \beta_2\,\mathbf{1}\{trt_i = \text{self-guided}\}.
@@ -103,7 +102,7 @@ from the fitted model.
 #| message: false
 #| warning: false
 mod_categorical_trt <- stats::glm(
-  lsas_post_bin ~ trt,
+  lsas_response ~ trt,
   family = binomial,
   data = df_categorical
 )
@@ -137,7 +136,7 @@ or_categorical_trt <- tidy(
 ::: {.callout-tip collapse="true"}
 ## Model interpretation
 
-The estimated probability of a low post-treatment LSAS score is
+The estimated probability of treatment response is
 **`r sprintf("%.1f", 100 * p_categorical_trt$estimate[p_categorical_trt$trt == "waitlist"])`%**
 for waitlist (95% CI **`r sprintf("%.1f", 100 * p_categorical_trt$conf.low[p_categorical_trt$trt == "waitlist"])`%**
 to **`r sprintf("%.1f", 100 * p_categorical_trt$conf.high[p_categorical_trt$trt == "waitlist"])`%**),
@@ -186,10 +185,10 @@ discussion than its intercept and two log-odds coefficients.
 #| label: plot-categorical-treatment-probabilities
 plot_predictions(mod_categorical_trt, by = "trt", type = "response") +
   labs(
-    title = "Estimated probability of low post-treatment LSAS",
+    title = "Estimated probability of treatment response",
     subtitle = "Three-arm logistic regression; 95% confidence intervals",
     x = "Treatment group",
-    y = "Probability of low post-treatment LSAS"
+    y = "Probability of treatment response"
   ) +
   theme_minimal()
 ```
@@ -200,7 +199,7 @@ There is no single treatment contrast with three arms. Decide which comparison
 answers the substantive question, state its direction, and present uncertainty.
 For an exploratory overview, calculate all pairwise differences. A positive
 difference means that the first-named group has the higher estimated probability
-of a low post-treatment LSAS score.
+of treatment response.
 
 ```{r}
 #| label: pairwise-categorical-probability-differences
@@ -226,7 +225,7 @@ pairwise_categorical_differences |>
   geom_errorbar(aes(xmin = conf.low_pp, xmax = conf.high_pp), width = 0.1) +
   geom_point(size = 2.5) +
   labs(
-    title = "Pairwise differences in probability of low post-treatment LSAS",
+    title = "Pairwise differences in probability of treatment response",
     subtitle = "First-named treatment minus second-named treatment; 95% confidence intervals",
     x = "Probability difference (percentage points)",
     y = NULL
