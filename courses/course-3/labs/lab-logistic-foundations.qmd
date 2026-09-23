@@ -1,0 +1,81 @@
+---
+title: "Lab 1: The outcome that reviewers demanded"
+format:
+  html:
+    df-print: kable
+toc: true
+---
+
+# Scenario
+
+Your supervisor has received the following message at 16:47 on a Friday:
+
+> *The reviewers want a clinically intuitive binary outcome. Could the revised
+> analysis show whether therapist guidance increases the chance of a low
+> post-treatment LSAS score? Please keep it simple, but also sophisticated.*
+
+Your group has been asked to prepare a short Quarto analysis for Monday's emergency meeting. The request is intentionally incomplete: decide what quantity would answer it, make your assumptions visible, and do not let the phrase “keep it simple” erase uncertainty.
+
+# Your deliverable
+
+Create a Quarto notebook with these sections:
+
+1. **Question and outcome definition** — State the treatment comparison and define `lsas_post_bin` as `<50` versus `>=50`. Explain in one or two sentences why this is a teaching/analysis choice rather than a diagnostic or remission definition.
+2. **Data check** — Report the number of participants and the outcome count in each treatment group. State how you handled missing post-treatment LSAS values.
+3. **Model** — Fit a binary logistic model comparing therapist-guided treatment with waitlist. Clearly name the reference group and the event whose probability is modelled.
+4. **Results** — Report estimated probabilities for both groups and the therapist-guided-minus-waitlist probability difference with a 95% CI. You may also report an odds ratio, but explain why it is not the same estimand as the probability difference.
+5. **Figure** — Include one probability-scale figure with 95% CIs.
+6. **Conclusion** — Write a short clinical interpretation. State the numerical percentage-point difference, its uncertainty, and what the model does *not* establish.
+
+# Starter code
+
+Use this only as a starting point. You are responsible for deciding what to show and how to explain it.
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+library(tidyverse)
+library(here)
+library(marginaleffects)
+
+df_binary <- read_csv2(here("data", "steps_clean.csv")) |>
+  mutate(
+    lsas_post_bin = factor(
+      if_else(lsas_post < 50, "Low", "High"),
+      levels = c("High", "Low")
+    ),
+    trt = factor(
+      trt,
+      levels = c("waitlist", "therapist-guided", "self-guided")
+    )
+  ) |>
+  filter(trt %in% c("waitlist", "therapist-guided")) |>
+  droplevels()
+```
+
+```{r}
+#| label: model
+mod_trt <- glm(
+  lsas_post_bin ~ trt,
+  family = binomial,
+  data = df_binary
+)
+
+# What probabilities and contrast answer your question?
+```
+
+# Questions to discuss
+
+- What would change if `Low` were defined using a different threshold?
+- Is the probability difference more useful for this clinical question than the odds ratio? Why?
+- Does a treatment-group probability difference establish that therapist guidance caused the difference? What features of the trial design support or limit that interpretation?
+- What information did the binary outcome discard from the original LSAS scale?
+
+# Before presenting
+
+- [ ] The notebook runs from top to bottom in a clean R session.
+- [ ] The direction of the treatment contrast is unambiguous.
+- [ ] The result is stated in percentage points with a 95% CI.
+- [ ] The figure has a meaningful title and probability-scale y-axis.
+- [ ] The conclusion does not describe an odds ratio as a probability difference.
