@@ -1,9 +1,15 @@
 project:
   type: website
   output-dir: docs
+  render:
+    - index.qmd
+    - chapters/*.qmd
+    - labs/*.qmd
 
 execute:
   freeze: auto
+
+bibliography: references.bib
 
 website:
   title: "Biostatistics - Research School in Clinical Psychiatry"
@@ -26,15 +32,45 @@ website:
           - href: index.qmd
             text: Overview
 
-      - section: "Chapters"
+      - section: "Monday — Logistic-regression foundations"
         contents:
-          - href: chapters/template.qmd
-            text: Introduction
+          - href: chapters/logistic-intro.qmd
+            text: Binary outcomes and probability-scale interpretation
+          - href: labs/lab-logistic-foundations.qmd
+            text: Lab — the outcome that reviewers demanded
 
-      - section: "Labs"
+      - section: "Tuesday — Binary and categorical predictors"
         contents:
-          - href: labs/template.qmd
-            text: Template
+          - href: chapters/logistic-one-binary-predictor.qmd
+            text: One binary predictor
+          - href: chapters/logistic-one-categorical-predictor.qmd
+            text: One categorical predictor
+          - href: labs/lab-categorical-predictors.qmd
+            text: Lab — treatment contrasts
+
+      - section: "Wednesday — Numeric and multinomial outcomes"
+        contents:
+          - href: chapters/logistic-one-numeric-predictor.qmd
+            text: One numeric predictor
+          - href: chapters/multinomial-logit.qmd
+            text: Multinomial logit
+          - href: labs/lab-multinomial-logit.qmd
+            text: Lab — three categories, one committee meeting
+
+      - section: "Thursday — Binary interactions"
+        contents:
+          - href: chapters/logistic-two-binary-predictors.qmd
+            text: Two binary predictors and interactions
+          - href: labs/lab-binary-interactions.qmd
+            text: Lab — subgroup results under pressure
+
+      - section: "Friday — Continuous interactions"
+        contents:
+          - href: chapters/logistic-binary-numeric-predictors.qmd
+            text: Treatment and a numeric predictor
+          - href: labs/lab-continuous-interactions.qmd
+            text: Lab — the moderator story
+
 
 format:
   html:

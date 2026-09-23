@@ -1,0 +1,15 @@
+{
+  "hash": "8dcfcd1b6b2de86f78216d16394e503d",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Lab 3: Three categories, one committee meeting\"\ntoc: true\n---\n\n# Scenario\n\nA committee member has objected that the binary LSAS outcome hides the difference between moderate and severe symptoms. Another member replies that “more categories always means more nuance.” You have been asked to prepare a multinomial analysis before either statement becomes a departmental principle.\n\n# Your task\n\nUse the STePS data to model the three post-treatment LSAS severity categories:\n\n- low/no-to-mild: `<50`;\n- moderate/marked: `50–79`; and\n- severe/very severe: `≥80`.\n\nYour Quarto notebook must include:\n\n1. the category definitions and a statement that they are teaching categories, not validated clinical thresholds;\n2. the participant-by-category long transformation required by `mlogit`;\n3. a check that every participant has three alternatives and exactly one observed choice;\n4. a multinomial treatment model;\n5. treatment-specific category probabilities with 95% CIs;\n6. therapist-guided-minus-waitlist probability differences for each category; and\n7. a short explanation of how the probability mass moves across categories.\n\n# Starting point\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(tidyverse)\nlibrary(here)\nlibrary(mlogit)\nlibrary(marginaleffects)\n\n# Read the data, derive the three severity categories, and construct one row\n# per participant × severity alternative. Do not skip the checks.\n```\n:::\n\n\n# Questions to discuss\n\n- Which severity category gains probability under therapist-guided treatment?\n- Which category loses probability, and by how many percentage points?\n- Why must the three category probabilities sum to one for a given treatment group?\n- Does a more detailed outcome automatically make an analysis more useful?\n- Which part of this workflow is data engineering rather than statistical modelling—and why does that distinction matter?\n\n# Before presenting\n\n- [ ] Category cut-points are non-overlapping.\n- [ ] Long data have one row per participant × alternative.\n- [ ] Exactly one `choice` is `TRUE` for every participant.\n- [ ] Every predicted-probability scenario sums to one.\n- [ ] The conclusion gives numerical percentage-point changes and 95% CIs, not only log-odds coefficients.\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

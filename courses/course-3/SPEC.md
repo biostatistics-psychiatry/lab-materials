@@ -98,7 +98,7 @@ Rscript -e 'renv::restore()'
 (cd courses/course-3 && quarto render)
 
 # Lint Course 3 R and Quarto source files when lintr is available.
-Rscript -e 'lintr::lint_dir("courses/course-3")'
+Rscript -e 'lintr::lint_dir("courses/course-3", exclusions = c("renv", "packrat"))'
 
 # Inspect the R dependency state without changing the lockfile.
 Rscript -e 'renv::status()'
@@ -194,7 +194,7 @@ Course materials are executable Quarto documents rather than a software package.
 |---|---|
 | Executable examples and package availability | `(cd courses/course-3 && quarto render)` |
 | Quarto navigation, cross-references, and HTML output | Inspect rendered Course 3 site after `quarto render` |
-| R code style | `Rscript -e 'lintr::lint_dir("courses/course-3")'` |
+| R code style | `Rscript -e 'lintr::lint_dir("courses/course-3", exclusions = c("renv", "packrat"))'` |
 | Derived binary and severity outcome definitions | Check category counts: binary threshold `<50`/`>=50`; severity groups 43/79/47 among non-missing outcomes |
 | Long-format multinomial data | Verify one row per participant × severity alternative before fitting `mlogit`; verify category probabilities sum to one per prediction scenario |
 | Probability-scale model interpretation | Review every model section for a folded Model interpretation callout that states the numerical percentage-point effect, its 95% CI, direction, and conditioning context; review the accompanying effect plot |
