@@ -36,6 +36,7 @@ library(here)
 library(marginaleffects)
 
 df_binary <- read_csv2(here("data", "steps_clean.csv")) |>
+  filter(!is.na(lsas_post)) |>
   mutate(
     lsas_post_bin = factor(
       if_else(lsas_post < 50, "Low", "High"),

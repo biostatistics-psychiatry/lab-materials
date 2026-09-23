@@ -49,6 +49,7 @@ options(
 #| message: false
 #| warning: false
 df_binary <- read_csv2(here("data", "steps_clean.csv")) |>
+  filter(!is.na(lsas_post)) |>
   mutate(
     # The second factor level is the event modelled by binomial glm().
     lsas_post_bin = factor(
