@@ -11,14 +11,9 @@ We will continue to work with the STePS randomised trial of internet-delivered p
 
 # Group work during lab sessions
 
-Each afternoon, you will work in small groups in a Quarto notebook. The scenarios are intentionally a little under-specified—much like the analysis requests that arrive in a PhD—but every lab submission must include:
+This website contains the material for the afternoon lab sessions. During these sessions, you will be tasked with producing a Quarto notebook that documents the analyses related to the labs. This work will be done in small groups, and each group will present for the rest of the class at some point during the week. Use the template notebook uploaded to Canvas as a starting point.
 
-1. a clearly stated estimand or research question;
-2. the model and important data decisions;
-3. an uncertainty-aware probability-scale figure; and
-4. a short clinical interpretation of the numerical result.
-
-There is usually more than one defensible route through a lab. Discuss your choices, state what you conditioned on, and avoid treating a coefficient table as the analysis itself.
+We have been intentionally vague about the lab instructions to allow you to explore and discuss different approaches to the same problem. Refer to the chapters on this website for guidance on how to perform the analyses.
 
 # Intended learning outcomes
 

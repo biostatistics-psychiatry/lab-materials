@@ -1,5 +1,5 @@
 ---
-title: "Chapter 7: Logistic regression with treatment and a continuous predictor"
+title: "Logistic regression with a binary and numeric predictor"
 format:
   html:
     df-print: kable
@@ -10,9 +10,7 @@ number-sections: true
 
 # The question changes when the moderator is continuous
 
-On Thursday, baseline depression was grouped as below or at least 10 on the
-PHQ-9. That can be useful for a clearly defined clinical decision, but it also
-turns different scores into the same group. Here we retain the observed
+In [logistic regression with two binary predictors](logistic-two-binary-predictors.qmd), baseline depression was grouped as below or at least 10 on the PHQ-9. That can be useful for a clearly defined clinical decision, but it also turns different scores into the same group. Here we retain the observed
 continuous `phq9_screen` score and ask:
 
 > How does the estimated probability of a low post-treatment LSAS score differ

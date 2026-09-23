@@ -1,5 +1,5 @@
 ---
-title: "Chapter 3: Logistic regression with a categorical predictor"
+title: "Logistic regression with a categorical predictor"
 format:
   html:
     df-print: kable

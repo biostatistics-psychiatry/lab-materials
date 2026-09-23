@@ -1,5 +1,5 @@
 ---
-title: "Lab 5: The continuous moderator that wanted to be a headline"
+title: "Logistic regression with a binary and numeric predictor"
 format:
   html:
     df-print: kable

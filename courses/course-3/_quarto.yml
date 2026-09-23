@@ -32,44 +32,35 @@ website:
           - href: index.qmd
             text: Overview
 
-      - section: "Monday — Logistic-regression foundations"
+      - section: "Chapters"
         contents:
           - href: chapters/logistic-intro.qmd
-            text: Binary outcomes and probability-scale interpretation
-          - href: labs/lab-logistic-foundations.qmd
-            text: Lab — the outcome that reviewers demanded
-
-      - section: "Tuesday — Binary and categorical predictors"
-        contents:
+            text: Logistic-regression foundations
           - href: chapters/logistic-one-binary-predictor.qmd
-            text: One binary predictor
+            text: Logistic regression with a binary predictor
           - href: chapters/logistic-one-categorical-predictor.qmd
-            text: One categorical predictor
-          - href: labs/lab-categorical-predictors.qmd
-            text: Lab — treatment contrasts
-
-      - section: "Wednesday — Numeric and multinomial outcomes"
-        contents:
+            text: Logistic regression with a categorical predictor
           - href: chapters/logistic-one-numeric-predictor.qmd
-            text: One numeric predictor
+            text: Logistic regression with a numeric predictor
           - href: chapters/multinomial-logit.qmd
-            text: Multinomial logit
-          - href: labs/lab-multinomial-logit.qmd
-            text: Lab — three categories, one committee meeting
-
-      - section: "Thursday — Binary interactions"
-        contents:
+            text: Multinomial logistic regression
           - href: chapters/logistic-two-binary-predictors.qmd
-            text: Two binary predictors and interactions
-          - href: labs/lab-binary-interactions.qmd
-            text: Lab — subgroup results under pressure
-
-      - section: "Friday — Continuous interactions"
-        contents:
+            text: Logistic regression with two binary predictors
           - href: chapters/logistic-binary-numeric-predictors.qmd
-            text: Treatment and a numeric predictor
+            text: Logistic regression with a binary and numeric predictor
+
+      - section: "Labs"
+        contents:
+          - href: labs/lab-logistic-foundations.qmd
+            text: Logistic-regression foundations
+          - href: labs/lab-categorical-predictors.qmd
+            text: Logistic regression with binary and categorical predictors
+          - href: labs/lab-multinomial-logit.qmd
+            text: Multinomial logistic regression
+          - href: labs/lab-binary-interactions.qmd
+            text: Logistic regression with two binary predictors
           - href: labs/lab-continuous-interactions.qmd
-            text: Lab — the moderator story
+            text: Logistic regression with a binary and numeric predictor
 
 
 format:

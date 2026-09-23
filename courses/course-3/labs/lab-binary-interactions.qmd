@@ -1,5 +1,5 @@
 ---
-title: "Lab 4: The subgroup finding that has already been drafted"
+title: "Logistic regression with two binary predictors"
 format:
   html:
     df-print: kable

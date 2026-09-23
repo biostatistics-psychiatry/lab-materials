@@ -1,5 +1,5 @@
 ---
-title: "Chapter 6: Logistic regression with treatment and a binary PHQ-9 category"
+title: "Logistic regression with two binary predictors"
 format:
   html:
     df-print: kable
@@ -263,7 +263,7 @@ An interaction model can describe different conditional estimates, but it does n
 1. Was the moderator and interaction planned before looking at the data?
 2. Are the conditional probability differences precise enough to distinguish meaningful patterns from sampling variation?
 3. Does the interaction plot show a consistent, clinically interpretable pattern rather than an isolated coefficient or p-value?
-4. Would the conclusion be different if PHQ-9 were modelled continuously? Friday's chapter takes up that question.
+4. Would the conclusion be different if PHQ-9 were modelled continuously? See [logistic regression with a binary and numeric predictor](logistic-binary-numeric-predictors.qmd).
 
 The interaction coefficient is a difference of **log-odds contrasts**. It is not itself the difference between the two probability differences. `avg_comparisons()` gives the quantities we want to communicate: therapist-guided-minus-waitlist probability differences within the explicitly stated PHQ-9 categories.
 

@@ -1,5 +1,5 @@
 ---
-title: "Chapter 5: Multinomial logit and severity categories"
+title: "Multinomial logistic regression"
 toc: true
 number-sections: true
 ---

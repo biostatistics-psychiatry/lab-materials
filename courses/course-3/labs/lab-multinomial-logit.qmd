@@ -1,5 +1,5 @@
 ---
-title: "Lab 3: Three categories, one committee meeting"
+title: "Multinomial logistic regression"
 toc: true
 ---
 

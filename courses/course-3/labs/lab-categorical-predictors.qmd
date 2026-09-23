@@ -1,5 +1,5 @@
 ---
-title: "Lab 2: The comparison with the best title"
+title: "Logistic regression with binary and categorical predictors"
 format:
   html:
     df-print: kable

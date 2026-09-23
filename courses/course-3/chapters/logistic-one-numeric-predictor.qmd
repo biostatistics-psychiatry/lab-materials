@@ -1,5 +1,5 @@
 ---
-title: "Chapter 4: Logistic regression with a numeric predictor"
+title: "Logistic regression with a numeric predictor"
 toc: true
 number-sections: true
 ---

@@ -1,5 +1,5 @@
 ---
-title: "Lab 1: The outcome that reviewers demanded"
+title: "Logistic-regression foundations"
 format:
   html:
     df-print: kable
