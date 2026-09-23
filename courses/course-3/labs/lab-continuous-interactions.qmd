@@ -15,10 +15,7 @@ the sentence:
 > *Therapist guidance is especially effective for the patients who need it most,
 > as demonstrated by a continuous PHQ-9 moderation effect.*
 
-The collaborator would like the figure “cleaned up” before the abstract is sent.
-Your group is asked to evaluate the claim—not merely to make a graph that agrees
-with it. The request is intentionally under-specified, as befits a result that
-has acquired a life of its own during a PhD meeting.
+The collaborator would like the figure “cleaned up” before the abstract is sent. Your group is asked to evaluate the claim, not merely to make a graph that agrees with it. The request is intentionally under-specified.
 
 # Your task
 

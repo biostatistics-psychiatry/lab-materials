@@ -256,7 +256,7 @@ plot_comparisons(
   theme_minimal()
 ```
 
-# Reading the interaction responsibly
+# Interpreting the interaction
 
 An interaction model can describe different conditional estimates, but it does not automatically establish a clinically meaningful subgroup. Before presenting a subgroup finding, ask:
 

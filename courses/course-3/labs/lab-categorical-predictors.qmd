@@ -10,15 +10,9 @@ execute:
 
 # Scenario
 
-At 07:12 on Tuesday, your supervisor forwards a draft abstract with the subject
-line *“A potentially paradigm-shifting subgroup of treatment arms.”* The
-abstract claims that one STePS treatment arm is clearly better than another,
-but the only result in the draft is a logistic-regression coefficient.
+Your supervisor has drafted an abstract claiming that one STePS treatment arm is clearly better than another. The only result in the draft is a logistic-regression coefficient.
 
-Your group is asked to prepare the analysis for a meeting later today. The
-request is deliberately incomplete: decide which treatment contrast is
-clinically useful, state why, and make the uncertainty visible before anyone
-writes “paradigm-shifting.”
+Prepare the analysis for a meeting later today. Decide which treatment contrast is clinically useful, state why, and make the uncertainty visible before anyone writes “paradigm-shifting.”
 
 # Your deliverable
 

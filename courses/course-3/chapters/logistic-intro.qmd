@@ -72,7 +72,7 @@ lsas_post_bin = "High" if lsas_post >= 50
 
 This matches the Course 1 classification example. It is useful for learning, but it discards information: LSAS scores of 49 and 12 are both labelled `Low`, while scores of 50 and 120 are both labelled `High`. The original continuous score remains important.
 
-# Thresholds, categories, and humility
+# Defining the binary outcome
 
 The LSAS-SR is often used to screen for social anxiety disorder. The original clinical LSAS study found total-score cut-points of 30 for social anxiety disorder and 60 for the then-defined generalised subtype [@Mennin2002LSAS]. A study of the self-report LSAS-SR found the same cut-points had a useful sensitivity/specificity balance [@Rytwinski2009LSASSR].
 

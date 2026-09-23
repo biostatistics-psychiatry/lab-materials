@@ -8,7 +8,7 @@ toc-depth: 3
 number-sections: true
 ---
 
-# The question changes when the moderator is continuous
+# A continuous moderator
 
 In [logistic regression with two binary predictors](logistic-two-binary-predictors.qmd), baseline depression was grouped as below or at least 10 on the PHQ-9. That can be useful for a clearly defined clinical decision, but it also turns different scores into the same group. Here we retain the observed
 continuous `phq9_screen` score and ask:

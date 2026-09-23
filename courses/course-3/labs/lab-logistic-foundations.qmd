@@ -8,13 +8,9 @@ toc: true
 
 # Scenario
 
-Your supervisor has received the following message at 16:47 on a Friday:
+Your supervisor has received reviewer comments asking for a clinically intuitive binary outcome. Could the revised analysis show whether therapist guidance increases the chance of a low post-treatment LSAS score?
 
-> *The reviewers want a clinically intuitive binary outcome. Could the revised
-> analysis show whether therapist guidance increases the chance of a low
-> post-treatment LSAS score? Please keep it simple, but also sophisticated.*
-
-Your group has been asked to prepare a short Quarto analysis for Monday's emergency meeting. The request is intentionally incomplete: decide what quantity would answer it, make your assumptions visible, and do not let the phrase “keep it simple” erase uncertainty.
+Prepare a short Quarto analysis for the next meeting. The request is intentionally incomplete, so decide what quantity answers it and make your assumptions visible.
 
 # Your deliverable
 

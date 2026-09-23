@@ -8,13 +8,9 @@ toc: true
 
 # Scenario
 
-At 17:12 on the evening before a grant resubmission, a senior collaborator forwards a slide titled **“Therapist guidance works especially well for people with depression”**. The slide has an impressive arrow, three shades of teal, and no uncertainty intervals. The accompanying message reads:
+A senior collaborator forwards a slide titled **“Therapist guidance works especially well for people with depression”**. The slide has no uncertainty intervals. They ask whether you can make the subgroup finding statistically respectable before the grant resubmission.
 
-> *Could you make this subgroup finding statistically respectable by tomorrow? A
-> compelling interaction would be very helpful for the narrative. Naturally, we
-> remain completely open to whatever the data say.*
-
-Your group is the PhD analysis team still logged in. You are not being asked to make a slide more compelling; you are being asked to determine what the data and model can support. Prepare a short Quarto notebook that investigates the claim on the probability scale.
+Prepare a short Quarto notebook that investigates the claim on the probability scale. Your task is to determine what the data and model can support, rather than to make the slide more compelling.
 
 # Your deliverable
 
