@@ -99,7 +99,7 @@ additive_probabilities <- avg_predictions(
 
 additive_treatment_effects <- avg_comparisons(
   mod_additive,
-  variables = list(trt = c("therapist-guided", "waitlist")),
+  variables = list(trt = c("waitlist", "therapist-guided")),
   by = "phq_cat",
   type = "response"
 )
@@ -176,7 +176,7 @@ interaction_probabilities <- avg_predictions(
 
 interaction_treatment_effects <- avg_comparisons(
   mod_interaction,
-  variables = list(trt = c("therapist-guided", "waitlist")),
+  variables = list(trt = c("waitlist", "therapist-guided")),
   by = "phq_cat",
   type = "response"
 )
@@ -188,7 +188,7 @@ interaction_treatment_high_phq <- interaction_treatment_effects |>
 
 interaction_log_odds_effects <- avg_comparisons(
   mod_interaction,
-  variables = list(trt = c("therapist-guided", "waitlist")),
+  variables = list(trt = c("waitlist", "therapist-guided")),
   by = "phq_cat",
   type = "link"
 ) |>
@@ -243,7 +243,7 @@ interaction_probabilities |>
 #| fig-cap: "Conditional therapist-guided-minus-waitlist probability differences from the interaction model. Error bars are 95% confidence intervals."
 plot_comparisons(
   mod_interaction,
-  variables = list(trt = c("therapist-guided", "waitlist")),
+  variables = list(trt = c("waitlist", "therapist-guided")),
   by = "phq_cat",
   type = "response"
 ) +

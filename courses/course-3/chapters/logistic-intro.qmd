@@ -168,7 +168,7 @@ p_by_trt
 
 trt_difference <- avg_comparisons(
   mod_trt,
-  variables = list(trt = c("therapist-guided", "waitlist")),
+  variables = list(trt = c("waitlist", "therapist-guided")),
   type = "response"
 )
 trt_difference

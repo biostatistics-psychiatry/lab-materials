@@ -115,13 +115,13 @@ p_categorical_trt <- avg_predictions(
 
 diff_guided_waitlist <- avg_comparisons(
   mod_categorical_trt,
-  variables = list(trt = c("therapist-guided", "waitlist")),
+  variables = list(trt = c("waitlist", "therapist-guided")),
   type = "response"
 )
 
 diff_self_waitlist <- avg_comparisons(
   mod_categorical_trt,
-  variables = list(trt = c("self-guided", "waitlist")),
+  variables = list(trt = c("waitlist", "self-guided")),
   type = "response"
 )
 

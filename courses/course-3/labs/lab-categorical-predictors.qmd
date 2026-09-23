@@ -93,7 +93,7 @@ mod_categorical_lab <- stats::glm(
 )
 
 # Replace these arms with the directed clinical contrast your group selected.
-chosen_arms <- c("therapist-guided", "waitlist")
+chosen_arms <- c("waitlist", "therapist-guided")
 
 p_categorical_lab <- avg_predictions(
   mod_categorical_lab,

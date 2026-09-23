@@ -119,7 +119,7 @@ p_binary_trt <- avg_predictions(
 
 diff_binary_trt <- avg_comparisons(
   mod_binary_trt,
-  variables = list(trt = c("therapist-guided", "waitlist")),
+  variables = list(trt = c("waitlist", "therapist-guided")),
   type = "response"
 )
 

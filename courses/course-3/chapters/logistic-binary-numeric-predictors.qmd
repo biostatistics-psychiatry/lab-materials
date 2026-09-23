@@ -113,7 +113,7 @@ summary(mod_additive)
 
 additive_trt_difference <- avg_comparisons(
   mod_additive,
-  variables = list(trt = c("therapist-guided", "waitlist")),
+  variables = list(trt = c("waitlist", "therapist-guided")),
   type = "response"
 )
 additive_trt_difference
@@ -192,7 +192,7 @@ summary(mod_interaction)
 
 conditional_trt_difference <- avg_comparisons(
   mod_interaction,
-  variables = list(trt = c("therapist-guided", "waitlist")),
+  variables = list(trt = c("waitlist", "therapist-guided")),
   newdata = datagrid(phq9_screen = phq_values),
   by = "phq9_screen",
   type = "response"
@@ -244,7 +244,7 @@ question more directly.
 #| fig-cap: "Conditional therapist-guided-minus-waitlist probability difference across baseline PHQ-9, with 95% confidence intervals."
 plot_comparisons(
   mod_interaction,
-  variables = list(trt = c("therapist-guided", "waitlist")),
+  variables = list(trt = c("waitlist", "therapist-guided")),
   condition = "phq9_screen",
   type = "response"
 ) +
@@ -274,7 +274,7 @@ participant's counterfactual predictions over the observed PHQ-9 distribution?â€
 #| label: interaction-marginal-treatment-difference
 marginal_trt_difference <- avg_comparisons(
   mod_interaction,
-  variables = list(trt = c("therapist-guided", "waitlist")),
+  variables = list(trt = c("waitlist", "therapist-guided")),
   type = "response"
 )
 marginal_trt_difference
@@ -307,7 +307,7 @@ the treatment log-odds difference at the same three values and exponentiate it.
 #| label: conditional-odds-ratios
 conditional_trt_log_odds <- avg_comparisons(
   mod_interaction,
-  variables = list(trt = c("therapist-guided", "waitlist")),
+  variables = list(trt = c("waitlist", "therapist-guided")),
   newdata = datagrid(phq9_screen = phq_values),
   by = "phq9_screen",
   type = "link"
