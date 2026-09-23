@@ -43,8 +43,8 @@ Task 7 performs final navigation cleanup and whole-course verification after Tas
 ### Phase 1: Validate the high-risk workflow and build the foundation
 
 - [x] **Task 1:** Validate the `mlogit` + `marginaleffects` workflow on real STePS data. See [`tasks/todo.md`](todo.md#task-1-validate-the-multinomial-workflow) for acceptance criteria.
-- [ ] **Task 2:** Implement Monday's logistic-regression foundation, first lab, course overview, and initial navigation. See [`tasks/todo.md`](todo.md#task-2-implement-monday-foundation-and-course-entry-points).
-- [ ] **Task 3:** Implement Tuesday's binary/categorical-predictor chapters and lab. See [`tasks/todo.md`](todo.md#task-3-implement-tuesdays-predictor-models-and-lab).
+- [x] **Task 2:** Implement Monday's logistic-regression foundation, first lab, course overview, and initial navigation. See [`tasks/todo.md`](todo.md#task-2-implement-monday-foundation-and-course-entry-points).
+- [x] **Task 3:** Implement Tuesday's binary/categorical-predictor chapters and lab. See [`tasks/todo.md`](todo.md#task-3-implement-tuesdays-predictor-models-and-lab).
 
 ### Checkpoint: Foundation
 
@@ -55,9 +55,9 @@ Task 7 performs final navigation cleanup and whole-course verification after Tas
 
 ### Phase 2: Complete the core modelling sequence
 
-- [ ] **Task 4:** Implement Wednesday's numeric-predictor and multinomial-logit chapters and lab. See [`tasks/todo.md`](todo.md#task-4-implement-wednesdays-numeric-and-multinomial-material).
-- [ ] **Task 5:** Implement Thursday's two-binary-predictor interaction chapter and lab. See [`tasks/todo.md`](todo.md#task-5-implement-thursdays-binary-interaction-material).
-- [ ] **Task 6:** Implement Friday's binary-by-continuous interaction chapter and lab. See [`tasks/todo.md`](todo.md#task-6-implement-fridays-continuous-interaction-material).
+- [x] **Task 4:** Implement Wednesday's numeric-predictor and multinomial-logit chapters and lab. See [`tasks/todo.md`](todo.md#task-4-implement-wednesdays-numeric-and-multinomial-material).
+- [x] **Task 5:** Implement Thursday's two-binary-predictor interaction chapter and lab. See [`tasks/todo.md`](todo.md#task-5-implement-thursdays-binary-interaction-material).
+- [x] **Task 6:** Implement Friday's binary-by-continuous interaction chapter and lab. See [`tasks/todo.md`](todo.md#task-6-implement-fridays-continuous-interaction-material).
 
 ### Checkpoint: Core course
 
@@ -68,7 +68,7 @@ Task 7 performs final navigation cleanup and whole-course verification after Tas
 
 ### Phase 3: Finalise and verify
 
-- [ ] **Task 7:** Remove placeholders, perform whole-course quality checks, and verify source/citation requirements. See [`tasks/todo.md`](todo.md#task-7-finalise-navigation-and-run-whole-course-quality-checks).
+- [x] **Task 7:** Remove placeholders, perform whole-course quality checks, and verify source/citation requirements. See [`tasks/todo.md`](todo.md#task-7-finalise-navigation-and-run-whole-course-quality-checks).
 
 ### Checkpoint: Complete
 
