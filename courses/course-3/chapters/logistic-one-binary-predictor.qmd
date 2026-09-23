@@ -1,0 +1,220 @@
+---
+title: "Chapter 2: Logistic regression with a binary predictor"
+format:
+  html:
+    df-print: kable
+toc: true
+toc-depth: 3
+number-sections: true
+---
+
+# Introduction
+
+This chapter extends the treatment example from Chapter 1. We focus on the two
+arms that make a binary treatment predictor: `waitlist` and
+`therapist-guided`.
+
+Our question is:
+
+> Among participants in these two arms, how does the estimated probability of
+> a low post-treatment LSAS score differ for therapist-guided treatment versus
+> waitlist?
+
+The target is the **therapist-guided minus waitlist probability difference**.
+We will use the corresponding odds ratio to read logistic-regression output,
+but the probability difference is the primary clinical result.
+
+# Packages and data
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+library(tidyverse)
+library(here)
+library(broom)
+library(marginaleffects)
+
+options(
+  marginaleffects_print_omit = c("s.value"),
+  marginaleffects_print_style = ifelse(interactive(), "summary", "tinytable")
+)
+```
+
+```{r}
+#| label: load-binary-treatment-data
+#| message: false
+#| warning: false
+df_binary <- read_csv2(here("data", "steps_clean.csv")) |>
+  mutate(
+    # The second level is the event modelled by binomial glm().
+    lsas_post_bin = factor(
+      if_else(lsas_post < 50, "Low", "High"),
+      levels = c("High", "Low")
+    ),
+    trt = factor(
+      trt,
+      levels = c("waitlist", "therapist-guided", "self-guided")
+    )
+  ) |>
+  filter(trt %in% c("waitlist", "therapist-guided")) |>
+  droplevels()
+
+df_binary |>
+  count(trt, lsas_post_bin, .drop = FALSE)
+```
+
+`Low` means `lsas_post < 50`; `High` means `lsas_post >= 50`. As in Chapter 1,
+this is a teaching outcome, not a diagnosis or a remission definition. The
+factor order makes `High` the first level, so that the binomial model estimates
+the probability of the second level: a low post-treatment LSAS score.
+
+We explicitly make waitlist the reference group. The treatment contrast shown
+by the coefficient will therefore be therapist-guided minus waitlist.
+
+```{r}
+#| label: inspect-binary-treatment-coding
+levels(df_binary$trt)
+contrasts(df_binary$trt)
+```
+
+# A logistic model for two treatment groups
+
+For participant $i$, let $Y_i$ indicate a low post-treatment LSAS score. The
+model is
+
+$$
+\operatorname{logit}\left[P(Y_i = \text{Low} \mid trt_i)\right] =
+\beta_0 + \beta_1\,\mathbf{1}\{trt_i = \text{therapist-guided}\}.
+$$
+
+Here, $\beta_0$ is the log-odds of a low score in the waitlist group, and
+$\beta_1$ is the therapist-guided-versus-waitlist log-odds difference. These
+are the quantities that `glm()` estimates directly. They are not yet the most
+clinically intelligible quantities.
+
+| Treatment group | Linear predictor | Model-derived probability |
+|---|---:|---:|
+| waitlist | $\beta_0$ | $\operatorname{logit}^{-1}(\beta_0)$ |
+| therapist-guided | $\beta_0 + \beta_1$ | $\operatorname{logit}^{-1}(\beta_0 + \beta_1)$ |
+
+## Fit and interpret the model
+
+```{r}
+#| label: fit-binary-treatment-logit
+#| message: false
+#| warning: false
+mod_binary_trt <- stats::glm(
+  lsas_post_bin ~ trt,
+  family = binomial,
+  data = df_binary
+)
+
+p_binary_trt <- avg_predictions(
+  mod_binary_trt,
+  by = "trt",
+  type = "response"
+)
+
+diff_binary_trt <- avg_comparisons(
+  mod_binary_trt,
+  variables = list(trt = c("therapist-guided", "waitlist")),
+  type = "response"
+)
+
+or_binary_trt <- tidy(
+  mod_binary_trt,
+  conf.int = TRUE,
+  exponentiate = TRUE
+) |>
+  filter(term == "trttherapist-guided")
+```
+
+::: {.callout-tip collapse="true"}
+## Model interpretation
+
+The estimated probability of a low post-treatment LSAS score is
+**`r sprintf("%.1f", 100 * p_binary_trt$estimate[p_binary_trt$trt == "waitlist"])`%**
+for waitlist (95% CI **`r sprintf("%.1f", 100 * p_binary_trt$conf.low[p_binary_trt$trt == "waitlist"])`%**
+to **`r sprintf("%.1f", 100 * p_binary_trt$conf.high[p_binary_trt$trt == "waitlist"])`%**) and
+**`r sprintf("%.1f", 100 * p_binary_trt$estimate[p_binary_trt$trt == "therapist-guided"])`%**
+for therapist-guided treatment (95% CI **`r sprintf("%.1f", 100 * p_binary_trt$conf.low[p_binary_trt$trt == "therapist-guided"])`%**
+to **`r sprintf("%.1f", 100 * p_binary_trt$conf.high[p_binary_trt$trt == "therapist-guided"])`%**).
+
+Compared with waitlist, therapist-guided treatment **`r ifelse(diff_binary_trt$estimate[1] >= 0, "increases", "decreases")`**
+the estimated probability by **`r sprintf("%.1f", abs(100 * diff_binary_trt$estimate[1]))` percentage points**
+(therapist-guided minus waitlist = **`r sprintf("%.1f", 100 * diff_binary_trt$estimate[1])` percentage points**;
+95% CI **`r sprintf("%.1f", 100 * diff_binary_trt$conf.low[1])`** to
+**`r sprintf("%.1f", 100 * diff_binary_trt$conf.high[1])` percentage points**).
+This is an unadjusted contrast within the restricted two-arm sample.
+
+The associated therapist-guided-versus-waitlist **odds ratio** is
+**`r sprintf("%.2f", or_binary_trt$estimate[1])`** (95% CI
+**`r sprintf("%.2f", or_binary_trt$conf.low[1])`** to
+**`r sprintf("%.2f", or_binary_trt$conf.high[1])`**). It is a ratio of the
+odds of a low score, not a probability ratio and not a
+`r sprintf("%.1f", 100 * diff_binary_trt$estimate[1])`-percentage-point change.
+:::
+
+## Display probabilities and the probability difference
+
+```{r}
+#| label: show-binary-treatment-estimates
+p_binary_trt
+
+diff_binary_trt
+```
+
+The estimated probability difference is calculated after transforming the
+model to the response scale. It answers a different question from the printed
+log-odds coefficient: how many percentage points higher or lower is the
+modelled probability in one group than the other?
+
+## Visualise the group probabilities
+
+```{r}
+#| label: plot-binary-treatment-probabilities
+plot_predictions(mod_binary_trt, by = "trt", type = "response") +
+  labs(
+    title = "Estimated probability of low post-treatment LSAS",
+    subtitle = "Waitlist versus therapist-guided treatment; 95% confidence intervals",
+    x = "Treatment group",
+    y = "Probability of low post-treatment LSAS"
+  ) +
+  theme_minimal()
+```
+
+# Log-odds and odds ratios
+
+The logistic model is linear on the **log-odds** scale. Exponentiating
+$\beta_1$ gives the therapist-guided-versus-waitlist odds ratio:
+
+$$
+\exp(\beta_1) =
+\frac{\text{odds of a low score with therapist-guided treatment}}
+{\text{odds of a low score with waitlist}}.
+$$
+
+```{r}
+#| label: show-binary-treatment-odds-ratio
+or_binary_trt
+```
+
+An odds ratio larger than 1 means higher *odds* of a low score in the
+therapist-guided group. It cannot be read as a percentage-point increase,
+because the same odds ratio implies different probability differences at
+different baseline probabilities. Report the model-derived probabilities and
+their probability difference when the clinical question concerns chances of an
+outcome.
+
+# Summary
+
+In this chapter you learned to:
+
+- restrict the STePS data to a binary treatment comparison and set waitlist as
+the reference category;
+- fit a binary logistic model with `stats::glm(..., family = binomial)`;
+- report treatment-specific probabilities and the therapist-guided-minus-waitlist
+probability difference with 95% CIs; and
+- interpret the associated odds ratio as a ratio of odds rather than a
+probability difference.

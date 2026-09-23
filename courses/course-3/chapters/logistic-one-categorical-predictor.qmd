@@ -1,0 +1,259 @@
+---
+title: "Chapter 3: Logistic regression with a categorical predictor"
+format:
+  html:
+    df-print: kable
+toc: true
+toc-depth: 3
+number-sections: true
+---
+
+# Introduction
+
+A treatment variable with three arms is a **categorical predictor**, not a
+single binary treatment indicator. In the STePS data, the arms are waitlist,
+therapist-guided treatment, and self-guided treatment.
+
+Our primary questions are:
+
+1. What is the model-derived probability of a low post-treatment LSAS score in
+   each treatment arm?
+2. How do those probabilities differ between clinically relevant pairs of arms?
+
+As before, we will communicate probabilities and probability differences with
+95% CIs. Log-odds coefficients and odds ratios help us read model output, but
+they are not probability differences.
+
+# Packages and data
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+library(tidyverse)
+library(here)
+library(broom)
+library(marginaleffects)
+
+options(
+  marginaleffects_print_omit = c("s.value"),
+  marginaleffects_print_style = ifelse(interactive(), "summary", "tinytable")
+)
+```
+
+```{r}
+#| label: load-categorical-treatment-data
+#| message: false
+#| warning: false
+df_categorical <- read_csv2(here("data", "steps_clean.csv")) |>
+  mutate(
+    # The second level is the event modelled by binomial glm().
+    lsas_post_bin = factor(
+      if_else(lsas_post < 50, "Low", "High"),
+      levels = c("High", "Low")
+    ),
+    trt = factor(
+      trt,
+      levels = c("waitlist", "therapist-guided", "self-guided")
+    )
+  )
+
+df_categorical |>
+  count(trt, lsas_post_bin, .drop = FALSE)
+```
+
+`Low` is the teaching outcome `lsas_post < 50`, and `High` is
+`lsas_post >= 50`; it is not a diagnostic or remission definition. We order
+the outcome so that `Low` is the event in the binomial model, and we explicitly
+set `waitlist` as the treatment reference category.
+
+```{r}
+#| label: inspect-categorical-treatment-coding
+levels(df_categorical$trt)
+contrasts(df_categorical$trt)
+```
+
+# Reference categories and dummy variables
+
+With waitlist as the reference, R uses two indicator variables. The model is
+
+$$
+\operatorname{logit}\left[P(Y_i = \text{Low} \mid trt_i)\right] =
+\beta_0 +
+\beta_1\,\mathbf{1}\{trt_i = \text{therapist-guided}\} +
+\beta_2\,\mathbf{1}\{trt_i = \text{self-guided}\}.
+$$
+
+| Treatment group | Linear predictor | Coefficient comparison |
+|---|---:|---|
+| waitlist | $\beta_0$ | reference |
+| therapist-guided | $\beta_0 + \beta_1$ | therapist-guided minus waitlist |
+| self-guided | $\beta_0 + \beta_2$ | self-guided minus waitlist |
+
+Thus, the coefficient table supplies two log-odds comparisons with waitlist.
+It does **not** directly show the self-guided-versus-therapist-guided
+comparison; we obtain that, and all other pairwise probability differences,
+from the fitted model.
+
+# Fit the three-arm logistic model
+
+```{r}
+#| label: fit-categorical-treatment-logit
+#| message: false
+#| warning: false
+mod_categorical_trt <- stats::glm(
+  lsas_post_bin ~ trt,
+  family = binomial,
+  data = df_categorical
+)
+
+p_categorical_trt <- avg_predictions(
+  mod_categorical_trt,
+  by = "trt",
+  type = "response"
+)
+
+diff_guided_waitlist <- avg_comparisons(
+  mod_categorical_trt,
+  variables = list(trt = c("therapist-guided", "waitlist")),
+  type = "response"
+)
+
+diff_self_waitlist <- avg_comparisons(
+  mod_categorical_trt,
+  variables = list(trt = c("self-guided", "waitlist")),
+  type = "response"
+)
+
+or_categorical_trt <- tidy(
+  mod_categorical_trt,
+  conf.int = TRUE,
+  exponentiate = TRUE
+) |>
+  filter(term != "(Intercept)")
+```
+
+::: {.callout-tip collapse="true"}
+## Model interpretation
+
+The estimated probability of a low post-treatment LSAS score is
+**`r sprintf("%.1f", 100 * p_categorical_trt$estimate[p_categorical_trt$trt == "waitlist"])`%**
+for waitlist (95% CI **`r sprintf("%.1f", 100 * p_categorical_trt$conf.low[p_categorical_trt$trt == "waitlist"])`%**
+to **`r sprintf("%.1f", 100 * p_categorical_trt$conf.high[p_categorical_trt$trt == "waitlist"])`%**),
+**`r sprintf("%.1f", 100 * p_categorical_trt$estimate[p_categorical_trt$trt == "therapist-guided"])`%**
+for therapist-guided treatment (95% CI **`r sprintf("%.1f", 100 * p_categorical_trt$conf.low[p_categorical_trt$trt == "therapist-guided"])`%**
+to **`r sprintf("%.1f", 100 * p_categorical_trt$conf.high[p_categorical_trt$trt == "therapist-guided"])`%**), and
+**`r sprintf("%.1f", 100 * p_categorical_trt$estimate[p_categorical_trt$trt == "self-guided"])`%**
+for self-guided treatment (95% CI **`r sprintf("%.1f", 100 * p_categorical_trt$conf.low[p_categorical_trt$trt == "self-guided"])`%**
+to **`r sprintf("%.1f", 100 * p_categorical_trt$conf.high[p_categorical_trt$trt == "self-guided"])`%**).
+
+Relative to waitlist, therapist-guided treatment **`r ifelse(diff_guided_waitlist$estimate[1] >= 0, "increases", "decreases")`**
+the estimated probability by **`r sprintf("%.1f", abs(100 * diff_guided_waitlist$estimate[1]))` percentage points**
+(95% CI **`r sprintf("%.1f", 100 * diff_guided_waitlist$conf.low[1])`** to
+**`r sprintf("%.1f", 100 * diff_guided_waitlist$conf.high[1])` percentage points**).
+Self-guided treatment **`r ifelse(diff_self_waitlist$estimate[1] >= 0, "increases", "decreases")`**
+it by **`r sprintf("%.1f", abs(100 * diff_self_waitlist$estimate[1]))` percentage points**
+relative to waitlist (95% CI **`r sprintf("%.1f", 100 * diff_self_waitlist$conf.low[1])`** to
+**`r sprintf("%.1f", 100 * diff_self_waitlist$conf.high[1])` percentage points**).
+These are unadjusted contrasts in the three-arm analysis sample.
+
+The corresponding odds ratios versus waitlist are
+**`r sprintf("%.2f", or_categorical_trt$estimate[or_categorical_trt$term == "trttherapist-guided"])`**
+for therapist-guided treatment (95% CI
+**`r sprintf("%.2f", or_categorical_trt$conf.low[or_categorical_trt$term == "trttherapist-guided"])`** to
+**`r sprintf("%.2f", or_categorical_trt$conf.high[or_categorical_trt$term == "trttherapist-guided"])`**) and
+**`r sprintf("%.2f", or_categorical_trt$estimate[or_categorical_trt$term == "trtself-guided"])`**
+for self-guided treatment (95% CI
+**`r sprintf("%.2f", or_categorical_trt$conf.low[or_categorical_trt$term == "trtself-guided"])`** to
+**`r sprintf("%.2f", or_categorical_trt$conf.high[or_categorical_trt$term == "trtself-guided"])`**).
+Each is a ratio of odds, not a probability ratio or a percentage-point
+probability difference.
+:::
+
+# Predicted probabilities by treatment arm
+
+```{r}
+#| label: show-categorical-treatment-probabilities
+p_categorical_trt
+```
+
+The three predicted probabilities are response-scale summaries of the same
+logistic model. They are often a more direct starting point for a clinical
+discussion than its intercept and two log-odds coefficients.
+
+```{r}
+#| label: plot-categorical-treatment-probabilities
+plot_predictions(mod_categorical_trt, by = "trt", type = "response") +
+  labs(
+    title = "Estimated probability of low post-treatment LSAS",
+    subtitle = "Three-arm logistic regression; 95% confidence intervals",
+    x = "Treatment group",
+    y = "Probability of low post-treatment LSAS"
+  ) +
+  theme_minimal()
+```
+
+# Probability differences between treatment arms
+
+There is no single treatment contrast with three arms. Decide which comparison
+answers the substantive question, state its direction, and present uncertainty.
+For an exploratory overview, calculate all pairwise differences. A positive
+difference means that the first-named group has the higher estimated probability
+of a low post-treatment LSAS score.
+
+```{r}
+#| label: pairwise-categorical-probability-differences
+pairwise_categorical_differences <- avg_comparisons(
+  mod_categorical_trt,
+  variables = list(trt = "pairwise"),
+  type = "response"
+)
+
+pairwise_categorical_differences
+```
+
+```{r}
+#| label: plot-pairwise-categorical-probability-differences
+pairwise_categorical_differences |>
+  mutate(
+    estimate_pp = 100 * estimate,
+    conf.low_pp = 100 * conf.low,
+    conf.high_pp = 100 * conf.high
+  ) |>
+  ggplot(aes(y = contrast, x = estimate_pp)) +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  geom_errorbar(aes(xmin = conf.low_pp, xmax = conf.high_pp), width = 0.1) +
+  geom_point(size = 2.5) +
+  labs(
+    title = "Pairwise differences in probability of low post-treatment LSAS",
+    subtitle = "First-named treatment minus second-named treatment; 95% confidence intervals",
+    x = "Probability difference (percentage points)",
+    y = NULL
+  ) +
+  theme_minimal()
+```
+
+# Odds ratios as a secondary summary
+
+```{r}
+#| label: show-categorical-treatment-odds-ratios
+or_categorical_trt
+```
+
+The odds ratios above compare each active arm with waitlist because waitlist is
+the reference group. To obtain a self-guided-versus-therapist-guided odds
+ratio, one could change the reference category or form the appropriate model
+contrast. Neither route changes the main communication task: accompany any odds
+ratio with response-scale probabilities and a clearly directed probability
+difference.
+
+# Summary
+
+In this chapter you learned to:
+
+- define an explicit reference category for a three-level treatment predictor;
+- fit a three-arm binary logistic model with `stats::glm(..., family = binomial)`;
+- obtain estimated probabilities for every treatment arm and pairwise
+probability differences with 95% CIs; and
+- distinguish odds ratios from the percentage-point probability differences
+needed for a clinical interpretation.
