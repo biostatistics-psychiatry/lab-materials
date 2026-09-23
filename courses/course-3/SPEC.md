@@ -21,11 +21,17 @@ Students are assumed to have completed Courses 1 and 2. They can already:
 
 The course uses `data/steps_clean.csv` throughout.
 
-Binary-outcome chapters use the established Course 1 outcome:
+Binary-outcome chapters use treatment response, defined as an LSAS reduction of at least 30% from baseline:
 
 ```r
-lsas_post_bin <- if_else(lsas_post < 50, "Low", "High")
+lsas_response <- if_else(
+  (lsas_screen - lsas_post) / lsas_screen >= 0.30,
+  "Response",
+  "No response"
+)
 ```
+
+Participants missing baseline or post-treatment LSAS are excluded; outcomes are not imputed.
 
 Wednesday's multinomial chapter uses a three-category post-treatment LSAS severity outcome:
 
@@ -41,17 +47,17 @@ lsas_post_severity <- case_when(
 ))
 ```
 
-The categories have 43, 79, and 47 non-missing observations, respectively. They collapse conventional descriptive severity bands for a stable teaching example. They must **not** be described as validated diagnostic or remission thresholds. Monday will distinguish this pedagogical categorisation from validated LSAS-SR screening cut-points (30 and 60) and a published remission cut-point (35).
+The categories have 43, 79, and 47 non-missing observations, respectively. They collapse conventional descriptive severity bands for a stable teaching example. They must **not** be described as validated diagnostic or remission thresholds. Wednesday retains this separate categorical outcome because multinomial logit requires more than two outcome categories. Monday distinguishes treatment response from validated LSAS-SR screening cut-points (30 and 60) and a published remission cut-point (35).
 
-Monday's chapter bibliography must cite the original screening and remission evidence: Mennin et al. (2002; [PMID 12405524](https://pubmed.ncbi.nlm.nih.gov/12405524/)); Rytwinski et al. (2009; [PMID 18781659](https://pubmed.ncbi.nlm.nih.gov/18781659/), [DOI 10.1002/da.20503](https://doi.org/10.1002/da.20503)); and Hoyer et al. (2018; [PMID 29430794](https://pubmed.ncbi.nlm.nih.gov/29430794/), [DOI 10.1002/cpp.2179](https://doi.org/10.1002/cpp.2179)).
+Monday's chapter bibliography must cite the original screening and remission/response evidence: Mennin et al. (2002; [PMID 12405524](https://pubmed.ncbi.nlm.nih.gov/12405524/)); Rytwinski et al. (2009; [PMID 18781659](https://pubmed.ncbi.nlm.nih.gov/18781659/), [DOI 10.1002/da.20503](https://doi.org/10.1002/da.20503)); and von Glischinski et al. (2018; [PMID 29430794](https://pubmed.ncbi.nlm.nih.gov/29430794/), [DOI 10.1002/cpp.2179](https://doi.org/10.1002/cpp.2179)).
 
 ### Course sequence
 
 | Day | Chapter content | Lab content |
 |---|---|---|
-| Monday | Refresh the STePS workflow; motivate binary outcomes in clinical psychiatry; discuss the consequences of dichotomisation; define `lsas_post_bin`; introduce intercept-only and treatment models with `glm(..., family = binomial)`; explain probability, odds, log-odds, odds ratios, and uncertainty; contrast odds-ratio and probability-scale interpretations; estimate and plot probabilities. | A lightly under-specified PhD/academic scenario. Groups prepare a Quarto notebook that defines the outcome, reports prevalence and treatment-specific estimated probabilities with 95% CIs, makes one effect plot, and states the estimand and clinical interpretation. |
+| Monday | Refresh the STePS workflow; motivate treatment-response outcomes in clinical psychiatry; define `lsas_response`; introduce intercept-only and treatment models with `glm(..., family = binomial)`; explain probability, odds, log-odds, odds ratios, and uncertainty; contrast odds-ratio and probability-scale interpretations; estimate and plot probabilities. | A lightly under-specified PhD/academic scenario. Groups prepare a Quarto notebook that defines the outcome, reports prevalence and treatment-specific estimated probabilities with 95% CIs, makes one effect plot, and states the estimand and clinical interpretation. |
 | Tuesday | **Binary predictor:** treatment restricted to waitlist versus therapist-guided. **Categorical predictor:** all three `trt` arms. Teach reference categories, category-specific predicted probabilities, and binary/pairwise probability differences. | Groups choose and justify a clinically relevant treatment contrast, then report probability-scale estimates, uncertainty, and a plot without treating log-odds coefficients as the final answer. |
-| Wednesday | **Numeric predictor:** model `lsas_post_bin` using `gad_screen`, including probability curves and probability-scale slopes/effects. **Multinomial outcome:** reshape STePS data explicitly to participant-by-severity-category long format; fit a multinomial-logit model with `mlogit`; estimate and plot category probabilities by treatment. | Groups perform and document the long-format transformation, fit the multinomial model, plot category probabilities, and explain how a treatment contrast redistributes probability across outcome categories. |
+| Wednesday | **Numeric predictor:** model `lsas_response` using `gad_screen`, including probability curves and probability-scale slopes/effects. **Multinomial outcome:** reshape STePS data explicitly to participant-by-severity-category long format; fit a multinomial-logit model with `mlogit`; estimate and plot category probabilities by treatment. | Groups perform and document the long-format transformation, fit the multinomial model, plot category probabilities, and explain how a treatment contrast redistributes probability across outcome categories. |
 | Thursday | Fit binary logistic models with `trt` and `phq_cat` (`phq9_screen < 10` versus `≥ 10`), first additively and then with an interaction. Explain conditional treatment effects on the probability scale. | Groups investigate whether a proposed "promising subgroup finding" survives probability-scale interpretation, uncertainty, and an interaction plot. |
 | Friday | Fit binary logistic models with `trt`, continuous `phq9_screen`, and their interaction. Estimate and plot conditional treatment effects across baseline PHQ-9 values; distinguish conditional effects from a population-average contrast. | Groups evaluate an academically convenient but statistically questionable moderator claim, then communicate the conditional probability differences and uncertainty in a short, clinically intelligible conclusion. |
 
@@ -142,7 +148,7 @@ Follow existing Course 2 conventions: readable R pipelines, one concept per labe
 #| message: false
 #| warning: false
 mod_trt <- glm(
-  lsas_post_bin ~ trt,
+  lsas_response ~ trt,
   family = binomial,
   data = df_binary
 )
@@ -178,7 +184,7 @@ plot_predictions(mod_trt, by = "trt", type = "response") +
 Style requirements:
 
 - Define factor levels and reference categories explicitly.
-- Make interval boundaries non-overlapping in code: `< 50`, `>= 50 & < 80`, `>= 80`.
+- Define response as an LSAS reduction of at least 30% from baseline; retain `< 50`, `>= 50 & < 80`, and `>= 80` only for Wednesday's multinomial severity outcome.
 - State what probability is being modelled and the direction of every contrast.
 - In every Model interpretation callout, report the numerical effect in its natural unit: percentage points for probability differences, plus its 95% CI. For multinomial results, explain which category probability falls or rises and by how many percentage points.
 - Use `plot_predictions()`, `plot_comparisons()`, or the appropriate probability plot after every fitted model.
@@ -195,7 +201,7 @@ Course materials are executable Quarto documents rather than a software package.
 | Executable examples and package availability | `(cd courses/course-3 && quarto render)` |
 | Quarto navigation, cross-references, and HTML output | Inspect rendered Course 3 site after `quarto render` |
 | R code style | `Rscript -e 'lintr::lint_dir("courses/course-3", exclusions = c("renv", "packrat"))'` |
-| Derived binary and severity outcome definitions | Check category counts: binary threshold `<50`/`>=50`; severity groups 43/79/47 among non-missing outcomes |
+| Derived binary and severity outcome definitions | Check that response is a >=30% LSAS reduction among participants with observed baseline and post-treatment scores; check severity groups 43/79/47 among non-missing outcomes |
 | Long-format multinomial data | Verify one row per participant × severity alternative before fitting `mlogit`; verify category probabilities sum to one per prediction scenario |
 | Probability-scale model interpretation | Review every model section for a folded Model interpretation callout that states the numerical percentage-point effect, its 95% CI, direction, and conditioning context; review the accompanying effect plot |
 | Lab completeness | Review every lab against its deliverables: estimand, model, uncertainty-aware figure, and plain-language clinical conclusion |
@@ -222,7 +228,7 @@ Course materials are executable Quarto documents rather than a software package.
 
 ### Never
 
-- Present the 50/80 teaching categories as validated diagnostic or remission thresholds.
+- Present the 50/80 teaching categories as validated diagnostic or remission thresholds, or present the 30% response outcome as remission.
 - Present odds ratios or log-odds coefficients as probability differences.
 - Remove the long-format transformation from the multinomial lesson.
 - Turn labs into fully prescriptive click-by-click tutorials.
