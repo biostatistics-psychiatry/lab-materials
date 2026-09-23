@@ -3994,6 +3994,11 @@
       "Maintainer": "Lionel Henry <lionel@posit.co>",
       "Repository": "CRAN"
     },
+    "lintr": {
+      "Package": "lintr",
+      "Version": "3.4.0",
+      "Source": "Repository"
+    },
     "listenv": {
       "Package": "listenv",
       "Version": "0.9.1",
@@ -6139,6 +6144,11 @@
       "Maintainer": "Jennifer Bryan <jenny@posit.co>",
       "Repository": "CRAN"
     },
+    "rex": {
+      "Package": "rex",
+      "Version": "1.2.2",
+      "Source": "Repository"
+    },
     "rlang": {
       "Package": "rlang",
       "Version": "1.1.6",
@@ -7989,6 +7999,11 @@
       "Author": "Hadley Wickham [aut], Jim Hester [aut], Jeroen Ooms [aut, cre], Posit Software, PBC [cph, fnd], R Foundation [ctb] (Copy of R-project homepage cached as example)",
       "Maintainer": "Jeroen Ooms <jeroenooms@gmail.com>",
       "Repository": "CRAN"
+    },
+    "xmlparsedata": {
+      "Package": "xmlparsedata",
+      "Version": "1.0.5",
+      "Source": "Repository"
     },
     "yaml": {
       "Package": "yaml",

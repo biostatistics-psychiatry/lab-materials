@@ -75,12 +75,12 @@ stopifnot(all(is.finite(probabilities$conf.high)))
 
 therapist_minus_waitlist <- function(x) {
   x |>
-    group_by(group, trt) |>
-    summarize(estimate = mean(estimate), .groups = "drop") |>
-    pivot_wider(names_from = trt, values_from = estimate) |>
+    group_by(.data$group, .data$trt) |>
+    summarize(estimate = mean(.data$estimate), .groups = "drop") |>
+    pivot_wider(names_from = "trt", values_from = "estimate") |>
     transmute(
-      term = group,
-      estimate = `therapist-guided` - waitlist
+      term = .data$group,
+      estimate = .data[["therapist-guided"]] - .data$waitlist
     )
 }
 
