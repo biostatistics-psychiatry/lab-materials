@@ -1,0 +1,115 @@
+---
+title: "Lab 4: The subgroup finding that has already been drafted"
+format:
+  html:
+    df-print: kable
+toc: true
+---
+
+# Scenario
+
+At 17:12 on the evening before a grant resubmission, a senior collaborator forwards a slide titled **“Therapist guidance works especially well for people with depression”**. The slide has an impressive arrow, three shades of teal, and no uncertainty intervals. The accompanying message reads:
+
+> *Could you make this subgroup finding statistically respectable by tomorrow? A
+> compelling interaction would be very helpful for the narrative. Naturally, we
+> remain completely open to whatever the data say.*
+
+Your group is the PhD analysis team still logged in. You are not being asked to make a slide more compelling; you are being asked to determine what the data and model can support. Prepare a short Quarto notebook that investigates the claim on the probability scale.
+
+# Your deliverable
+
+Create a group Quarto notebook with the following sections. The choices of table layout, plot design, and exact wording are yours, but every statistical claim must be traceable to an estimand and a model.
+
+1. **Question and estimand** — State the primary contrast as the therapist-guided-minus-waitlist difference in the probability of a low post-treatment LSAS score, separately within baseline PHQ-9 `< 10` and `>= 10` categories. Say which probability is modelled and state the direction of the contrast.
+2. **Data definition and check** — Starting from `data/steps_clean.csv`, define:
+   - `lsas_post_bin` as `Low` when `lsas_post < 50` and `High` when `lsas_post >= 50`; and
+   - `phq_cat` as `< 10` when `phq9_screen < 10` and `>= 10` when `phq9_screen >= 10`.
+
+   Set the treatment reference category explicitly. Report the numbers of participants and outcome events by treatment and PHQ-9 category, and explain how missing post-treatment LSAS values were handled. The `Low` LSAS outcome and binary PHQ-9 category are analysis choices for this exercise, not diagnostic, remission, or subgroup-discovery rules.
+3. **Additive model** — Fit a binary logistic model with `trt + phq_cat`. Use model-derived probabilities and therapist-guided-minus-waitlist probability differences with 95% CIs. Explain what “additive” means on the log-odds scale and why probability differences can still vary across PHQ-9 categories.
+4. **Interaction model** — Fit `trt * phq_cat` with `stats::glm(..., family = binomial)`. Estimate the same conditional treatment differences with 95% CIs. Do not treat the interaction coefficient or a p-value as the final clinical result.
+5. **Uncertainty-aware figures** — Include an estimated-probability plot by treatment and PHQ-9 category and a plot of the conditional therapist-guided-minus-waitlist probability differences. Label the y-axes as probabilities or percentage-point differences and show 95% CIs.
+6. **Conclusion for the collaborator** — In 100–150 words, give a plain-language answer. State the numerical conditional probability differences and their 95% CIs, describe the degree of uncertainty, and say whether the proposed subgroup wording is justified. An odds ratio may be reported for statistical literacy, but it must be named as a ratio of odds rather than a percentage-point change.
+
+You may include the self-guided arm in the model and descriptive figures. The requested headline contrast remains therapist-guided versus waitlist, within each PHQ-9 category.
+
+# Starting point
+
+This is a launch pad, not a click-by-click recipe. Discuss with your group what objects, tables, comparisons, and plots you need before extending it.
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+library(tidyverse)
+library(here)
+library(marginaleffects)
+
+options(
+  marginaleffects_print_omit = c("s.value"),
+  marginaleffects_print_style = ifelse(interactive(), "summary", "tinytable")
+)
+
+df_binary <- read_csv2(here("data", "steps_clean.csv")) |>
+  mutate(
+    # The second factor level is the event modelled by binomial glm().
+    lsas_post_bin = factor(
+      if_else(lsas_post < 50, "Low", "High"),
+      levels = c("High", "Low")
+    ),
+    trt = factor(
+      trt,
+      levels = c("waitlist", "therapist-guided", "self-guided")
+    ),
+    phq_cat = factor(
+      case_when(
+        phq9_screen < 10 ~ "< 10",
+        phq9_screen >= 10 ~ ">= 10"
+      ),
+      levels = c("< 10", ">= 10")
+    )
+  )
+
+# What descriptive check makes the analytic sample and outcome events visible?
+```
+
+```{r}
+#| label: additive-model
+mod_additive <- stats::glm(
+  lsas_post_bin ~ trt + phq_cat,
+  family = binomial,
+  data = df_binary
+)
+
+# Which probability-scale comparisons answer the estimand?
+```
+
+```{r}
+#| label: interaction-model
+mod_interaction <- stats::glm(
+  lsas_post_bin ~ trt * phq_cat,
+  family = binomial,
+  data = df_binary
+)
+
+# Estimate therapist-guided minus waitlist differences within phq_cat.
+# Then make the probability and conditional-effect figures.
+```
+
+# Questions to discuss
+
+- The additive model has no `trt:phq_cat` term. Does that mean its two probability differences must be identical? Why or why not?
+- If the interaction-model estimates differ, what evidence would make that pattern more convincing than a visually attractive subgroup plot?
+- How does the width of each confidence interval affect the wording of your conclusion?
+- What is lost by reducing PHQ-9 to two categories? What would change if PHQ-9 were retained as a continuous moderator?
+- Does randomisation support a causal interpretation of the treatment comparison? Does it automatically support a causal claim about an observed subgroup pattern?
+
+# Before you send the slide back
+
+- [ ] `phq_cat` is explicitly derived as `< 10` versus `>= 10`, and all factor references are stated.
+- [ ] The notebook defines the modelled LSAS probability and the therapist-guided-minus-waitlist direction.
+- [ ] Both `trt + phq_cat` and `trt * phq_cat` are fitted using `glm(..., family = binomial)`.
+- [ ] Each reported conditional treatment effect is a percentage-point probability difference with a 95% CI and its PHQ-9 conditioning category.
+- [ ] At least one probability plot and one conditional-effect plot show 95% CIs.
+- [ ] Any odds ratio is described as an odds ratio, never as a probability difference.
+- [ ] The conclusion reports uncertainty and does not promote a subgroup claim beyond what the estimates support.
