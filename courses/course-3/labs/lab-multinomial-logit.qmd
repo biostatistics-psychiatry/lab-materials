@@ -1,0 +1,57 @@
+---
+title: "Lab 3: Three categories, one committee meeting"
+toc: true
+---
+
+# Scenario
+
+A committee member has objected that the binary LSAS outcome hides the difference between moderate and severe symptoms. Another member replies that “more categories always means more nuance.” You have been asked to prepare a multinomial analysis before either statement becomes a departmental principle.
+
+# Your task
+
+Use the STePS data to model the three post-treatment LSAS severity categories:
+
+- low/no-to-mild: `<50`;
+- moderate/marked: `50–79`; and
+- severe/very severe: `≥80`.
+
+Your Quarto notebook must include:
+
+1. the category definitions and a statement that they are teaching categories, not validated clinical thresholds;
+2. the participant-by-category long transformation required by `mlogit`;
+3. a check that every participant has three alternatives and exactly one observed choice;
+4. a multinomial treatment model;
+5. treatment-specific category probabilities with 95% CIs;
+6. therapist-guided-minus-waitlist probability differences for each category; and
+7. a short explanation of how the probability mass moves across categories.
+
+# Starting point
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+library(tidyverse)
+library(here)
+library(mlogit)
+library(marginaleffects)
+
+# Read the data, derive the three severity categories, and construct one row
+# per participant × severity alternative. Do not skip the checks.
+```
+
+# Questions to discuss
+
+- Which severity category gains probability under therapist-guided treatment?
+- Which category loses probability, and by how many percentage points?
+- Why must the three category probabilities sum to one for a given treatment group?
+- Does a more detailed outcome automatically make an analysis more useful?
+- Which part of this workflow is data engineering rather than statistical modelling—and why does that distinction matter?
+
+# Before presenting
+
+- [ ] Category cut-points are non-overlapping.
+- [ ] Long data have one row per participant × alternative.
+- [ ] Exactly one `choice` is `TRUE` for every participant.
+- [ ] Every predicted-probability scenario sums to one.
+- [ ] The conclusion gives numerical percentage-point changes and 95% CIs, not only log-odds coefficients.

@@ -1,0 +1,81 @@
+---
+title: "Chapter 4: Logistic regression with a numeric predictor"
+toc: true
+number-sections: true
+---
+
+# Numeric predictors and probabilities
+
+A numeric predictor can change the probability of an outcome continuously. Here we model the probability of a low post-treatment LSAS score as a function of baseline GAD-7 score (`gad_screen`). The logistic model is linear on the log-odds scale, but its probability curve is generally curved.
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+library(tidyverse)
+library(here)
+library(marginaleffects)
+
+df_clean <- read_csv2(here("data", "steps_clean.csv")) |>
+  filter(!is.na(lsas_post), !is.na(gad_screen)) |>
+  mutate(
+    lsas_post_bin = factor(
+      if_else(lsas_post < 50, "Low", "High"),
+      levels = c("High", "Low")
+    )
+  )
+```
+
+```{r}
+#| label: fit-numeric-model
+mod_gad <- glm(
+  lsas_post_bin ~ gad_screen,
+  family = binomial,
+  data = df_clean
+)
+summary(mod_gad)
+
+gad_slope <- avg_slopes(mod_gad, variables = "gad_screen", type = "response")
+gad_slope
+```
+
+::: {.callout-tip collapse="true"}
+## Model interpretation
+
+A one-point higher baseline GAD-7 score changes the estimated probability of a low post-treatment LSAS score by **`r sprintf("%.2f", 100 * gad_slope$estimate[1])` percentage points on average** (95% CI **`r sprintf("%.2f", 100 * gad_slope$conf.low[1])`** to **`r sprintf("%.2f", 100 * gad_slope$conf.high[1])` percentage points**).
+
+Because the logit link is nonlinear, a one-point probability change can differ across GAD-7 values. The coefficient in `summary()` is a log-odds change; exponentiating it gives an odds ratio, not this probability-scale slope.
+:::
+
+```{r}
+#| label: plot-numeric-predictions
+plot_predictions(mod_gad, condition = "gad_screen", type = "response") +
+  labs(
+    title = "Estimated probability of low post-treatment LSAS",
+    subtitle = "Across baseline GAD-7 scores; 95% confidence interval",
+    x = "GAD-7 score at screening",
+    y = "Probability of low post-treatment LSAS"
+  ) +
+  theme_minimal()
+```
+
+# From a continuous score to a curve
+
+A linear predictor does not imply a straight line on the probability scale. For this reason, plots and predictions at clinically meaningful values are usually more informative than reporting a coefficient alone.
+
+```{r}
+#| label: numeric-predictions-at-quartiles
+gad_values <- quantile(df_clean$gad_screen, probs = c(.25, .50, .75), na.rm = TRUE)
+
+predictions(
+  mod_gad,
+  newdata = datagrid(gad_screen = gad_values),
+  type = "response"
+)
+```
+
+# Summary
+
+- Logistic regression can model a binary outcome using a continuous predictor.
+- Probability curves are usually easier to communicate than log-odds coefficients.
+- An average probability slope is an interpretable summary, but it can conceal variation across the predictor range.
