@@ -6,42 +6,55 @@ format:
 toc: true
 execute:
   eval: false
+editor: 
+  markdown: 
+    wrap: 72
 ---
 
 # Scenario
 
-Your supervisor has drafted an abstract claiming that one STePS treatment arm is clearly better than another. The only result in the draft is a logistic-regression coefficient.
+Your supervisor has drafted an abstract claiming that one STePS
+treatment arm is clearly better than another. The only result in the
+draft is a logistic-regression coefficient.
 
-Prepare the analysis for a meeting later today. Decide which treatment contrast is clinically useful, state why, and make the uncertainty visible before anyone writes “paradigm-shifting.”
+Prepare the analysis for a meeting later today. Decide which treatment
+contrast is clinically useful, state why, and make the uncertainty
+visible before anyone writes “paradigm-shifting.”
 
 # Your deliverable
 
 Create a group Quarto notebook with these sections:
 
-1. **Question and estimand** — Choose one clinically relevant contrast among
-   waitlist, therapist-guided treatment, and self-guided treatment. State the
-   direction explicitly (for example, therapist-guided minus waitlist) and say
-   why that comparison is useful.
-2. **Outcome and data check** — Define `lsas_response` as a reduction of at least 30% from baseline LSAS. State that this is a response outcome rather than a diagnostic or remission definition. Report the number of participants and outcome counts
-   in each treatment arm, including how you handled missing post-treatment LSAS
-   values.
-3. **Model** — Fit a three-arm binary logistic model. Identify the reference
-   category and the event whose probability is modelled.
-4. **Results** — Report model-derived probabilities for the relevant treatment
-   arms and your chosen, directed probability difference in percentage points
-   with a 95% CI. If you include an odds ratio, name its comparison and explain
-   that it is a ratio of odds, not a probability difference.
-5. **Figure** — Include an uncertainty-aware probability-scale figure with 95%
-   CIs. A plot of all three arm-specific probabilities is usually informative;
-   add a contrast plot if it makes your chosen comparison clearer.
-6. **Conclusion** — Give a short, plain-language clinical interpretation of the
-   numerical probability difference and its uncertainty. State what the model
-   alone does not establish.
+1.  **Question and estimand** — Choose one clinically relevant contrast
+    among waitlist, therapist-guided treatment, and self-guided
+    treatment. State the direction explicitly (for example,
+    therapist-guided minus waitlist) and say why that comparison is
+    useful.
+2.  **Outcome and data check** — Define `lsas_response` as a reduction
+    of at least 30% from baseline LSAS. State that this is a response
+    outcome rather than a diagnostic or remission definition. Report the
+    number of participants and outcome counts in each treatment arm,
+    including how you handled missing post-treatment LSAS values.
+3.  **Model** — Fit a three-arm binary logistic model. Identify the
+    reference category and the event whose probability is modelled.
+4.  **Results** — Report model-derived probabilities for the relevant
+    treatment arms and your chosen, directed probability difference in
+    percentage points with a 95% CI. If you include an odds ratio, name
+    its comparison and explain that it is a ratio of odds, not a
+    probability difference.
+5.  **Figure** — Include an uncertainty-aware probability-scale figure
+    with 95% CIs. A plot of all three arm-specific probabilities is
+    usually informative; add a contrast plot if it makes your chosen
+    comparison clearer.
+6.  **Conclusion** — Give a short, plain-language clinical
+    interpretation of the numerical probability difference and its
+    uncertainty. State what the model alone does not establish.
 
 # Starter code
 
-Use this only as a starting point. Your group decides which contrast answers
-your question, how to display it, and which limitations deserve emphasis.
+Use this only as a starting point. Your group decides which contrast
+answers your question, how to display it, and which limitations deserve
+emphasis.
 
 ```{r}
 #| label: setup
@@ -117,14 +130,14 @@ default_or <- tidy(
 ::: {.callout-tip collapse="true"}
 ## Model interpretation template
 
-Replace this paragraph with your own numerical interpretation. State the two
-estimated probabilities, the directed probability difference in **percentage
-points**, and its 95% CI. Then state the comparison and any conditioning
-choices clearly.
+Replace this paragraph with your own numerical interpretation. State the
+two estimated probabilities, the directed probability difference in
+**percentage points**, and its 95% CI. Then state the comparison and any
+conditioning choices clearly.
 
-If you report an odds ratio, give its 95% CI and explain that it compares odds,
-not probabilities. Do not describe it as a probability ratio or as the
-percentage-point difference.
+If you report an odds ratio, give its 95% CI and explain that it
+compares odds, not probabilities. Do not describe it as a probability
+ratio or as the percentage-point difference.
 :::
 
 ```{r}
@@ -141,25 +154,28 @@ plot_predictions(mod_categorical_lab, by = "trt", type = "response") +
 
 # Questions to discuss
 
-- Which treatment contrast would change a real clinical or service decision?
-  Which contrast merely makes a more dramatic abstract title?
-- Does a reference-category coefficient answer the same question as your chosen
-  probability difference? Why or why not?
+- Which treatment contrast would change a real clinical or service
+  decision? Which contrast merely makes a more dramatic abstract title?
+- Does a reference-category coefficient answer the same question as your
+  chosen probability difference? Why or why not?
 - What can an odds ratio tell a reader, and why can it not be read as a
   percentage-point change?
-- The model is unadjusted for baseline severity. Is that appropriate for your
-  chosen estimand, and what would change if you adjusted for a pre-treatment
-  variable?
-- What information is lost when the continuous LSAS score is dichotomised?
+- The model is unadjusted for baseline severity. Is that appropriate for
+  your chosen estimand, and what would change if you adjusted for a
+  pre-treatment variable?
+- What information is lost when the continuous LSAS score is
+  dichotomised?
 
 # Before presenting
 
 - [ ] Our contrast names the first group, second group, and direction.
-- [ ] We define treatment response and do not call it a diagnosis or remission threshold.
+- [ ] We define treatment response and do not call it a diagnosis or
+  remission threshold.
 - [ ] We report group probabilities and a percentage-point probability
-difference with a 95% CI.
-- [ ] Our figure has a probability-scale y-axis and makes its 95% CIs clear.
-- [ ] If we report an odds ratio, we identify it as a ratio of odds rather than
-a probability difference.
-- [ ] Our conclusion is clinically intelligible without relying on a log-odds
-coefficient.
+  difference with a 95% CI.
+- [ ] Our figure has a probability-scale y-axis and makes its 95% CIs
+  clear.
+- [ ] If we report an odds ratio, we identify it as a ratio of odds
+  rather than a probability difference.
+- [ ] Our conclusion is clinically intelligible without relying on a
+  log-odds coefficient.
