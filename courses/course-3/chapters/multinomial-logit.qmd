@@ -6,12 +6,12 @@ number-sections: true
 
 # Why a multinomial model?
 
-The binary outcome used earlier distinguishes low/no-to-mild post-treatment severity from moderate-or-worse severity. Sometimes the question concerns how treatment redistributes probability across **three or more unordered outcome categories**.
+The binary outcome used earlier distinguishes only response from non-response. Sometimes the question concerns how treatment redistributes probability across **three or more outcome categories**.
 
 We use these teaching categories:
 
-- `low_no_to_mild`: LSAS < 50;
-- `moderate_marked`: 50 ≤ LSAS < 80; and
+- `low_no_to_mild`: LSAS \< 50;
+- `moderate_marked`: 50 ≤ LSAS \< 80; and
 - `severe_very_severe`: LSAS ≥ 80.
 
 They are a pedagogical severity grouping, not validated diagnostic or remission thresholds.
@@ -29,7 +29,7 @@ library(here)
 library(mlogit)
 library(marginaleffects)
 
-df_outcome <- read_csv2(here("data", "steps_clean.csv")) |>
+df_outcome <- read_csv2(here("..", "..", "data", "steps_clean.csv")) |>
   filter(!is.na(lsas_post), !is.na(trt)) |>
   mutate(
     severity_observed = case_when(
@@ -82,7 +82,24 @@ mod_multinomial <- mlogit(
 summary(mod_multinomial)
 ```
 
-The coefficient table uses log-odds contrasts against the reference severity category. We will instead focus on model-based probabilities for each outcome category.
+## Interpreting the coefficients
+
+As in binary logistic regression, the coefficients are on the **log-odds scale**. With three outcome categories, the model estimates two sets of coefficients because `low_no_to_mild` is the reference category:
+
+- `moderate_marked` versus `low_no_to_mild`
+
+- `severe_very_severe` versus `low_no_to_mild`
+
+For example, the coefficient for therapist-guided treatment and `moderate_marked` is approximately -1.42. Exponentiating gives:
+
+```{r}
+#| label: multinomial-or
+exp(-1.42)
+```
+
+This gives an odds ratio of approximately 0.24. In other words, the ratio between moderate/marked and low/no-to-mild outcomes is smaller in the therapist-guided group than in the waitlist group. More precisely, the odds of moderate/marked versus low/no-to-mild are 0.24 times as high in the therapist-guided group as in the waitlist group.
+
+These odds ratios can become difficult to interpret because each compares **one outcome category with the reference outcome category**. We will therefore focus primarily on **model-based probabilities**, which show more directly how treatment redistributes the probability across the three severity categories.
 
 ```{r}
 #| label: multinomial-probabilities
