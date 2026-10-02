@@ -178,6 +178,24 @@ plot_predictions(
 
 # Interaction model
 
+::: callout-note
+## Effect modification, interaction, and moderation
+
+These terms are often used interchangeably, but they mean different things.
+
+- **Effect modification**: the effect of one intervention (here, treatment) differs across levels of another variable (here, baseline PHQ-9 category). Only the first variable needs to be something we could intervene on; the second is a characteristic we condition on [@VanderWeele2009Interaction].
+- **Causal interaction**: the effect of intervening on *both* variables together differs from what their separate effects would imply. Both variables must be things we could, at least in principle, intervene on [@VanderWeele2009Interaction].
+- **Moderation**: the term most used in psychology for a variable that changes the direction or strength of a relationship [@Baron1986Moderator]. In randomized trials, @Kraemer2002Moderators define a moderator as a characteristic measured before randomization, and therefore unrelated to treatment, that identifies subgroups with different treatment effects. This is close to effect modification.
+
+Treatment is randomized, but PHQ-9 is not, so this chapter studies effect modification.
+We can estimate whether the treatment effect differs between PHQ-9 categories, but not what would happen if we changed a participant's depression, and a difference between the categories may reflect other characteristics that go with higher PHQ-9 scores.
+
+All three depend on the scale.
+A model can show no interaction on one scale and an interaction on another [@VanderWeele2014Tutorial].
+The additive model above is an example: it has no interaction on the log-odds scale, yet its probability differences differ between the PHQ-9 categories.
+When you report effect modification, name the scale, for example the probability difference (an additive scale) or the odds ratio (a multiplicative scale).
+:::
+
 The interaction model uses the requested product term, `trt * phq_cat`:
 
 $$
@@ -335,5 +353,6 @@ In this chapter you learned to:
 - derive `phq_cat` explicitly as baseline PHQ-9 `< 10` versus `>= 10`;
 - fit additive and `trt * phq_cat` binary logistic models with `stats::glm(..., family = binomial)`;
 - report treatment contrasts as conditional probability differences in percentage points with 95% CIs;
-- distinguish a conditional odds ratio from a probability difference; and
+- distinguish a conditional odds ratio from a probability difference;
+- distinguish effect modification, causal interaction, and moderation, and name the scale on which effect modification is assessed; and
 - use predicted-probability and conditional-effect plots to inspect a proposed subgroup pattern.
