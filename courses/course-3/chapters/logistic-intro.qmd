@@ -88,6 +88,36 @@ Thresholds can serve different purposes. In the same treated German sample, an L
 The 30% response definition is useful for this course, but it is not a diagnosis or a remission definition. Before creating a binary clinical outcome in your own work, specify the purpose and identify a defensible external definition.
 :::
 
+# The model behind logistic regression
+
+Each participant either responds or does not.
+We write $Y_i = 1$ for response and $Y_i = 0$ otherwise, and treat $Y_i$ as a Bernoulli variable, the single-trial case of the binomial distribution from Course 1:
+
+$$
+Y_i \sim \operatorname{Bernoulli}(p_i), \qquad p_i = P(Y_i = 1).
+$$
+
+A Bernoulli variable has mean $p_i$ and variance $p_i(1 - p_i)$.
+A regression model for a binary outcome is therefore a model for the probability $p_i$, and the variance follows from that probability rather than being estimated separately.
+
+Logistic regression models a transformation of $p_i$, the log-odds (defined in the next section), as a linear function of the predictors.
+Because the log-odds can take any real value, every value of the linear predictor corresponds to a probability between 0 and 1.
+`glm(..., family = binomial)` estimates the coefficients by maximum likelihood: it chooses the values that make the observed responses and non-responses most probable under the Bernoulli model.
+Unlike the linear models in Course 2, there is no residual variance $\sigma^2$ to estimate.
+
+## Why not an ordinary linear model?
+
+Nothing stops you from fitting `lm()` to a 0/1 outcome.
+This *linear probability model* has three problems as a general tool:
+
+- predictions can fall below 0 or above 1, particularly with numeric predictors;
+- the variance $p_i(1 - p_i)$ changes with the predictors, so the usual standard errors are wrong unless robust standard errors are used; and
+- a straight line on the probability scale is rarely plausible close to 0 or 1.
+
+With a single binary predictor such as treatment group, the linear probability model and logistic regression give the same two group probabilities, so the linear model's slope equals the probability difference.
+
+We use the logistic model throughout and obtain probability differences from it with `marginaleffects`.
+
 # Intercept-only logistic regression
 
 We first ignore treatment group and estimate one probability: the probability that a participant has treatment response at post-treatment.
@@ -258,6 +288,7 @@ Suppose an article reports an odds ratio of 2. An odds ratio of 2 means the odds
 In this chapter you learned to:
 
 - define a binary LSAS outcome and distinguish it from a validated clinical threshold;
+- describe a binary outcome as a Bernoulli variable and explain why logistic regression is preferred to a linear probability model;
 - fit intercept-only and treatment logistic-regression models with `glm(..., family = binomial)`;
 - interpret model output through estimated probabilities and probability differences with 95% CIs;
 - visualise treatment-group probabilities with `marginaleffects`; and
