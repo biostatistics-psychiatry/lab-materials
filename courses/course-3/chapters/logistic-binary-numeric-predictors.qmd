@@ -478,7 +478,11 @@ In both severity groups, treatment increases the probability of response by `r s
 The risk ratio is `r sprintf("%.0f", collapse_measures$risk_ratio[1])` in the mild group and `r sprintf("%.0f", collapse_measures$risk_ratio[2])` in the severe group, and `r sprintf("%.2f", collapse_measures$risk_ratio[3])` in the whole trial, in between the two.
 The odds ratio is `r sprintf("%.0f", collapse_measures$odds_ratio[1])` in both groups, yet `r sprintf("%.2f", collapse_measures$odds_ratio[3])` in the whole trial: smaller than in either half.
 Severity is not a confounder, because treatment was randomized. And because the made-up trial is exactly balanced, with 100 participants in each cell, chance imbalance plays no role either, so the difference between the odds ratios is due to non-collapsibility alone.
-The whole-trial response proportions are averages of the subgroup proportions, and measures built from them inherit that averaging on the probability scale, whereas the odds ratio is a nonlinear function of the probabilities; this is the point made in [logistic regression with a numeric predictor](logistic-one-numeric-predictor.qmd).
+The reason lies in how the whole-trial proportions arise.
+Each whole-trial response proportion is an average of the subgroup proportions, because each severity group makes up half of each arm.
+The whole-trial risk difference is therefore the average of the subgroup risk differences.
+The whole-trial risk ratio is a weighted average of the subgroup risk ratios, so it lies between them.
+Odds are a nonlinear function of probability, so the whole-trial odds are not averages of the subgroup odds, and the whole-trial odds ratio need not lie between the subgroup odds ratios; this is the point made in [logistic regression with a numeric predictor](logistic-one-numeric-predictor.qmd).
 
 ## Conditional and marginal odds ratios in regression models
 
