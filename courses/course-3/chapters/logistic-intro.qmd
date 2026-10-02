@@ -288,6 +288,21 @@ or_trt
 
 An odds ratio above 1 indicates higher odds of the modelled event (`Response`) in therapist-guided treatment than waitlist. It does **not** mean that the probability is that many times larger, and it does **not** tell us the percentage-point difference.
 
+## Odds ratios and risk ratios when the outcome is common
+
+```{r}
+#| label: odds-ratio-vs-risk-ratio-values
+#| echo: false
+or_trt_estimate <- or_trt$estimate[or_trt$term == "trttherapist-guided"]
+p_guided <- p_by_trt$estimate[p_by_trt$trt == "therapist-guided"]
+```
+
+When an outcome is rare, odds and probabilities are almost equal, so the odds ratio approximates the probability ratio (risk ratio).
+Treatment response is not rare here: the estimated probability of response in the therapist-guided group is `r sprintf("%.0f", 100 * p_guided)`%.
+The therapist-guided-versus-waitlist odds ratio is **`r sprintf("%.1f", or_trt_estimate)`**, whereas the probability ratio from the previous section is **`r sprintf("%.1f", trt_ratio$estimate[1])`**.
+Read as a risk ratio, the odds ratio would overstate the relative effect by a factor of `r sprintf("%.1f", or_trt_estimate / trt_ratio$estimate[1])`.
+When the odds ratio is above 1, it is always further from 1 than the risk ratio, and the gap widens as the outcome becomes more common [@Davies1998OddsRatios].
+
 ::: callout-note
 ## Reading an odds ratio in a paper
 
@@ -300,6 +315,7 @@ In this chapter you learned to:
 
 - define a binary LSAS outcome and distinguish it from a validated clinical threshold;
 - describe a binary outcome as a Bernoulli variable and explain why logistic regression is preferred to a linear probability model;
+- explain why an odds ratio overstates the risk ratio when the outcome is common, and express a probability difference as a number needed to treat;
 - fit intercept-only and treatment logistic-regression models with `glm(..., family = binomial)`;
 - interpret model output through estimated probabilities and probability differences with 95% CIs;
 - visualise treatment-group probabilities with `marginaleffects`; and
