@@ -16,6 +16,21 @@ We use these teaching categories:
 
 They are a pedagogical severity grouping, not validated diagnostic or remission thresholds.
 
+::: callout-note
+## Ordered categories
+
+These categories are ordered: low/no-to-mild < moderate/marked < severe/very severe.
+The multinomial model ignores that order.
+It treats the categories as unordered labels and estimates a separate set of treatment coefficients for each non-reference category, so with two active treatment arms it has four treatment coefficients.
+For an ordinal outcome, the usual first choice is a proportional-odds (cumulative logit) model, which uses the ordering and estimates one set of treatment coefficients for all categories, here two [@Agresti2010Ordinal].
+It achieves this by assuming that the treatment odds ratio is the same at every cut-point between categories (low versus moderate or severe, and low or moderate versus severe), an assumption worth checking.
+The cumulative model can be motivated by an underlying (latent) continuous severity that is cut at thresholds; here that is literally how the categories were made, from LSAS cut at 50 and 80.
+When the full LSAS score is available, as it is here, analyzing it directly usually beats any categorical model, for the reasons given in the [foundations chapter](logistic-intro.qmd).
+
+We use the multinomial model in this course because it is the general model for categorical outcomes, applies whether or not the categories are ordered, and makes the long-format data structure explicit.
+The probability-scale interpretation you learn here, how treatment redistributes probability across the categories, carries over directly to ordinal models.
+:::
+
 # Long data for `mlogit`
 
 `mlogit` represents a multinomial outcome as a choice among alternatives. Each participant therefore appears once for every possible severity category. One and only one alternative is marked as the observed outcome.
@@ -174,3 +189,4 @@ severity_probabilities |>
 - `mlogit` needs a long participant-by-alternative data structure.
 - Interpret the model as a redistribution of outcome probabilities, not as isolated coefficient changes.
 - The probability differences for the categories sum to zero across any treatment contrast.
+- Multinomial logit ignores any ordering of the categories; for an ordinal outcome, a proportional-odds model is usually the first choice.

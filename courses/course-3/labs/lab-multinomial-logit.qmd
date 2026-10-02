@@ -46,6 +46,7 @@ library(marginaleffects)
 - Which category loses probability, and by how many percentage points?
 - Why must the three category probabilities sum to one for a given treatment group?
 - Does a more detailed outcome automatically make an analysis more useful?
+- The three severity categories are ordered. What information does the multinomial model ignore, and what would a proportional-odds model assume instead?
 - Which part of this workflow is data engineering rather than statistical modelling—and why does that distinction matter?
 
 # Before presenting
