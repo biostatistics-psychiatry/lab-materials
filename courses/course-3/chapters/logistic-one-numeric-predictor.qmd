@@ -16,7 +16,7 @@ library(tidyverse)
 library(here)
 library(marginaleffects)
 
-df_clean <- read_csv2(here("..", "..", "data", "steps_clean.csv")) |>
+df_clean <- read_csv2(here("data", "steps_clean.csv")) |>
   filter(!is.na(lsas_post), !is.na(gad_screen)) |>
   mutate(
     lsas_response = factor(

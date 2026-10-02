@@ -29,7 +29,7 @@ library(here)
 library(mlogit)
 library(marginaleffects)
 
-df_outcome <- read_csv2(here("..", "..", "data", "steps_clean.csv")) |>
+df_outcome <- read_csv2(here("data", "steps_clean.csv")) |>
   filter(!is.na(lsas_post), !is.na(trt)) |>
   mutate(
     severity_observed = case_when(
