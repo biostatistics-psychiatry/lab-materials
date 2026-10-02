@@ -52,7 +52,7 @@ options(
 df_binary <- read_csv2(here("data", "steps_clean.csv")) |>
   filter(!is.na(lsas_screen), !is.na(lsas_post)) |>
   mutate(
-    # The second level is the event modelled by binomial glm().
+    # The second level is the event modeled by binomial glm().
     lsas_response = factor(
       if_else(
         (lsas_screen - lsas_post) / lsas_screen >= 0.30,
@@ -193,7 +193,7 @@ diff_binary_trt
 The estimated probability difference is calculated after transforming
 the model to the response scale. It answers a different question from
 the printed log-odds coefficient: how many percentage points higher or
-lower is the modelled probability in one group than the other?
+lower is the modeled probability in one group than the other?
 
 ::: {.callout-tip collapse="true"}
 ## Model interpretation
@@ -232,7 +232,7 @@ the odds of response, not a probability ratio and not a
 change.
 :::
 
-## Visualise the group probabilities
+## Visualize the group probabilities
 
 ```{r}
 #| label: plot-binary-treatment-probabilities

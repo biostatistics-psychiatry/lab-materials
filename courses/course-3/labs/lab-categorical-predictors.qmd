@@ -36,7 +36,7 @@ Create a group Quarto notebook with these sections:
     number of participants and outcome counts in each treatment arm,
     including how you handled missing post-treatment LSAS values.
 3.  **Model** — Fit a three-arm binary logistic model. Identify the
-    reference category and the event whose probability is modelled.
+    reference category and the event whose probability is modeled.
 4.  **Results** — Report model-derived probabilities for the relevant
     treatment arms and your chosen, directed probability difference in
     percentage points with a 95% CI. If you include an odds ratio, name
@@ -73,7 +73,7 @@ options(
 df_categorical <- read_csv2(here("data", "steps_clean.csv")) |>
   filter(!is.na(lsas_screen), !is.na(lsas_post)) |>
   mutate(
-    # The second level is the event modelled by binomial glm().
+    # The second level is the event modeled by binomial glm().
     lsas_response = factor(
       if_else((lsas_screen - lsas_post) / lsas_screen >= 0.30, "Response", "No response"),
       levels = c("No response", "Response")
@@ -164,7 +164,7 @@ plot_predictions(mod_categorical_lab, by = "trt", type = "response") +
   your chosen estimand, and what would change if you adjusted for a
   pre-treatment variable?
 - What information is lost when the continuous LSAS score is
-  dichotomised?
+  dichotomized?
 
 # Before presenting
 

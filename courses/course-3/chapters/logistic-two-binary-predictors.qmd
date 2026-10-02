@@ -45,7 +45,7 @@ options(
 df_binary <- read_csv2(here("data", "steps_clean.csv")) |>
   filter(!is.na(lsas_screen), !is.na(lsas_post)) |>
   mutate(
-    # The second outcome level is the event modelled by binomial glm().
+    # The second outcome level is the event modeled by binomial glm().
     lsas_response = factor(
       if_else(
         (lsas_screen - lsas_post) / lsas_screen >= 0.30,
@@ -78,7 +78,7 @@ Splitting PHQ-9 at 10 also discards information: a participant scoring 10 is gro
 [Logistic regression with a binary and numeric predictor](logistic-binary-numeric-predictors.qmd) keeps PHQ-9 continuous.
 The outcome is treatment response, defined as a reduction of at least 30% from baseline LSAS.
 
-Waitlist is the reference treatment group, `< 10` is the reference PHQ-9 category, and `Response` is the modelled outcome event.
+Waitlist is the reference treatment group, `< 10` is the reference PHQ-9 category, and `Response` is the modeled outcome event.
 
 # Additive logistic model
 
@@ -389,7 +389,7 @@ An interaction model can describe different conditional estimates, but it does n
 1.  Was the moderator and interaction planned before looking at the data?
 2.  Are the conditional probability differences precise enough to distinguish meaningful patterns from sampling variation?
 3.  Does the interaction plot show a consistent, clinically interpretable pattern rather than an isolated coefficient or p-value?
-4.  Would the conclusion be different if PHQ-9 were modelled continuously? See [logistic regression with a binary and numeric predictor](logistic-binary-numeric-predictors.qmd).
+4.  Would the conclusion be different if PHQ-9 were modeled continuously? See [logistic regression with a binary and numeric predictor](logistic-binary-numeric-predictors.qmd).
 
 The interaction coefficient is a difference of **log-odds contrasts**. It is not itself the difference between the two probability differences; that difference is the `hypothesis` estimate above. `avg_comparisons()` gives the quantities we want to communicate: therapist-guided-minus-waitlist probability differences within the explicitly stated PHQ-9 categories.
 

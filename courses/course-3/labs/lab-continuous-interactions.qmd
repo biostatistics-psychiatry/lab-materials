@@ -34,7 +34,7 @@ the collaborator would like it to establish.
 Your notebook must contain all of the following.
 
 1. **Question and estimands**
-   - State the binary outcome and the event whose probability is modelled.
+   - State the binary outcome and the event whose probability is modeled.
    - Define the direction of the treatment contrast as therapist-guided minus
      waitlist.
    - State one conditional estimand at a meaningful PHQ-9 value and one
@@ -81,7 +81,7 @@ library(marginaleffects)
 df_binary <- read_csv2(here("data", "steps_clean.csv")) |>
   filter(!is.na(lsas_screen), !is.na(lsas_post)) |>
   mutate(
-    # The second factor level is the event modelled by binomial glm().
+    # The second factor level is the event modeled by binomial glm().
     lsas_response = factor(
       if_else(
         (lsas_screen - lsas_post) / lsas_screen >= 0.30,
@@ -137,7 +137,7 @@ mod_interaction <- stats::glm(
 # Before presenting
 
 - [ ] The Quarto notebook runs from top to bottom in a clean R session.
-- [ ] The analysis states the modelled event, treatment reference group, and
+- [ ] The analysis states the modeled event, treatment reference group, and
       direction of every treatment contrast.
 - [ ] Both fitted models use `stats::glm(..., family = binomial)`;
       probability-scale results use `marginaleffects` rather than interpreting log-odds coefficients as the

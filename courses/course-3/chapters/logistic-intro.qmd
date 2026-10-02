@@ -17,7 +17,7 @@ Course 2 used linear and quantile regression to model continuous outcomes such a
 - attendance versus dropout; or
 - an adverse event versus no adverse event.
 
-Logistic regression and its multinomial extension are helpful tools when you want to analyse a binary or categorical outcome. This chapter uses a binary post-treatment social-anxiety outcome. Our main question is:
+Logistic regression and its multinomial extension are helpful tools when you want to analyze a binary or categorical outcome. This chapter uses a binary post-treatment social-anxiety outcome. Our main question is:
 
 > How does the probability of treatment response differ between treatment groups?
 
@@ -48,7 +48,7 @@ options(
 df_clean <- read_csv2(here("data", "steps_clean.csv")) |>
   filter(!is.na(lsas_screen), !is.na(lsas_post)) |>
   mutate(
-    # The second factor level is the event modelled by binomial glm().
+    # The second factor level is the event modeled by binomial glm().
     lsas_response = factor(
       if_else(
         (lsas_screen - lsas_post) / lsas_screen >= 0.30,
@@ -78,7 +78,7 @@ This follows the practical treatment-follow-up guidance for LSAS-SR, which descr
 
 # Defining the binary outcome
 
-The LSAS-SR is often used to screen for social anxiety disorder. The original clinical LSAS study found total-score cut-points of 30 for social anxiety disorder and 60 for the then-defined generalised subtype [@Mennin2002LSAS]. A study of the self-report LSAS-SR found the same cut-points had a useful sensitivity/specificity balance [@Rytwinski2009LSASSR].
+The LSAS-SR is often used to screen for social anxiety disorder. The original clinical LSAS study found total-score cut-points of 30 for social anxiety disorder and 60 for the then-defined generalized subtype [@Mennin2002LSAS]. A study of the self-report LSAS-SR found the same cut-points had a useful sensitivity/specificity balance [@Rytwinski2009LSASSR].
 
 Thresholds can serve different purposes. In the same treated German sample, an LSAS-SR score of 35 was an empirically derived remission cut-point [@vonGlischinski2018LSAS]. Response, remission, and diagnostic screening are different outcomes and should not be used interchangeably.
 
@@ -325,7 +325,7 @@ In this unadjusted two-group model, both routes give the same risk ratio, `r spr
 They can differ in adjusted models: Poisson regression assumes one risk ratio for every covariate pattern and can predict probabilities above 1, whereas standardization from a logistic model averages over the covariate distribution of the sample.
 :::
 
-## Visualise the estimated probabilities
+## Visualize the estimated probabilities
 
 ```{r}
 #| label: plot-treatment-probabilities
@@ -349,7 +349,7 @@ or_trt <- tidy(mod_trt, conf.int = TRUE, exponentiate = TRUE)
 or_trt
 ```
 
-An odds ratio above 1 indicates higher odds of the modelled event (`Response`) in therapist-guided treatment than waitlist. It does **not** mean that the probability is that many times larger, and it does **not** tell us the percentage-point difference.
+An odds ratio above 1 indicates higher odds of the modeled event (`Response`) in therapist-guided treatment than waitlist. It does **not** mean that the probability is that many times larger, and it does **not** tell us the percentage-point difference.
 
 ## Odds ratios and risk ratios when the outcome is common
 
@@ -381,5 +381,5 @@ In this chapter you learned to:
 - explain why an odds ratio overstates the risk ratio when the outcome is common;
 - fit intercept-only and treatment logistic-regression models with `glm(..., family = binomial)`;
 - interpret model output through estimated probabilities and probability differences with 95% CIs;
-- visualise treatment-group probabilities with `marginaleffects`; and
-- recognise an odds ratio as a ratio of odds rather than a probability difference.
+- visualize treatment-group probabilities with `marginaleffects`; and
+- recognize an odds ratio as a ratio of odds rather than a probability difference.

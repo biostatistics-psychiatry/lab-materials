@@ -18,7 +18,7 @@ Create a Quarto notebook with these sections:
 
 1. **Question and outcome definition** — State the treatment comparison and define `lsas_response` as a reduction of at least 30% from baseline LSAS. Explain why this is a response outcome rather than a diagnostic or remission definition.
 2. **Data check** — Report the number of participants and the outcome count in each treatment group. State how you handled missing post-treatment LSAS values.
-3. **Model** — Fit a binary logistic model comparing therapist-guided treatment with waitlist. Clearly name the reference group and the event whose probability is modelled.
+3. **Model** — Fit a binary logistic model comparing therapist-guided treatment with waitlist. Clearly name the reference group and the event whose probability is modeled.
 4. **Results** — Report estimated probabilities for both groups and the therapist-guided-minus-waitlist probability difference with a 95% CI. You may also report an odds ratio, but explain why it is not the same estimand as the probability difference.
 5. **Figure** — Include one probability-scale figure with 95% CIs.
 6. **Conclusion** — Write a short clinical interpretation. State the numerical percentage-point difference, its uncertainty, and what the model does *not* establish.

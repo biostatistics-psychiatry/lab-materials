@@ -16,7 +16,7 @@ Prepare a short Quarto notebook that investigates the claim on the probability s
 
 Create a group Quarto notebook with the following sections. The choices of table layout, plot design, and exact wording are yours, but every statistical claim must be traceable to an estimand and a model.
 
-1. **Question and estimand** — State the primary contrast as the therapist-guided-minus-waitlist difference in the probability of treatment response, separately within baseline PHQ-9 `< 10` and `>= 10` categories. Say which probability is modelled and state the direction of the contrast.
+1. **Question and estimand** — State the primary contrast as the therapist-guided-minus-waitlist difference in the probability of treatment response, separately within baseline PHQ-9 `< 10` and `>= 10` categories. Say which probability is modeled and state the direction of the contrast.
 2. **Data definition and check** — Starting from `data/steps_clean.csv`, define:
    - `lsas_response` as a reduction of at least 30% from baseline LSAS; and
    - `phq_cat` as `< 10` when `phq9_screen < 10` and `>= 10` when `phq9_screen >= 10`.
@@ -49,7 +49,7 @@ options(
 df_binary <- read_csv2(here("data", "steps_clean.csv")) |>
   filter(!is.na(lsas_screen), !is.na(lsas_post)) |>
   mutate(
-    # The second factor level is the event modelled by binomial glm().
+    # The second factor level is the event modeled by binomial glm().
     lsas_response = factor(
       if_else(
         (lsas_screen - lsas_post) / lsas_screen >= 0.30,
@@ -103,12 +103,12 @@ mod_interaction <- stats::glm(
 - If the interaction-model estimates differ, what evidence would make that pattern more convincing than a visually attractive subgroup plot?
 - How does the width of each confidence interval affect the wording of your conclusion?
 - What is lost by reducing PHQ-9 to two categories? What would change if PHQ-9 were retained as a continuous moderator?
-- Does randomisation support a causal interpretation of the treatment comparison? Does it automatically support a causal claim about an observed subgroup pattern?
+- Does randomization support a causal interpretation of the treatment comparison? Does it automatically support a causal claim about an observed subgroup pattern?
 
 # Before you send the slide back
 
 - [ ] `phq_cat` is explicitly derived as `< 10` versus `>= 10`, and all factor references are stated.
-- [ ] The notebook defines the modelled LSAS probability and the therapist-guided-minus-waitlist direction.
+- [ ] The notebook defines the modeled LSAS probability and the therapist-guided-minus-waitlist direction.
 - [ ] Both `trt + phq_cat` and `trt * phq_cat` are fitted using `glm(..., family = binomial)`.
 - [ ] Each reported conditional treatment effect is a percentage-point probability difference with a 95% CI and its PHQ-9 conditioning category.
 - [ ] The difference between the two conditional probability differences is estimated directly, with a 95% CI, rather than judged from overlapping intervals.

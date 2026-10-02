@@ -60,7 +60,7 @@ options(
 df_binary <- read_csv2(here("data", "steps_clean.csv")) |>
   filter(!is.na(lsas_screen), !is.na(lsas_post)) |>
   mutate(
-    # The second factor level is the event modelled by binomial glm().
+    # The second factor level is the event modeled by binomial glm().
     lsas_response = factor(
       if_else(
         (lsas_screen - lsas_post) / lsas_screen >= 0.30,
@@ -91,7 +91,7 @@ df_binary |>
 `Response` means a reduction of at least 30% from baseline LSAS. This is
 a response outcome, not a diagnostic or remission definition. Waitlist
 is the treatment reference group, and `Response` is the event whose
-probability is modelled. We restrict this chapter to the waitlist and
+probability is modeled. We restrict this chapter to the waitlist and
 therapist-guided arms so that every treatment contrast has one clear
 direction.
 
@@ -185,7 +185,7 @@ percentage points** compared with waitlist (95% CI
 **`r sprintf("%.1f", 100 * additive_trt_difference$conf.high[1])`
 percentage points**).
 
-This is therapist-guided minus waitlist; a positive value favours a
+This is therapist-guided minus waitlist; a positive value favors a
 higher estimated probability of response with therapist guidance. It is
 a population-average probability contrast over this analysis sample,
 conditional on the additive model—not a coefficient interpreted as a
@@ -336,7 +336,7 @@ to
 **`r sprintf("%.1f", 100 * conditional_trt_difference$conf.high[conditional_trt_difference$phq9_screen == 15])`**).
 
 Each contrast conditions on the displayed PHQ-9 value. Positive values
-mean a higher modelled probability with therapist-guided treatment. The
+mean a higher modeled probability with therapist-guided treatment. The
 estimates and intervals, rather than the interaction coefficient alone,
 describe whether the clinically relevant probability difference changes
 across PHQ-9.
@@ -387,15 +387,15 @@ plot_comparisons(
   theme_minimal()
 ```
 
-The dashed zero line marks no modelled probability difference. Wide
+The dashed zero line marks no modeled probability difference. Wide
 intervals at the edge of the observed PHQ-9 range are a reminder not to
 make subgroup claims from the curve's point estimates alone.
 
 # Conditional and population-average treatment contrasts
 
-A conditional contrast answers a question such as “what is the modelled
+A conditional contrast answers a question such as “what is the modeled
 difference at PHQ-9 = 10?” A population-average contrast answers a
-different question: “what is the modelled treatment difference after
+different question: “what is the modeled treatment difference after
 averaging each participant's counterfactual predictions over the
 observed PHQ-9 distribution?”
 
