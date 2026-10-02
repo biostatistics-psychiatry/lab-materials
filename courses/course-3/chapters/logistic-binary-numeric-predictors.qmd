@@ -427,42 +427,122 @@ represented in this sample, so it can change if the target population's
 baseline PHQ-9 distribution changes.
 :::
 
-# Odds ratios are not probability differences
+# Non-collapsibility of the odds ratio
 
-The exponentiated treatment coefficient from the interaction model is an
-odds ratio **at PHQ-9 = 0**. That value is outside the useful
-interpretive range for this example, so reporting it alone would be
-particularly misleading. To see how the odds ratio changes with PHQ-9 in
-the interaction model, we can estimate the treatment log-odds difference
-at the same three values and exponentiate it.
+Adjusting for a covariate can change a treatment estimate for many reasons, e.g. by dealing with confounding.
+In a randomized trial, adjusting for a prognostic baseline covariate is commonly done to increase precision.
+In a linear model of post-treatment LSAS, such adjustment leaves the treatment coefficient unchanged on average.
+Odds ratios behave differently: adjusting for a prognostic baseline covariate moves the odds ratio away from 1 even in a perfectly balanced trial, a property called non-collapsibility.
+
+## Collapsible and non-collapsible effect measures
+
+An effect measure is *collapsible* if the effect in a whole population is a weighted average of the effects in its subgroups.
+The population effect then always lies between the smallest and largest subgroup effects, which is what most of us would expect of any effect measure.
+Risk differences and risk ratios behave this way.
+The odds ratio does not: the odds ratio in the whole population can lie outside the range of the subgroup odds ratios, even when nothing is confounded [@Hernan2020WhatIf; @Greenland1999Collapsibility].
+
+The following made-up trial, adapted from @Hernan2020WhatIf, shows what this means.
+Treatment is randomized among 400 participants, half with mild and half with severe symptoms, and severity strongly predicts response.
 
 ```{r}
-#| label: conditional-odds-ratios
-conditional_trt_log_odds <- avg_comparisons(
-  mod_interaction,
-  variables = list(trt = c("waitlist", "therapist-guided")),
-  newdata = datagrid(phq9_screen = phq_values),
-  by = "phq9_screen",
-  type = "link"
-) |>
-  transmute(
-    phq9_screen,
-    odds_ratio = exp(estimate),
-    conf.low = exp(conf.low),
-    conf.high = exp(conf.high)
-  ) |>
-  tibble::as_tibble()
+#| label: collapsibility-example
+df_collapse <- tibble(
+  severity = rep(c("mild", "severe"), each = 2),
+  trt = rep(c("control", "treatment"), times = 2),
+  n = 100,
+  responders = c(40, 80, 20, 60)
+)
 
-conditional_trt_log_odds
+# Risk difference, risk ratio, and odds ratio from the response proportions
+effect_measures <- function(data) {
+  data |>
+    summarise(p = sum(responders) / sum(n), .by = trt) |>
+    pivot_wider(names_from = trt, values_from = p) |>
+    transmute(
+      risk_difference = treatment - control,
+      risk_ratio = treatment / control,
+      odds_ratio = (treatment / (1 - treatment)) / (control / (1 - control))
+    )
+}
+
+collapse_measures <- list(
+  Mild = filter(df_collapse, severity == "mild"),
+  Severe = filter(df_collapse, severity == "severe"),
+  `Whole trial` = df_collapse
+) |>
+  map(effect_measures) |>
+  list_rbind(names_to = "group")
+collapse_measures
 ```
 
-An odds ratio compares odds, $p/(1-p)$, rather than probabilities. For
-example, an odds ratio of 2 means that the modelled odds are twice as
-large; it does not mean that the probability rises by 100 percentage
-points or necessarily doubles. The probability change depends on the
-starting probability. For the clinical question in this chapter, report
-the conditional probability differences and their CIs first; use the
-odds ratios to read and critique the statistical literature accurately.
+In both severity groups, treatment increases the probability of response by `r sprintf("%.0f", 100 * collapse_measures$risk_difference[1])` percentage points, and so it does in the whole trial.
+The risk ratio is `r sprintf("%.0f", collapse_measures$risk_ratio[1])` in the mild group and `r sprintf("%.0f", collapse_measures$risk_ratio[2])` in the severe group, and `r sprintf("%.2f", collapse_measures$risk_ratio[3])` in the whole trial, in between the two.
+The odds ratio is `r sprintf("%.0f", collapse_measures$odds_ratio[1])` in both groups, yet `r sprintf("%.2f", collapse_measures$odds_ratio[3])` in the whole trial: smaller than in either half.
+Severity is not a confounder, because treatment was randomized. And because the made-up trial is exactly balanced, with 100 participants in each cell, chance imbalance plays no role either, so the difference between the odds ratios is due to non-collapsibility alone.
+The whole-trial response proportions are averages of the subgroup proportions, and measures built from them inherit that averaging on the probability scale, whereas the odds ratio is a nonlinear function of the probabilities; this is the point made in [logistic regression with a numeric predictor](logistic-one-numeric-predictor.qmd).
+
+## Conditional and marginal odds ratios in regression models
+
+Regression models show the same thing.
+Adjusting for severity gives the odds ratio within severity groups, whereas the unadjusted model gives the odds ratio for the whole trial:
+
+```{r}
+#| label: collapsibility-models
+# One row per participant
+df_collapse_long <- df_collapse |>
+  reframe(
+    response = rep(c(1, 0), c(responders, n - responders)),
+    .by = c(severity, trt)
+  ) |>
+  mutate(trt = factor(trt, levels = c("control", "treatment")))
+
+mod_collapse_unadjusted <- glm(
+  response ~ trt,
+  family = binomial,
+  data = df_collapse_long
+)
+mod_collapse_adjusted <- glm(
+  response ~ trt + severity,
+  family = binomial,
+  data = df_collapse_long
+)
+
+# Odds ratio from the coefficient, standardized odds ratio, and standardized
+# risk difference for each model
+summarise_collapse <- function(mod) {
+  trt_contrast <- list(trt = c("control", "treatment"))
+  tibble(
+    or_coefficient = exp(coef(mod)[["trttreatment"]]),
+    or_standardized = avg_comparisons(
+      mod,
+      variables = trt_contrast,
+      comparison = "lnoravg",
+      transform = exp
+    )$estimate,
+    rd_standardized = avg_comparisons(mod, variables = trt_contrast)$estimate
+  )
+}
+
+collapse_models <- list(
+  Unadjusted = mod_collapse_unadjusted,
+  `Adjusted for severity` = mod_collapse_adjusted
+) |>
+  map(summarise_collapse) |>
+  list_rbind(names_to = "model")
+collapse_models
+```
+
+::: {.callout-tip collapse="true"}
+## Model interpretation
+
+The odds ratio from the treatment coefficient is **`r sprintf("%.2f", collapse_models$or_coefficient[1])`** in the unadjusted model and **`r sprintf("%.2f", collapse_models$or_coefficient[2])`** in the model adjusted for severity.
+Standardizing the adjusted model gives back the whole-trial odds ratio, **`r sprintf("%.2f", collapse_models$or_standardized[2])`**.
+The standardized risk difference is **`r sprintf("%.0f", 100 * collapse_models$rd_standardized[1])` percentage points** in both models.
+:::
+
+Both models are correct; they estimate different odds ratios.
+The conditional odds ratio describes the treatment effect among participants with the same severity, whereas the marginal odds ratio describes the effect averaged over the whole trial.
+Standardizing the adjusted model recovers the marginal odds ratio, and the standardized risk difference does not depend on whether severity is in the model, because risk differences are collapsible.
 
 # Summary
 
@@ -476,3 +556,6 @@ odds ratios to read and critique the statistical literature accurately.
   uncertainty.
 - Odds ratios describe ratios of odds. They are not percentage-point
   changes in probability.
+- Odds ratios are non-collapsible: adjusting for a prognostic covariate
+  changes the odds ratio even without confounding, whereas standardized
+  risk differences keep their meaning.

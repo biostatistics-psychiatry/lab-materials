@@ -119,6 +119,9 @@ mod_interaction <- stats::glm(
 
 # Questions for the group
 
+- The unadjusted and PHQ-9-adjusted treatment odds ratios differ. In a
+  randomized trial, does that mean PHQ-9 "explains" part of the treatment
+  effect? What happens to the standardized risk difference?
 - What is the difference between a treatment contrast at PHQ-9 = 10 and a
   treatment contrast averaged over the observed PHQ-9 distribution?
 - In an additive logistic model, does a constant treatment log-odds difference
