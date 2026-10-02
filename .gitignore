@@ -67,3 +67,6 @@ labs/tables/*.docx
 **/docs/
 **/*.quarto_ipynb
 _site/
+
+# Devcontainer
+.devcontainer/
