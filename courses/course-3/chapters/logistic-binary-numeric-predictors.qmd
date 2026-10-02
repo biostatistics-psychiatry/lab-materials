@@ -197,8 +197,7 @@ percentage-point change.
 #| fig-cap: "Additive-model estimated probabilities of treatment response, with 95% confidence intervals."
 plot_predictions(
   mod_additive,
-  by = c("phq9_screen", "trt"),
-  type = "response"
+  condition = c("phq9_screen", "trt")
 ) +
   labs(
     title = "Additive logistic model",
@@ -347,8 +346,7 @@ across PHQ-9.
 #| fig-cap: "Interaction-model estimated probabilities of treatment response, with 95% confidence intervals."
 plot_predictions(
   mod_interaction,
-  by = c("phq9_screen", "trt"),
-  type = "response"
+  condition = c("phq9_screen", "trt")
 ) +
   labs(
     title = "Interaction logistic model",

@@ -166,10 +166,9 @@ You can also get these predicted probabilities using the
 ```{r}
 #| label: show-binary-treatment-estimates
 
-p_binary_trt <- avg_predictions(
+p_binary_trt <- predictions(
   mod_binary_trt,
-  by = "trt",
-  type = "response"
+  newdata = datagrid(trt = unique)
 )
 
 diff_binary_trt <- avg_comparisons(
@@ -236,7 +235,7 @@ change.
 
 ```{r}
 #| label: plot-binary-treatment-probabilities
-plot_predictions(mod_binary_trt, by = "trt", type = "response") +
+plot_predictions(mod_binary_trt, condition = "trt") +
   labs(
     title = "Estimated probability of treatment response",
     subtitle = "Waitlist versus therapist-guided treatment; 95% confidence intervals",

@@ -111,10 +111,9 @@ mod_categorical_trt <- stats::glm(
   data = df_categorical
 )
 
-p_categorical_trt <- avg_predictions(
+p_categorical_trt <- predictions(
   mod_categorical_trt,
-  by = "trt",
-  type = "response"
+  newdata = datagrid(trt = unique)
 )
 
 diff_guided_waitlist <- avg_comparisons(
@@ -187,7 +186,7 @@ discussion than its intercept and two log-odds coefficients.
 
 ```{r}
 #| label: plot-categorical-treatment-probabilities
-plot_predictions(mod_categorical_trt, by = "trt", type = "response") +
+plot_predictions(mod_categorical_trt, condition = "trt") +
   labs(
     title = "Estimated probability of treatment response",
     subtitle = "Three-arm logistic regression; 95% confidence intervals",

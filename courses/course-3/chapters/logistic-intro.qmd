@@ -169,10 +169,12 @@ n_outcome[["Response"]] / n_outcome[["No response"]]
 ```
 
 The odds is still not the clearest summary, usually the probability is more easily interpreted. We can use `marginaleffects` to obtain the estimated probability and its confidence interval.
+`predictions()` predicts the probability of response for the participants in `newdata`.
+An intercept-only model predicts the same probability for every participant, so we predict for one, the first row of the data.
 
 ```{r}
 #| label: intercept-probability
-p_overall <- avg_predictions(mod_intercept, type = "response")
+p_overall <- predictions(mod_intercept, newdata = head(df_clean, 1))
 p_overall
 ```
 
@@ -231,9 +233,12 @@ odds_by_trt[["therapist-guided"]] / odds_by_trt[["waitlist"]]
 
 ## Estimated probabilities, a probability difference, and a probability ratio (a.k.a. risk ratio)
 
+`datagrid(trt = unique)` makes one row per treatment group, so `predictions()` returns the probability of response for a participant in each group.
+
+
 ```{r}
 #| label: treatment-probabilities
-p_by_trt <- avg_predictions(mod_trt, by = "trt", type = "response")
+p_by_trt <- predictions(mod_trt, newdata = datagrid(trt = unique))
 p_by_trt
 
 trt_difference <- avg_comparisons(
@@ -275,6 +280,7 @@ The `comparison` argument `lnratioavg` means, read from right to left:
 `avg` averages the predicted probabilities in each scenario, `ratio` divides the therapist-guided average by the waitlist average, and `ln` takes the natural log of that ratio.
 `transform = exp` then exponentiates the estimate and its confidence limits, returning them to the ratio scale.
 The detour through the log scale is for the confidence interval.
+This is the same device `predictions()` used for the group probabilities above, with the log in place of the log-odds.
 A ratio cannot fall below 0, and its sampling distribution is skewed, particularly when one group has few events, as the waitlist group does here.
 On the log scale the distribution is closer to symmetric, so the normal-approximation interval that `marginaleffects` builds from its delta-method standard error works better, and exponentiating its limits gives an interval that is asymmetric around the estimate and stays above 0.
 This log risk ratio is not the log-odds that the logistic model estimates; it is computed from the predicted probabilities.
@@ -329,7 +335,7 @@ They can differ in adjusted models: Poisson regression assumes one risk ratio fo
 
 ```{r}
 #| label: plot-treatment-probabilities
-plot_predictions(mod_trt, by = "trt", type = "response") +
+plot_predictions(mod_trt, condition = "trt") +
   labs(
     title = "Estimated probability of treatment response",
     subtitle = "Binary logistic regression; 95% confidence intervals",

@@ -75,7 +75,11 @@ df_categorical <- read_csv2(here("data", "steps_clean.csv")) |>
   mutate(
     # The second level is the event modeled by binomial glm().
     lsas_response = factor(
-      if_else((lsas_screen - lsas_post) / lsas_screen >= 0.30, "Response", "No response"),
+      if_else(
+        (lsas_screen - lsas_post) / lsas_screen >= 0.30,
+        "Response",
+        "No response"
+      ),
       levels = c("No response", "Response")
     ),
     trt = factor(
@@ -107,10 +111,9 @@ mod_categorical_lab <- stats::glm(
 # Replace these arms with the directed clinical contrast your group selected.
 chosen_arms <- c("waitlist", "therapist-guided")
 
-p_categorical_lab <- avg_predictions(
+p_categorical_lab <- predictions(
   mod_categorical_lab,
-  by = "trt",
-  type = "response"
+  newdata = datagrid(trt = unique)
 )
 
 chosen_difference <- avg_comparisons(
@@ -142,7 +145,7 @@ ratio or as the percentage-point difference.
 
 ```{r}
 #| label: probability-scale-figure
-plot_predictions(mod_categorical_lab, by = "trt", type = "response") +
+plot_predictions(mod_categorical_lab, condition = "trt") +
   labs(
     title = "Estimated probability of treatment response",
     subtitle = "Three-arm logistic regression; 95% confidence intervals",

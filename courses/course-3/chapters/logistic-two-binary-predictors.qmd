@@ -121,10 +121,9 @@ The fact that the odds ratio is the same in both PHQ-9 categories does *not* gua
 #| message: false
 #| warning: false
 
-additive_probabilities <- avg_predictions(
+additive_probabilities <- predictions(
   mod_additive,
-  by = c("trt", "phq_cat"),
-  type = "response"
+  newdata = datagrid(trt = unique, phq_cat = unique)
 )
 
 additive_treatment_effects <- avg_comparisons(
@@ -163,8 +162,7 @@ Because this is an additive *logistic* model, its therapist-guided-versus-waitli
 #| fig-cap: "Additive-model estimated probabilities of treatment response. Error bars are 95% confidence intervals."
 plot_predictions(
   mod_additive,
-  by = c("trt", "phq_cat"),
-  type = "response"
+  condition = c("trt", "phq_cat")
 ) +
   labs(
     title = "Additive logistic model",
@@ -241,10 +239,9 @@ To go from the odds scale to the probability scale, we can again use functions f
 #| label: fit-interaction-logit-probabilities
 #| message: false
 #| warning: false
-interaction_probabilities <- avg_predictions(
+interaction_probabilities <- predictions(
   mod_interaction,
-  by = c("trt", "phq_cat"),
-  type = "response"
+  newdata = datagrid(trt = unique, phq_cat = unique)
 )
 
 interaction_probabilities

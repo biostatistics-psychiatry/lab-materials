@@ -82,7 +82,7 @@ Because the logit link is nonlinear, a one-point probability change can differ a
 
 ```{r}
 #| label: plot-numeric-predictions
-plot_predictions(mod_gad, condition = "gad_screen", type = "response") +
+plot_predictions(mod_gad, condition = "gad_screen") +
   labs(
     title = "Estimated probability of treatment response",
     subtitle = "Across baseline GAD-7 scores; 95% confidence interval",
@@ -106,8 +106,7 @@ gad_values <- quantile(
 
 predictions(
   mod_gad,
-  newdata = datagrid(gad_screen = gad_values),
-  type = "response"
+  newdata = datagrid(gad_screen = gad_values)
 )
 ```
 
@@ -159,14 +158,12 @@ gad_grid <- datagrid(
 
 pred_gad_linear <- predictions(
   mod_gad,
-  newdata = gad_grid,
-  type = "response"
+  newdata = gad_grid
 ) |>
   mutate(model = "Linear in the log-odds")
 pred_gad_spline <- predictions(
   mod_gad_spline,
-  newdata = gad_grid,
-  type = "response"
+  newdata = gad_grid
 ) |>
   mutate(model = "Natural cubic spline (df = 3)")
 
@@ -292,12 +289,15 @@ ggplot(toy_curve, aes(x = gad, y = value)) +
 
 [^jensen]: The general result is Jensen's inequality. The inverse logit is convex for negative log-odds (probabilities below 0.5) and concave for positive log-odds, so the direction of the gap depends on where the predictions lie.
 
+`marginaleffects` has a function for each summary.
+`avg_predictions()` gives the average prediction: it predicts every participant's probability and averages the predictions.
+`predictions()` gives the prediction at chosen predictor values; `newdata = "mean"` sets GAD-7 to its sample mean.
 In the GAD-7 model, the two summaries are:
 
 ```{r}
 #| label: average-prediction-gad
-p_gad_average <- avg_predictions(mod_gad, type = "response")
-p_gad_at_mean <- predictions(mod_gad, newdata = "mean", type = "response")
+p_gad_average <- avg_predictions(mod_gad)
+p_gad_at_mean <- predictions(mod_gad, newdata = "mean")
 
 p_gad_average
 p_gad_at_mean
