@@ -428,9 +428,10 @@ baseline PHQ-9 distribution changes.
 # Non-collapsibility of the odds ratio
 
 Adjusting for a covariate can change a treatment estimate for many reasons, e.g. by dealing with confounding.
-In a randomized trial, adjusting for a prognostic baseline covariate is commonly done to increase precision.
+In a randomized trial, adjusting for a prognostic baseline covariate is commonly done to increase precision [@FDA2023Covariate; @Morris2022CovariateAdjustment].
 In a linear model of post-treatment LSAS, such adjustment leaves the treatment coefficient unchanged on average.
-Odds ratios behave differently: adjusting for a prognostic baseline covariate moves the odds ratio away from 1 even in a perfectly balanced trial, a property called non-collapsibility.
+Odds ratios behave differently: when the treatment has an effect, adjusting for a prognostic baseline covariate moves the odds ratio away from 1, on average, even in a perfectly balanced trial [@Robinson1991Covariate; @Daniel2021NonCollapsible].
+This property is called non-collapsibility.
 
 ## Collapsible and non-collapsible effect measures
 
