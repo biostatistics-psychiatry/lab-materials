@@ -50,7 +50,11 @@ df_clean <- read_csv2(here("..", "..", "data", "steps_clean.csv")) |>
   mutate(
     # The second factor level is the event modelled by binomial glm().
     lsas_response = factor(
-      if_else((lsas_screen - lsas_post) / lsas_screen >= 0.30, "Response", "No response"),
+      if_else(
+        (lsas_screen - lsas_post) / lsas_screen >= 0.30,
+        "Response",
+        "No response"
+      ),
       levels = c("No response", "Response")
     ),
     trt = factor(
@@ -111,12 +115,12 @@ mod_intercept <- glm(
 summary(mod_intercept)
 ```
 
-The intercept is on the log-odds scale, so it is not the clearest clinical summary. If we exponentiate the estimate, we get it on the odds scale. This is the same as dividing the the number of repsonders (n=57) by the the number of non-responders (n=112).
+The intercept is on the log-odds scale, so it is not the clearest clinical summary. If we exponentiate the estimate, we get it on the odds scale. This is the same as dividing the number of responders (n=57) by the number of non-responders (n=112).
 
 ```{r}
 #| label: manual-log-odds
-exp(-0.6754) 
-57/112
+exp(-0.6754)
+57 / 112
 ```
 
 The odds is still not the clearest summary, usually the probability is more easily interpreted. We can use `marginaleffects` to obtain the estimated probability and its confidence interval.
@@ -167,12 +171,12 @@ mod_trt <- glm(
 summary(mod_trt)
 ```
 
-The coefficient for therapist-guided now shows the log-odds ratio of response in the therapist-guided group vs. the waitlist group. By exponentiating, we get the odds ratio. This ban be calculated by had by dividing the odds in the therapist-guided group (31/23) by the odds in the waitlist group (6/52).
+The coefficient for therapist-guided now shows the log-odds ratio of response in the therapist-guided group vs. the waitlist group. By exponentiating, we get the odds ratio. This can be calculated by hand by dividing the odds in the therapist-guided group (31/23) by the odds in the waitlist group (6/52).
 
 ```{r}
 #| label: manual-odds-ratio
 exp(2.4580)
-(31/23)/(6/52)
+(31 / 23) / (6 / 52)
 ```
 
 ## Estimated probabilities,  a probability difference, and a probability ratio (a.k.a. risk ratio)
@@ -232,7 +236,7 @@ or_trt <- tidy(mod_trt, conf.int = TRUE, exponentiate = TRUE)
 or_trt
 ```
 
-An odds ratio above 1 indicates higher odds of the modelled event (`Low`) in therapist-guided treatment than waitlist. It does **not** mean that the probability is that many times larger, and it does **not** tell us the percentage-point difference.
+An odds ratio above 1 indicates higher odds of the modelled event (`Response`) in therapist-guided treatment than waitlist. It does **not** mean that the probability is that many times larger, and it does **not** tell us the percentage-point difference.
 
 ::: callout-note
 ## Reading an odds ratio in a paper

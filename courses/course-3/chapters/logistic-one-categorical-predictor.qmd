@@ -50,7 +50,11 @@ df_categorical <- read_csv2(here("..", "..", "data", "steps_clean.csv")) |>
   mutate(
     # The second level is the event modelled by binomial glm().
     lsas_response = factor(
-      if_else((lsas_screen - lsas_post) / lsas_screen >= 0.30, "Response", "No response"),
+      if_else(
+        (lsas_screen - lsas_post) / lsas_screen >= 0.30,
+        "Response",
+        "No response"
+      ),
       levels = c("No response", "Response")
     ),
     trt = factor(
@@ -64,7 +68,7 @@ df_categorical |>
 ```
 
 `Response` is a reduction of at least 30% from baseline LSAS; it is not a diagnostic or remission definition. We order
-the outcome so that `Low` is the event in the binomial model, and we explicitly
+the outcome so that `Response` is the event in the binomial model, and we explicitly
 set `waitlist` as the treatment reference category.
 
 ```{r}

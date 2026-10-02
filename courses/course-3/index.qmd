@@ -5,7 +5,7 @@ date: last-modified
 
 Welcome to Biostatistics III. This week is all about **binary and categorical outcomes**, analysed with logistic-regression models. Odds ratios and log-odds often appear in the literature, so we will learn what they mean. We will also interpret results on the probability scale.
 
-We will continue to work with the STePS randomised trial of internet-delivered psychodynamic therapy for social anxiety disorder. The course uses a post-treatment LSAS outcome grouped into low/no-to-mild, moderate/marked, and severe/very severe symptom categories.
+We will continue to work with the STePS randomised trial of internet-delivered psychodynamic therapy for social anxiety disorder. Most chapters use a binary treatment-response outcome: an LSAS reduction of at least 30% from baseline. The multinomial chapter uses post-treatment LSAS grouped into three severity categories.
 
 # Group work during lab sessions
 

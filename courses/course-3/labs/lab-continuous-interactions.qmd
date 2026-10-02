@@ -20,8 +20,8 @@ The collaborator would like the figure “cleaned up” before the abstract is s
 # Your task
 
 Prepare a short, reproducible Quarto notebook that evaluates whether the claim
-is supported by a binary logistic model of the probability of a low
-post-treatment LSAS score. Work with the waitlist and therapist-guided treatment
+is supported by a binary logistic model of the probability of treatment
+response. Work with the waitlist and therapist-guided treatment
 arms. Treat `phq9_screen` as continuous; do not turn it into a median split just
 to make the narrative more convenient.
 
@@ -83,7 +83,11 @@ df_binary <- read_csv2(here("data", "steps_clean.csv")) |>
   mutate(
     # The second factor level is the event modelled by binomial glm().
     lsas_response = factor(
-      if_else((lsas_screen - lsas_post) / lsas_screen >= 0.30, "Response", "No response"),
+      if_else(
+        (lsas_screen - lsas_post) / lsas_screen >= 0.30,
+        "Response",
+        "No response"
+      ),
       levels = c("No response", "Response")
     ),
     trt = factor(

@@ -54,7 +54,11 @@ df_binary <- read_csv2(here("..", "..", "data", "steps_clean.csv")) |>
   mutate(
     # The second level is the event modelled by binomial glm().
     lsas_response = factor(
-      if_else((lsas_screen - lsas_post) / lsas_screen >= 0.30, "Response", "No response"),
+      if_else(
+        (lsas_screen - lsas_post) / lsas_screen >= 0.30,
+        "Response",
+        "No response"
+      ),
       levels = c("No response", "Response")
     ),
     trt = factor(
@@ -73,7 +77,7 @@ df_binary |>
 in [logistic-regression foundations](logistic-intro.qmd).
 
 We explicitly make waitlist the reference group. The treatment contrast
-shown by the coefficient will therefore be logg-odds of response for the
+shown by the coefficient will therefore be log-odds of response for the
 therapist-guided group minus the log-odds for treatment response in the
 waitlist group.
 
@@ -114,23 +118,22 @@ mod_binary_trt <- stats::glm(
 )
 
 summary(mod_binary_trt)
-
 ```
 
-The output from `summary()` shows us that the log-odds in the treatment
+The output from `summary()` shows us that the log-odds in the waitlist
 group is -2.16 and that the log-odds in the therapist-guided group is
-2.46 higher that that of the waitlist (i.e. -2.16 + 2.46).
+2.46 higher than that of the waitlist (i.e. -2.16 + 2.46).
 
 By exponentiating the linear predictors (added coefficients), **we get
 the odds for each group.** By exponentiating only the coefficient for
-the therapist-guided group (2.46; the difference in log-odds bewteen the
+the therapist-guided group (2.46; the difference in log-odds between the
 therapist-guided and the waitlist group), we get the **odds ratio of
 response in the therapist-guided vs. the waitlist group**
 
 ```{r}
 #| label: interpret-binary-treatment-logit-manual
 exp(-2.16) # odds of response in waitlist group
-exp( -2.16 + 2.46) # odds of response in therapist-guided group
+exp(-2.16 + 2.46) # odds of response in therapist-guided group
 exp(2.46) # odds ratio of response in the therapist-guided group vs. the waitlist
 ```
 
@@ -146,8 +149,8 @@ $$\operatorname{logit}^{-1}(x) = \frac{e^x}{1 + e^x}$$
 
 ```{r}
 #| label: predicted-probability-binary-treatment-logit-manual
-exp(-2.16)/ (1+exp(-2.16)) # probability of resonse in waitlist group
-exp(-2.16 + 2.46)/ (1+exp(-2.16 + 2.46)) # probability of resonse in therapist group
+exp(-2.16) / (1 + exp(-2.16)) # probability of response in waitlist group
+exp(-2.16 + 2.46) / (1 + exp(-2.16 + 2.46)) # probability of response in therapist group
 ```
 
 ## Get probabilities and the probability difference from the model

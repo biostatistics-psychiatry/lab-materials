@@ -62,7 +62,11 @@ df_binary <- read_csv2(here("..", "..", "data", "steps_clean.csv")) |>
   mutate(
     # The second factor level is the event modelled by binomial glm().
     lsas_response = factor(
-      if_else((lsas_screen - lsas_post) / lsas_screen >= 0.30, "Response", "No response"),
+      if_else(
+        (lsas_screen - lsas_post) / lsas_screen >= 0.30,
+        "Response",
+        "No response"
+      ),
       levels = c("No response", "Response")
     ),
     trt = factor(
@@ -122,7 +126,6 @@ mod_additive <- stats::glm(
 )
 
 summary(mod_additive)
-
 ```
 
 We can exponentiate the coefficients to express them on the odds-ratio
@@ -140,8 +143,8 @@ higher PHQ-9 score, adjusted for treatment group.
 #| label: fit-additive-logit-manual
 #| message: false
 #| warning: false
-exp(2.42468)   # OR therapist-guided vs waitlist
-exp(-0.04753)  # OR for a one-point increase in PHQ-9
+exp(2.42468) # OR therapist-guided vs waitlist
+exp(-0.04753) # OR for a one-point increase in PHQ-9
 ```
 
 Thus, the estimated treatment OR is approximately **11.30**, while the
@@ -172,8 +175,8 @@ additive_trt_difference
 ## Model interpretation
 
 Averaged over the observed baseline PHQ-9 distribution, therapist-guided
-treatment is estimated to change the probability of a treatment response
-score by
+treatment is estimated to change the probability of treatment response
+by
 **`r sprintf("%.1f", 100 * additive_trt_difference$estimate[1])`
 percentage points** compared with waitlist (95% CI
 **`r sprintf("%.1f", 100 * additive_trt_difference$conf.low[1])`** to
@@ -241,7 +244,6 @@ mod_interaction <- stats::glm(
 )
 
 summary(mod_interaction)
-
 ```
 
 With an interaction in the model, the association between treatment and
@@ -400,8 +402,8 @@ marginal_trt_difference
 ## Model interpretation
 
 Averaged over the observed PHQ-9 distribution, the interaction model
-estimates that therapist-guided treatment changes the probability of a
-low post-treatment LSAS score by
+estimates that therapist-guided treatment changes the probability of
+treatment response by
 **`r sprintf("%.1f", 100 * marginal_trt_difference$estimate[1])`
 percentage points** compared with waitlist (95% CI
 **`r sprintf("%.1f", 100 * marginal_trt_difference$conf.low[1])`** to
@@ -437,7 +439,7 @@ conditional_trt_log_odds <- avg_comparisons(
     odds_ratio = exp(estimate),
     conf.low = exp(conf.low),
     conf.high = exp(conf.high)
-  )|>
+  ) |>
   tibble::as_tibble()
 
 conditional_trt_log_odds

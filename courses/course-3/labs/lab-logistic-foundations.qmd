@@ -39,7 +39,11 @@ df_binary <- read_csv2(here("data", "steps_clean.csv")) |>
   filter(!is.na(lsas_screen), !is.na(lsas_post)) |>
   mutate(
     lsas_response = factor(
-      if_else((lsas_screen - lsas_post) / lsas_screen >= 0.30, "Response", "No response"),
+      if_else(
+        (lsas_screen - lsas_post) / lsas_screen >= 0.30,
+        "Response",
+        "No response"
+      ),
       levels = c("No response", "Response")
     ),
     trt = factor(
@@ -64,7 +68,7 @@ mod_trt <- glm(
 
 # Questions to discuss
 
-- What would change if `Low` were defined using a different threshold?
+- What would change if `Response` were defined using a different threshold?
 - Is the probability difference more useful for this clinical question than the odds ratio? Why?
 - Does a treatment-group probability difference establish that therapist guidance caused the difference? What features of the trial design support or limit that interpretation?
 - What information did the binary outcome discard from the original LSAS scale?

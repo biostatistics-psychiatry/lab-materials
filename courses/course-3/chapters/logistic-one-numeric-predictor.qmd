@@ -20,7 +20,11 @@ df_clean <- read_csv2(here("..", "..", "data", "steps_clean.csv")) |>
   filter(!is.na(lsas_post), !is.na(gad_screen)) |>
   mutate(
     lsas_response = factor(
-      if_else((lsas_screen - lsas_post) / lsas_screen >= 0.30, "Response", "No response"),
+      if_else(
+        (lsas_screen - lsas_post) / lsas_screen >= 0.30,
+        "Response",
+        "No response"
+      ),
       levels = c("No response", "Response")
     )
   )
@@ -36,7 +40,7 @@ mod_gad <- glm(
 summary(mod_gad)
 ```
 
-The model coefficients tell us that the estimated log-odds when GAD-7 is 0 (Intercept) is -0.49, and that the estimated log-odds decreases by -0.02 for each one-point increase in GAD-7.
+The model coefficients tell us that the estimated log-odds when GAD-7 is 0 (Intercept) is -0.49, and that the estimated log-odds decreases by 0.02 for each one-point increase in GAD-7.
 
 If we exponentiate the gad_screen estimate, we get the odds ratio of treatment response for each one-unit increase in GAD-7 at screening.
 
@@ -49,7 +53,7 @@ We can also get the estimated odds ratio for an x-point increase in GAD-7 at scr
 
 ```{r}
 #| label: numeric-model-manual-or-10-point
-exp(-0.01725*10) # OR for response for a 10-point increase in gad-7
+exp(-0.01725 * 10) # OR for response for a 10-point increase in gad-7
 ```
 
 Using the `avg_slopes()` function from the `marginaleffects` package, we can get these estimates on the probability scale, instead of the log-odds scale.
@@ -58,7 +62,6 @@ Using the `avg_slopes()` function from the `marginaleffects` package, we can get
 #| label: numeric-model-probability
 gad_slope <- avg_slopes(mod_gad, variables = "gad_screen", type = "response")
 gad_slope
-
 ```
 
 ::: {.callout-tip collapse="true"}
@@ -87,7 +90,11 @@ A linear predictor does not imply a straight line on the probability scale. For 
 
 ```{r}
 #| label: numeric-predictions-at-quartiles
-gad_values <- quantile(df_clean$gad_screen, probs = c(.25, .50, .75), na.rm = TRUE)
+gad_values <- quantile(
+  df_clean$gad_screen,
+  probs = c(.25, .50, .75),
+  na.rm = TRUE
+)
 
 predictions(
   mod_gad,

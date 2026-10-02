@@ -47,7 +47,11 @@ df_binary <- read_csv2(here("..", "..", "data", "steps_clean.csv")) |>
   mutate(
     # The second outcome level is the event modelled by binomial glm().
     lsas_response = factor(
-      if_else((lsas_screen - lsas_post) / lsas_screen >= 0.30, "Response", "No response"),
+      if_else(
+        (lsas_screen - lsas_post) / lsas_screen >= 0.30,
+        "Response",
+        "No response"
+      ),
       levels = c("No response", "Response")
     ),
     trt = factor(
@@ -61,7 +65,7 @@ df_binary <- read_csv2(here("..", "..", "data", "steps_clean.csv")) |>
       ),
       levels = c("< 10", ">= 10")
     )
-  )|>
+  ) |>
   filter(trt %in% c("waitlist", "therapist-guided")) |>
   droplevels()
 
@@ -71,7 +75,7 @@ df_binary |>
 
 `phq_cat` explicitly divides baseline PHQ-9 scores into `< 10` and `>= 10`. It is a convenient binary moderator for this lesson, not a claim that these two groups are biologically distinct or that a subgroup result is clinically established. The outcome is treatment response, defined as a reduction of at least 30% from baseline LSAS.
 
-Waitlist is the reference treatment group, `< 10` is the reference PHQ-9 category, and `Low` is the modelled outcome event.
+Waitlist is the reference treatment group, `< 10` is the reference PHQ-9 category, and `Response` is the modelled outcome event.
 
 # Additive logistic model
 
@@ -104,7 +108,6 @@ We can get the OR of both therapist-guided vs waitlist and PHQ-9 high vs low by 
 #| label: fit-additive-logit-manual
 exp(2.45679) # odds ratio therapist-guided vs waitlist
 exp(-0.02193) # odds ratio >= 10 vs <10 on PHQ-9
-
 ```
 
 The fact that the odds ratio is the same in both PHQ-9 categories does *not* guarantee identical probability differences: changing a probability by a fixed odds ratio can produce different percentage-point changes at different baseline probabilities.
@@ -141,7 +144,6 @@ additive_odds_ratio <- tidy(
 
 additive_probabilities
 additive_treatment_effects
-
 ```
 
 ::: {.callout-tip collapse="true"}
@@ -203,9 +205,9 @@ The interaction coefficient tells us how the treatment OR changes when moving fr
 ```{r}
 #| label: fit-interaction-logit-manual
 
-exp(2.52265)                 # treatment OR when PHQ-9 < 10
-exp(-0.14002)                # ratio of treatment ORs
-exp(2.52265 - 0.14002)       # treatment OR when PHQ-9 >= 10
+exp(2.52265) # treatment OR when PHQ-9 < 10
+exp(-0.14002) # ratio of treatment ORs
+exp(2.52265 - 0.14002) # treatment OR when PHQ-9 >= 10
 ```
 
 To go from the odds scale to the probability scale, we can again use functions from the `marginaleffects` package:
@@ -236,7 +238,6 @@ interaction_treatment_effects
 #| label: interaction-inline-values
 #| echo: false
 #| output: false
-
 
 interaction_treatment_low_phq <- interaction_treatment_effects |>
   filter(phq_cat == "< 10")
