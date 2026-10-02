@@ -118,23 +118,28 @@ mod_binary_trt <- stats::glm(
 )
 
 summary(mod_binary_trt)
+
+# Store the coefficients for the calculations below
+b0 <- coef(mod_binary_trt)[["(Intercept)"]]
+b1 <- coef(mod_binary_trt)[["trttherapist-guided"]]
 ```
 
 The output from `summary()` shows us that the log-odds in the waitlist
-group is -2.16 and that the log-odds in the therapist-guided group is
-2.46 higher than that of the waitlist (i.e. -2.16 + 2.46).
+group is `r sprintf("%.2f", b0)` ($\beta_0$) and that the log-odds in
+the therapist-guided group is `r sprintf("%.2f", b1)` ($\beta_1$)
+higher than that of the waitlist (i.e. $\beta_0 + \beta_1$).
 
 By exponentiating the linear predictors (added coefficients), **we get
 the odds for each group.** By exponentiating only the coefficient for
-the therapist-guided group (2.46; the difference in log-odds between the
+the therapist-guided group ($\beta_1$; the difference in log-odds between the
 therapist-guided and the waitlist group), we get the **odds ratio of
 response in the therapist-guided vs. the waitlist group**
 
 ```{r}
 #| label: interpret-binary-treatment-logit-manual
-exp(-2.16) # odds of response in waitlist group
-exp(-2.16 + 2.46) # odds of response in therapist-guided group
-exp(2.46) # odds ratio of response in the therapist-guided group vs. the waitlist
+exp(b0) # odds of response in waitlist group
+exp(b0 + b1) # odds of response in therapist-guided group
+exp(b1) # odds ratio of response, therapist-guided vs. waitlist
 ```
 
 To go from the linear predictors of the log-odds to the probability, we
@@ -149,8 +154,8 @@ $$\operatorname{logit}^{-1}(x) = \frac{e^x}{1 + e^x}$$
 
 ```{r}
 #| label: predicted-probability-binary-treatment-logit-manual
-exp(-2.16) / (1 + exp(-2.16)) # probability of response in waitlist group
-exp(-2.16 + 2.46) / (1 + exp(-2.16 + 2.46)) # probability of response in therapist group
+exp(b0) / (1 + exp(b0)) # probability of response in waitlist group
+exp(b0 + b1) / (1 + exp(b0 + b1)) # probability, therapist-guided group
 ```
 
 ## Get probabilities and the probability difference from the model

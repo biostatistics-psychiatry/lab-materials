@@ -41,9 +41,7 @@ df_outcome <- read_csv2(here("..", "..", "data", "steps_clean.csv")) |>
       severity_observed,
       levels = c("low_no_to_mild", "moderate_marked", "severe_very_severe")
     ),
-    trt = factor(trt,
-      levels = c("waitlist", "therapist-guided", "self-guided")
-    )
+    trt = factor(trt, levels = c("waitlist", "therapist-guided", "self-guided"))
   ) |>
   select(id, trt, severity_observed)
 
@@ -80,6 +78,10 @@ mod_multinomial <- mlogit(
   reflevel = "low_no_to_mild"
 )
 summary(mod_multinomial)
+
+# Store one coefficient for the calculation below
+b_multinomial <- coef(mod_multinomial)
+b_guided_moderate <- b_multinomial[["trttherapist-guided:moderate_marked"]]
 ```
 
 ## Interpreting the coefficients
@@ -90,14 +92,14 @@ As in binary logistic regression, the coefficients are on the **log-odds scale**
 
 - `severe_very_severe` versus `low_no_to_mild`
 
-For example, the coefficient for therapist-guided treatment and `moderate_marked` is approximately -1.42. Exponentiating gives:
+For example, the coefficient for therapist-guided treatment and `moderate_marked` is approximately `r sprintf("%.2f", b_guided_moderate)`. Exponentiating gives:
 
 ```{r}
 #| label: multinomial-or
-exp(-1.42)
+exp(b_guided_moderate)
 ```
 
-This gives an odds ratio of approximately 0.24. In other words, the ratio between moderate/marked and low/no-to-mild outcomes is smaller in the therapist-guided group than in the waitlist group. More precisely, the odds of moderate/marked versus low/no-to-mild are 0.24 times as high in the therapist-guided group as in the waitlist group.
+This gives an odds ratio of approximately `r sprintf("%.2f", exp(b_guided_moderate))`. In other words, the ratio between moderate/marked and low/no-to-mild outcomes is smaller in the therapist-guided group than in the waitlist group. More precisely, the odds of moderate/marked versus low/no-to-mild are `r sprintf("%.2f", exp(b_guided_moderate))` times as high in the therapist-guided group as in the waitlist group.
 
 These odds ratios can become difficult to interpret because each compares **one outcome category with the reference outcome category**. We will therefore focus primarily on **model-based probabilities**, which show more directly how treatment redistributes the probability across the three severity categories.
 

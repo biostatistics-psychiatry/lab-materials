@@ -106,8 +106,9 @@ We can get the OR of both therapist-guided vs waitlist and PHQ-9 high vs low by 
 
 ```{r}
 #| label: fit-additive-logit-manual
-exp(2.45679) # odds ratio therapist-guided vs waitlist
-exp(-0.02193) # odds ratio >= 10 vs <10 on PHQ-9
+b_additive <- coef(mod_additive)
+exp(b_additive[["trttherapist-guided"]]) # OR therapist-guided vs waitlist
+exp(b_additive[["phq_cat>= 10"]]) # OR PHQ-9 >= 10 vs < 10
 ```
 
 The fact that the odds ratio is the same in both PHQ-9 categories does *not* guarantee identical probability differences: changing a probability by a fixed odds ratio can produce different percentage-point changes at different baseline probabilities.
@@ -198,16 +199,19 @@ mod_interaction <- stats::glm(
 summary(mod_interaction)
 ```
 
-We can exponentiate the coefficients to express them on the odds-ratio scale. In an interaction model, however, the treatment coefficient now represents the treatment effect when PHQ-9 is in its reference category (\< 10). Thus, $\exp(2.52265)$ is the OR for therapist-guided treatment versus waitlist among participants with PHQ-9 \< 10.
+We can exponentiate the coefficients to express them on the odds-ratio scale. In an interaction model, however, the treatment coefficient now represents the treatment effect when PHQ-9 is in its reference category (\< 10). Thus, $\exp(\beta_1)$ is the OR for therapist-guided treatment versus waitlist among participants with PHQ-9 \< 10.
 
-The interaction coefficient tells us how the treatment OR changes when moving from PHQ-9 \< 10 to PHQ-9 ≥ 10. Here, $\exp(-0.14002)$ is the ratio of the two treatment ORs. To obtain the treatment OR among participants with PHQ-9 ≥ 10, we therefore combine the treatment and interaction coefficients: $\exp(2.52265 - 0.14002)$.
+The interaction coefficient tells us how the treatment OR changes when moving from PHQ-9 \< 10 to PHQ-9 ≥ 10. Here, $\exp(\beta_3)$ is the ratio of the two treatment ORs. To obtain the treatment OR among participants with PHQ-9 ≥ 10, we therefore combine the treatment and interaction coefficients: $\exp(\beta_1 + \beta_3)$.
 
 ```{r}
 #| label: fit-interaction-logit-manual
+b_interaction <- coef(mod_interaction)
+b1 <- b_interaction[["trttherapist-guided"]]
+b3 <- b_interaction[["trttherapist-guided:phq_cat>= 10"]]
 
-exp(2.52265) # treatment OR when PHQ-9 < 10
-exp(-0.14002) # ratio of treatment ORs
-exp(2.52265 - 0.14002) # treatment OR when PHQ-9 >= 10
+exp(b1) # treatment OR when PHQ-9 < 10
+exp(b3) # ratio of treatment ORs
+exp(b1 + b3) # treatment OR when PHQ-9 >= 10
 ```
 
 To go from the odds scale to the probability scale, we can again use functions from the `marginaleffects` package:

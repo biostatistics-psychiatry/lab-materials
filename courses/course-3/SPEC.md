@@ -160,7 +160,7 @@ avg_predictions(mod_trt, by = "trt", type = "response")
 ## Model interpretation
 
 Compared with waitlist, therapist-guided treatment changes the estimated
-probability of a low post-treatment LSAS score by **[estimate × 100] percentage
+probability of treatment response by **[estimate × 100] percentage
 points** (95% CI **[lower × 100] to [upper × 100]**). State whether this is an
 increase or decrease and, for adjusted/interaction models, name the values or
 distribution of the variables on which the comparison is conditioned.
@@ -175,7 +175,7 @@ compares odds—not probabilities—and cannot be read as a percentage-point cha
 plot_predictions(mod_trt, by = "trt", type = "response") +
   labs(
     x = "Treatment group",
-    y = "Estimated probability of low post-treatment LSAS (95% CI)"
+    y = "Estimated probability of treatment response (95% CI)"
   ) +
   theme_minimal()
 ```

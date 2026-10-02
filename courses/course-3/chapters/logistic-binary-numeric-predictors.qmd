@@ -143,13 +143,15 @@ higher PHQ-9 score, adjusted for treatment group.
 #| label: fit-additive-logit-manual
 #| message: false
 #| warning: false
-exp(2.42468) # OR therapist-guided vs waitlist
-exp(-0.04753) # OR for a one-point increase in PHQ-9
+b_additive <- coef(mod_additive)
+exp(b_additive[["trttherapist-guided"]]) # OR therapist-guided vs waitlist
+exp(b_additive[["phq9_screen"]]) # OR for a one-point increase in PHQ-9
 ```
 
-Thus, the estimated treatment OR is approximately **11.30**, while the
-OR associated with a one-point increase in PHQ-9 is approximately
-**0.95**.
+Thus, the estimated treatment OR is approximately
+**`r sprintf("%.2f", exp(b_additive[["trttherapist-guided"]]))`**, while
+the OR associated with a one-point increase in PHQ-9 is approximately
+**`r sprintf("%.2f", exp(b_additive[["phq9_screen"]]))`**.
 
 As stated before, odds ratios can be difficult to translate into the
 actual probability of treatment response. We can therefore use the
@@ -244,36 +246,45 @@ mod_interaction <- stats::glm(
 )
 
 summary(mod_interaction)
+
+# Store the coefficients for the calculations below
+b_interaction <- coef(mod_interaction)
+b_trt <- b_interaction[["trttherapist-guided"]]
+b_trt_phq <- b_interaction[["trttherapist-guided:phq9_screen"]]
 ```
 
 With an interaction in the model, the association between treatment and
 response is allowed to vary with baseline PHQ-9. This changes how we
 interpret the coefficients.
 
-The treatment coefficient, 2.61, is the therapist-guided versus waitlist
-difference in log-odds when PHQ-9 = 0. Exponentiating it gives an odds
-ratio of approximately 13.6, but this is the treatment odds ratio
+The treatment coefficient, `r sprintf("%.2f", b_trt)`, is the
+therapist-guided versus waitlist difference in log-odds when PHQ-9 = 0.
+Exponentiating it gives an odds ratio of approximately
+`r sprintf("%.1f", exp(b_trt))`, but this is the treatment odds ratio
 specifically at PHQ-9 = 0 and is therefore not particularly informative
 for our clinical question.
 
 The interaction coefficient tells us how the treatment difference on the
 log-odds scale changes with each one-point increase in PHQ-9. Here, the
-interaction coefficient is −0.019. This means that for each one-point
-increase in PHQ-9, the therapist-guided versus waitlist log-odds
-difference decreases by 0.019.
+interaction coefficient is `r sprintf("%.3f", b_trt_phq)`. This means
+that for each one-point increase in PHQ-9, the therapist-guided versus
+waitlist log-odds difference
+`r if (b_trt_phq < 0) "decreases" else "increases"` by
+`r sprintf("%.3f", abs(b_trt_phq))`.
 
 We can exponentiate the interaction coefficient:
 
 ```{r}
-exp(-0.01944)
+exp(b_trt_phq)
 ```
 
-This gives approximately **0.98**. Thus, for every one-point increase in
-PHQ-9, the treatment odds ratio is multiplied by approximately 0.98. For
+This gives approximately **`r sprintf("%.2f", exp(b_trt_phq))`**. Thus,
+for every one-point increase in PHQ-9, the treatment odds ratio is
+multiplied by approximately `r sprintf("%.2f", exp(b_trt_phq))`. For
 example, the treatment odds ratio at PHQ-9 = 10 is:
 
 ```{r}
-exp(2.60970 + (-0.01944 * 10))
+exp(b_trt + b_trt_phq * 10)
 ```
 
 However, interpreting interactions through odds ratios quickly becomes
