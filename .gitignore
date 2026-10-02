@@ -70,3 +70,11 @@ _site/
 
 # Devcontainer
 .devcontainer/
+# `rdev claude`, `rdev take`
+.claude/worktrees/
+
+# `rdev claude`, `rdev take`
+.claude/takes/
+
+# `rdev claude`, `rdev take`
+.claude/inbox/
