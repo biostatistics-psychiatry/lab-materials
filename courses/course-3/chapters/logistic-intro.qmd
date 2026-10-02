@@ -375,7 +375,11 @@ When the odds ratio is above 1, it is always further from 1 than the risk ratio,
 ::: callout-note
 ## Reading an odds ratio in a paper
 
-Suppose an article reports an odds ratio of 2. An odds ratio of 2 means the odds are doubled—not that the probability rises by 100 percentage points, or even necessarily doubles. The corresponding probability change depends on the baseline probability. This is why we pair odds ratios with estimated probabilities and probability differences when communicating clinical results.
+Suppose an article reports an odds ratio of 2.
+The odds are doubled, but the probability is not: it always rises by less than a factor of 2, and comes close to doubling only when the outcome is rare.
+With a baseline probability of 10%, doubling the odds raises the probability to `r sprintf("%.0f", 100 * plogis(qlogis(0.10) + log(2)))`%; with a baseline probability of 50%, it raises it to `r sprintf("%.0f", 100 * plogis(qlogis(0.50) + log(2)))`%.
+The same odds ratio thus corresponds to a `r sprintf("%.0f", 100 * (plogis(qlogis(0.10) + log(2)) - 0.10))`-percentage-point increase in one setting and a `r sprintf("%.0f", 100 * (plogis(qlogis(0.50) + log(2)) - 0.50))`-percentage-point increase in the other.
+This is why we pair odds ratios with estimated probabilities and probability differences when communicating clinical results.
 :::
 
 # Summary
