@@ -335,6 +335,53 @@ plot_comparisons(
   theme_minimal()
 ```
 
+## Do the two probability differences differ?
+
+It might be tempting to compare the two intervals in the plot by eye.
+But overlapping intervals, or one interval excluding zero while the other does not, do not tell us whether the two treatment effects differ [@Gelman2006Difference].
+To answer that question, estimate the difference between the two probability differences directly.
+`hypothesis = "b2 - b1 = 0"` subtracts the first row of the comparisons (PHQ-9 `< 10`) from the second (PHQ-9 `>= 10`).
+
+```{r}
+#| label: difference-in-treatment-effects
+interaction_rd_difference <- avg_comparisons(
+  mod_interaction,
+  variables = list(trt = c("waitlist", "therapist-guided")),
+  by = "phq_cat",
+  type = "response",
+  hypothesis = "b2 - b1 = 0"
+)
+interaction_rd_difference
+```
+
+::: {.callout-tip collapse="true"}
+## Model interpretation
+
+The therapist-guided-minus-waitlist probability difference is **`r sprintf("%.1f", abs(100 * interaction_rd_difference$estimate[1]))` percentage points `r if (interaction_rd_difference$estimate[1] >= 0) "larger" else "smaller"`** among participants with baseline PHQ-9 `>= 10` than among those with PHQ-9 `< 10` (95% CI **`r sprintf("%.1f", 100 * interaction_rd_difference$conf.low[1])`** to **`r sprintf("%.1f", 100 * interaction_rd_difference$conf.high[1])` percentage points**).
+
+This is the interaction on the probability scale: a difference between two probability differences.
+The interval is wide enough to include large differences in either direction, so these data cannot tell us whether the treatment effect differs between the PHQ-9 categories.
+:::
+
+::: callout-caution
+## Interaction tests need large samples
+
+Effect modification is estimated from the smallest cells of the design.
+
+```{r}
+#| label: interaction-cell-counts
+interaction_cell_counts <- df_binary |>
+  count(trt, phq_cat, lsas_response) |>
+  pivot_wider(names_from = lsas_response, values_from = n)
+interaction_cell_counts
+```
+
+In the waitlist arm, only `r paste(interaction_cell_counts$Response[interaction_cell_counts$trt == "waitlist"], collapse = " and ")` participants responded in the two PHQ-9 categories.
+Estimates based on so few events are unstable, and a cell with no events at all would leave the model unable to estimate its log-odds (a problem known as separation).
+More generally, an interaction needs far more data than a main effect of the same size: roughly four times the sample size in a two-arm trial with equally sized subgroups [@Brookes2004Subgroup].
+A trial powered for its overall treatment effect is therefore rarely powered to detect effect modification, and a non-significant interaction is weak evidence that none exists.
+:::
+
 # Interpreting the interaction
 
 An interaction model can describe different conditional estimates, but it does not automatically establish a clinically meaningful subgroup. Before presenting a subgroup finding, ask:
@@ -344,7 +391,7 @@ An interaction model can describe different conditional estimates, but it does n
 3.  Does the interaction plot show a consistent, clinically interpretable pattern rather than an isolated coefficient or p-value?
 4.  Would the conclusion be different if PHQ-9 were modelled continuously? See [logistic regression with a binary and numeric predictor](logistic-binary-numeric-predictors.qmd).
 
-The interaction coefficient is a difference of **log-odds contrasts**. It is not itself the difference between the two probability differences. `avg_comparisons()` gives the quantities we want to communicate: therapist-guided-minus-waitlist probability differences within the explicitly stated PHQ-9 categories.
+The interaction coefficient is a difference of **log-odds contrasts**. It is not itself the difference between the two probability differences; that difference is the `hypothesis` estimate above. `avg_comparisons()` gives the quantities we want to communicate: therapist-guided-minus-waitlist probability differences within the explicitly stated PHQ-9 categories.
 
 # Summary
 
@@ -354,5 +401,6 @@ In this chapter you learned to:
 - fit additive and `trt * phq_cat` binary logistic models with `stats::glm(..., family = binomial)`;
 - report treatment contrasts as conditional probability differences in percentage points with 95% CIs;
 - distinguish a conditional odds ratio from a probability difference;
-- distinguish effect modification, causal interaction, and moderation, and name the scale on which effect modification is assessed; and
+- distinguish effect modification, causal interaction, and moderation, and name the scale on which effect modification is assessed;
+- estimate the difference between two conditional probability differences directly, and explain why interaction tests need large samples; and
 - use predicted-probability and conditional-effect plots to inspect a proposed subgroup pattern.
