@@ -73,7 +73,10 @@ df_binary |>
   count(phq_cat, lsas_response, .drop = FALSE)
 ```
 
-`phq_cat` explicitly divides baseline PHQ-9 scores into `< 10` and `>= 10`. It is a convenient binary moderator for this lesson, not a claim that these two groups are biologically distinct or that a subgroup result is clinically established. The outcome is treatment response, defined as a reduction of at least 30% from baseline LSAS.
+`phq_cat` explicitly divides baseline PHQ-9 scores into `< 10` and `>= 10`. It is a convenient binary moderator for this lesson, not a claim that these two groups are biologically distinct or that a subgroup result is clinically established.
+Splitting PHQ-9 at 10 also discards information: a participant scoring 10 is grouped with one scoring 25, and apart from one scoring 9 [@Altman2006Dichotomising; @MacCallum2002Dichotomization].
+[Logistic regression with a binary and numeric predictor](logistic-binary-numeric-predictors.qmd) keeps PHQ-9 continuous.
+The outcome is treatment response, defined as a reduction of at least 30% from baseline LSAS.
 
 Waitlist is the reference treatment group, `< 10` is the reference PHQ-9 category, and `Response` is the modelled outcome event.
 
