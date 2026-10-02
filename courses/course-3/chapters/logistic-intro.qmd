@@ -229,7 +229,7 @@ odds_by_trt <- n_trt[, "Response"] / n_trt[, "No response"]
 odds_by_trt[["therapist-guided"]] / odds_by_trt[["waitlist"]]
 ```
 
-## Estimated probabilities,  a probability difference, and a probability ratio (a.k.a. risk ratio)
+## Estimated probabilities, a probability difference, and a probability ratio (a.k.a. risk ratio)
 
 ```{r}
 #| label: treatment-probabilities
@@ -247,7 +247,8 @@ trt_ratio <- avg_comparisons(
   mod_trt,
   variables = list(trt = c("waitlist", "therapist-guided")),
   type = "response",
-  comparison = "ratio"
+  comparison = "lnratioavg",
+  transform = exp
 )
 trt_ratio
 ```
@@ -260,6 +261,68 @@ Compared with waitlist, therapist-guided treatment changes the estimated probabi
 The estimated probability of treatment response is **`r sprintf("%.2f", trt_ratio$estimate[1])` times as high** in the therapist-guided group as in the waitlist group (probability ratio/risk ratio; 95% CI **`r sprintf("%.2f", trt_ratio$conf.low[1])`** to **`r sprintf("%.2f", trt_ratio$conf.high[1])`**).
 
 This is an unadjusted treatment contrast in the restricted waitlist-versus-therapist-guided sample. A positive value means that therapist-guided treatment has a higher estimated probability of treatment response.
+:::
+
+::: callout-note
+## Where does this risk ratio come from?
+
+`marginaleffects` does not convert the odds ratio into a risk ratio.
+It predicts every participant's probability of response under waitlist and under therapist-guided treatment, averages each set of predictions, and divides the two averages.
+Predicting every participant under both treatments means the two averages describe the same people, so they differ only in treatment.
+In this unadjusted model each scenario simply reproduces the group's observed proportion.
+This approach is called marginal standardization [@Localio2007RelativeRisks].
+The `comparison` argument `lnratioavg` means, read from right to left:
+`avg` averages the predicted probabilities in each scenario, `ratio` divides the therapist-guided average by the waitlist average, and `ln` takes the natural log of that ratio.
+`transform = exp` then exponentiates the estimate and its confidence limits, returning them to the ratio scale.
+The detour through the log scale is for the confidence interval.
+A ratio cannot fall below 0, and its sampling distribution is skewed, particularly when one group has few events, as the waitlist group does here.
+On the log scale the distribution is closer to symmetric, so the normal-approximation interval that `marginaleffects` builds from its delta-method standard error works better, and exponentiating its limits gives an interval that is asymmetric around the estimate and stays above 0.
+This log risk ratio is not the log-odds that the logistic model estimates; it is computed from the predicted probabilities.
+
+```{r}
+#| label: manual-risk-ratio
+#| code-fold: true
+#| code-summary: "Show the same calculation by hand"
+# Counterfactual datasets: everyone on waitlist, everyone therapist-guided
+df_waitlist <- mutate(
+  df_binary,
+  trt = factor("waitlist", levels = levels(trt))
+)
+df_guided <- mutate(
+  df_binary,
+  trt = factor("therapist-guided", levels = levels(trt))
+)
+x_waitlist <- model.matrix(~trt, df_waitlist)
+x_guided <- model.matrix(~trt, df_guided)
+
+# ln(ratio of average predicted probabilities), as a function of the
+# coefficients
+log_rr <- function(beta) {
+  log(mean(plogis(x_guided %*% beta)) / mean(plogis(x_waitlist %*% beta)))
+}
+beta_hat <- coef(mod_trt)
+
+# Delta method: numerical gradient of log_rr, then the standard error on
+# the log scale
+h <- 1e-6
+gradient <- map_dbl(seq_along(beta_hat), \(j) {
+  step <- replace(numeric(length(beta_hat)), j, h)
+  (log_rr(beta_hat + step) - log_rr(beta_hat)) / h
+})
+se_log_rr <- sqrt(drop(t(gradient) %*% vcov(mod_trt) %*% gradient))
+
+# 95% interval on the log scale, then exponentiate (transform = exp)
+z <- qnorm(0.975)
+exp(
+  log_rr(beta_hat) + c(estimate = 0, conf.low = -z, conf.high = z) * se_log_rr
+)
+```
+
+Shortcut formulas that convert a published odds ratio into a risk ratio using the baseline risk are a different thing: they are biased for adjusted odds ratios and give incorrect confidence intervals [@McNutt2003RelativeRisk].
+
+Another well-established way to estimate a risk ratio from a binary outcome is Poisson regression with robust (sandwich) standard errors [@Zou2004ModifiedPoisson].
+In this unadjusted two-group model, both routes give the same risk ratio, `r sprintf("%.2f", trt_ratio$estimate[1])`.
+They can differ in adjusted models: Poisson regression assumes one risk ratio for every covariate pattern and can predict probabilities above 1, whereas standardization from a logistic model averages over the covariate distribution of the sample.
 :::
 
 ## Visualise the estimated probabilities
@@ -315,7 +378,7 @@ In this chapter you learned to:
 
 - define a binary LSAS outcome and distinguish it from a validated clinical threshold;
 - describe a binary outcome as a Bernoulli variable and explain why logistic regression is preferred to a linear probability model;
-- explain why an odds ratio overstates the risk ratio when the outcome is common, and express a probability difference as a number needed to treat;
+- explain why an odds ratio overstates the risk ratio when the outcome is common;
 - fit intercept-only and treatment logistic-regression models with `glm(..., family = binomial)`;
 - interpret model output through estimated probabilities and probability differences with 95% CIs;
 - visualise treatment-group probabilities with `marginaleffects`; and
