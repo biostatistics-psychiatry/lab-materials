@@ -8,30 +8,46 @@ toc: true
 
 # Scenario
 
-A senior collaborator forwards a slide titled **“Therapist guidance works especially well for people with depression”**. The slide has no uncertainty intervals. They ask whether you can make the subgroup finding statistically respectable before the grant resubmission.
+A senior collaborator forwards a slide titled **“Therapist guidance works especially well for people with depression”**.
+The slide has no uncertainty intervals.
+They ask whether you can make the subgroup finding statistically respectable before the grant resubmission.
 
-Prepare a short Quarto notebook that investigates the claim on the probability scale. Your task is to determine what the data and model can support, rather than to make the slide more compelling.
+Prepare a short Quarto notebook that investigates the claim on the probability scale.
+Your task is to determine what the data and model can support, rather than to make the slide more compelling.
 
 # Your deliverable
 
-Create a group Quarto notebook with the following sections. The choices of table layout, plot design, and exact wording are yours, but every statistical claim must be traceable to an estimand and a model.
+Create a group Quarto notebook with the following sections.
+The choices of table layout, plot design, and exact wording are yours, but every statistical claim must be traceable to an estimand and a model.
 
-1. **Question and estimand** — State the primary contrast as the therapist-guided-minus-waitlist difference in the probability of treatment response, separately within baseline PHQ-9 `< 10` and `>= 10` categories. Say which probability is modeled and state the direction of the contrast.
+1. **Question and estimand** — State the primary contrast as the therapist-guided-minus-waitlist difference in the probability of treatment response, separately within baseline PHQ-9 `< 10` and `>= 10` categories.
+   Say which probability is modeled and state the direction of the contrast.
 2. **Data definition and check** — Starting from `data/steps_clean.csv`, define:
    - `lsas_response` as a reduction of at least 30% from baseline LSAS; and
    - `phq_cat` as `< 10` when `phq9_screen < 10` and `>= 10` when `phq9_screen >= 10`.
 
-   Set the treatment reference category explicitly. Report the numbers of participants and outcome events by treatment and PHQ-9 category, and explain how missing post-treatment LSAS values were handled. The LSAS response outcome and binary PHQ-9 category are analysis choices for this exercise, not diagnostic, remission, or subgroup-discovery rules.
-3. **Additive model** — Fit a binary logistic model with `trt + phq_cat`. Use model-derived probabilities and therapist-guided-minus-waitlist probability differences with 95% CIs. Explain what “additive” means on the log-odds scale and why probability differences can still vary across PHQ-9 categories.
-4. **Interaction model** — Fit `trt * phq_cat` with `stats::glm(..., family = binomial)`. Estimate the same conditional treatment differences with 95% CIs, and estimate the difference between them, with its 95% CI. Do not treat the interaction coefficient or a p-value as the final clinical result.
-5. **Uncertainty-aware figures** — Include an estimated-probability plot by treatment and PHQ-9 category and a plot of the conditional therapist-guided-minus-waitlist probability differences. Label the y-axes as probabilities or percentage-point differences and show 95% CIs.
-6. **Conclusion for the collaborator** — In 100–150 words, give a plain-language answer. State the numerical conditional probability differences and their 95% CIs, describe the degree of uncertainty, and say whether the proposed subgroup wording is justified. An odds ratio may be reported for statistical literacy, but it must be named as a ratio of odds rather than a percentage-point change.
+   Set the treatment reference category explicitly.
+   Report the numbers of participants and outcome events by treatment and PHQ-9 category, and explain how missing post-treatment LSAS values were handled.
+   The LSAS response outcome and binary PHQ-9 category are analysis choices for this exercise, not diagnostic, remission, or subgroup-discovery rules.
+3. **Additive model** — Fit a binary logistic model with `trt + phq_cat`.
+   Use model-derived probabilities and therapist-guided-minus-waitlist probability differences with 95% CIs.
+   Explain what “additive” means on the log-odds scale and why probability differences can still vary across PHQ-9 categories.
+4. **Interaction model** — Fit `trt * phq_cat` with `stats::glm(..., family = binomial)`.
+   Estimate the same conditional treatment differences with 95% CIs, and estimate the difference between them, with its 95% CI.
+   Do not treat the interaction coefficient or a p-value as the final clinical result.
+5. **Uncertainty-aware figures** — Include an estimated-probability plot by treatment and PHQ-9 category and a plot of the conditional therapist-guided-minus-waitlist probability differences.
+   Label the y-axes as probabilities or percentage-point differences and show 95% CIs.
+6. **Conclusion for the collaborator** — In 100–150 words, give a plain-language answer.
+   State the numerical conditional probability differences and their 95% CIs, describe the degree of uncertainty, and say whether the proposed subgroup wording is justified.
+   An odds ratio may be reported for statistical literacy, but it must be named as a ratio of odds rather than a percentage-point change.
 
-You may include the self-guided arm in the model and descriptive figures. The requested headline contrast remains therapist-guided versus waitlist, within each PHQ-9 category.
+You may include the self-guided arm in the model and descriptive figures.
+The requested headline contrast remains therapist-guided versus waitlist, within each PHQ-9 category.
 
 # Starting point
 
-This is a launch pad, not a click-by-click recipe. Discuss with your group what objects, tables, comparisons, and plots you need before extending it.
+This is a launch pad, not a click-by-click recipe.
+Discuss with your group what objects, tables, comparisons, and plots you need before extending it.
 
 ```{r}
 #| label: setup
@@ -46,6 +62,8 @@ options(
   marginaleffects_print_style = ifelse(interactive(), "summary", "tinytable")
 )
 
+# This keeps all three arms; filter to waitlist and therapist-guided if your
+# group restricts the analysis to the headline contrast.
 df_binary <- read_csv2(here("data", "steps_clean.csv")) |>
   filter(!is.na(lsas_screen), !is.na(lsas_post)) |>
   mutate(
@@ -99,11 +117,15 @@ mod_interaction <- stats::glm(
 
 # Questions to discuss
 
-- The additive model has no `trt:phq_cat` term. Does that mean its two probability differences must be identical? Why or why not?
+- The additive model has no `trt:phq_cat` term.
+  Does that mean its two probability differences must be identical?
+  Why or why not?
 - If the interaction-model estimates differ, what evidence would make that pattern more convincing than a visually attractive subgroup plot?
 - How does the width of each confidence interval affect the wording of your conclusion?
-- What is lost by reducing PHQ-9 to two categories? What would change if PHQ-9 were retained as a continuous moderator?
-- Does randomization support a causal interpretation of the treatment comparison? Does it automatically support a causal claim about an observed subgroup pattern?
+- What is lost by reducing PHQ-9 to two categories?
+  What would change if PHQ-9 were retained as a continuous moderator?
+- Does randomization support a causal interpretation of the treatment comparison?
+  Does it automatically support a causal claim about an observed subgroup pattern?
 
 # Before you send the slide back
 

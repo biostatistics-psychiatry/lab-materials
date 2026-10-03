@@ -1,12 +1,16 @@
 ---
 title: "Multinomial logistic regression"
+format:
+  html:
+    df-print: kable
 toc: true
 number-sections: true
 ---
 
 # Why a multinomial model?
 
-The binary outcome used earlier distinguishes only response from non-response. Sometimes the question concerns how treatment redistributes probability across **three or more outcome categories**.
+The binary outcome used earlier distinguishes only response from non-response.
+Sometimes the question concerns how treatment redistributes probability across **three or more outcome categories**.
 
 We use these teaching categories:
 
@@ -33,7 +37,9 @@ The probability-scale interpretation you learn here, how treatment redistributes
 
 # Long data for `mlogit`
 
-`mlogit` represents a multinomial outcome as a choice among alternatives. Each participant therefore appears once for every possible severity category. One and only one alternative is marked as the observed outcome.
+`mlogit` represents a multinomial outcome as a choice among alternatives.
+Each participant therefore appears once for every possible severity category.
+One and only one alternative is marked as the observed outcome.
 
 ```{r}
 #| label: setup
@@ -43,6 +49,11 @@ library(tidyverse)
 library(here)
 library(mlogit)
 library(marginaleffects)
+
+options(
+  marginaleffects_print_omit = c("s.value"),
+  marginaleffects_print_style = ifelse(interactive(), "summary", "tinytable")
+)
 
 df_outcome <- read_csv2(here("data", "steps_clean.csv")) |>
   filter(!is.na(lsas_post), !is.na(trt)) |>
@@ -101,23 +112,27 @@ b_guided_moderate <- b_multinomial[["trttherapist-guided:moderate_marked"]]
 
 ## Interpreting the coefficients
 
-As in binary logistic regression, the coefficients are on the **log-odds scale**. With three outcome categories, the model estimates two sets of coefficients because `low_no_to_mild` is the reference category:
+As in binary logistic regression, the coefficients are on the **log-odds scale**.
+With three outcome categories, the model estimates two sets of coefficients because `low_no_to_mild` is the reference category:
 
 - `moderate_marked` versus `low_no_to_mild`
 
 - `severe_very_severe` versus `low_no_to_mild`
 
-For example, the coefficient for therapist-guided treatment and `moderate_marked` is approximately `r sprintf("%.2f", b_guided_moderate)`. Exponentiating gives:
+For example, the coefficient for therapist-guided treatment and `moderate_marked` is approximately `r sprintf("%.2f", b_guided_moderate)`.
+Exponentiating gives:
 
 ```{r}
 #| label: multinomial-or
 exp(b_guided_moderate)
 ```
 
-This gives an odds ratio of approximately `r sprintf("%.2f", exp(b_guided_moderate))`. In other words, the odds of a moderate/marked rather than a low/no-to-mild outcome are `r if (b_guided_moderate < 0) "lower" else "higher"` in the therapist-guided group than in the waitlist group.
+This gives an odds ratio of approximately `r sprintf("%.2f", exp(b_guided_moderate))`.
+In other words, the odds of a moderate/marked rather than a low/no-to-mild outcome are `r if (b_guided_moderate < 0) "lower" else "higher"` in the therapist-guided group than in the waitlist group.
 More precisely, they are `r sprintf("%.2f", exp(b_guided_moderate))` times as high in the therapist-guided group as in the waitlist group.
 
-These odds ratios can become difficult to interpret because each compares **one outcome category with the reference outcome category**. We will therefore focus primarily on **model-based probabilities**, which show more directly how treatment redistributes the probability across the three severity categories.
+These odds ratios can become difficult to interpret because each compares **one outcome category with the reference outcome category**.
+We will therefore focus primarily on **model-based probabilities**, which show more directly how treatment redistributes the probability across the three severity categories.
 
 ```{r}
 #| label: multinomial-probabilities

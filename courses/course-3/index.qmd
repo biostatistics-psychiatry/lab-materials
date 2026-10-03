@@ -3,15 +3,23 @@ title: "Course 3 - Regression Models for Binary and Categorical Outcomes"
 date: last-modified
 ---
 
-Welcome to Biostatistics III. This week is all about **binary and categorical outcomes**, analyzed with logistic-regression models. Odds ratios and log-odds often appear in the literature, so we will learn what they mean. We will also interpret results on the probability scale.
+Welcome to Biostatistics III.
+This week is all about **binary and categorical outcomes**, analyzed with logistic-regression models.
+Odds ratios and log-odds often appear in the literature, so we will learn what they mean.
+We will also interpret results on the probability scale.
 
-We will continue to work with the STePS randomized trial of internet-delivered psychodynamic therapy for social anxiety disorder. Most chapters use a binary treatment-response outcome: an LSAS reduction of at least 30% from baseline. The multinomial chapter uses post-treatment LSAS grouped into three severity categories.
+We will continue to work with the STePS randomized trial of internet-delivered psychodynamic therapy for social anxiety disorder.
+Most chapters use a binary treatment-response outcome: an LSAS reduction of at least 30% from baseline.
+The multinomial chapter uses post-treatment LSAS grouped into three severity categories.
 
 # Group work during lab sessions
 
-During the afternoon lab sessions, you will be tasked with producing a Quarto notebook that documents the analyses related to each day's lab. This work will be done in small groups, and each group will present for the rest of the class at some point during the week. Use the template notebook uploaded to Canvas as a starting point.
+During the afternoon lab sessions, you will be tasked with producing a Quarto notebook that documents the analyses related to each day's lab.
+This work will be done in small groups, and each group will present for the rest of the class at some point during the week.
+Use the template notebook uploaded to Canvas as a starting point.
 
-We have been intentionally vague about the lab instructions to allow you to explore and discuss different approaches to the same problem. Refer to the chapters on this website for guidance on how to perform the analyses.
+We have been intentionally vague about the lab instructions to allow you to explore and discuss different approaches to the same problem.
+Refer to the chapters on this website for guidance on how to perform the analyses.
 
 # Intended learning outcomes
 
@@ -19,11 +27,13 @@ After completing this course, you should be able to:
 
 - define and fit binary logistic-regression models in R;
 - distinguish probabilities, odds, log-odds, and odds ratios;
-- use `marginaleffects` to estimate and visualise model-based predictions and contrasts;
+- use `marginaleffects` to estimate and visualize model-based predictions and contrasts;
 - fit and interpret models with binary, categorical, and numeric predictors;
 - interpret interaction models using conditional treatment effects on the probability scale; and
 - interpret multinomial-logit probabilities.
 
 # Using AI tools
 
-You may use generative AI tools in lab sessions. They can generate code that runs, but they can also generate confident statistical mistakes. You remain responsible for understanding the model and checking whether the code answers the stated question.
+You may use generative AI tools in lab sessions.
+They can generate code that runs, but they can also generate confident statistical mistakes.
+You remain responsible for understanding the model and checking whether the code answers the stated question.

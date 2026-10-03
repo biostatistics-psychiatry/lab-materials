@@ -8,26 +8,22 @@ toc: true
 
 # Scenario
 
-A senior collaborator has noticed that the interaction-model curve appears to
-move across baseline PHQ-9 scores. Their draft conference abstract now contains
-the sentence:
+A senior collaborator has noticed that the interaction-model curve appears to move across baseline PHQ-9 scores.
+Their draft conference abstract now contains the sentence:
 
-> *Therapist guidance is especially effective for the patients who need it most,
-> as demonstrated by a continuous PHQ-9 moderation effect.*
+> *Therapist guidance is especially effective for the patients who need it most, as demonstrated by a continuous PHQ-9 moderation effect.*
 
-The collaborator would like the figure “cleaned up” before the abstract is sent. Your group is asked to evaluate the claim, not merely to make a graph that agrees with it. The request is intentionally under-specified.
+The collaborator would like the figure “cleaned up” before the abstract is sent.
+Your group is asked to evaluate the claim, not merely to make a graph that agrees with it.
+The request is intentionally under-specified.
 
 # Your task
 
-Prepare a short, reproducible Quarto notebook that evaluates whether the claim
-is supported by a binary logistic model of the probability of treatment
-response. Work with the waitlist and therapist-guided treatment
-arms. Treat `phq9_screen` as continuous; do not turn it into a median split just
-to make the narrative more convenient.
+Prepare a short, reproducible Quarto notebook that evaluates whether the claim is supported by a binary logistic model of the probability of treatment response.
+Work with the waitlist and therapist-guided treatment arms.
+Treat `phq9_screen` as continuous; do not turn it into a median split just to make the narrative more convenient.
 
-You may choose reasonable presentation details, but your notebook must make each
-analysis decision visible and must distinguish what the model estimates from what
-the collaborator would like it to establish.
+You may choose reasonable presentation details, but your notebook must make each analysis decision visible and must distinguish what the model estimates from what the collaborator would like it to establish.
 
 # Required deliverables
 
@@ -35,40 +31,28 @@ Your notebook must contain all of the following.
 
 1. **Question and estimands**
    - State the binary outcome and the event whose probability is modeled.
-   - Define the direction of the treatment contrast as therapist-guided minus
-     waitlist.
-   - State one conditional estimand at a meaningful PHQ-9 value and one
-     population-average estimand over the observed PHQ-9 distribution.
+   - Define the direction of the treatment contrast as therapist-guided minus waitlist.
+   - State one conditional estimand at a meaningful PHQ-9 value and one population-average estimand over the observed PHQ-9 distribution.
 2. **Data and model choices**
    - Define `lsas_response` as a reduction of at least 30% from baseline LSAS; name this as a response outcome rather than a diagnostic or remission definition.
-   - Set waitlist as the reference group, retain only the two treatment arms,
-     and report how missing outcome or PHQ-9 values were handled.
-   - Fit both an additive logistic model and an interaction logistic model using
-     `stats::glm(..., family = binomial)`.
+   - Set waitlist as the reference group, retain only the two treatment arms, and report how missing outcome or PHQ-9 values were handled.
+   - Fit both an additive logistic model and an interaction logistic model using `stats::glm(..., family = binomial)`.
 3. **Probability-scale results**
-   - Report therapist-guided-minus-waitlist probability differences with 95% CIs
-     at at least three prespecified PHQ-9 values within the observed range.
-     Explain why those values are meaningful for your analysis; do not select
-     them because they make the curve look most dramatic.
-   - Estimate the interaction model's population-average treatment probability
-     difference, with a 95% CI, by averaging over the observed PHQ-9 values.
-   - Include an uncertainty-aware curve of the conditional probability
-     difference across PHQ-9. A plot of group-specific probabilities is useful
-     too, but does not replace the direct contrast plot.
+   - Report therapist-guided-minus-waitlist probability differences with 95% CIs at at least three prespecified PHQ-9 values within the observed range.
+     Explain why those values are meaningful for your analysis; do not select them because they make the curve look most dramatic.
+   - Estimate the interaction model's population-average treatment probability difference, with a 95% CI, by averaging over the observed PHQ-9 values.
+   - Include an uncertainty-aware curve of the conditional probability difference across PHQ-9.
+     A plot of group-specific probabilities is useful too, but does not replace the direct contrast plot.
 4. **Interpretation and conclusion**
-   - Write a short, clinically intelligible conclusion that gives numerical
-     percentage-point differences, their intervals, their conditioning values,
-     and the direction of the contrast.
-   - Explain whether the data support the proposed moderator claim. Do not use a
-     visually sloping point-estimate curve as evidence by itself.
-   - If you report an odds ratio, identify the PHQ-9 value to which it applies
-     and explain why it is a ratio of odds, not a probability difference.
+   - Write a short, clinically intelligible conclusion that gives numerical percentage-point differences, their intervals, their conditioning values, and the direction of the contrast.
+   - Explain whether the data support the proposed moderator claim.
+     Do not use a visually sloping point-estimate curve as evidence by itself.
+   - If you report an odds ratio, identify the PHQ-9 value to which it applies and explain why it is a ratio of odds, not a probability difference.
 
 # Starter code
 
-This setup is deliberately not a complete analysis. It makes the outcome and
-reference groups explicit; your group must decide which contrasts, tables,
-figures, diagnostics, and wording answer the question.
+This setup is deliberately not a complete analysis.
+It makes the outcome and reference groups explicit; your group must decide which contrasts, tables, figures, diagnostics, and wording answer the question.
 
 ```{r}
 #| label: setup
@@ -119,29 +103,19 @@ mod_interaction <- stats::glm(
 
 # Questions for the group
 
-- What is the difference between a treatment contrast at PHQ-9 = 10 and a
-  treatment contrast averaged over the observed PHQ-9 distribution?
-- In an additive logistic model, does a constant treatment log-odds difference
-  require a constant treatment probability difference? Use predictions or
-  comparisons to justify your answer.
-- How much support for effect modification is visible once the conditional
-  probability-difference curve includes its 95% confidence interval?
-- What population would your population-average contrast describe? Would it be
-  unchanged in a clinic with a different baseline PHQ-9 distribution?
-- Which parts of the collaborator's sentence are empirical findings, and which
-  are causal or clinical claims that this analysis alone cannot establish?
+- What is the difference between a treatment contrast at PHQ-9 = 10 and a treatment contrast averaged over the observed PHQ-9 distribution?
+- In an additive logistic model, does a constant treatment log-odds difference require a constant treatment probability difference?
+  Use predictions or comparisons to justify your answer.
+- How much support for effect modification is visible once the conditional probability-difference curve includes its 95% confidence interval?
+- What population would your population-average contrast describe?
+  Would it be unchanged in a clinic with a different baseline PHQ-9 distribution?
+- Which parts of the collaborator's sentence are empirical findings, and which are causal or clinical claims that this analysis alone cannot establish?
 
 # Before presenting
 
 - [ ] The Quarto notebook runs from top to bottom in a clean R session.
-- [ ] The analysis states the modeled event, treatment reference group, and
-      direction of every treatment contrast.
-- [ ] Both fitted models use `stats::glm(..., family = binomial)`;
-      probability-scale results use `marginaleffects` rather than interpreting log-odds coefficients as the
-      final clinical answer.
-- [ ] The conditional contrasts, curve, and population-average contrast all
-      include 95% confidence intervals.
-- [ ] The conclusion reports numerical percentage-point results and does not
-      turn an odds ratio into a probability difference.
-- [ ] The conclusion distinguishes statistical uncertainty from a claim that a
-      particular subgroup "needs" or benefits more from therapist guidance.
+- [ ] The analysis states the modeled event, treatment reference group, and direction of every treatment contrast.
+- [ ] Both fitted models use `stats::glm(..., family = binomial)`; probability-scale results use `marginaleffects` rather than interpreting log-odds coefficients as the final clinical answer.
+- [ ] The conditional contrasts, curve, and population-average contrast all include 95% confidence intervals.
+- [ ] The conclusion reports numerical percentage-point results and does not turn an odds ratio into a probability difference.
+- [ ] The conclusion distinguishes statistical uncertainty from a claim that a particular subgroup "needs" or benefits more from therapist guidance.

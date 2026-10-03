@@ -1,12 +1,17 @@
 ---
 title: "Logistic regression with a numeric predictor"
+format:
+  html:
+    df-print: kable
 toc: true
 number-sections: true
 ---
 
 # Numeric predictors and probabilities
 
-A numeric predictor can change the probability of an outcome continuously. Here we model the probability of treatment response as a function of baseline GAD-7 score (`gad_screen`). The logistic model is linear on the log-odds scale, but its probability curve is generally curved.
+A numeric predictor can change the probability of an outcome continuously.
+Here we model the probability of treatment response as a function of baseline GAD-7 score (`gad_screen`).
+The logistic model is linear on the log-odds scale, but its probability curve is generally curved.
 
 ```{r}
 #| label: setup
@@ -16,9 +21,15 @@ library(tidyverse)
 library(here)
 library(marginaleffects)
 
+options(
+  marginaleffects_print_omit = c("s.value"),
+  marginaleffects_print_style = ifelse(interactive(), "summary", "tinytable")
+)
+
 df_clean <- read_csv2(here("data", "steps_clean.csv")) |>
-  filter(!is.na(lsas_post), !is.na(gad_screen)) |>
+  filter(!is.na(lsas_screen), !is.na(lsas_post), !is.na(gad_screen)) |>
   mutate(
+    # The second factor level is the event modeled by binomial glm().
     lsas_response = factor(
       if_else(
         (lsas_screen - lsas_post) / lsas_screen >= 0.30,
@@ -57,7 +68,8 @@ If we exponentiate the `gad_screen` estimate, we get the odds ratio of treatment
 exp(b_gad)
 ```
 
-We can also get the estimated odds ratio for an x-point increase in GAD-7 at screening, by using the same procedure while multiplying the coefficient by x. For example, if we wanted the odds ratio for a 10-point increase in GAD-7, we could do:
+We can also get the estimated odds ratio for an x-point increase in GAD-7 at screening, by using the same procedure while multiplying the coefficient by x.
+For example, if we wanted the odds ratio for a 10-point increase in GAD-7, we could do:
 
 ```{r}
 #| label: numeric-model-manual-or-10-point
@@ -97,7 +109,8 @@ plot_predictions(mod_gad, condition = "gad_screen") +
 
 # From a continuous score to a curve
 
-A linear predictor does not imply a straight line on the probability scale. For this reason, plots and predictions at clinically meaningful values are usually more informative than reporting a coefficient alone.
+A linear predictor does not imply a straight line on the probability scale.
+For this reason, plots and predictions at clinically meaningful values are usually more informative than reporting a coefficient alone.
 
 ```{r}
 #| label: numeric-predictions-at-quartiles
@@ -171,11 +184,11 @@ pred_gad_spline <- predictions(
   mutate(model = "Natural cubic spline (df = 3)")
 
 bind_rows(pred_gad_linear, pred_gad_spline) |>
-  ggplot(aes(x = gad_screen, y = estimate, colour = model, fill = model)) +
+  ggplot(aes(x = gad_screen, y = estimate, color = model, fill = model)) +
   geom_ribbon(
     aes(ymin = conf.low, ymax = conf.high),
     alpha = 0.15,
-    colour = NA
+    color = NA
   ) +
   geom_line(linewidth = 1) +
   labs(
@@ -183,7 +196,7 @@ bind_rows(pred_gad_linear, pred_gad_spline) |>
     subtitle = "Linear and spline models; 95% confidence intervals",
     x = "GAD-7 score at screening",
     y = "Probability of treatment response",
-    colour = "Model",
+    color = "Model",
     fill = "Model"
   ) +
   theme_minimal()
@@ -274,23 +287,24 @@ toy_summaries <- tibble(
 
 ggplot(toy_curve, aes(x = gad, y = value)) +
   geom_vline(xintercept = mean(gad_patients), linetype = "dotted") +
-  geom_line(colour = "grey50") +
+  geom_line(color = "grey50") +
   geom_line(data = toy_patients, linetype = "dashed") +
   geom_point(data = toy_patients, size = 3) +
-  geom_point(data = toy_summaries, aes(colour = summary), size = 3) +
+  geom_point(data = toy_summaries, aes(color = summary), size = 3) +
   facet_wrap(~scale, scales = "free_y") +
   labs(
     title = "Average prediction versus prediction at the average",
     subtitle = "Made-up model; black points: mild and severe patients",
     x = "GAD-7 score",
     y = NULL,
-    colour = NULL
+    color = NULL
   ) +
   theme_minimal() +
   theme(legend.position = "bottom")
 ```
 
-[^jensen]: The general result is Jensen's inequality. The inverse logit is convex for negative log-odds (probabilities below 0.5) and concave for positive log-odds, so the direction of the gap depends on where the predictions lie.
+[^jensen]: The general result is Jensen's inequality.
+    The inverse logit is convex for negative log-odds (probabilities below 0.5) and concave for positive log-odds, so the direction of the gap depends on where the predictions lie.
 
 `marginaleffects` has a function for each summary.
 `avg_predictions()` gives the average prediction: it predicts every participant's probability and averages the predictions.

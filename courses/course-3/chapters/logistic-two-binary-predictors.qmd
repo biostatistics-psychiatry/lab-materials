@@ -10,7 +10,9 @@ number-sections: true
 
 # Two predictors, one clinical question
 
-The previous logistic-regression chapters considered one predictor at a time. Clinical questions often ask whether a treatment contrast looks different in a baseline subgroup. Here we model the probability of a **treatment response** using:
+The previous logistic-regression chapters considered one predictor at a time.
+Clinical questions often ask whether a treatment contrast looks different in a baseline subgroup.
+Here we model the probability of a **treatment response** using:
 
 - treatment group (`trt`); and
 - a binary baseline PHQ-9 category (`phq_cat`).
@@ -19,7 +21,9 @@ Our teaching question is:
 
 > Within each PHQ-9 category, how does the estimated probability of treatment response differ between therapist-guided treatment and waitlist?
 
-We will first fit an additive logistic model and then a model with `trt * phq_cat`. The probability difference, with its 95% confidence interval, is the clinical contrast. Log-odds and odds ratios help us read model output and research papers, but neither is a percentage-point difference.
+We will first fit an additive logistic model and then a model with `trt * phq_cat`.
+The probability difference, with its 95% confidence interval, is the clinical contrast.
+Log-odds and odds ratios help us read model output and research papers, but neither is a percentage-point difference.
 
 # Packages and data
 
@@ -73,7 +77,8 @@ df_binary |>
   count(phq_cat, lsas_response, .drop = FALSE)
 ```
 
-`phq_cat` explicitly divides baseline PHQ-9 scores into `< 10` and `>= 10`. It is a convenient binary moderator for this lesson, not a claim that these two groups are biologically distinct or that a subgroup result is clinically established.
+`phq_cat` explicitly divides baseline PHQ-9 scores into `< 10` and `>= 10`.
+It is a convenient binary moderator for this lesson, not a claim that these two groups are biologically distinct or that a subgroup result is clinically established.
 Splitting PHQ-9 at 10 also discards information: a participant scoring 10 is grouped with one scoring 25, and apart from one scoring 9 [@Altman2006Dichotomising; @MacCallum2002Dichotomization].
 [Logistic regression with a binary and numeric predictor](logistic-binary-numeric-predictors.qmd) keeps PHQ-9 continuous.
 The outcome is treatment response, defined as a reduction of at least 30% from baseline LSAS.
@@ -153,24 +158,28 @@ additive_treatment_effects
 ::: {.callout-tip collapse="true"}
 ## Model interpretation
 
-Compared with waitlist, therapist-guided treatment has an estimated probability of treatment response that is **`r if (additive_treatment_low_phq$estimate[1] >= 0) "higher" else "lower"` by `r sprintf("%.1f", 100 * abs(additive_treatment_low_phq$estimate[1]))` percentage points** among participants with baseline PHQ-9 `< 10` (95% CI **`r sprintf("%.1f", 100 * additive_treatment_low_phq$conf.low[1])` to `r sprintf("%.1f", 100 * additive_treatment_low_phq$conf.high[1])` percentage points**). Among participants with baseline PHQ-9 `>= 10`, it is **`r if (additive_treatment_high_phq$estimate[1] >= 0) "higher" else "lower"` by `r sprintf("%.1f", 100 * abs(additive_treatment_high_phq$estimate[1]))` percentage points** (95% CI **`r sprintf("%.1f", 100 * additive_treatment_high_phq$conf.low[1])` to `r sprintf("%.1f", 100 * additive_treatment_high_phq$conf.high[1])` percentage points**).
+Compared with waitlist, therapist-guided treatment has an estimated probability of treatment response that is **`r if (additive_treatment_low_phq$estimate[1] >= 0) "higher" else "lower"` by `r sprintf("%.1f", 100 * abs(additive_treatment_low_phq$estimate[1]))` percentage points** among participants with baseline PHQ-9 `< 10` (95% CI **`r sprintf("%.1f", 100 * additive_treatment_low_phq$conf.low[1])` to `r sprintf("%.1f", 100 * additive_treatment_low_phq$conf.high[1])` percentage points**).
+Among participants with baseline PHQ-9 `>= 10`, it is **`r if (additive_treatment_high_phq$estimate[1] >= 0) "higher" else "lower"` by `r sprintf("%.1f", 100 * abs(additive_treatment_high_phq$estimate[1]))` percentage points** (95% CI **`r sprintf("%.1f", 100 * additive_treatment_high_phq$conf.low[1])` to `r sprintf("%.1f", 100 * additive_treatment_high_phq$conf.high[1])` percentage points**).
 
-Because this is an additive *logistic* model, its therapist-guided-versus-waitlist odds ratio is **`r sprintf("%.2f", additive_odds_ratio$estimate[1])`** (95% CI **`r sprintf("%.2f", additive_odds_ratio$conf.low[1])` to `r sprintf("%.2f", additive_odds_ratio$conf.high[1])`**) in both PHQ-9 categories, adjusted for PHQ-9 category. This is a ratio of odds, not a percentage-point probability change; the conditional probability differences above are the primary results.
+Because this is an additive *logistic* model, its therapist-guided-versus-waitlist odds ratio is **`r sprintf("%.2f", additive_odds_ratio$estimate[1])`** (95% CI **`r sprintf("%.2f", additive_odds_ratio$conf.low[1])` to `r sprintf("%.2f", additive_odds_ratio$conf.high[1])`**) in both PHQ-9 categories, adjusted for PHQ-9 category.
+This is a ratio of odds, not a percentage-point probability change; the conditional probability differences above are the primary results.
 :::
 
 ```{r}
 #| label: plot-additive-probabilities
-#| fig-cap: "Additive-model estimated probabilities of treatment response. Error bars are 95% confidence intervals."
+#| fig-cap: >-
+#|   Additive-model estimated probabilities of treatment response. Error bars
+#|   are 95% confidence intervals.
 plot_predictions(
   mod_additive,
   condition = c("trt", "phq_cat")
 ) +
   labs(
     title = "Additive logistic model",
-    subtitle = "Estimated probabilities by treatment and baseline PHQ-9 category",
+    subtitle = "Probabilities by treatment and baseline PHQ-9 category",
     x = "Treatment group",
     y = "Estimated probability of treatment response (95% CI)",
-    colour = "Baseline PHQ-9"
+    color = "Baseline PHQ-9"
   ) +
   theme_minimal()
 ```
@@ -182,9 +191,13 @@ plot_predictions(
 
 These terms are often used interchangeably, but they mean different things.
 
-- **Effect modification**: the effect of one intervention (here, treatment) differs across levels of another variable (here, baseline PHQ-9 category). Only the first variable needs to be something we could intervene on; the second is a characteristic we condition on [@VanderWeele2009Interaction].
-- **Causal interaction**: the effect of intervening on *both* variables together differs from what their separate effects would imply. Both variables must be things we could, at least in principle, intervene on [@VanderWeele2009Interaction].
-- **Moderation**: the term most used in psychology for a variable that changes the direction or strength of a relationship [@Baron1986Moderator]. In randomized trials, @Kraemer2002Moderators define a moderator as a characteristic measured before randomization, and therefore unrelated to treatment, that identifies subgroups with different treatment effects. This is close to effect modification.
+- **Effect modification**: the effect of one intervention (here, treatment) differs across levels of another variable (here, baseline PHQ-9 category).
+  Only the first variable needs to be something we could intervene on; the second is a characteristic we condition on [@VanderWeele2009Interaction].
+- **Causal interaction**: the effect of intervening on *both* variables together differs from what their separate effects would imply.
+  Both variables must be things we could, at least in principle, intervene on [@VanderWeele2009Interaction].
+- **Moderation**: the term most used in psychology for a variable that changes the direction or strength of a relationship [@Baron1986Moderator].
+  In randomized trials, @Kraemer2002Moderators define a moderator as a characteristic measured before randomization, and therefore unrelated to treatment, that identifies subgroups with different treatment effects.
+  This is close to effect modification.
 
 Treatment is randomized, but PHQ-9 is not, so this chapter studies effect modification.
 We can estimate whether the treatment effect differs between PHQ-9 categories, but not what would happen if we changed a participant's depression, and a difference between the categories may reflect other characteristics that go with higher PHQ-9 scores.
@@ -223,9 +236,13 @@ mod_interaction <- stats::glm(
 summary(mod_interaction)
 ```
 
-We can exponentiate the coefficients to express them on the odds-ratio scale. In an interaction model, however, the treatment coefficient now represents the treatment effect when PHQ-9 is in its reference category (`< 10`). Thus, $\exp(\beta_1)$ is the OR for therapist-guided treatment versus waitlist among participants with PHQ-9 `< 10`.
+We can exponentiate the coefficients to express them on the odds-ratio scale.
+In an interaction model, however, the treatment coefficient now represents the treatment effect when PHQ-9 is in its reference category (`< 10`).
+Thus, $\exp(\beta_1)$ is the OR for therapist-guided treatment versus waitlist among participants with PHQ-9 `< 10`.
 
-The interaction coefficient tells us how the treatment OR changes when moving from PHQ-9 `< 10` to PHQ-9 `>= 10`. Here, $\exp(\beta_3)$ is the ratio of the two treatment ORs. To obtain the treatment OR among participants with PHQ-9 `>= 10`, we therefore combine the treatment and interaction coefficients: $\exp(\beta_1 + \beta_3)$.
+The interaction coefficient tells us how the treatment OR changes when moving from PHQ-9 `< 10` to PHQ-9 `>= 10`.
+Here, $\exp(\beta_3)$ is the ratio of the two treatment ORs.
+To obtain the treatment OR among participants with PHQ-9 `>= 10`, we therefore combine the treatment and interaction coefficients: $\exp(\beta_1 + \beta_3)$.
 
 ```{r}
 #| label: fit-interaction-logit-manual
@@ -283,25 +300,30 @@ interaction_log_odds_effects <- avg_comparisons(
     odds_ratio_high = exp(conf.high)
   )
 
-interaction_odds_ratio_low_phq <- interaction_log_odds_effects |>
+or_interaction_low_phq <- interaction_log_odds_effects |>
   filter(phq_cat == "< 10")
-interaction_odds_ratio_high_phq <- interaction_log_odds_effects |>
+or_interaction_high_phq <- interaction_log_odds_effects |>
   filter(phq_cat == ">= 10")
 ```
 
 ::: {.callout-tip collapse="true"}
 ## Model interpretation
 
-Within the baseline PHQ-9 `< 10` category, therapist-guided treatment has an estimated probability of treatment response that is **`r if (interaction_treatment_low_phq$estimate[1] >= 0) "higher" else "lower"` by `r sprintf("%.1f", 100 * abs(interaction_treatment_low_phq$estimate[1]))` percentage points** than waitlist (95% CI **`r sprintf("%.1f", 100 * interaction_treatment_low_phq$conf.low[1])` to `r sprintf("%.1f", 100 * interaction_treatment_low_phq$conf.high[1])` percentage points**). Within the baseline PHQ-9 `>= 10` category, the corresponding probability is **`r if (interaction_treatment_high_phq$estimate[1] >= 0) "higher" else "lower"` by `r sprintf("%.1f", 100 * abs(interaction_treatment_high_phq$estimate[1]))` percentage points** (95% CI **`r sprintf("%.1f", 100 * interaction_treatment_high_phq$conf.low[1])` to `r sprintf("%.1f", 100 * interaction_treatment_high_phq$conf.high[1])` percentage points**).
+Within the baseline PHQ-9 `< 10` category, therapist-guided treatment has an estimated probability of treatment response that is **`r if (interaction_treatment_low_phq$estimate[1] >= 0) "higher" else "lower"` by `r sprintf("%.1f", 100 * abs(interaction_treatment_low_phq$estimate[1]))` percentage points** than waitlist (95% CI **`r sprintf("%.1f", 100 * interaction_treatment_low_phq$conf.low[1])` to `r sprintf("%.1f", 100 * interaction_treatment_low_phq$conf.high[1])` percentage points**).
+Within the baseline PHQ-9 `>= 10` category, the corresponding probability is **`r if (interaction_treatment_high_phq$estimate[1] >= 0) "higher" else "lower"` by `r sprintf("%.1f", 100 * abs(interaction_treatment_high_phq$estimate[1]))` percentage points** (95% CI **`r sprintf("%.1f", 100 * interaction_treatment_high_phq$conf.low[1])` to `r sprintf("%.1f", 100 * interaction_treatment_high_phq$conf.high[1])` percentage points**).
 
-The associated therapist-guided-versus-waitlist odds ratios are **`r sprintf("%.2f", interaction_odds_ratio_low_phq$odds_ratio[1])`** (95% CI **`r sprintf("%.2f", interaction_odds_ratio_low_phq$odds_ratio_low[1])` to `r sprintf("%.2f", interaction_odds_ratio_low_phq$odds_ratio_high[1])`**) for PHQ-9 `< 10` and **`r sprintf("%.2f", interaction_odds_ratio_high_phq$odds_ratio[1])`** (95% CI **`r sprintf("%.2f", interaction_odds_ratio_high_phq$odds_ratio_low[1])` to `r sprintf("%.2f", interaction_odds_ratio_high_phq$odds_ratio_high[1])`**) for PHQ-9 `>= 10`. They compare odds, not probabilities. Use the conditional probability differences above—not these odds ratios—to describe the clinical contrast.
+The associated therapist-guided-versus-waitlist odds ratios are **`r sprintf("%.2f", or_interaction_low_phq$odds_ratio[1])`** (95% CI **`r sprintf("%.2f", or_interaction_low_phq$odds_ratio_low[1])` to `r sprintf("%.2f", or_interaction_low_phq$odds_ratio_high[1])`**) for PHQ-9 `< 10` and **`r sprintf("%.2f", or_interaction_high_phq$odds_ratio[1])`** (95% CI **`r sprintf("%.2f", or_interaction_high_phq$odds_ratio_low[1])` to `r sprintf("%.2f", or_interaction_high_phq$odds_ratio_high[1])`**) for PHQ-9 `>= 10`.
+They compare odds, not probabilities.
+Use the conditional probability differences above—not these odds ratios—to describe the clinical contrast.
 :::
 
 ```{r}
 #| label: plot-interaction-probabilities
-#| fig-cap: "Interaction-model estimated probabilities of treatment response. Error bars are 95% confidence intervals."
+#| fig-cap: >-
+#|   Interaction-model estimated probabilities of treatment response. Error
+#|   bars are 95% confidence intervals.
 interaction_probabilities |>
-  ggplot(aes(x = trt, y = estimate, group = phq_cat, colour = phq_cat)) +
+  ggplot(aes(x = trt, y = estimate, group = phq_cat, color = phq_cat)) +
   geom_point(position = position_dodge(width = 0.1)) +
   geom_line(position = position_dodge(width = 0.1)) +
   geom_errorbar(
@@ -314,14 +336,16 @@ interaction_probabilities |>
     subtitle = "Treatment probabilities may differ by baseline PHQ-9 category",
     x = "Treatment group",
     y = "Estimated probability of treatment response (95% CI)",
-    colour = "Baseline PHQ-9"
+    color = "Baseline PHQ-9"
   ) +
   theme_minimal()
 ```
 
 ```{r}
 #| label: plot-conditional-treatment-effects
-#| fig-cap: "Conditional therapist-guided-minus-waitlist probability differences from the interaction model. Error bars are 95% confidence intervals."
+#| fig-cap: >-
+#|   Conditional therapist-guided-minus-waitlist probability differences from
+#|   the interaction model. Error bars are 95% confidence intervals.
 plot_comparisons(
   mod_interaction,
   variables = list(trt = c("waitlist", "therapist-guided")),
@@ -386,14 +410,18 @@ A trial powered for its overall treatment effect is therefore rarely powered to 
 
 # Interpreting the interaction
 
-An interaction model can describe different conditional estimates, but it does not automatically establish a clinically meaningful subgroup. Before presenting a subgroup finding, ask:
+An interaction model can describe different conditional estimates, but it does not automatically establish a clinically meaningful subgroup.
+Before presenting a subgroup finding, ask:
 
 1.  Were the moderator and the interaction planned before looking at the data?
 2.  Are the conditional probability differences precise enough to distinguish meaningful patterns from sampling variation?
 3.  Does the interaction plot show a consistent, clinically interpretable pattern rather than an isolated coefficient or p-value?
-4.  Would the conclusion be different if PHQ-9 were modeled continuously? See [logistic regression with a binary and numeric predictor](logistic-binary-numeric-predictors.qmd).
+4.  Would the conclusion be different if PHQ-9 were modeled continuously?
+    See [logistic regression with a binary and numeric predictor](logistic-binary-numeric-predictors.qmd).
 
-The interaction coefficient is a difference of **log-odds contrasts**. It is not itself the difference between the two probability differences; that difference is the `hypothesis` estimate above. `avg_comparisons()` gives the quantities we want to communicate: therapist-guided-minus-waitlist probability differences within the explicitly stated PHQ-9 categories.
+The interaction coefficient is a difference of **log-odds contrasts**.
+It is not itself the difference between the two probability differences; that difference is the `hypothesis` estimate above.
+`avg_comparisons()` gives the quantities we want to communicate: therapist-guided-minus-waitlist probability differences within the explicitly stated PHQ-9 categories.
 
 # Summary
 
