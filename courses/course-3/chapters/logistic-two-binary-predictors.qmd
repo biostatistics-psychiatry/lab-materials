@@ -105,7 +105,8 @@ mod_additive <- stats::glm(
 summary(mod_additive)
 ```
 
-We can get the OR of both therapist-guided vs waitlist and PHQ-9 high vs low by exponentiating the coefficients. Because the additive model does not allow for interactions on the log-odds or odds scale, the OR between the treatment groups are forced to be the same, regardless of PHQ-9 score.
+We can get the ORs for therapist-guided versus waitlist and for PHQ-9 `>= 10` versus `< 10` by exponentiating the coefficients.
+Because the additive model has no product term, the treatment OR is forced to be the same in both PHQ-9 categories.
 
 ```{r}
 #| label: fit-additive-logit-manual
@@ -196,7 +197,7 @@ With baseline PHQ-9 kept continuous, the probability difference in the additive 
 When you report effect modification, name the scale, for example the probability difference (an additive scale) or the odds ratio (a multiplicative scale).
 :::
 
-The interaction model uses the requested product term, `trt * phq_cat`:
+The interaction model adds a product term, written `trt * phq_cat` in the model formula:
 
 $$
 \operatorname{logit}\left[P(Y_i = \mathrm{Response})\right]
@@ -205,7 +206,9 @@ $$
 + \beta_3(trt_i \times phq_i).
 $$
 
-The interaction terms let treatment associations with the outcome differ by baseline PHQ-9 category. Since both trt and phq_cat are binary (0/1), the only combination that does not become 0 is when both are 1 (i.e. when trt = therapist-guided group and phq_cat = \>= 10). The treatment main-effect coefficients are now interpreted at the reference category, PHQ-9 `< 10`; they are not an overall treatment effect.
+The product term lets the treatment association with the outcome differ by baseline PHQ-9 category.
+Because both predictors are indicators (0/1), the product $trt_i \times phq_i$ equals 1 only for therapist-guided participants with PHQ-9 `>= 10`, so $\beta_3$ applies to that group alone.
+The treatment coefficient $\beta_1$ is now the treatment log-odds difference in the reference category, PHQ-9 `< 10`; it is not an overall treatment effect.
 
 ```{r}
 #| label: fit-interaction-logit
@@ -220,9 +223,9 @@ mod_interaction <- stats::glm(
 summary(mod_interaction)
 ```
 
-We can exponentiate the coefficients to express them on the odds-ratio scale. In an interaction model, however, the treatment coefficient now represents the treatment effect when PHQ-9 is in its reference category (\< 10). Thus, $\exp(\beta_1)$ is the OR for therapist-guided treatment versus waitlist among participants with PHQ-9 \< 10.
+We can exponentiate the coefficients to express them on the odds-ratio scale. In an interaction model, however, the treatment coefficient now represents the treatment effect when PHQ-9 is in its reference category (`< 10`). Thus, $\exp(\beta_1)$ is the OR for therapist-guided treatment versus waitlist among participants with PHQ-9 `< 10`.
 
-The interaction coefficient tells us how the treatment OR changes when moving from PHQ-9 \< 10 to PHQ-9 ≥ 10. Here, $\exp(\beta_3)$ is the ratio of the two treatment ORs. To obtain the treatment OR among participants with PHQ-9 ≥ 10, we therefore combine the treatment and interaction coefficients: $\exp(\beta_1 + \beta_3)$.
+The interaction coefficient tells us how the treatment OR changes when moving from PHQ-9 `< 10` to PHQ-9 `>= 10`. Here, $\exp(\beta_3)$ is the ratio of the two treatment ORs. To obtain the treatment OR among participants with PHQ-9 `>= 10`, we therefore combine the treatment and interaction coefficients: $\exp(\beta_1 + \beta_3)$.
 
 ```{r}
 #| label: fit-interaction-logit-manual
@@ -375,7 +378,7 @@ interaction_cell_counts <- df_binary |>
 interaction_cell_counts
 ```
 
-In the waitlist arm, only `r paste(interaction_cell_counts$Response[interaction_cell_counts$trt == "waitlist"], collapse = " and ")` participants responded in the two PHQ-9 categories.
+In the waitlist arm, only `r with(interaction_cell_counts, Response[trt == "waitlist" & phq_cat == "< 10"])` participants responded in the PHQ-9 `< 10` category and `r with(interaction_cell_counts, Response[trt == "waitlist" & phq_cat == ">= 10"])` in the `>= 10` category.
 Estimates based on so few events are unstable, and a cell with no events at all would leave the model unable to estimate its log-odds (a problem known as separation).
 More generally, an interaction needs far more data than a main effect of the same size: roughly four times the sample size in a two-arm trial with equally sized subgroups [@Brookes2004Subgroup].
 A trial powered for its overall treatment effect is therefore rarely powered to detect effect modification, and a non-significant interaction is weak evidence that none exists.
@@ -385,7 +388,7 @@ A trial powered for its overall treatment effect is therefore rarely powered to 
 
 An interaction model can describe different conditional estimates, but it does not automatically establish a clinically meaningful subgroup. Before presenting a subgroup finding, ask:
 
-1.  Was the moderator and interaction planned before looking at the data?
+1.  Were the moderator and the interaction planned before looking at the data?
 2.  Are the conditional probability differences precise enough to distinguish meaningful patterns from sampling variation?
 3.  Does the interaction plot show a consistent, clinically interpretable pattern rather than an isolated coefficient or p-value?
 4.  Would the conclusion be different if PHQ-9 were modeled continuously? See [logistic regression with a binary and numeric predictor](logistic-binary-numeric-predictors.qmd).

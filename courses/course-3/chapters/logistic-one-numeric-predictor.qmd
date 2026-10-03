@@ -50,7 +50,7 @@ b_gad <- coef(mod_gad)[["gad_screen"]]
 
 The model coefficients tell us that the estimated log-odds when GAD-7 is 0 (Intercept) is `r sprintf("%.2f", b0)`, and that the estimated log-odds changes by `r sprintf("%.3f", b_gad)` for each one-point increase in GAD-7.
 
-If we exponentiate the gad_screen estimate, we get the odds ratio of treatment response for each one-unit increase in GAD-7 at screening.
+If we exponentiate the `gad_screen` estimate, we get the odds ratio of treatment response for each one-unit increase in GAD-7 at screening.
 
 ```{r}
 #| label: numeric-model-manual-or

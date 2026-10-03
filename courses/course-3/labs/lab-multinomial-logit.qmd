@@ -11,9 +11,9 @@ A committee member has objected that the binary LSAS outcome hides the differenc
 
 Use the STePS data to model the three post-treatment LSAS severity categories:
 
-- low/no-to-mild: `<50`;
-- moderate/marked: `50–79`; and
-- severe/very severe: `≥80`.
+- low/no-to-mild: `< 50`;
+- moderate/marked: `>= 50` and `< 80`; and
+- severe/very severe: `>= 80`.
 
 Your Quarto notebook must include:
 

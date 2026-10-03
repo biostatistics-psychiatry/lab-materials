@@ -103,8 +103,8 @@ yet the most clinically intelligible quantities.
 
 ## Fit and interpret the model
 
-We fit the model using the `glm()` function, with the
-`family = binomial` to tell `R` that this is a logistic model. We can
+We fit the model with the `glm()` function, using
+`family = binomial` to tell R that this is a logistic model. We can
 then use the `summary()` function to see the model coefficients.
 
 ```{r}
@@ -124,16 +124,16 @@ b0 <- coef(mod_binary_trt)[["(Intercept)"]]
 b1 <- coef(mod_binary_trt)[["trttherapist-guided"]]
 ```
 
-The output from `summary()` shows us that the log-odds in the waitlist
-group is `r sprintf("%.2f", b0)` ($\beta_0$) and that the log-odds in
-the therapist-guided group is `r sprintf("%.2f", b1)` ($\beta_1$)
-higher than that of the waitlist (i.e. $\beta_0 + \beta_1$).
+The output from `summary()` shows that the log-odds of response in the
+waitlist group is `r sprintf("%.2f", b0)` ($\beta_0$), and that the
+log-odds in the therapist-guided group is `r sprintf("%.2f", b1)`
+($\beta_1$) higher, that is, $\beta_0 + \beta_1$.
 
 By exponentiating the linear predictors (added coefficients), **we get
 the odds for each group.** By exponentiating only the coefficient for
 the therapist-guided group ($\beta_1$; the difference in log-odds between the
 therapist-guided and the waitlist group), we get the **odds ratio of
-response in the therapist-guided vs. the waitlist group**
+response in the therapist-guided vs. the waitlist group**.
 
 ```{r}
 #| label: interpret-binary-treatment-logit-manual
@@ -189,8 +189,8 @@ p_binary_trt
 diff_binary_trt
 ```
 
-The estimated probability difference is calculated after transforming
-the model to the response scale. It answers a different question from
+The estimated probability difference is calculated from the model's
+predicted probabilities rather than from its coefficients. It answers a different question from
 the printed log-odds coefficient: how many percentage points higher or
 lower is the modeled probability in one group than the other?
 

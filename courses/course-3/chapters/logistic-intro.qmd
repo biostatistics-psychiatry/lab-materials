@@ -168,7 +168,7 @@ n_outcome <- table(df_clean$lsas_response)
 n_outcome[["Response"]] / n_outcome[["No response"]]
 ```
 
-The odds is still not the clearest summary, usually the probability is more easily interpreted. We can use `marginaleffects` to obtain the estimated probability and its confidence interval.
+The odds is still not the clearest summary; the probability is usually easier to interpret. We can use `marginaleffects` to obtain the estimated probability and its confidence interval.
 `predictions()` predicts the probability of response for the participants in `newdata`.
 An intercept-only model predicts the same probability for every participant, so we predict for one, the first row of the data.
 
@@ -218,7 +218,7 @@ mod_trt <- glm(
 summary(mod_trt)
 ```
 
-The coefficient for therapist-guided now shows the log-odds ratio of response in the therapist-guided group vs. the waitlist group. By exponentiating, we get the odds ratio. This can be calculated by hand from the counts above, by dividing the odds of response in the therapist-guided group by the odds in the waitlist group.
+The coefficient for therapist-guided is now the difference in the log-odds of response between the therapist-guided and waitlist groups. By exponentiating, we get the odds ratio. This can be calculated by hand from the counts above, by dividing the odds of response in the therapist-guided group by the odds in the waitlist group.
 
 ```{r}
 #| label: manual-odds-ratio

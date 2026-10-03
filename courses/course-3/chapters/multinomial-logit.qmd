@@ -10,9 +10,9 @@ The binary outcome used earlier distinguishes only response from non-response. S
 
 We use these teaching categories:
 
-- `low_no_to_mild`: LSAS \< 50;
-- `moderate_marked`: 50 ≤ LSAS \< 80; and
-- `severe_very_severe`: LSAS ≥ 80.
+- `low_no_to_mild`: LSAS $< 50$;
+- `moderate_marked`: $50 \leq$ LSAS $< 80$; and
+- `severe_very_severe`: LSAS $\geq 80$.
 
 They are a pedagogical severity grouping, not validated diagnostic or remission thresholds.
 
@@ -114,7 +114,8 @@ For example, the coefficient for therapist-guided treatment and `moderate_marked
 exp(b_guided_moderate)
 ```
 
-This gives an odds ratio of approximately `r sprintf("%.2f", exp(b_guided_moderate))`. In other words, the ratio between moderate/marked and low/no-to-mild outcomes is smaller in the therapist-guided group than in the waitlist group. More precisely, the odds of moderate/marked versus low/no-to-mild are `r sprintf("%.2f", exp(b_guided_moderate))` times as high in the therapist-guided group as in the waitlist group.
+This gives an odds ratio of approximately `r sprintf("%.2f", exp(b_guided_moderate))`. In other words, the odds of a moderate/marked rather than a low/no-to-mild outcome are `r if (b_guided_moderate < 0) "lower" else "higher"` in the therapist-guided group than in the waitlist group.
+More precisely, they are `r sprintf("%.2f", exp(b_guided_moderate))` times as high in the therapist-guided group as in the waitlist group.
 
 These odds ratios can become difficult to interpret because each compares **one outcome category with the reference outcome category**. We will therefore focus primarily on **model-based probabilities**, which show more directly how treatment redistributes the probability across the three severity categories.
 
@@ -158,12 +159,31 @@ severity_differences <- predictions(
 severity_differences
 ```
 
+```{r}
+#| label: severity-difference-values
+#| echo: false
+# Formatted therapist-guided minus waitlist differences, by severity category
+severity_change <- as.data.frame(severity_differences) |>
+  mutate(
+    direction = if_else(estimate >= 0, "rises", "falls"),
+    size = sprintf("%.1f", abs(100 * estimate)),
+    across(c(estimate, conf.low, conf.high), \(x) sprintf("%.1f", 100 * x))
+  )
+sev <- function(category, column) {
+  severity_change[[column]][severity_change$term == category]
+}
+```
+
 ::: {.callout-tip collapse="true"}
 ## Model interpretation
 
-Compared with waitlist, therapist-guided treatment changes the estimated probability of low/no-to-mild severity by **`r sprintf("%.1f", 100 * severity_differences$estimate[severity_differences$term == "low_no_to_mild"])` percentage points** (95% CI **`r sprintf("%.1f", 100 * severity_differences$conf.low[severity_differences$term == "low_no_to_mild"])`** to **`r sprintf("%.1f", 100 * severity_differences$conf.high[severity_differences$term == "low_no_to_mild"])` percentage points**).
+Compared with waitlist, therapist-guided treatment is associated with the following changes in the estimated probability of each post-treatment severity category (therapist-guided minus waitlist):
 
-The probability of severe/very severe symptoms changes by **`r sprintf("%.1f", 100 * severity_differences$estimate[severity_differences$term == "severe_very_severe"])` percentage points** (95% CI **`r sprintf("%.1f", 100 * severity_differences$conf.low[severity_differences$term == "severe_very_severe"])`** to **`r sprintf("%.1f", 100 * severity_differences$conf.high[severity_differences$term == "severe_very_severe"])` percentage points**). The category probabilities must sum to one, so an increase in one category is accompanied by decreases elsewhere.
+- low/no-to-mild: `r sev("low_no_to_mild", "direction")` by **`r sev("low_no_to_mild", "size")` percentage points** (95% CI **`r sev("low_no_to_mild", "conf.low")`** to **`r sev("low_no_to_mild", "conf.high")`**);
+- moderate/marked: `r sev("moderate_marked", "direction")` by **`r sev("moderate_marked", "size")` percentage points** (95% CI **`r sev("moderate_marked", "conf.low")`** to **`r sev("moderate_marked", "conf.high")`**); and
+- severe/very severe: `r sev("severe_very_severe", "direction")` by **`r sev("severe_very_severe", "size")` percentage points** (95% CI **`r sev("severe_very_severe", "conf.low")`** to **`r sev("severe_very_severe", "conf.high")`**).
+
+The category probabilities sum to one, so the three differences sum to zero: whatever probability one category gains, the others lose.
 :::
 
 ```{r}

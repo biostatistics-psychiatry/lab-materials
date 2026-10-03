@@ -379,9 +379,9 @@ plot_comparisons(
     title = "Conditional treatment probability difference",
     subtitle = "Therapist-guided minus waitlist; 95% confidence intervals",
     x = "Baseline PHQ-9 score",
-    y = "Probability difference"
+    y = "Probability difference (percentage points)"
   ) +
-  scale_y_continuous(labels = scales::label_percent(accuracy = 1)) +
+  scale_y_continuous(labels = scales::label_number(scale = 100, accuracy = 1)) +
   theme_minimal()
 ```
 
@@ -474,7 +474,7 @@ collapse_measures <- list(
 collapse_measures
 ```
 
-In both severity groups, treatment increases the probability of response by `r sprintf("%.0f", 100 * collapse_measures$risk_difference[1])` percentage points, and so it does in the whole trial.
+In both severity groups, treatment increases the probability of response by `r sprintf("%.0f", 100 * collapse_measures$risk_difference[1])` percentage points, and it does so in the whole trial as well.
 The risk ratio is `r sprintf("%.0f", collapse_measures$risk_ratio[1])` in the mild group and `r sprintf("%.0f", collapse_measures$risk_ratio[2])` in the severe group, and `r sprintf("%.2f", collapse_measures$risk_ratio[3])` in the whole trial, in between the two.
 The odds ratio is `r sprintf("%.0f", collapse_measures$odds_ratio[1])` in both groups, yet `r sprintf("%.2f", collapse_measures$odds_ratio[3])` in the whole trial: smaller than in either half.
 Severity is not a confounder, because treatment was randomized. And because the made-up trial is exactly balanced, with 100 participants in each cell, chance imbalance plays no role either, so the difference between the odds ratios is due to non-collapsibility alone.
