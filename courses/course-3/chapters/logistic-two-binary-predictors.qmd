@@ -190,7 +190,9 @@ We can estimate whether the treatment effect differs between PHQ-9 categories, b
 
 All three depend on the scale.
 A model can show no interaction on one scale and an interaction on another [@VanderWeele2014Tutorial].
-The additive model above is an example: it has no interaction on the log-odds scale, yet its probability differences differ between the PHQ-9 categories.
+The additive model above is an example: it has no interaction on the log-odds scale, yet its probability differences differ between the PHQ-9 categories (`r sprintf("%.1f", 100 * additive_treatment_low_phq$estimate[1])` versus `r sprintf("%.1f", 100 * additive_treatment_high_phq$estimate[1])` percentage points).
+Here the difference is tiny because PHQ-9 category barely predicts response (odds ratio `r sprintf("%.2f", exp(coef(mod_additive)[["phq_cat>= 10"]]))`), so both categories start from almost the same probability under waitlist.
+With baseline PHQ-9 kept continuous, the probability difference in the additive model changes visibly across scores; see [logistic regression with a binary and numeric predictor](logistic-binary-numeric-predictors.qmd).
 When you report effect modification, name the scale, for example the probability difference (an additive scale) or the odds ratio (a multiplicative scale).
 :::
 
