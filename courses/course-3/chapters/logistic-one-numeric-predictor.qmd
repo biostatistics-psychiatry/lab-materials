@@ -65,6 +65,7 @@ exp(b_gad * 10) # OR for response for a 10-point increase in GAD-7
 ```
 
 Using the `avg_slopes()` function from the `marginaleffects` package, we can get these estimates on the probability scale, instead of the log-odds scale.
+It computes the slope of the probability curve (its derivative) at each participant's GAD-7 score and averages these slopes across participants.
 
 ```{r}
 #| label: numeric-model-probability
@@ -75,9 +76,11 @@ gad_slope
 ::: {.callout-tip collapse="true"}
 ## Model interpretation
 
-A one-point higher baseline GAD-7 score changes the estimated probability of treatment response by **`r sprintf("%.2f", 100 * gad_slope$estimate[1])` percentage points on average** (95% CI **`r sprintf("%.2f", 100 * gad_slope$conf.low[1])`** to **`r sprintf("%.2f", 100 * gad_slope$conf.high[1])` percentage points**).
+On average, a one-point higher baseline GAD-7 score is associated with a change of **`r sprintf("%.2f", 100 * gad_slope$estimate[1])` percentage points** in the estimated probability of treatment response (95% CI **`r sprintf("%.2f", 100 * gad_slope$conf.low[1])`** to **`r sprintf("%.2f", 100 * gad_slope$conf.high[1])` percentage points**).
 
-Because the logit link is nonlinear, a one-point probability change can differ across GAD-7 values. The coefficient in `summary()` is a log-odds change; exponentiating it gives an odds ratio, not this probability-scale slope.
+GAD-7 was not randomized, so this is an association, not the effect of changing a participant's anxiety.
+Because the probability curve is not a straight line, its slope differs across GAD-7 values; the average slope summarizes them, so interpreting it as the change for a one-point increase is an approximation that holds for small changes.
+The coefficient in `summary()` is a log-odds change; exponentiating it gives an odds ratio, not this probability-scale slope.
 :::
 
 ```{r}
@@ -141,7 +144,7 @@ gad_spline_slope
 
 Allowing a curved relationship does not improve the fit: the likelihood-ratio test comparing the spline model with the linear model gives $\chi^2$(`r lrt_gad$Df[2]`) = `r sprintf("%.2f", lrt_gad$Deviance[2])`, *p* = `r sprintf("%.2f", lrt_gad[["Pr(>Chi)"]][2])`.
 
-In the spline model, a one-point higher baseline GAD-7 score changes the estimated probability of treatment response by **`r sprintf("%.2f", 100 * gad_spline_slope$estimate[1])` percentage points on average** (95% CI **`r sprintf("%.2f", 100 * gad_spline_slope$conf.low[1])`** to **`r sprintf("%.2f", 100 * gad_spline_slope$conf.high[1])` percentage points**), compared with **`r sprintf("%.2f", 100 * gad_slope$estimate[1])` percentage points** in the linear model.
+In the spline model, a one-point higher baseline GAD-7 score is associated with an average change of **`r sprintf("%.2f", 100 * gad_spline_slope$estimate[1])` percentage points** in the estimated probability of treatment response (95% CI **`r sprintf("%.2f", 100 * gad_spline_slope$conf.low[1])`** to **`r sprintf("%.2f", 100 * gad_spline_slope$conf.high[1])` percentage points**), compared with **`r sprintf("%.2f", 100 * gad_slope$estimate[1])` percentage points** in the linear model.
 A non-significant test does not prove that the relationship is linear, but these data give no reason to prefer the more flexible model.
 :::
 
