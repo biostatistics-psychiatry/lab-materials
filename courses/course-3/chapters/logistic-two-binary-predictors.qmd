@@ -339,7 +339,7 @@ plot_comparisons(
 It might be tempting to compare the two intervals in the plot by eye.
 But overlapping intervals, or one interval excluding zero while the other does not, do not tell us whether the two treatment effects differ [@Gelman2006Difference].
 To answer that question, estimate the difference between the two probability differences directly.
-`hypothesis = "b2 - b1 = 0"` subtracts the first row of the comparisons (PHQ-9 `< 10`) from the second (PHQ-9 `>= 10`).
+`hypothesis = difference ~ reference` subtracts the first row of the comparisons, the reference PHQ-9 category `< 10`, from each other row, here PHQ-9 `>= 10`.
 
 ```{r}
 #| label: difference-in-treatment-effects
@@ -348,7 +348,7 @@ interaction_rd_difference <- avg_comparisons(
   variables = list(trt = c("waitlist", "therapist-guided")),
   by = "phq_cat",
   type = "response",
-  hypothesis = "b2 - b1 = 0"
+  hypothesis = difference ~ reference
 )
 interaction_rd_difference
 ```

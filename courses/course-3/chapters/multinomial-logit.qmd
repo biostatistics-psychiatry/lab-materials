@@ -50,7 +50,7 @@ df_outcome <- read_csv2(here("data", "steps_clean.csv")) |>
     severity_observed = case_when(
       lsas_post < 50 ~ "low_no_to_mild",
       lsas_post < 80 ~ "moderate_marked",
-      TRUE ~ "severe_very_severe"
+      .default = "severe_very_severe"
     ),
     severity_observed = factor(
       severity_observed,
@@ -120,8 +120,11 @@ These odds ratios can become difficult to interpret because each compares **one 
 
 ```{r}
 #| label: multinomial-probabilities
-# Supply the ordinary long data frame, rather than mlogit_data, to
-# marginaleffects when requesting predictions.
+# marginaleffects cannot recover the training data from an mlogit model,
+# so attach the ordinary long data frame explicitly. Supply the same data
+# frame, rather than mlogit_data, when requesting predictions.
+mod_multinomial <- set_modeldata(mod_multinomial, as.data.frame(long))
+
 severity_probabilities <- avg_predictions(
   mod_multinomial,
   newdata = as.data.frame(long),
