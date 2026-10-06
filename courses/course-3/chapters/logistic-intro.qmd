@@ -10,14 +10,17 @@ number-sections: true
 
 # Why logistic regression?
 
-Course 2 used linear and quantile regression to model continuous outcomes such as post-treatment LSAS scores. In many psychiatric research questions, the outcome is instead binary:
+Course 2 used linear and quantile regression to model continuous outcomes such as post-treatment LSAS scores.
+In many psychiatric research questions, the outcome is instead binary:
 
 - remission versus non-remission;
 - response versus non-response;
 - attendance versus dropout; or
 - an adverse event versus no adverse event.
 
-Logistic regression and its multinomial extension are helpful tools when you want to analyse a binary or categorical outcome. This chapter uses a binary post-treatment social-anxiety outcome. Our main question is:
+Logistic regression and its multinomial extension are helpful tools when you want to analyze a binary or categorical outcome.
+This chapter uses a binary post-treatment social-anxiety outcome.
+Our main question is:
 
 > How does the probability of treatment response differ between treatment groups?
 
@@ -45,12 +48,16 @@ options(
 #| label: load-data
 #| message: false
 #| warning: false
-df_clean <- read_csv2(here("..", "..", "data", "steps_clean.csv")) |>
+df_clean <- read_csv2(here("data", "steps_clean.csv")) |>
   filter(!is.na(lsas_screen), !is.na(lsas_post)) |>
   mutate(
-    # The second factor level is the event modelled by binomial glm().
+    # The second factor level is the event modeled by binomial glm().
     lsas_response = factor(
-      if_else((lsas_screen - lsas_post) / lsas_screen >= 0.30, "Response", "No response"),
+      if_else(
+        (lsas_screen - lsas_post) / lsas_screen >= 0.30,
+        "Response",
+        "No response"
+      ),
       levels = c("No response", "Response")
     ),
     trt = factor(
@@ -70,19 +77,67 @@ lsas_response = "Response"    if LSAS decreases by at least 30%
 lsas_response = "No response" otherwise
 ```
 
-This follows the practical treatment-follow-up guidance for LSAS-SR, which describes improvement as an approximately 30% reduction in total score [Nationell formulärsamling](https://patientenkat.se/nationellpatientenkat/nationellformularsamling/sokformularbeskrivningar/lsassrsocialangest.92403.html). In a German treated-SAD sample, the empirically derived LSAS-SR response cut-point was 28% [@vonGlischinski2018LSAS]. We use the rounded 30% definition in this course.
+This follows the practical treatment-follow-up guidance for LSAS-SR, which describes improvement as an approximately 30% reduction in total score [Nationell formulärsamling](https://patientenkat.se/nationellpatientenkat/nationellformularsamling/sokformularbeskrivningar/lsassrsocialangest.92403.html).
+In a German treated-SAD sample, the empirically derived LSAS-SR response cut-point was 28% [@vonGlischinski2018LSAS].
+We use the rounded 30% definition in this course.
 
 # Defining the binary outcome
 
-The LSAS-SR is often used to screen for social anxiety disorder. The original clinical LSAS study found total-score cut-points of 30 for social anxiety disorder and 60 for the then-defined generalised subtype [@Mennin2002LSAS]. A study of the self-report LSAS-SR found the same cut-points had a useful sensitivity/specificity balance [@Rytwinski2009LSASSR].
+The LSAS-SR is often used to screen for social anxiety disorder.
+The original clinical LSAS study found total-score cut-points of 30 for social anxiety disorder and 60 for the then-defined generalized subtype [@Mennin2002LSAS].
+A study of the self-report LSAS-SR found the same cut-points had a useful sensitivity/specificity balance [@Rytwinski2009LSASSR].
 
-Thresholds can serve different purposes. In the same treated German sample, an LSAS-SR score of 35 was an empirically derived remission cut-point [@vonGlischinski2018LSAS]. Response, remission, and diagnostic screening are different outcomes and should not be used interchangeably.
+Thresholds can serve different purposes.
+In the same treated German sample, an LSAS-SR score of 35 was an empirically derived remission cut-point [@vonGlischinski2018LSAS].
+Response, remission, and diagnostic screening are different outcomes and should not be used interchangeably.
 
 ::: callout-caution
 ## A response definition is an analysis decision
 
-The 30% response definition is useful for this course, but it is not a diagnosis or a remission definition. Before creating a binary clinical outcome in your own work, specify the purpose and identify a defensible external definition.
+The 30% response definition is useful for this course, but it is not a diagnosis or a remission definition.
+Before creating a binary clinical outcome in your own work, specify the purpose and identify a defensible external definition.
+
+Dichotomizing a continuous outcome also has a statistical cost.
+Participants just above and just below the 30% threshold are treated as completely different, while participants with 31% and 90% reductions are treated as identical.
+Splitting a normally distributed variable at its median loses about as much information as discarding a third of the sample [@Altman2006Dichotomising; @MacCallum2002Dichotomization].
+
+Our outcome has two further problems.
+It is based on percentage change from baseline, which is a statistically inefficient outcome compared with post-treatment scores adjusted for baseline [@Vickers2001PercentageChange].
+And a responder split can make a uniform improvement look like a division into responders and non-responders: if every participant improved by the same number of points, some would still cross the threshold and others would not [@Senn2009Measurement].
+
+The primary analysis of a continuous outcome such as LSAS should usually model the continuous score.
+We dichotomize in this course to teach models for binary outcomes, not to recommend the practice.
 :::
+
+# The model behind logistic regression
+
+Each participant either responds or does not.
+We write $Y_i = 1$ for response and $Y_i = 0$ otherwise, and treat $Y_i$ as a Bernoulli variable, the single-trial case of the binomial distribution from Course 1:
+
+$$
+Y_i \sim \operatorname{Bernoulli}(p_i), \qquad p_i = P(Y_i = 1).
+$$
+
+A Bernoulli variable has mean $p_i$ and variance $p_i(1 - p_i)$.
+A regression model for a binary outcome is therefore a model for the probability $p_i$, and the variance follows from that probability rather than being estimated separately.
+
+Logistic regression models a transformation of $p_i$, the log-odds (defined in the next section), as a linear function of the predictors.
+Because the log-odds can take any real value, every value of the linear predictor corresponds to a probability between 0 and 1.
+`glm(..., family = binomial)` estimates the coefficients by maximum likelihood: it chooses the values that make the observed responses and non-responses most probable under the Bernoulli model.
+Unlike the linear models in Course 2, there is no residual variance $\sigma^2$ to estimate.
+
+## Why not an ordinary linear model?
+
+Nothing stops you from fitting `lm()` to a 0/1 outcome.
+This *linear probability model* has three problems as a general tool:
+
+- predictions can fall below 0 or above 1, particularly with numeric predictors;
+- the variance $p_i(1 - p_i)$ changes with the predictors, so the usual standard errors are wrong unless robust standard errors are used; and
+- a straight line on the probability scale is rarely plausible close to 0 or 1.
+
+With a single binary predictor such as treatment group, the linear probability model and logistic regression give the same two group probabilities, so the linear model's slope equals the probability difference.
+
+We use the logistic model throughout and obtain probability differences from it with `marginaleffects`.
 
 # Intercept-only logistic regression
 
@@ -111,19 +166,28 @@ mod_intercept <- glm(
 summary(mod_intercept)
 ```
 
-The intercept is on the log-odds scale, so it is not the clearest clinical summary. If we exponentiate the estimate, we get it on the odds scale. This is the same as dividing the the number of repsonders (n=57) by the the number of non-responders (n=112).
+The intercept is on the log-odds scale, so it is not the clearest clinical summary.
+If we exponentiate the estimate, we get it on the odds scale.
+This is the same as dividing the number of responders by the number of non-responders (see the counts above).
 
 ```{r}
 #| label: manual-log-odds
-exp(-0.6754) 
-57/112
+b_intercept <- coef(mod_intercept)[["(Intercept)"]]
+exp(b_intercept) # odds of response from the model
+
+# Odds by hand: number of responders divided by number of non-responders
+n_outcome <- table(df_clean$lsas_response)
+n_outcome[["Response"]] / n_outcome[["No response"]]
 ```
 
-The odds is still not the clearest summary, usually the probability is more easily interpreted. We can use `marginaleffects` to obtain the estimated probability and its confidence interval.
+The odds is still not the clearest summary; the probability is usually easier to interpret.
+We can use `marginaleffects` to obtain the estimated probability and its confidence interval.
+`predictions()` predicts the probability of response for the participants in `newdata`.
+An intercept-only model predicts the same probability for every participant, so we predict for one, the first row of the data.
 
 ```{r}
 #| label: intercept-probability
-p_overall <- avg_predictions(mod_intercept, type = "response")
+p_overall <- predictions(mod_intercept, newdata = head(df_clean, 1))
 p_overall
 ```
 
@@ -132,12 +196,14 @@ p_overall
 
 The estimated probability of treatment response in the full analysis sample is **`r sprintf("%.1f", 100 * p_overall$estimate[1])`%** (95% CI **`r sprintf("%.1f", 100 * p_overall$conf.low[1])`%** to **`r sprintf("%.1f", 100 * p_overall$conf.high[1])`%**).
 
-This is a model-based estimate of an overall probability, not a treatment effect. The intercept printed by `summary()` is the log-odds corresponding to this probability.
+This is a model-based estimate of an overall probability, not a treatment effect.
+The intercept printed by `summary()` is the log-odds corresponding to this probability.
 :::
 
 # Treatment as a binary predictor
 
-To make a binary treatment comparison, we restrict the data to the waitlist and therapist-guided groups. Waitlist is the reference group.
+To make a binary treatment comparison, we restrict the data to the waitlist and therapist-guided groups.
+Waitlist is the reference group.
 
 ```{r}
 #| label: make-binary-treatment-data
@@ -167,19 +233,29 @@ mod_trt <- glm(
 summary(mod_trt)
 ```
 
-The coefficient for therapist-guided now shows the log-odds ratio of response in the therapist-guided group vs. the waitlist group. By exponentiating, we get the odds ratio. This ban be calculated by had by dividing the odds in the therapist-guided group (31/23) by the odds in the waitlist group (6/52).
+The coefficient for therapist-guided is now the difference in the log-odds of response between the therapist-guided and waitlist groups.
+By exponentiating, we get the odds ratio.
+This can be calculated by hand from the counts above, by dividing the odds of response in the therapist-guided group by the odds in the waitlist group.
 
 ```{r}
 #| label: manual-odds-ratio
-exp(2.4580)
-(31/23)/(6/52)
+b_trt <- coef(mod_trt)[["trttherapist-guided"]]
+exp(b_trt) # odds ratio from the model
+
+# Odds ratio by hand: odds of response by group, then their ratio
+n_trt <- table(df_binary$trt, df_binary$lsas_response)
+odds_by_trt <- n_trt[, "Response"] / n_trt[, "No response"]
+odds_by_trt[["therapist-guided"]] / odds_by_trt[["waitlist"]]
 ```
 
-## Estimated probabilities,  a probability difference, and a probability ratio (a.k.a. risk ratio)
+## Estimated probabilities, a probability difference, and a probability ratio (a.k.a. risk ratio)
+
+`datagrid(trt = unique)` makes one row per treatment group, so `predictions()` returns the probability of response for a participant in each group.
+
 
 ```{r}
 #| label: treatment-probabilities
-p_by_trt <- avg_predictions(mod_trt, by = "trt", type = "response")
+p_by_trt <- predictions(mod_trt, newdata = datagrid(trt = unique))
 p_by_trt
 
 trt_difference <- avg_comparisons(
@@ -193,7 +269,8 @@ trt_ratio <- avg_comparisons(
   mod_trt,
   variables = list(trt = c("waitlist", "therapist-guided")),
   type = "response",
-  comparison = "ratio"
+  comparison = "lnratioavg",
+  transform = exp
 )
 trt_ratio
 ```
@@ -205,14 +282,77 @@ Compared with waitlist, therapist-guided treatment changes the estimated probabi
 
 The estimated probability of treatment response is **`r sprintf("%.2f", trt_ratio$estimate[1])` times as high** in the therapist-guided group as in the waitlist group (probability ratio/risk ratio; 95% CI **`r sprintf("%.2f", trt_ratio$conf.low[1])`** to **`r sprintf("%.2f", trt_ratio$conf.high[1])`**).
 
-This is an unadjusted treatment contrast in the restricted waitlist-versus-therapist-guided sample. A positive value means that therapist-guided treatment has a higher estimated probability of treatment response.
+This is an unadjusted treatment contrast in the restricted waitlist-versus-therapist-guided sample.
+A positive value means that therapist-guided treatment has a higher estimated probability of treatment response.
 :::
 
-## Visualise the estimated probabilities
+::: callout-note
+## Where does this risk ratio come from?
+
+`marginaleffects` does not convert the odds ratio into a risk ratio.
+It predicts every participant's probability of response under waitlist and under therapist-guided treatment, averages each set of predictions, and divides the two averages.
+Predicting every participant under both treatments means the two averages describe the same people, so they differ only in treatment.
+In this unadjusted model each scenario simply reproduces the group's observed proportion.
+This approach is called marginal standardization [@Localio2007RelativeRisks].
+The `comparison` argument `lnratioavg` means, read from right to left: `avg` averages the predicted probabilities in each scenario, `ratio` divides the therapist-guided average by the waitlist average, and `ln` takes the natural log of that ratio.
+`transform = exp` then exponentiates the estimate and its confidence limits, returning them to the ratio scale.
+The detour through the log scale is for the confidence interval.
+This is the same device `predictions()` used for the group probabilities above, with the log in place of the log-odds.
+A ratio cannot fall below 0, and its sampling distribution is skewed, particularly when one group has few events, as the waitlist group does here.
+On the log scale the distribution is closer to symmetric, so the normal-approximation interval that `marginaleffects` builds from its delta-method standard error works better, and exponentiating its limits gives an interval that is asymmetric around the estimate and stays above 0.
+This log risk ratio is not the log-odds that the logistic model estimates; it is computed from the predicted probabilities.
+
+```{r}
+#| label: manual-risk-ratio
+#| code-fold: true
+#| code-summary: "Show the same calculation by hand"
+# Counterfactual datasets: everyone on waitlist, everyone therapist-guided
+df_waitlist <- mutate(
+  df_binary,
+  trt = factor("waitlist", levels = levels(trt))
+)
+df_guided <- mutate(
+  df_binary,
+  trt = factor("therapist-guided", levels = levels(trt))
+)
+x_waitlist <- model.matrix(~trt, df_waitlist)
+x_guided <- model.matrix(~trt, df_guided)
+
+# ln(ratio of average predicted probabilities), as a function of the
+# coefficients
+log_rr <- function(beta) {
+  log(mean(plogis(x_guided %*% beta)) / mean(plogis(x_waitlist %*% beta)))
+}
+beta_hat <- coef(mod_trt)
+
+# Delta method: numerical gradient of log_rr, then the standard error on
+# the log scale
+h <- 1e-6
+gradient <- map_dbl(seq_along(beta_hat), \(j) {
+  step <- replace(numeric(length(beta_hat)), j, h)
+  (log_rr(beta_hat + step) - log_rr(beta_hat)) / h
+})
+se_log_rr <- sqrt(drop(t(gradient) %*% vcov(mod_trt) %*% gradient))
+
+# 95% interval on the log scale, then exponentiate (transform = exp)
+z <- qnorm(0.975)
+exp(
+  log_rr(beta_hat) + c(estimate = 0, conf.low = -z, conf.high = z) * se_log_rr
+)
+```
+
+Shortcut formulas that convert a published odds ratio into a risk ratio using the baseline risk are a different thing: they are biased for adjusted odds ratios and give incorrect confidence intervals [@McNutt2003RelativeRisk].
+
+Another well-established way to estimate a risk ratio from a binary outcome is Poisson regression with robust (sandwich) standard errors [@Zou2004ModifiedPoisson].
+In this unadjusted two-group model, both routes give the same risk ratio, `r sprintf("%.2f", trt_ratio$estimate[1])`.
+They can differ in adjusted models: Poisson regression assumes one risk ratio for every covariate pattern and can predict probabilities above 1, whereas standardization from a logistic model averages over the covariate distribution of the sample.
+:::
+
+## Visualize the estimated probabilities
 
 ```{r}
 #| label: plot-treatment-probabilities
-plot_predictions(mod_trt, by = "trt", type = "response") +
+plot_predictions(mod_trt, condition = "trt") +
   labs(
     title = "Estimated probability of treatment response",
     subtitle = "Binary logistic regression; 95% confidence intervals",
@@ -224,7 +364,8 @@ plot_predictions(mod_trt, by = "trt", type = "response") +
 
 # Odds, log-odds, and odds ratios
 
-The coefficient for `trttherapist-guided` in `summary(mod_trt)` is a **log-odds difference**. Exponentiating it yields an **odds ratio**.
+The coefficient for `trttherapist-guided` in `summary(mod_trt)` is a **log-odds difference**.
+Exponentiating it yields an **odds ratio**.
 
 ```{r}
 #| label: treatment-odds-ratio
@@ -232,12 +373,32 @@ or_trt <- tidy(mod_trt, conf.int = TRUE, exponentiate = TRUE)
 or_trt
 ```
 
-An odds ratio above 1 indicates higher odds of the modelled event (`Low`) in therapist-guided treatment than waitlist. It does **not** mean that the probability is that many times larger, and it does **not** tell us the percentage-point difference.
+An odds ratio above 1 indicates higher odds of the modeled event (`Response`) in therapist-guided treatment than waitlist.
+It does **not** mean that the probability is that many times larger, and it does **not** tell us the percentage-point difference.
+
+## Odds ratios and risk ratios when the outcome is common
+
+```{r}
+#| label: odds-ratio-vs-risk-ratio-values
+#| echo: false
+or_trt_estimate <- or_trt$estimate[or_trt$term == "trttherapist-guided"]
+p_guided <- p_by_trt$estimate[p_by_trt$trt == "therapist-guided"]
+```
+
+When an outcome is rare, odds and probabilities are almost equal, so the odds ratio approximates the probability ratio (risk ratio).
+Treatment response is not rare here: the estimated probability of response in the therapist-guided group is `r sprintf("%.0f", 100 * p_guided)`%.
+The therapist-guided-versus-waitlist odds ratio is **`r sprintf("%.1f", or_trt_estimate)`**, whereas the probability ratio from the previous section is **`r sprintf("%.1f", trt_ratio$estimate[1])`**.
+Read as a risk ratio, the odds ratio would overstate the relative effect by a factor of `r sprintf("%.1f", or_trt_estimate / trt_ratio$estimate[1])`.
+When the odds ratio is above 1, it is always further from 1 than the risk ratio, and the gap widens as the outcome becomes more common [@Davies1998OddsRatios].
 
 ::: callout-note
 ## Reading an odds ratio in a paper
 
-Suppose an article reports an odds ratio of 2. An odds ratio of 2 means the odds are doubled—not that the probability rises by 100 percentage points, or even necessarily doubles. The corresponding probability change depends on the baseline probability. This is why we pair odds ratios with estimated probabilities and probability differences when communicating clinical results.
+Suppose an article reports an odds ratio of 2.
+The odds are doubled, but the probability is not: it always rises by less than a factor of 2, and comes close to doubling only when the outcome is rare.
+With a baseline probability of 10%, doubling the odds raises the probability to `r sprintf("%.0f", 100 * plogis(qlogis(0.10) + log(2)))`%; with a baseline probability of 50%, it raises it to `r sprintf("%.0f", 100 * plogis(qlogis(0.50) + log(2)))`%.
+The same odds ratio thus corresponds to a `r sprintf("%.0f", 100 * (plogis(qlogis(0.10) + log(2)) - 0.10))`-percentage-point increase in one setting and a `r sprintf("%.0f", 100 * (plogis(qlogis(0.50) + log(2)) - 0.50))`-percentage-point increase in the other.
+This is why we pair odds ratios with estimated probabilities and probability differences when communicating clinical results.
 :::
 
 # Summary
@@ -245,7 +406,9 @@ Suppose an article reports an odds ratio of 2. An odds ratio of 2 means the odds
 In this chapter you learned to:
 
 - define a binary LSAS outcome and distinguish it from a validated clinical threshold;
+- describe a binary outcome as a Bernoulli variable and explain why logistic regression is preferred to a linear probability model;
+- explain why an odds ratio overstates the risk ratio when the outcome is common;
 - fit intercept-only and treatment logistic-regression models with `glm(..., family = binomial)`;
 - interpret model output through estimated probabilities and probability differences with 95% CIs;
-- visualise treatment-group probabilities with `marginaleffects`; and
-- recognise an odds ratio as a ratio of odds rather than a probability difference.
+- visualize treatment-group probabilities with `marginaleffects`; and
+- recognize an odds ratio as a ratio of odds rather than a probability difference.

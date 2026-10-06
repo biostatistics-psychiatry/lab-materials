@@ -1,24 +1,45 @@
 ---
 title: "Multinomial logistic regression"
+format:
+  html:
+    df-print: kable
 toc: true
 number-sections: true
 ---
 
 # Why a multinomial model?
 
-The binary outcome used earlier distinguishes only response from non-response. Sometimes the question concerns how treatment redistributes probability across **three or more outcome categories**.
+The binary outcome used earlier distinguishes only response from non-response.
+Sometimes the question concerns how treatment redistributes probability across **three or more outcome categories**.
 
 We use these teaching categories:
 
-- `low_no_to_mild`: LSAS \< 50;
-- `moderate_marked`: 50 ≤ LSAS \< 80; and
-- `severe_very_severe`: LSAS ≥ 80.
+- `low_no_to_mild`: LSAS $< 50$;
+- `moderate_marked`: $50 \leq$ LSAS $< 80$; and
+- `severe_very_severe`: LSAS $\geq 80$.
 
 They are a pedagogical severity grouping, not validated diagnostic or remission thresholds.
 
+::: callout-note
+## Ordered categories
+
+These categories are ordered: low/no-to-mild < moderate/marked < severe/very severe.
+The multinomial model ignores that order.
+It treats the categories as unordered labels and estimates a separate set of treatment coefficients for each non-reference category, so with two active treatment arms it has four treatment coefficients.
+For an ordinal outcome, the usual first choice is a proportional-odds (cumulative logit) model, which uses the ordering and estimates one set of treatment coefficients for all categories, here two [@Agresti2010Ordinal].
+It achieves this by assuming that the treatment odds ratio is the same at every cut-point between categories (low versus moderate or severe, and low or moderate versus severe), an assumption worth checking.
+The cumulative model can be motivated by an underlying (latent) continuous severity that is cut at thresholds; here that is literally how the categories were made, from LSAS cut at 50 and 80.
+When the full LSAS score is available, as it is here, analyzing it directly usually beats any categorical model, for the reasons given in the [foundations chapter](logistic-intro.qmd).
+
+We use the multinomial model in this course because it is the general model for categorical outcomes, applies whether or not the categories are ordered, and makes the long-format data structure explicit.
+The probability-scale interpretation you learn here, how treatment redistributes probability across the categories, carries over directly to ordinal models.
+:::
+
 # Long data for `mlogit`
 
-`mlogit` represents a multinomial outcome as a choice among alternatives. Each participant therefore appears once for every possible severity category. One and only one alternative is marked as the observed outcome.
+`mlogit` represents a multinomial outcome as a choice among alternatives.
+Each participant therefore appears once for every possible severity category.
+One and only one alternative is marked as the observed outcome.
 
 ```{r}
 #| label: setup
@@ -29,21 +50,24 @@ library(here)
 library(mlogit)
 library(marginaleffects)
 
-df_outcome <- read_csv2(here("..", "..", "data", "steps_clean.csv")) |>
+options(
+  marginaleffects_print_omit = c("s.value"),
+  marginaleffects_print_style = ifelse(interactive(), "summary", "tinytable")
+)
+
+df_outcome <- read_csv2(here("data", "steps_clean.csv")) |>
   filter(!is.na(lsas_post), !is.na(trt)) |>
   mutate(
     severity_observed = case_when(
       lsas_post < 50 ~ "low_no_to_mild",
       lsas_post < 80 ~ "moderate_marked",
-      TRUE ~ "severe_very_severe"
+      .default = "severe_very_severe"
     ),
     severity_observed = factor(
       severity_observed,
       levels = c("low_no_to_mild", "moderate_marked", "severe_very_severe")
     ),
-    trt = factor(trt,
-      levels = c("waitlist", "therapist-guided", "self-guided")
-    )
+    trt = factor(trt, levels = c("waitlist", "therapist-guided", "self-guided"))
   ) |>
   select(id, trt, severity_observed)
 
@@ -80,31 +104,43 @@ mod_multinomial <- mlogit(
   reflevel = "low_no_to_mild"
 )
 summary(mod_multinomial)
+
+# Store one coefficient for the calculation below
+b_multinomial <- coef(mod_multinomial)
+b_guided_moderate <- b_multinomial[["trttherapist-guided:moderate_marked"]]
 ```
 
 ## Interpreting the coefficients
 
-As in binary logistic regression, the coefficients are on the **log-odds scale**. With three outcome categories, the model estimates two sets of coefficients because `low_no_to_mild` is the reference category:
+As in binary logistic regression, the coefficients are on the **log-odds scale**.
+With three outcome categories, the model estimates two sets of coefficients because `low_no_to_mild` is the reference category:
 
 - `moderate_marked` versus `low_no_to_mild`
 
 - `severe_very_severe` versus `low_no_to_mild`
 
-For example, the coefficient for therapist-guided treatment and `moderate_marked` is approximately -1.42. Exponentiating gives:
+For example, the coefficient for therapist-guided treatment and `moderate_marked` is approximately `r sprintf("%.2f", b_guided_moderate)`.
+Exponentiating gives:
 
 ```{r}
 #| label: multinomial-or
-exp(-1.42)
+exp(b_guided_moderate)
 ```
 
-This gives an odds ratio of approximately 0.24. In other words, the ratio between moderate/marked and low/no-to-mild outcomes is smaller in the therapist-guided group than in the waitlist group. More precisely, the odds of moderate/marked versus low/no-to-mild are 0.24 times as high in the therapist-guided group as in the waitlist group.
+This gives an odds ratio of approximately `r sprintf("%.2f", exp(b_guided_moderate))`.
+In other words, the odds of a moderate/marked rather than a low/no-to-mild outcome are `r if (b_guided_moderate < 0) "lower" else "higher"` in the therapist-guided group than in the waitlist group.
+More precisely, they are `r sprintf("%.2f", exp(b_guided_moderate))` times as high in the therapist-guided group as in the waitlist group.
 
-These odds ratios can become difficult to interpret because each compares **one outcome category with the reference outcome category**. We will therefore focus primarily on **model-based probabilities**, which show more directly how treatment redistributes the probability across the three severity categories.
+These odds ratios can become difficult to interpret because each compares **one outcome category with the reference outcome category**.
+We will therefore focus primarily on **model-based probabilities**, which show more directly how treatment redistributes the probability across the three severity categories.
 
 ```{r}
 #| label: multinomial-probabilities
-# Supply the ordinary long data frame, rather than mlogit_data, to
-# marginaleffects when requesting predictions.
+# marginaleffects cannot recover the training data from an mlogit model,
+# so attach the ordinary long data frame explicitly. Supply the same data
+# frame, rather than mlogit_data, when requesting predictions.
+mod_multinomial <- set_modeldata(mod_multinomial, as.data.frame(long))
+
 severity_probabilities <- avg_predictions(
   mod_multinomial,
   newdata = as.data.frame(long),
@@ -138,12 +174,31 @@ severity_differences <- predictions(
 severity_differences
 ```
 
+```{r}
+#| label: severity-difference-values
+#| echo: false
+# Formatted therapist-guided minus waitlist differences, by severity category
+severity_change <- as.data.frame(severity_differences) |>
+  mutate(
+    direction = if_else(estimate >= 0, "rises", "falls"),
+    size = sprintf("%.1f", abs(100 * estimate)),
+    across(c(estimate, conf.low, conf.high), \(x) sprintf("%.1f", 100 * x))
+  )
+sev <- function(category, column) {
+  severity_change[[column]][severity_change$term == category]
+}
+```
+
 ::: {.callout-tip collapse="true"}
 ## Model interpretation
 
-Compared with waitlist, therapist-guided treatment changes the estimated probability of low/no-to-mild severity by **`r sprintf("%.1f", 100 * severity_differences$estimate[severity_differences$term == "low_no_to_mild"])` percentage points** (95% CI **`r sprintf("%.1f", 100 * severity_differences$conf.low[severity_differences$term == "low_no_to_mild"])`** to **`r sprintf("%.1f", 100 * severity_differences$conf.high[severity_differences$term == "low_no_to_mild"])` percentage points**).
+Compared with waitlist, therapist-guided treatment is associated with the following changes in the estimated probability of each post-treatment severity category (therapist-guided minus waitlist):
 
-The probability of severe/very severe symptoms changes by **`r sprintf("%.1f", 100 * severity_differences$estimate[severity_differences$term == "severe_very_severe"])` percentage points** (95% CI **`r sprintf("%.1f", 100 * severity_differences$conf.low[severity_differences$term == "severe_very_severe"])`** to **`r sprintf("%.1f", 100 * severity_differences$conf.high[severity_differences$term == "severe_very_severe"])` percentage points**). The category probabilities must sum to one, so an increase in one category is accompanied by decreases elsewhere.
+- low/no-to-mild: `r sev("low_no_to_mild", "direction")` by **`r sev("low_no_to_mild", "size")` percentage points** (95% CI **`r sev("low_no_to_mild", "conf.low")`** to **`r sev("low_no_to_mild", "conf.high")`**);
+- moderate/marked: `r sev("moderate_marked", "direction")` by **`r sev("moderate_marked", "size")` percentage points** (95% CI **`r sev("moderate_marked", "conf.low")`** to **`r sev("moderate_marked", "conf.high")`**); and
+- severe/very severe: `r sev("severe_very_severe", "direction")` by **`r sev("severe_very_severe", "size")` percentage points** (95% CI **`r sev("severe_very_severe", "conf.low")`** to **`r sev("severe_very_severe", "conf.high")`**).
+
+The category probabilities sum to one, so the three differences sum to zero: whatever probability one category gains, the others lose.
 :::
 
 ```{r}
@@ -172,3 +227,4 @@ severity_probabilities |>
 - `mlogit` needs a long participant-by-alternative data structure.
 - Interpret the model as a redistribution of outcome probabilities, not as isolated coefficient changes.
 - The probability differences for the categories sum to zero across any treatment contrast.
+- Multinomial logit ignores any ordering of the categories; for an ordinal outcome, a proportional-odds model is usually the first choice.

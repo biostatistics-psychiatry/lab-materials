@@ -67,3 +67,14 @@ labs/tables/*.docx
 **/docs/
 **/*.quarto_ipynb
 _site/
+
+# Devcontainer
+.devcontainer/
+# `rdev claude`, `rdev take`
+.claude/worktrees/
+
+# `rdev claude`, `rdev take`
+.claude/takes/
+
+# `rdev claude`, `rdev take`
+.claude/inbox/

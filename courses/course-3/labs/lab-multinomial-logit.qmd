@@ -5,15 +5,17 @@ toc: true
 
 # Scenario
 
-A committee member has objected that the binary LSAS outcome hides the difference between moderate and severe symptoms. Another member replies that “more categories always means more nuance.” You have been asked to prepare a multinomial analysis before either statement becomes a departmental principle.
+A committee member has objected that the binary LSAS outcome hides the difference between moderate and severe symptoms.
+Another member replies that “more categories always means more nuance.”
+You have been asked to prepare a multinomial analysis before either statement becomes a departmental principle.
 
 # Your task
 
 Use the STePS data to model the three post-treatment LSAS severity categories:
 
-- low/no-to-mild: `<50`;
-- moderate/marked: `50–79`; and
-- severe/very severe: `≥80`.
+- low/no-to-mild: `< 50`;
+- moderate/marked: `>= 50` and `< 80`; and
+- severe/very severe: `>= 80`.
 
 Your Quarto notebook must include:
 
@@ -46,7 +48,9 @@ library(marginaleffects)
 - Which category loses probability, and by how many percentage points?
 - Why must the three category probabilities sum to one for a given treatment group?
 - Does a more detailed outcome automatically make an analysis more useful?
-- Which part of this workflow is data engineering rather than statistical modelling—and why does that distinction matter?
+- The three severity categories are ordered.
+  What information does the multinomial model ignore, and what would a proportional-odds model assume instead?
+- Which part of this workflow is data engineering rather than statistical modeling—and why does that distinction matter?
 
 # Before presenting
 

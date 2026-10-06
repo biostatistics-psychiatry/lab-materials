@@ -1,12 +1,17 @@
 ---
 title: "Logistic regression with a numeric predictor"
+format:
+  html:
+    df-print: kable
 toc: true
 number-sections: true
 ---
 
 # Numeric predictors and probabilities
 
-A numeric predictor can change the probability of an outcome continuously. Here we model the probability of treatment response as a function of baseline GAD-7 score (`gad_screen`). The logistic model is linear on the log-odds scale, but its probability curve is generally curved.
+A numeric predictor can change the probability of an outcome continuously.
+Here we model the probability of treatment response as a function of baseline GAD-7 score (`gad_screen`).
+The logistic model is linear on the log-odds scale, but its probability curve is generally curved.
 
 ```{r}
 #| label: setup
@@ -16,11 +21,21 @@ library(tidyverse)
 library(here)
 library(marginaleffects)
 
-df_clean <- read_csv2(here("..", "..", "data", "steps_clean.csv")) |>
-  filter(!is.na(lsas_post), !is.na(gad_screen)) |>
+options(
+  marginaleffects_print_omit = c("s.value"),
+  marginaleffects_print_style = ifelse(interactive(), "summary", "tinytable")
+)
+
+df_clean <- read_csv2(here("data", "steps_clean.csv")) |>
+  filter(!is.na(lsas_screen), !is.na(lsas_post), !is.na(gad_screen)) |>
   mutate(
+    # The second factor level is the event modeled by binomial glm().
     lsas_response = factor(
-      if_else((lsas_screen - lsas_post) / lsas_screen >= 0.30, "Response", "No response"),
+      if_else(
+        (lsas_screen - lsas_post) / lsas_screen >= 0.30,
+        "Response",
+        "No response"
+      ),
       levels = c("No response", "Response")
     )
   )
@@ -36,42 +51,53 @@ mod_gad <- glm(
 summary(mod_gad)
 ```
 
-The model coefficients tell us that the estimated log-odds when GAD-7 is 0 (Intercept) is -0.49, and that the estimated log-odds decreases by -0.02 for each one-point increase in GAD-7.
+```{r}
+#| label: store-coefficients
+#| echo: false
+# Store the coefficients for the calculations below
+b0 <- coef(mod_gad)[["(Intercept)"]]
+b_gad <- coef(mod_gad)[["gad_screen"]]
+```
 
-If we exponentiate the gad_screen estimate, we get the odds ratio of treatment response for each one-unit increase in GAD-7 at screening.
+The model coefficients tell us that the estimated log-odds when GAD-7 is 0 (Intercept) is `r sprintf("%.2f", b0)`, and that the estimated log-odds changes by `r sprintf("%.3f", b_gad)` for each one-point increase in GAD-7.
+
+If we exponentiate the `gad_screen` estimate, we get the odds ratio of treatment response for each one-unit increase in GAD-7 at screening.
 
 ```{r}
 #| label: numeric-model-manual-or
-exp(-0.01725)
+exp(b_gad)
 ```
 
-We can also get the estimated odds ratio for an x-point increase in GAD-7 at screening, by using the same procedure while multiplying the coefficient by x. For example, if we wanted the odds ratio for a 10-point increase in GAD-7, we could do:
+We can also get the estimated odds ratio for an x-point increase in GAD-7 at screening, by using the same procedure while multiplying the coefficient by x.
+For example, if we wanted the odds ratio for a 10-point increase in GAD-7, we could do:
 
 ```{r}
 #| label: numeric-model-manual-or-10-point
-exp(-0.01725*10) # OR for response for a 10-point increase in gad-7
+exp(b_gad * 10) # OR for response for a 10-point increase in GAD-7
 ```
 
 Using the `avg_slopes()` function from the `marginaleffects` package, we can get these estimates on the probability scale, instead of the log-odds scale.
+It computes the slope of the probability curve (its derivative) at each participant's GAD-7 score and averages these slopes across participants.
 
 ```{r}
 #| label: numeric-model-probability
 gad_slope <- avg_slopes(mod_gad, variables = "gad_screen", type = "response")
 gad_slope
-
 ```
 
 ::: {.callout-tip collapse="true"}
 ## Model interpretation
 
-A one-point higher baseline GAD-7 score changes the estimated probability of treatment response by **`r sprintf("%.2f", 100 * gad_slope$estimate[1])` percentage points on average** (95% CI **`r sprintf("%.2f", 100 * gad_slope$conf.low[1])`** to **`r sprintf("%.2f", 100 * gad_slope$conf.high[1])` percentage points**).
+On average, a one-point higher baseline GAD-7 score is associated with a change of **`r sprintf("%.2f", 100 * gad_slope$estimate[1])` percentage points** in the estimated probability of treatment response (95% CI **`r sprintf("%.2f", 100 * gad_slope$conf.low[1])`** to **`r sprintf("%.2f", 100 * gad_slope$conf.high[1])` percentage points**).
 
-Because the logit link is nonlinear, a one-point probability change can differ across GAD-7 values. The coefficient in `summary()` is a log-odds change; exponentiating it gives an odds ratio, not this probability-scale slope.
+GAD-7 was not randomized, so this is an association, not the effect of changing a participant's anxiety.
+Because the probability curve is not a straight line, its slope differs across GAD-7 values; the average slope summarizes them, so interpreting it as the change for a one-point increase is an approximation that holds for small changes.
+The coefficient in `summary()` is a log-odds change; exponentiating it gives an odds ratio, not this probability-scale slope.
 :::
 
 ```{r}
 #| label: plot-numeric-predictions
-plot_predictions(mod_gad, condition = "gad_screen", type = "response") +
+plot_predictions(mod_gad, condition = "gad_screen") +
   labs(
     title = "Estimated probability of treatment response",
     subtitle = "Across baseline GAD-7 scores; 95% confidence interval",
@@ -83,21 +109,225 @@ plot_predictions(mod_gad, condition = "gad_screen", type = "response") +
 
 # From a continuous score to a curve
 
-A linear predictor does not imply a straight line on the probability scale. For this reason, plots and predictions at clinically meaningful values are usually more informative than reporting a coefficient alone.
+A linear predictor does not imply a straight line on the probability scale.
+For this reason, plots and predictions at clinically meaningful values are usually more informative than reporting a coefficient alone.
 
 ```{r}
 #| label: numeric-predictions-at-quartiles
-gad_values <- quantile(df_clean$gad_screen, probs = c(.25, .50, .75), na.rm = TRUE)
+gad_values <- quantile(
+  df_clean$gad_screen,
+  probs = c(.25, .50, .75),
+  na.rm = TRUE
+)
 
 predictions(
   mod_gad,
-  newdata = datagrid(gad_screen = gad_values),
-  type = "response"
+  newdata = datagrid(gad_screen = gad_values)
 )
 ```
+
+# Is the log-odds linear in GAD-7?
+
+The logistic model assumes that the log-odds of response change linearly with GAD-7.
+As in Course 2, we can relax this assumption with a natural cubic spline and compare the two models with a likelihood-ratio test.
+
+```{r}
+#| label: fit-spline-model
+library(splines)
+
+mod_gad_spline <- glm(
+  lsas_response ~ ns(gad_screen, df = 3),
+  family = binomial,
+  data = df_clean
+)
+
+lrt_gad <- anova(mod_gad, mod_gad_spline, test = "LRT")
+lrt_gad
+
+gad_spline_slope <- avg_slopes(
+  mod_gad_spline,
+  variables = "gad_screen",
+  type = "response"
+)
+gad_spline_slope
+```
+
+::: {.callout-tip collapse="true"}
+## Model interpretation
+
+Allowing a curved relationship does not improve the fit: the likelihood-ratio test comparing the spline model with the linear model gives $\chi^2$(`r lrt_gad$Df[2]`) = `r sprintf("%.2f", lrt_gad$Deviance[2])`, *p* = `r sprintf("%.2f", lrt_gad[["Pr(>Chi)"]][2])`.
+
+In the spline model, a one-point higher baseline GAD-7 score is associated with an average change of **`r sprintf("%.2f", 100 * gad_spline_slope$estimate[1])` percentage points** in the estimated probability of treatment response (95% CI **`r sprintf("%.2f", 100 * gad_spline_slope$conf.low[1])`** to **`r sprintf("%.2f", 100 * gad_spline_slope$conf.high[1])` percentage points**), compared with **`r sprintf("%.2f", 100 * gad_slope$estimate[1])` percentage points** in the linear model.
+A non-significant test does not prove that the relationship is linear, but these data give no reason to prefer the more flexible model.
+:::
+
+```{r}
+#| label: plot-linear-vs-spline
+gad_grid <- datagrid(
+  newdata = df_clean,
+  gad_screen = seq(
+    min(df_clean$gad_screen),
+    max(df_clean$gad_screen),
+    length.out = 100
+  )
+)
+
+pred_gad_linear <- predictions(
+  mod_gad,
+  newdata = gad_grid
+) |>
+  mutate(model = "Linear in the log-odds")
+pred_gad_spline <- predictions(
+  mod_gad_spline,
+  newdata = gad_grid
+) |>
+  mutate(model = "Natural cubic spline (df = 3)")
+
+bind_rows(pred_gad_linear, pred_gad_spline) |>
+  ggplot(aes(x = gad_screen, y = estimate, color = model, fill = model)) +
+  geom_ribbon(
+    aes(ymin = conf.low, ymax = conf.high),
+    alpha = 0.15,
+    color = NA
+  ) +
+  geom_line(linewidth = 1) +
+  labs(
+    title = "Estimated probability of treatment response",
+    subtitle = "Linear and spline models; 95% confidence intervals",
+    x = "GAD-7 score at screening",
+    y = "Probability of treatment response",
+    color = "Model",
+    fill = "Model"
+  ) +
+  theme_minimal()
+```
+
+The spline curve bends upward at low GAD-7 scores, but only `r sum(df_clean$gad_screen <= 4)` participants scored 4 or lower, and its confidence band is wide there.
+Bends at the edges of a spline often reflect a handful of observations rather than a real pattern, so we keep the simpler linear model.
+
+# The average prediction is not the prediction at the average
+
+Suppose a clinic manager asks what proportion of patients can be expected to respond to treatment.
+A tempting answer is to take a "typical" patient, with every covariate at its sample mean, and report that patient's predicted probability.
+Several widely used tools and many published papers report predictions this way.
+In a logistic model, however, the prediction for a typical patient is generally not the expected proportion of responders, and the two drift further apart the more patients differ from one another.
+Knowing which of the two you are looking at matters throughout this course.
+It is why we report average predictions and comparisons, and it explains why odds ratios change when covariates are added to a model, a point we return to in [logistic regression with a binary and numeric predictor](logistic-binary-numeric-predictors.qmd).
+
+The two summaries sound alike but answer different questions:
+
+- the *average prediction*: predict every participant's probability, then average the predictions; and
+- the *prediction at the average*: set GAD-7 to its sample mean, then predict once.
+
+A made-up example shows why they differ and which question each one answers.
+Imagine a clinic where half the patients have mild anxiety (GAD-7 = 4) and half have severe anxiety (GAD-7 = 14).
+Suppose the probability of response falls steeply with GAD-7, with log-odds of response equal to $3 - 0.4 \times \text{GAD-7}$.
+The numbers are invented to make the pattern easy to see, and `plogis()` is R's inverse logit.
+
+```{r}
+#| label: average-prediction-toy
+# A made-up model: log-odds of response = 3 - 0.4 * GAD-7
+toy_logit <- function(gad) 3 - 0.4 * gad
+gad_patients <- c(mild = 4, severe = 14)
+
+p_patients <- plogis(toy_logit(gad_patients))
+p_patients
+
+# Average prediction: expected proportion of the clinic's patients who respond
+p_clinic_average <- mean(p_patients)
+p_clinic_average
+
+# Prediction at the average: a patient with the clinic's mean GAD-7
+p_at_average_gad <- plogis(toy_logit(mean(gad_patients)))
+p_at_average_gad
+```
+
+A mild patient has an estimated `r sprintf("%.0f", 100 * p_patients[["mild"]])`% chance of response and a severe patient `r sprintf("%.0f", 100 * p_patients[["severe"]])`%.
+If the clinic treats equal numbers of each, we expect `r sprintf("%.0f", 100 * p_clinic_average)`% of its patients to respond; this is the average prediction.
+The prediction at the average describes a patient with GAD-7 = `r mean(gad_patients)`, the clinic's mean score, and gives `r sprintf("%.0f", 100 * p_at_average_gad)`%.
+Nobody in this clinic has that score, so the second number answers a question about a hypothetical "average patient", not about the clinic's patients.
+
+The figure shows where the gap comes from.
+On the log-odds scale (left), the model is a straight line, so the point halfway between the two patients is also the model's prediction at GAD-7 = `r mean(gad_patients)`: on this scale, averaging and predicting at the average agree.
+Transforming to probabilities (right) bends the line into a curve.
+The prediction at the average follows the curve down to `r sprintf("%.0f", 100 * p_at_average_gad)`%, but the average of the two patients' probabilities lies halfway along the straight dashed line between them, at `r sprintf("%.0f", 100 * p_clinic_average)`%.
+Translated back to log-odds, the average prediction sits above the straight line in the left panel: averaging probabilities is not the same as averaging log-odds.[^jensen]
+
+```{r}
+#| label: plot-average-prediction-toy
+#| code-fold: true
+#| code-summary: "Show the plot code"
+#| fig-width: 8
+#| fig-height: 4.5
+# Express log-odds on both scales, one row per scale
+both_scales <- function(data) {
+  data |>
+    mutate(
+      `Log-odds scale` = log_odds,
+      `Probability scale` = plogis(log_odds)
+    ) |>
+    select(-log_odds) |>
+    pivot_longer(
+      c(`Log-odds scale`, `Probability scale`),
+      names_to = "scale",
+      values_to = "value"
+    )
+}
+
+toy_curve <- tibble(gad = seq(0, 21, by = 0.1), log_odds = toy_logit(gad)) |>
+  both_scales()
+toy_patients <- tibble(gad = gad_patients, log_odds = toy_logit(gad)) |>
+  both_scales()
+toy_summaries <- tibble(
+  gad = mean(gad_patients),
+  log_odds = c(qlogis(p_clinic_average), toy_logit(mean(gad_patients))),
+  summary = c("Average prediction", "Prediction at the average")
+) |>
+  both_scales()
+
+ggplot(toy_curve, aes(x = gad, y = value)) +
+  geom_vline(xintercept = mean(gad_patients), linetype = "dotted") +
+  geom_line(color = "grey50") +
+  geom_line(data = toy_patients, linetype = "dashed") +
+  geom_point(data = toy_patients, size = 3) +
+  geom_point(data = toy_summaries, aes(color = summary), size = 3) +
+  facet_wrap(~scale, scales = "free_y") +
+  labs(
+    title = "Average prediction versus prediction at the average",
+    subtitle = "Made-up model; black points: mild and severe patients",
+    x = "GAD-7 score",
+    y = NULL,
+    color = NULL
+  ) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+[^jensen]: The general result is Jensen's inequality.
+    The inverse logit is convex for negative log-odds (probabilities below 0.5) and concave for positive log-odds, so the direction of the gap depends on where the predictions lie.
+
+`marginaleffects` has a function for each summary.
+`avg_predictions()` gives the average prediction: it predicts every participant's probability and averages the predictions.
+`predictions()` gives the prediction at chosen predictor values; `newdata = "mean"` sets GAD-7 to its sample mean.
+In the GAD-7 model, the two summaries are:
+
+```{r}
+#| label: average-prediction-gad
+p_gad_average <- avg_predictions(mod_gad)
+p_gad_at_mean <- predictions(mod_gad, newdata = "mean")
+
+p_gad_average
+p_gad_at_mean
+```
+
+Here they are almost identical (`r sprintf("%.4f", p_gad_average$estimate[1])` versus `r sprintf("%.4f", p_gad_at_mean$estimate[1])`).
+The gap grows with how much the predicted log-odds vary between participants, and GAD-7 barely moves them: across the observed range of GAD-7, the predicted log-odds change by only `r sprintf("%.2f", abs(b_gad) * diff(range(df_clean$gad_screen)))`.
+Treatment changes the log-odds far more, so the distinction matters in the models with treatment later in the course.
 
 # Summary
 
 - Logistic regression can model a binary outcome using a continuous predictor.
 - Probability curves are usually easier to communicate than log-odds coefficients.
 - An average probability slope is an interpretable summary, but it can conceal variation across the predictor range.
+- A natural cubic spline and a likelihood-ratio test check whether the log-odds are linear in a numeric predictor.
+- The average of predicted probabilities is not the predicted probability at the average covariate value; the gap grows with how much the predictions vary.
