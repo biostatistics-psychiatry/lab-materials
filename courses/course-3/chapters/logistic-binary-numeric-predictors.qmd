@@ -16,10 +16,6 @@ Here we retain the observed continuous `phq9_screen` score and ask:
 
 > How does the estimated probability of treatment response differ between therapist-guided treatment and waitlist at different baseline PHQ-9 scores?
 
-We will make that question concrete at PHQ-9 scores of 5, 10, and 15.
-They represent low, moderate, and higher values within the observed range; they are not diagnostic categories.
-Our primary result is a **therapist-guided minus waitlist probability difference**, expressed in percentage points with a 95% CI.
-
 A logistic-regression interaction is an interaction on the **log-odds scale**.
 That detail matters: even an additive logistic model can have probability differences that vary with PHQ-9, because the logit-to-probability transformation is nonlinear.
 We therefore calculate contrasts on the probability scale rather than reading their shape from a coefficient table.
@@ -76,7 +72,6 @@ df_binary |>
 ```
 
 `Response` means a reduction of at least 30% from baseline LSAS.
-This is a response outcome, not a diagnostic or remission definition.
 Waitlist is the treatment reference group, and `Response` is the event whose probability is modeled.
 We restrict this chapter to the waitlist and therapist-guided arms so that every treatment contrast has one clear direction.
 
@@ -193,7 +188,7 @@ $$
 
 Now the treatment log-odds difference can change with PHQ-9.
 The treatment coefficient in `summary()` is the difference at PHQ-9 = 0, which is not a useful stand-alone clinical summary here.
-We instead estimate probability differences at prespecified, observed-range scores.
+We instead estimate probability differences at realistic PHQ-9 scores with clinical relevance.
 
 ```{r}
 #| label: fit-interaction-logit

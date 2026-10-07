@@ -90,7 +90,7 @@ gad_slope
 
 On average, a one-point higher baseline GAD-7 score is associated with a change of **`r sprintf("%.2f", 100 * gad_slope$estimate[1])` percentage points** in the estimated probability of treatment response (95% CI **`r sprintf("%.2f", 100 * gad_slope$conf.low[1])`** to **`r sprintf("%.2f", 100 * gad_slope$conf.high[1])` percentage points**).
 
-GAD-7 was not randomized, so this is an association, not the effect of changing a participant's anxiety.
+GAD-7 was not randomized, so this is an association and not the effect of changing a participant's anxiety.
 Because the probability curve is not a straight line, its slope differs across GAD-7 values; the average slope summarizes them, so interpreting it as the change for a one-point increase is an approximation that holds for small changes.
 The coefficient in `summary()` is a log-odds change; exponentiating it gives an odds ratio, not this probability-scale slope.
 :::

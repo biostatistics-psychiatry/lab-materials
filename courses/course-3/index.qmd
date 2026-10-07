@@ -5,8 +5,7 @@ date: last-modified
 
 Welcome to Biostatistics III.
 This week is all about **binary and categorical outcomes**, analyzed with logistic-regression models.
-Odds ratios and log-odds often appear in the literature, so we will learn what they mean.
-We will also interpret results on the probability scale.
+We will interpret results using odds ratios and log-odds, as well as the probability scale.
 
 We will continue to work with the STePS randomized trial of internet-delivered psychodynamic therapy for social anxiety disorder.
 Most chapters use a binary treatment-response outcome: an LSAS reduction of at least 30% from baseline.

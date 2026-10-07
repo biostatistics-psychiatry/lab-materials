@@ -131,19 +131,6 @@ or_categorical_trt <- tidy(
   filter(term != "(Intercept)")
 ```
 
-::: {.callout-tip collapse="true"}
-## Model interpretation
-
-The estimated probability of treatment response is **`r sprintf("%.1f", 100 * p_categorical_trt$estimate[p_categorical_trt$trt == "waitlist"])`%** for waitlist (95% CI **`r sprintf("%.1f", 100 * p_categorical_trt$conf.low[p_categorical_trt$trt == "waitlist"])`%** to **`r sprintf("%.1f", 100 * p_categorical_trt$conf.high[p_categorical_trt$trt == "waitlist"])`%**), **`r sprintf("%.1f", 100 * p_categorical_trt$estimate[p_categorical_trt$trt == "therapist-guided"])`%** for therapist-guided treatment (95% CI **`r sprintf("%.1f", 100 * p_categorical_trt$conf.low[p_categorical_trt$trt == "therapist-guided"])`%** to **`r sprintf("%.1f", 100 * p_categorical_trt$conf.high[p_categorical_trt$trt == "therapist-guided"])`%**), and **`r sprintf("%.1f", 100 * p_categorical_trt$estimate[p_categorical_trt$trt == "self-guided"])`%** for self-guided treatment (95% CI **`r sprintf("%.1f", 100 * p_categorical_trt$conf.low[p_categorical_trt$trt == "self-guided"])`%** to **`r sprintf("%.1f", 100 * p_categorical_trt$conf.high[p_categorical_trt$trt == "self-guided"])`%**).
-
-Relative to waitlist, therapist-guided treatment **`r ifelse(diff_guided_waitlist$estimate[1] >= 0, "increases", "decreases")`** the estimated probability by **`r sprintf("%.1f", abs(100 * diff_guided_waitlist$estimate[1]))` percentage points** (95% CI **`r sprintf("%.1f", 100 * diff_guided_waitlist$conf.low[1])`** to **`r sprintf("%.1f", 100 * diff_guided_waitlist$conf.high[1])` percentage points**).
-Self-guided treatment **`r ifelse(diff_self_waitlist$estimate[1] >= 0, "increases", "decreases")`** it by **`r sprintf("%.1f", abs(100 * diff_self_waitlist$estimate[1]))` percentage points** relative to waitlist (95% CI **`r sprintf("%.1f", 100 * diff_self_waitlist$conf.low[1])`** to **`r sprintf("%.1f", 100 * diff_self_waitlist$conf.high[1])` percentage points**).
-These are unadjusted contrasts in the three-arm analysis sample.
-
-The corresponding odds ratios versus waitlist are **`r sprintf("%.2f", or_categorical_trt$estimate[or_categorical_trt$term == "trttherapist-guided"])`** for therapist-guided treatment (95% CI **`r sprintf("%.2f", or_categorical_trt$conf.low[or_categorical_trt$term == "trttherapist-guided"])`** to **`r sprintf("%.2f", or_categorical_trt$conf.high[or_categorical_trt$term == "trttherapist-guided"])`**) and **`r sprintf("%.2f", or_categorical_trt$estimate[or_categorical_trt$term == "trtself-guided"])`** for self-guided treatment (95% CI **`r sprintf("%.2f", or_categorical_trt$conf.low[or_categorical_trt$term == "trtself-guided"])`** to **`r sprintf("%.2f", or_categorical_trt$conf.high[or_categorical_trt$term == "trtself-guided"])`**).
-Each is a ratio of odds, not a probability ratio or a percentage-point probability difference.
-:::
-
 # Predicted probabilities by treatment arm
 
 ```{r}
@@ -166,11 +153,23 @@ plot_predictions(mod_categorical_trt, condition = "trt") +
   theme_minimal()
 ```
 
+::: {.callout-tip collapse="true"}
+## Model interpretation
+
+The estimated probability of treatment response is **`r sprintf("%.1f", 100 * p_categorical_trt$estimate[p_categorical_trt$trt == "waitlist"])`%** for waitlist (95% CI **`r sprintf("%.1f", 100 * p_categorical_trt$conf.low[p_categorical_trt$trt == "waitlist"])`%** to **`r sprintf("%.1f", 100 * p_categorical_trt$conf.high[p_categorical_trt$trt == "waitlist"])`%**), **`r sprintf("%.1f", 100 * p_categorical_trt$estimate[p_categorical_trt$trt == "therapist-guided"])`%** for therapist-guided treatment (95% CI **`r sprintf("%.1f", 100 * p_categorical_trt$conf.low[p_categorical_trt$trt == "therapist-guided"])`%** to **`r sprintf("%.1f", 100 * p_categorical_trt$conf.high[p_categorical_trt$trt == "therapist-guided"])`%**), and **`r sprintf("%.1f", 100 * p_categorical_trt$estimate[p_categorical_trt$trt == "self-guided"])`%** for self-guided treatment (95% CI **`r sprintf("%.1f", 100 * p_categorical_trt$conf.low[p_categorical_trt$trt == "self-guided"])`%** to **`r sprintf("%.1f", 100 * p_categorical_trt$conf.high[p_categorical_trt$trt == "self-guided"])`%**).
+
+Relative to waitlist, therapist-guided treatment **`r ifelse(diff_guided_waitlist$estimate[1] >= 0, "increases", "decreases")`** the estimated probability by **`r sprintf("%.1f", abs(100 * diff_guided_waitlist$estimate[1]))` percentage points** (95% CI **`r sprintf("%.1f", 100 * diff_guided_waitlist$conf.low[1])`** to **`r sprintf("%.1f", 100 * diff_guided_waitlist$conf.high[1])` percentage points**).
+Self-guided treatment **`r ifelse(diff_self_waitlist$estimate[1] >= 0, "increases", "decreases")`** it by **`r sprintf("%.1f", abs(100 * diff_self_waitlist$estimate[1]))` percentage points** relative to waitlist (95% CI **`r sprintf("%.1f", 100 * diff_self_waitlist$conf.low[1])`** to **`r sprintf("%.1f", 100 * diff_self_waitlist$conf.high[1])` percentage points**).
+These are unadjusted contrasts in the three-arm analysis sample.
+
+The corresponding odds ratios versus waitlist are **`r sprintf("%.2f", or_categorical_trt$estimate[or_categorical_trt$term == "trttherapist-guided"])`** for therapist-guided treatment (95% CI **`r sprintf("%.2f", or_categorical_trt$conf.low[or_categorical_trt$term == "trttherapist-guided"])`** to **`r sprintf("%.2f", or_categorical_trt$conf.high[or_categorical_trt$term == "trttherapist-guided"])`**) and **`r sprintf("%.2f", or_categorical_trt$estimate[or_categorical_trt$term == "trtself-guided"])`** for self-guided treatment (95% CI **`r sprintf("%.2f", or_categorical_trt$conf.low[or_categorical_trt$term == "trtself-guided"])`** to **`r sprintf("%.2f", or_categorical_trt$conf.high[or_categorical_trt$term == "trtself-guided"])`**).
+Each is a ratio of odds, not a probability ratio or a percentage-point probability difference.
+:::
+
 # Probability differences between treatment arms
 
 There is no single treatment contrast with three arms.
-Decide which comparison answers the substantive question, state its direction, and present uncertainty.
-For an exploratory overview, calculate all pairwise differences.
+Below, we calculate all pairwise differences to see the full picture.
 A positive difference means that the first-named group has the higher estimated probability of treatment response.
 
 ```{r}
@@ -213,8 +212,6 @@ or_categorical_trt
 ```
 
 The odds ratios above compare each active arm with waitlist because waitlist is the reference group.
-To obtain a self-guided-versus-therapist-guided odds ratio, one could change the reference category or form the appropriate model contrast.
-Neither route changes the main communication task: accompany any odds ratio with response-scale probabilities and a clearly directed probability difference.
 
 # Summary
 

@@ -70,6 +70,10 @@ df_clean |>
   count(lsas_response, .drop = FALSE)
 ```
 
+
+
+# Defining the binary outcome
+
 The binary outcome is treatment response:
 
 ``` r
@@ -77,19 +81,8 @@ lsas_response = "Response"    if LSAS decreases by at least 30%
 lsas_response = "No response" otherwise
 ```
 
-This follows the practical treatment-follow-up guidance for LSAS-SR, which describes improvement as an approximately 30% reduction in total score [Nationell formulärsamling](https://patientenkat.se/nationellpatientenkat/nationellformularsamling/sokformularbeskrivningar/lsassrsocialangest.92403.html).
-In a German treated-SAD sample, the empirically derived LSAS-SR response cut-point was 28% [@vonGlischinski2018LSAS].
+This follows the practical treatment-follow-up guidance for LSAS-SR, which describes improvement as an approximately 30% reduction in total score [(Nationell formulärsamling)](https://patientenkat.se/nationellpatientenkat/nationellformularsamling/sokformularbeskrivningar/lsassrsocialangest.92403.html). In a German treated-SAD sample, the empirically derived LSAS-SR response cut-point was 28% [@vonGlischinski2018LSAS].
 We use the rounded 30% definition in this course.
-
-# Defining the binary outcome
-
-The LSAS-SR is often used to screen for social anxiety disorder.
-The original clinical LSAS study found total-score cut-points of 30 for social anxiety disorder and 60 for the then-defined generalized subtype [@Mennin2002LSAS].
-A study of the self-report LSAS-SR found the same cut-points had a useful sensitivity/specificity balance [@Rytwinski2009LSASSR].
-
-Thresholds can serve different purposes.
-In the same treated German sample, an LSAS-SR score of 35 was an empirically derived remission cut-point [@vonGlischinski2018LSAS].
-Response, remission, and diagnostic screening are different outcomes and should not be used interchangeably.
 
 ::: callout-caution
 ## A response definition is an analysis decision

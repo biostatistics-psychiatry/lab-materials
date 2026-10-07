@@ -10,21 +10,21 @@ number-sections: true
 # Why a multinomial model?
 
 The binary outcome used earlier distinguishes only response from non-response.
-Sometimes the question concerns how treatment redistributes probability across **three or more outcome categories**.
+Sometimes we want to look at **three or more outcome categories**, and that is the focus of this chapter.
 
-We use these teaching categories:
+We use these categories:
 
 - `low_no_to_mild`: LSAS $< 50$;
 - `moderate_marked`: $50 \leq$ LSAS $< 80$; and
 - `severe_very_severe`: LSAS $\geq 80$.
 
-They are a pedagogical severity grouping, not validated diagnostic or remission thresholds.
+Again, we choose these for teaching the course, not because they are always the ideal thresholds in clinical settings.
 
 ::: callout-note
 ## Ordered categories
 
 These categories are ordered: low/no-to-mild < moderate/marked < severe/very severe.
-The multinomial model ignores that order.
+The multinomial model we show here **ignores** that order.
 It treats the categories as unordered labels and estimates a separate set of treatment coefficients for each non-reference category, so with two active treatment arms it has four treatment coefficients.
 For an ordinal outcome, the usual first choice is a proportional-odds (cumulative logit) model, which uses the ordering and estimates one set of treatment coefficients for all categories, here two [@Agresti2010Ordinal].
 It achieves this by assuming that the treatment odds ratio is the same at every cut-point between categories (low versus moderate or severe, and low or moderate versus severe), an assumption worth checking.
@@ -70,6 +70,14 @@ df_outcome <- read_csv2(here("data", "steps_clean.csv")) |>
     trt = factor(trt, levels = c("waitlist", "therapist-guided", "self-guided"))
   ) |>
   select(id, trt, severity_observed)
+```
+
+Now that we have the necessary columns, let's convert `df_outcome` from wide format (one row per participant) to long format (one row per response).
+The column `severity_alt` lists all outcome alternatives, and `choice` marks the observed outcome for each participant as `TRUE` and the two unobserved outcomes as `FALSE`.
+Notice how the number of rows changes between `df_outcome` and `long`.
+
+```{r}
+#| label: long-format
 
 long <- crossing(
   df_outcome,
@@ -77,24 +85,26 @@ long <- crossing(
 ) |>
   mutate(choice = severity_alt == severity_observed)
 
+# one participant from each treatment group
 long |>
-  count(id) |>
-  count(n)
+  filter(id %in% c(1, 3, 11))
 ```
+
+Next, we tell the `mlogit` package how to use the columns when fitting the model.
 
 ```{r}
 #| label: make-mlogit-data
-mlogit_data <- mlogit.data(
+mlogit_data <- dfidx::dfidx(
   long,
+  idx = c("id", "severity_alt"),
   choice = "choice",
   shape = "long",
-  chid.var = "id",
-  alt.var = "severity_alt",
-  drop.index = TRUE
+  drop.index = TRUE,
+  pkg = "mlogit"
 )
 ```
 
-# Fit a treatment model
+# Fit a multinomial model
 
 ```{r}
 #| label: fit-multinomial-model

@@ -8,7 +8,7 @@ toc-depth: 3
 number-sections: true
 ---
 
-# Two predictors, one clinical question
+# Two predictors in additive and multiplicative models
 
 The previous logistic-regression chapters considered one predictor at a time.
 Clinical questions often ask whether a treatment contrast looks different in a baseline subgroup.
@@ -17,13 +17,12 @@ Here we model the probability of a **treatment response** using:
 - treatment group (`trt`); and
 - a binary baseline PHQ-9 category (`phq_cat`).
 
-Our teaching question is:
+Our research question is:
 
 > Within each PHQ-9 category, how does the estimated probability of treatment response differ between therapist-guided treatment and waitlist?
 
 We will first fit an additive logistic model and then a model with `trt * phq_cat`.
-The probability difference, with its 95% confidence interval, is the clinical contrast.
-Log-odds and odds ratios help us read model output and research papers, but neither is a percentage-point difference.
+Results will be presented using the probability difference, log-odds and odds ratios.
 
 # Packages and data
 
@@ -78,8 +77,7 @@ df_binary |>
 ```
 
 `phq_cat` explicitly divides baseline PHQ-9 scores into `< 10` and `>= 10`.
-It is a convenient binary moderator for this lesson, not a claim that these two groups are biologically distinct or that a subgroup result is clinically established.
-Splitting PHQ-9 at 10 also discards information: a participant scoring 10 is grouped with one scoring 25, and apart from one scoring 9 [@Altman2006Dichotomising; @MacCallum2002Dichotomization].
+It is a convenient binary moderator for this lesson.
 [Logistic regression with a binary and numeric predictor](logistic-binary-numeric-predictors.qmd) keeps PHQ-9 continuous.
 The outcome is treatment response, defined as a reduction of at least 30% from baseline LSAS.
 
@@ -111,7 +109,6 @@ summary(mod_additive)
 ```
 
 We can get the ORs for therapist-guided versus waitlist and for PHQ-9 `>= 10` versus `< 10` by exponentiating the coefficients.
-Because the additive model has no product term, the treatment OR is forced to be the same in both PHQ-9 categories.
 
 ```{r}
 #| label: fit-additive-logit-manual
@@ -162,7 +159,6 @@ Compared with waitlist, therapist-guided treatment has an estimated probability 
 Among participants with baseline PHQ-9 `>= 10`, it is **`r if (additive_treatment_high_phq$estimate[1] >= 0) "higher" else "lower"` by `r sprintf("%.1f", 100 * abs(additive_treatment_high_phq$estimate[1]))` percentage points** (95% CI **`r sprintf("%.1f", 100 * additive_treatment_high_phq$conf.low[1])` to `r sprintf("%.1f", 100 * additive_treatment_high_phq$conf.high[1])` percentage points**).
 
 Because this is an additive *logistic* model, its therapist-guided-versus-waitlist odds ratio is **`r sprintf("%.2f", additive_odds_ratio$estimate[1])`** (95% CI **`r sprintf("%.2f", additive_odds_ratio$conf.low[1])` to `r sprintf("%.2f", additive_odds_ratio$conf.high[1])`**) in both PHQ-9 categories, adjusted for PHQ-9 category.
-This is a ratio of odds, not a percentage-point probability change; the conditional probability differences above are the primary results.
 :::
 
 ```{r}
@@ -313,8 +309,6 @@ Within the baseline PHQ-9 `< 10` category, therapist-guided treatment has an est
 Within the baseline PHQ-9 `>= 10` category, the corresponding probability is **`r if (interaction_treatment_high_phq$estimate[1] >= 0) "higher" else "lower"` by `r sprintf("%.1f", 100 * abs(interaction_treatment_high_phq$estimate[1]))` percentage points** (95% CI **`r sprintf("%.1f", 100 * interaction_treatment_high_phq$conf.low[1])` to `r sprintf("%.1f", 100 * interaction_treatment_high_phq$conf.high[1])` percentage points**).
 
 The associated therapist-guided-versus-waitlist odds ratios are **`r sprintf("%.2f", or_interaction_low_phq$odds_ratio[1])`** (95% CI **`r sprintf("%.2f", or_interaction_low_phq$odds_ratio_low[1])` to `r sprintf("%.2f", or_interaction_low_phq$odds_ratio_high[1])`**) for PHQ-9 `< 10` and **`r sprintf("%.2f", or_interaction_high_phq$odds_ratio[1])`** (95% CI **`r sprintf("%.2f", or_interaction_high_phq$odds_ratio_low[1])` to `r sprintf("%.2f", or_interaction_high_phq$odds_ratio_high[1])`**) for PHQ-9 `>= 10`.
-They compare odds, not probabilities.
-Use the conditional probability differences above—not these odds ratios—to describe the clinical contrast.
 :::
 
 ```{r}

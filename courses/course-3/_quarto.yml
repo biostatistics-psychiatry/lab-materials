@@ -35,7 +35,7 @@ website:
       - section: "Chapters"
         contents:
           - href: chapters/logistic-intro.qmd
-            text: Logistic-regression foundations
+            text: Logistic regression foundations
           - href: chapters/logistic-one-binary-predictor.qmd
             text: Logistic regression with a binary predictor
           - href: chapters/logistic-one-categorical-predictor.qmd
