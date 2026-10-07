@@ -14,145 +14,17 @@ The only result in the draft is a logistic-regression coefficient.
 Prepare the analysis for a meeting later today.
 Decide which treatment contrast is clinically useful, state why, and make the uncertainty visible before anyone writes “paradigm-shifting.”
 
-# Your deliverable
+# Your task
 
-Create a group Quarto notebook with these sections:
+Create a Quarto notebook with these sections:
 
 1.  **Question and estimand** — Choose one clinically relevant contrast among waitlist, therapist-guided treatment, and self-guided treatment.
     State the direction explicitly (for example, therapist-guided minus waitlist) and say why that comparison is useful.
 2.  **Outcome and data check** — Define `lsas_response` as a reduction of at least 30% from baseline LSAS.
-    State that this is a response outcome rather than a diagnostic or remission definition.
     Report the number of participants and outcome counts in each treatment arm, including how you handled missing post-treatment LSAS values.
 3.  **Model** — Fit a three-arm binary logistic model.
     Identify the reference category and the event whose probability is modeled.
 4.  **Results** — Report model-derived probabilities for the relevant treatment arms and your chosen, directed probability difference in percentage points with a 95% CI.
-    If you include an odds ratio, name its comparison and explain that it is a ratio of odds, not a probability difference.
-5.  **Figure** — Include an uncertainty-aware probability-scale figure with 95% CIs.
-    A plot of all three arm-specific probabilities is usually informative; add a contrast plot if it makes your chosen comparison clearer.
+    Include odds ratios as well.
+5.  **Figure** — Include one or several figures to present your findings.
 6.  **Conclusion** — Give a short, plain-language clinical interpretation of the numerical probability difference and its uncertainty.
-    State what the model alone does not establish.
-
-# Starter code
-
-Use this only as a starting point.
-Your group decides which contrast answers your question, how to display it, and which limitations deserve emphasis.
-
-```{r}
-#| label: setup
-#| message: false
-#| warning: false
-library(tidyverse)
-library(here)
-library(broom)
-library(marginaleffects)
-
-options(
-  marginaleffects_print_omit = c("s.value"),
-  marginaleffects_print_style = ifelse(interactive(), "summary", "tinytable")
-)
-
-df_categorical <- read_csv2(here("data", "steps_clean.csv")) |>
-  filter(!is.na(lsas_screen), !is.na(lsas_post)) |>
-  mutate(
-    # The second level is the event modeled by binomial glm().
-    lsas_response = factor(
-      if_else(
-        (lsas_screen - lsas_post) / lsas_screen >= 0.30,
-        "Response",
-        "No response"
-      ),
-      levels = c("No response", "Response")
-    ),
-    trt = factor(
-      trt,
-      levels = c("waitlist", "therapist-guided", "self-guided")
-    )
-  )
-```
-
-```{r}
-#| label: check-treatment-outcomes
-# Decide what missing outcome values mean for the analysis before fitting a
-# model.
-df_categorical |>
-  count(trt, lsas_response, .drop = FALSE)
-
-contrasts(df_categorical$trt)
-```
-
-```{r}
-#| label: three-arm-logistic-model
-#| message: false
-#| warning: false
-mod_categorical_lab <- stats::glm(
-  lsas_response ~ trt,
-  family = binomial,
-  data = df_categorical
-)
-
-# Replace these arms with the directed clinical contrast your group selected.
-chosen_arms <- c("waitlist", "therapist-guided")
-
-p_categorical_lab <- predictions(
-  mod_categorical_lab,
-  newdata = datagrid(trt = unique)
-)
-
-chosen_difference <- avg_comparisons(
-  mod_categorical_lab,
-  variables = list(trt = chosen_arms),
-  type = "response"
-)
-
-# This odds ratio compares therapist-guided with waitlist; change the term
-# if your group chose a different contrast.
-default_or <- tidy(
-  mod_categorical_lab,
-  conf.int = TRUE,
-  exponentiate = TRUE
-) |>
-  filter(term == "trttherapist-guided")
-```
-
-::: {.callout-tip collapse="true"}
-## Model interpretation template
-
-Replace this paragraph with your own numerical interpretation.
-State the two estimated probabilities, the directed probability difference in **percentage points**, and its 95% CI.
-Then state the comparison and any conditioning choices clearly.
-
-If you report an odds ratio, give its 95% CI and explain that it compares odds, not probabilities.
-Do not describe it as a probability ratio or as the percentage-point difference.
-:::
-
-```{r}
-#| label: probability-scale-figure
-plot_predictions(mod_categorical_lab, condition = "trt") +
-  labs(
-    title = "Estimated probability of treatment response",
-    subtitle = "Three-arm logistic regression; 95% confidence intervals",
-    x = "Treatment group",
-    y = "Probability of treatment response"
-  ) +
-  theme_minimal()
-```
-
-# Questions to discuss
-
-- Which treatment contrast would change a real clinical or service decision?
-  Which contrast merely makes a more dramatic abstract title?
-- Does a reference-category coefficient answer the same question as your chosen probability difference?
-  Why or why not?
-- What can an odds ratio tell a reader, and why can it not be read as a percentage-point change?
-- The model is unadjusted for baseline severity.
-  Is that appropriate for your chosen estimand, and what would change if you adjusted for a pre-treatment variable?
-- What information is lost when the continuous LSAS score is dichotomized?
-
-# Before presenting
-
-- [ ] Our contrast names the first group, second group, and direction.
-- [ ] We define treatment response and do not call it a diagnosis or remission threshold.
-- [ ] We report group probabilities and a percentage-point probability difference with a 95% CI.
-- [ ] Our figure has a probability-scale y-axis and makes its 95% CIs clear.
-- [ ] If we report an odds ratio, we identify it as a ratio of odds rather than a probability difference.
-- [ ] Our conclusion is clinically intelligible without relying on a log-odds coefficient.
