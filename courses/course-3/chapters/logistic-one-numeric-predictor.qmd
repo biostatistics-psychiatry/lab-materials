@@ -66,6 +66,16 @@ If we exponentiate the `gad_screen` estimate, we get the odds ratio of treatment
 ```{r}
 #| label: numeric-model-manual-or
 exp(b_gad)
+
+# Estimate and 95% CI on the log-odds scale, then exponentiate
+or_gad <- comparisons(
+  mod_gad,
+  variables = list(gad_screen = c(10, 11)),
+  newdata = datagrid(gad_screen = 10),
+  type = "link",
+  transform = exp
+)
+or_gad
 ```
 
 We can also get the estimated odds ratio for an x-point increase in GAD-7 at screening, by using the same procedure while multiplying the coefficient by x.
@@ -89,6 +99,9 @@ gad_slope
 ## Model interpretation
 
 On average, a one-point higher baseline GAD-7 score is associated with a change of **`r sprintf("%.2f", 100 * gad_slope$estimate[1])` percentage points** in the estimated probability of treatment response (95% CI **`r sprintf("%.2f", 100 * gad_slope$conf.low[1])`** to **`r sprintf("%.2f", 100 * gad_slope$conf.high[1])` percentage points**).
+
+The **odds ratio for a one-point higher GAD-7 score** is **`r sprintf("%.2f", or_gad$estimate[1])`** (95% CI **`r sprintf("%.2f", or_gad$conf.low[1])`** to **`r sprintf("%.2f", or_gad$conf.high[1])`**).
+The linear log-odds model assumes this OR is constant across GAD-7 scores; the probability-scale slope is not.
 
 GAD-7 was not randomized, so this is an association and not the effect of changing a participant's anxiety.
 Because the probability curve is not a straight line, its slope differs across GAD-7 values; the average slope summarizes them, so interpreting it as the change for a one-point increase is an approximation that holds for small changes.
@@ -150,6 +163,16 @@ gad_spline_slope <- avg_slopes(
   type = "response"
 )
 gad_spline_slope
+
+# A spline has no single constant OR: compare GAD-7 = 11 versus 10
+or_gad_spline_10_11 <- comparisons(
+  mod_gad_spline,
+  variables = list(gad_screen = c(10, 11)),
+  newdata = datagrid(gad_screen = 10),
+  type = "link",
+  transform = exp
+)
+or_gad_spline_10_11
 ```
 
 ::: {.callout-tip collapse="true"}
@@ -158,6 +181,9 @@ gad_spline_slope
 Allowing a curved relationship does not improve the fit: the likelihood-ratio test comparing the spline model with the linear model gives $\chi^2$(`r lrt_gad$Df[2]`) = `r sprintf("%.2f", lrt_gad$Deviance[2])`, *p* = `r sprintf("%.2f", lrt_gad[["Pr(>Chi)"]][2])`.
 
 In the spline model, a one-point higher baseline GAD-7 score is associated with an average change of **`r sprintf("%.2f", 100 * gad_spline_slope$estimate[1])` percentage points** in the estimated probability of treatment response (95% CI **`r sprintf("%.2f", 100 * gad_spline_slope$conf.low[1])`** to **`r sprintf("%.2f", 100 * gad_spline_slope$conf.high[1])` percentage points**), compared with **`r sprintf("%.2f", 100 * gad_slope$estimate[1])` percentage points** in the linear model.
+In the spline model, the **OR comparing GAD-7 = 11 with GAD-7 = 10** is **`r sprintf("%.2f", or_gad_spline_10_11$estimate[1])`** (95% CI **`r sprintf("%.2f", or_gad_spline_10_11$conf.low[1])`** to **`r sprintf("%.2f", or_gad_spline_10_11$conf.high[1])`**), versus the constant one-point OR of **`r sprintf("%.2f", or_gad$estimate[1])`** in the linear log-odds model.
+Other starting scores can give different spline ORs.
+
 A non-significant test does not prove that the relationship is linear, but these data give no reason to prefer the more flexible model.
 :::
 

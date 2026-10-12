@@ -16,7 +16,7 @@ Here we retain the observed continuous `phq9_screen` score and ask:
 
 > How does the estimated probability of treatment response differ between therapist-guided treatment and waitlist at different baseline PHQ-9 scores?
 
-A logistic-regression interaction is an interaction on the **log-odds scale**.
+A logistic regression interaction is an interaction on the **log-odds scale**.
 That detail matters: even an additive logistic model can have probability differences that vary with PHQ-9, because the logit-to-probability transformation is nonlinear.
 We therefore calculate contrasts on the probability scale rather than reading their shape from a coefficient table.
 
@@ -96,7 +96,7 @@ That is not the same as saying the probability difference is constant: a fixed c
 #| label: fit-additive-logit
 #| message: false
 #| warning: false
-mod_additive <- stats::glm(
+mod_additive <- glm(
   lsas_response ~ trt + phq9_screen,
   family = binomial,
   data = df_binary
@@ -137,12 +137,22 @@ additive_trt_difference <- avg_comparisons(
   type = "response"
 )
 additive_trt_difference
+
+additive_trt_or <- avg_comparisons(
+  mod_additive,
+  variables = list(trt = c("waitlist", "therapist-guided")),
+  type = "link",
+  transform = exp
+)
+additive_trt_or
 ```
 
 ::: {.callout-tip collapse="true"}
 ## Model interpretation
 
 Averaged over the observed baseline PHQ-9 distribution, therapist-guided treatment is estimated to change the probability of treatment response by **`r sprintf("%.1f", 100 * additive_trt_difference$estimate[1])` percentage points** compared with waitlist (95% CI **`r sprintf("%.1f", 100 * additive_trt_difference$conf.low[1])`** to **`r sprintf("%.1f", 100 * additive_trt_difference$conf.high[1])` percentage points**).
+
+The **conditional treatment OR**, adjusted for PHQ-9, is **`r sprintf("%.2f", additive_trt_or$estimate[1])`** (95% CI **`r sprintf("%.2f", additive_trt_or$conf.low[1])`** to **`r sprintf("%.2f", additive_trt_or$conf.high[1])`**).
 
 This is therapist-guided minus waitlist; a positive value favors a higher estimated probability of response with therapist guidance.
 It is a population-average probability contrast over this analysis sample, conditional on the additive model—not a coefficient interpreted as a percentage-point change.
@@ -194,7 +204,7 @@ We instead estimate probability differences at realistic PHQ-9 scores with clini
 #| label: fit-interaction-logit
 #| message: false
 #| warning: false
-mod_interaction <- stats::glm(
+mod_interaction <- glm(
   lsas_response ~ trt * phq9_screen,
   family = binomial,
   data = df_binary
@@ -237,7 +247,7 @@ exp(b_trt + b_trt_phq * 10)
 However, interpreting interactions through odds ratios quickly becomes cumbersome.
 It is usually easier to ask our substantive question directly: **how much higher or lower is the estimated probability of treatment response with therapist-guided treatment at different PHQ-9 scores?**
 
-We can therefore estimate the therapist-guided versus waitlist probability difference at selected PHQ-9 values:
+We can therefore estimate the therapist-guided versus waitlist probability and OR difference at selected PHQ-9 values:
 
 ```{r}
 #| label: fit-interaction-logit-probabilities
@@ -252,6 +262,16 @@ conditional_trt_difference <- avg_comparisons(
   type = "response"
 )
 conditional_trt_difference
+
+conditional_trt_or <- avg_comparisons(
+  mod_interaction,
+  variables = list(trt = c("waitlist", "therapist-guided")),
+  newdata = datagrid(phq9_screen = phq_values),
+  by = "phq9_screen",
+  type = "link",
+  transform = exp
+)
+conditional_trt_or
 ```
 
 ::: {.callout-tip collapse="true"}
@@ -263,7 +283,13 @@ At PHQ-9 = 10, the corresponding difference is **`r sprintf("%.1f", 100 * condit
 
 Each contrast conditions on the displayed PHQ-9 value.
 Positive values mean a higher modeled probability with therapist-guided treatment.
-The estimates and intervals, rather than the interaction coefficient alone, describe whether the clinically relevant probability difference changes across PHQ-9.
+
+The corresponding therapist-guided-versus-waitlist **ORs** are:
+
+- PHQ-9 = 5: **`r sprintf("%.2f", conditional_trt_or$estimate[conditional_trt_or$phq9_screen == 5])`** (95% CI **`r sprintf("%.2f", conditional_trt_or$conf.low[conditional_trt_or$phq9_screen == 5])`** to **`r sprintf("%.2f", conditional_trt_or$conf.high[conditional_trt_or$phq9_screen == 5])`**);
+- PHQ-9 = 10: **`r sprintf("%.2f", conditional_trt_or$estimate[conditional_trt_or$phq9_screen == 10])`** (95% CI **`r sprintf("%.2f", conditional_trt_or$conf.low[conditional_trt_or$phq9_screen == 10])`** to **`r sprintf("%.2f", conditional_trt_or$conf.high[conditional_trt_or$phq9_screen == 10])`**); and
+- PHQ-9 = 15: **`r sprintf("%.2f", conditional_trt_or$estimate[conditional_trt_or$phq9_screen == 15])`** (95% CI **`r sprintf("%.2f", conditional_trt_or$conf.low[conditional_trt_or$phq9_screen == 15])`** to **`r sprintf("%.2f", conditional_trt_or$conf.high[conditional_trt_or$phq9_screen == 15])`**).
+
 :::
 
 ```{r}
@@ -329,6 +355,16 @@ marginal_trt_difference <- avg_comparisons(
   type = "response"
 )
 marginal_trt_difference
+
+# Odds ratio of the two average counterfactual probabilities
+marginal_trt_or <- avg_comparisons(
+  mod_interaction,
+  variables = list(trt = c("waitlist", "therapist-guided")),
+  type = "response",
+  comparison = "lnoravg",
+  transform = exp
+)
+marginal_trt_or
 ```
 
 ::: {.callout-tip collapse="true"}
@@ -338,6 +374,10 @@ Averaged over the observed PHQ-9 distribution, the interaction model estimates t
 
 This population-average contrast is not the effect at a particular PHQ-9 score.
 It averages conditional contrasts over the PHQ-9 values represented in this sample, so it can change if the target population's baseline PHQ-9 distribution changes.
+
+The corresponding **standardized (marginal) treatment OR** is **`r sprintf("%.2f", marginal_trt_or$estimate[1])`** (95% CI **`r sprintf("%.2f", marginal_trt_or$conf.low[1])`** to **`r sprintf("%.2f", marginal_trt_or$conf.high[1])`**).
+It is the ratio of odds calculated from the two average counterfactual probabilities, not the average of the conditional ORs above.
+
 :::
 
 # Non-collapsibility of the odds ratio

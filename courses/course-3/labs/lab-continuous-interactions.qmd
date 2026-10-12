@@ -1,12 +1,10 @@
 ---
-title: "Logistic regression with a binary and numeric predictor"
+title: "Friday: Logistic regression with a binary and numeric predictor"
 format:
   html:
     df-print: kable
 toc: true
 ---
-
-# Scenario
 
 A senior collaborator has noticed that the interaction-model curve appears to move across baseline PHQ-9 scores.
 Their draft conference abstract now contains the sentence:
@@ -14,8 +12,6 @@ Their draft conference abstract now contains the sentence:
 > *Therapist guidance is especially effective for the patients who need it most, as demonstrated by a continuous PHQ-9 moderation effect.*
 
 The collaborator would like the figure “cleaned up” before the abstract is sent.
-
-# Your task
 
 Prepare a Quarto notebook that evaluates whether the claim is supported by a binary logistic model of the probability of treatment response.
 Work with the self-guided and therapist-guided treatment arms.
@@ -29,9 +25,10 @@ Your notebook must contain all of the following.
 2. **Data and model choices**
    - Define `lsas_response` as a reduction of at least 30% from baseline LSAS.
    - Filter out the waitlist group, retain only the two active treatment arms, and report how missing outcome or PHQ-9 values were handled.
-   - Fit both an additive logistic model and an interaction logistic model using `stats::glm(..., family = binomial)`.
+   - Fit both an additive logistic model and an interaction logistic model using `glm(..., family = binomial)`.
+   - Report the additive-model treatment OR and the interaction-model treatment ORs at specified PHQ-9 scores, alongside the corresponding probability differences, with 95% CIs.
 3. **Figures**
     - Include one or several figures to communicate your findings.
 4. **Interpretation and conclusion**
-   - Write a short, clinically intelligible conclusion that gives numerical percentage-point differences, their intervals, their conditioning values, and the direction of the contrast.
+   - Write a short conclusion that explains your findings, and
    - Explain whether the data support the proposed moderator claim.

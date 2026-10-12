@@ -100,7 +100,7 @@ It does **not** directly show the self-guided-versus-therapist-guided comparison
 #| label: fit-categorical-treatment-logit
 #| message: false
 #| warning: false
-mod_categorical_trt <- stats::glm(
+mod_categorical_trt <- glm(
   lsas_response ~ trt,
   family = binomial,
   data = df_categorical
@@ -218,6 +218,6 @@ The odds ratios above compare each active arm with waitlist because waitlist is 
 In this chapter you learned to:
 
 - define an explicit reference category for a three-level treatment predictor;
-- fit a three-arm binary logistic model with `stats::glm(..., family = binomial)`;
+- fit a three-arm binary logistic model with `glm(..., family = binomial)`;
 - obtain estimated probabilities for every treatment arm and pairwise probability differences with 95% CIs; and
 - distinguish odds ratios from the percentage-point probability differences needed for a clinical interpretation.

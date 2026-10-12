@@ -1,30 +1,81 @@
 ---
-title: "Logistic regression with binary and categorical predictors"
+title: "Tuesday: Logistic regression with binary and categorical predictors"
 format:
   html:
     df-print: kable
 toc: true
 ---
 
-# Scenario
+Your supervisor has received reviewer comments asking for a clinically intuitive binary outcome.
+Could the revised analysis show whether therapist guidance increases the chance of treatment response?
+The draft abstract claims that one STePS treatment arm is clearly better than another, but its only result is a logistic regression coefficient.
 
-Your supervisor has drafted an abstract claiming that one STePS treatment arm is clearly better than another.
-The only result in the draft is a logistic-regression coefficient.
+Prepare one Quarto notebook with the two analyses below for a meeting later today.
+State which contrasts are clinically useful and make their uncertainty visible before anyone writes “paradigm-shifting.”
 
-Prepare the analysis for a meeting later today.
-Decide which treatment contrast is clinically useful, state why, and make the uncertainty visible before anyone writes “paradigm-shifting.”
+# Part 1: One binary predictor
 
-# Your task
+Compare therapist-guided treatment with waitlist, using the [binary-predictor chapter](../chapters/logistic-one-binary-predictor.qmd) for guidance.
 
-Create a Quarto notebook with these sections:
+1. **Question and outcome definition** — State the treatment comparison and define `lsas_response` as a reduction of at least 30% from baseline LSAS.
+2. **Data check** — Retain only waitlist and therapist-guided participants. Report the number of participants and outcome counts in each group, and state how you handled missing post-treatment LSAS values.
+3. **Model** — Fit a binary logistic model with `lsas_response ~ trt`. Clearly name the reference group and the event whose probability is modeled.
+4. **Results** — Report estimated probabilities for both groups and the therapist-guided-minus-waitlist probability difference with a 95% CI. Also report the corresponding odds ratio with its 95% CI.
+5. **Figure** — Include a probability-scale figure with 95% CIs.
+6. **Conclusion** — Give a short clinical interpretation of the numerical percentage-point difference, its uncertainty, and what the model does *not* establish.
 
-1.  **Question and estimand** — Choose one clinically relevant contrast among waitlist, therapist-guided treatment, and self-guided treatment.
-    State the direction explicitly (for example, therapist-guided minus waitlist) and say why that comparison is useful.
-2.  **Outcome and data check** — Define `lsas_response` as a reduction of at least 30% from baseline LSAS.
-    Report the number of participants and outcome counts in each treatment arm, including how you handled missing post-treatment LSAS values.
-3.  **Model** — Fit a three-arm binary logistic model.
-    Identify the reference category and the event whose probability is modeled.
-4.  **Results** — Report model-derived probabilities for the relevant treatment arms and your chosen, directed probability difference in percentage points with a 95% CI.
-    Include odds ratios as well.
-5.  **Figure** — Include one or several figures to present your findings.
-6.  **Conclusion** — Give a short, plain-language clinical interpretation of the numerical probability difference and its uncertainty.
+# Part 2: One three-level categorical predictor
+
+Use all three treatment arms, following the [categorical-predictor chapter](../chapters/logistic-one-categorical-predictor.qmd).
+The outcome remains binary but the predictor now has three categories.
+
+1. **Question and estimand** — Choose one clinically relevant contrast among waitlist, therapist-guided treatment, and self-guided treatment. State the direction explicitly and say why that comparison is useful.
+2. **Data check** — Report the number of participants and response counts in all three arms, including how you handled missing post-treatment LSAS values.
+3. **Model** — Fit a three-arm binary logistic model with `lsas_response ~ trt`. Identify the reference category and the event whose probability is modeled.
+4. **Results** — Report model-derived probabilities and odds ratios for the contrasts of interest, with 95% CIs
+5. **Figure** — Include one or several figures to present your findings.
+6. **Conclusion** — Give a short, plain-language clinical interpretation of the probability difference and its uncertainty. Explain the distinction between the binary and three-level treatment predictors.
+
+# Starter code
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+library(tidyverse)
+library(here)
+library(marginaleffects)
+
+df_categorical <- read_csv2(here("data", "steps_clean.csv")) |>
+  filter(!is.na(lsas_screen), !is.na(lsas_post)) |>
+  mutate(
+    lsas_response = factor(
+      if_else(
+        (lsas_screen - lsas_post) / lsas_screen >= 0.30,
+        "Response",
+        "No response"
+      ),
+      levels = c("No response", "Response")
+    ),
+    trt = factor(
+      trt,
+      levels = c("waitlist", "therapist-guided", "self-guided")
+    )
+  )
+
+df_binary <- df_categorical |>
+  filter(trt %in% c("waitlist", "therapist-guided")) |>
+  droplevels()
+```
+
+```{r}
+#| label: model
+mod_trt <- glm(
+  lsas_response ~ trt,
+  family = binomial,
+  data = df_binary
+)
+
+# What probabilities and contrast answer your question?
+# How will you extend the analysis to all three arms?
+```

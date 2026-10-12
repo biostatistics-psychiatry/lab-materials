@@ -10,7 +10,7 @@ number-sections: true
 
 # Introduction
 
-This notebook extends the treatment example from [logistic-regression foundations](logistic-intro.qmd).
+This notebook extends the treatment example from [logistic regression foundations](logistic-intro.qmd).
 We focus on the two arms that make a binary treatment predictor: `waitlist` and `therapist-guided`.
 
 Our question is:
@@ -18,7 +18,7 @@ Our question is:
 > Among participants in these two arms, how does the estimated probability of treatment response differ for therapist-guided treatment versus waitlist?
 
 The target is the **therapist-guided minus waitlist probability difference**.
-We will use the corresponding odds ratio to read logistic-regression output, but the probability difference is the primary clinical result.
+We will use the corresponding odds ratio to read logistic regression output, but the probability difference is the primary clinical result.
 
 # Packages and data
 
@@ -65,7 +65,7 @@ df_binary |>
   count(trt, lsas_response, .drop = FALSE)
 ```
 
-`Response` means that LSAS decreases by at least 30% from baseline, as in [logistic-regression foundations](logistic-intro.qmd).
+`Response` means that LSAS decreases by at least 30% from baseline, as in [logistic regression foundations](logistic-intro.qmd).
 
 We explicitly make waitlist the reference group.
 The treatment contrast shown by the coefficient will therefore be log-odds of response for the therapist-guided group minus the log-odds for treatment response in the waitlist group.
@@ -99,7 +99,7 @@ We can then use the `summary()` function to see the model coefficients.
 #| label: fit-binary-treatment-logit
 #| message: false
 #| warning: false
-mod_binary_trt <- stats::glm(
+mod_binary_trt <- glm(
   lsas_response ~ trt, # model formula
   family = binomial, # using the binomial family to get a logistic regression
   data = df_binary # using our dataset df_binary
@@ -223,6 +223,6 @@ Report the model-derived probabilities and their probability difference when the
 In this chapter you learned to:
 
 - restrict the STePS data to a binary treatment comparison and set waitlist as the reference category;
-- fit a binary logistic model with `stats::glm(..., family = binomial)`;
+- fit a binary logistic model with `glm(..., family = binomial)`;
 - report treatment-specific probabilities and the therapist-guided-minus-waitlist probability difference with 95% CIs; and
 - interpret the associated odds ratio as a ratio of odds rather than a probability difference.

@@ -174,6 +174,20 @@ n_outcome[["Response"]] / n_outcome[["No response"]]
 ```
 
 The odds is still not the clearest summary; the probability is usually easier to interpret.
+Convert the log-odds to a probability by hand using the inverse logit, $p = e^x / (1 + e^x)$:
+
+```{r}
+#| label: manual-intercept-probability
+exp(b_intercept) / (1 + exp(b_intercept))
+```
+
+R's `plogis()` applies the same inverse-logit transformation directly:
+
+```{r}
+#| label: intercept-probability-plogis
+plogis(b_intercept)
+```
+
 We can use `marginaleffects` to obtain the estimated probability and its confidence interval.
 `predictions()` predicts the probability of response for the participants in `newdata`.
 An intercept-only model predicts the same probability for every participant, so we predict for one, the first row of the data.
@@ -191,6 +205,7 @@ The estimated probability of treatment response in the full analysis sample is *
 
 This is a model-based estimate of an overall probability, not a treatment effect.
 The intercept printed by `summary()` is the log-odds corresponding to this probability.
+The corresponding odds of response are **`exp(b_intercept)` = `r sprintf("%.2f", exp(b_intercept))`**.
 :::
 
 # Treatment as a binary predictor
@@ -241,6 +256,15 @@ odds_by_trt <- n_trt[, "Response"] / n_trt[, "No response"]
 odds_by_trt[["therapist-guided"]] / odds_by_trt[["waitlist"]]
 ```
 
+You can also use the convenient `tidy()` function from the `broom` package to get the odds ratio and its confidence interval.
+
+```{r}
+#| label: function-odds-ratio
+or_trt <- tidy(mod_trt, conf.int = TRUE, exponentiate = TRUE)
+or_trt_contrast <- or_trt |>
+  filter(term == "trttherapist-guided")
+```
+
 ## Estimated probabilities, a probability difference, and a probability ratio (a.k.a. risk ratio)
 
 `datagrid(trt = unique)` makes one row per treatment group, so `predictions()` returns the probability of response for a participant in each group.
@@ -277,6 +301,9 @@ The estimated probability of treatment response is **`r sprintf("%.2f", trt_rati
 
 This is an unadjusted treatment contrast in the restricted waitlist-versus-therapist-guided sample.
 A positive value means that therapist-guided treatment has a higher estimated probability of treatment response.
+
+The therapist-guided-versus-waitlist **odds ratio** is **`r sprintf("%.2f", or_trt_contrast$estimate[1])`** (95% CI **`r sprintf("%.2f", or_trt_contrast$conf.low[1])`** to **`r sprintf("%.2f", or_trt_contrast$conf.high[1])`**).
+
 :::
 
 ::: callout-note
@@ -362,7 +389,6 @@ Exponentiating it yields an **odds ratio**.
 
 ```{r}
 #| label: treatment-odds-ratio
-or_trt <- tidy(mod_trt, conf.int = TRUE, exponentiate = TRUE)
 or_trt
 ```
 
@@ -401,7 +427,7 @@ In this chapter you learned to:
 - define a binary LSAS outcome and distinguish it from a validated clinical threshold;
 - describe a binary outcome as a Bernoulli variable and explain why logistic regression is preferred to a linear probability model;
 - explain why an odds ratio overstates the risk ratio when the outcome is common;
-- fit intercept-only and treatment logistic-regression models with `glm(..., family = binomial)`;
+- fit intercept-only and treatment logistic regression models with `glm(..., family = binomial)`;
 - interpret model output through estimated probabilities and probability differences with 95% CIs;
 - visualize treatment-group probabilities with `marginaleffects`; and
 - recognize an odds ratio as a ratio of odds rather than a probability difference.

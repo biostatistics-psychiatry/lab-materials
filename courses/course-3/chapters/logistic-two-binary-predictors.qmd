@@ -10,7 +10,7 @@ number-sections: true
 
 # Two predictors in additive and multiplicative models
 
-The previous logistic-regression chapters considered one predictor at a time.
+The previous logistic regression chapters considered one predictor at a time.
 Clinical questions often ask whether a treatment contrast looks different in a baseline subgroup.
 Here we model the probability of a **treatment response** using:
 
@@ -99,7 +99,7 @@ On the **log-odds scale**, this model says that the treatment odds ratio is the 
 #| label: fit-additive-logit
 #| message: false
 #| warning: false
-mod_additive <- stats::glm(
+mod_additive <- glm(
   lsas_response ~ trt + phq_cat,
   family = binomial,
   data = df_binary
@@ -223,7 +223,7 @@ The treatment coefficient $\beta_1$ is now the treatment log-odds difference in 
 #| label: fit-interaction-logit
 #| message: false
 #| warning: false
-mod_interaction <- stats::glm(
+mod_interaction <- glm(
   lsas_response ~ trt * phq_cat,
   family = binomial,
   data = df_binary
@@ -372,6 +372,15 @@ interaction_rd_difference <- avg_comparisons(
   hypothesis = difference ~ reference
 )
 interaction_rd_difference
+
+# Ratio of treatment ORs: PHQ-9 >= 10 divided by PHQ-9 < 10
+interaction_or_ratio <- tidy(
+  mod_interaction,
+  conf.int = TRUE,
+  exponentiate = TRUE
+) |>
+  filter(term == "trttherapist-guided:phq_cat>= 10")
+interaction_or_ratio
 ```
 
 ::: {.callout-tip collapse="true"}
@@ -381,6 +390,9 @@ The therapist-guided-minus-waitlist probability difference is **`r sprintf("%.1f
 
 This is the interaction on the probability scale: a difference between two probability differences.
 The interval is wide enough to include large differences in either direction, so these data cannot tell us whether the treatment effect differs between the PHQ-9 categories.
+
+On the odds-ratio scale, the treatment OR for PHQ-9 `>= 10` divided by the treatment OR for PHQ-9 `< 10` is **`r sprintf("%.2f", interaction_or_ratio$estimate[1])`** (95% CI **`r sprintf("%.2f", interaction_or_ratio$conf.low[1])`** to **`r sprintf("%.2f", interaction_or_ratio$conf.high[1])`**).
+
 :::
 
 ::: callout-caution
@@ -422,7 +434,7 @@ It is not itself the difference between the two probability differences; that di
 In this chapter you learned to:
 
 - derive `phq_cat` explicitly as baseline PHQ-9 `< 10` versus `>= 10`;
-- fit additive and `trt * phq_cat` binary logistic models with `stats::glm(..., family = binomial)`;
+- fit additive and `trt * phq_cat` binary logistic models with `glm(..., family = binomial)`;
 - report treatment contrasts as conditional probability differences in percentage points with 95% CIs;
 - distinguish a conditional odds ratio from a probability difference;
 - distinguish effect modification, causal interaction, and moderation, and name the scale on which effect modification is assessed;

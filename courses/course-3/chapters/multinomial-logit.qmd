@@ -184,6 +184,31 @@ severity_differences <- predictions(
 severity_differences
 ```
 
+And the code-block below calculates the odds ratios for the two active groups compared to waitlist, with Wald confidence intervals:
+
+```{r}
+#| label: multinomial-or-table
+# Category-versus-reference ORs for therapist-guided versus waitlist
+# Wald intervals on the log-odds scale, then exponentiate
+multinomial_log_or <- b_multinomial[
+  c(
+    "trttherapist-guided:moderate_marked",
+    "trttherapist-guided:severe_very_severe"
+  )
+]
+# grab variance from the two contrasts of interest
+multinomial_se <- sqrt(diag(vcov(mod_multinomial)))[names(multinomial_log_or)]
+# exponentiate to get ORs and Wald intervals
+severity_or <- tibble(
+  category = c("moderate_marked", "severe_very_severe"),
+  estimate = exp(multinomial_log_or),
+  conf.low = exp(multinomial_log_or - qnorm(0.975) * multinomial_se),
+  conf.high = exp(multinomial_log_or + qnorm(0.975) * multinomial_se)
+)
+
+severity_or
+```
+
 ```{r}
 #| label: severity-difference-values
 #| echo: false
@@ -209,6 +234,10 @@ Compared with waitlist, therapist-guided treatment is associated with the follow
 - severe/very severe: `r sev("severe_very_severe", "direction")` by **`r sev("severe_very_severe", "size")` percentage points** (95% CI **`r sev("severe_very_severe", "conf.low")`** to **`r sev("severe_very_severe", "conf.high")`**).
 
 The category probabilities sum to one, so the three differences sum to zero: whatever probability one category gains, the others lose.
+
+For therapist-guided treatment versus waitlist, the **OR for moderate/marked rather than low/no-to-mild severity** is **`r sprintf("%.2f", severity_or$estimate[1])`** (95% CI **`r sprintf("%.2f", severity_or$conf.low[1])`** to **`r sprintf("%.2f", severity_or$conf.high[1])`**).
+The **OR for severe/very severe rather than low/no-to-mild severity** is **`r sprintf("%.2f", severity_or$estimate[2])`** (95% CI **`r sprintf("%.2f", severity_or$conf.low[2])`** to **`r sprintf("%.2f", severity_or$conf.high[2])`**).
+
 :::
 
 ```{r}

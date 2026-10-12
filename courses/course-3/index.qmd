@@ -4,7 +4,7 @@ date: last-modified
 ---
 
 Welcome to Biostatistics III.
-This week is all about **binary and categorical outcomes**, analyzed with logistic-regression models.
+This week is all about **binary and categorical outcomes**, analyzed with logistic regression models.
 We will interpret results using odds ratios and log-odds, as well as the probability scale.
 
 We will continue to work with the STePS randomized trial of internet-delivered psychodynamic therapy for social anxiety disorder.
@@ -24,7 +24,7 @@ Refer to the chapters on this website for guidance on how to perform the analyse
 
 After completing this course, you should be able to:
 
-- define and fit binary logistic-regression models in R;
+- define and fit binary logistic regression models in R;
 - distinguish probabilities, odds, log-odds, and odds ratios;
 - use `marginaleffects` to estimate and visualize model-based predictions and contrasts;
 - fit and interpret models with binary, categorical, and numeric predictors;

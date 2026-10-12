@@ -51,16 +51,14 @@ website:
 
       - section: "Labs"
         contents:
-          - href: labs/lab-logistic-foundations.qmd
-            text: Logistic-regression foundations
           - href: labs/lab-categorical-predictors.qmd
-            text: Logistic regression with binary and categorical predictors
+            text: "Tuesday: Binary and categorical predictors"
           - href: labs/lab-multinomial-logit.qmd
-            text: Multinomial logistic regression
+            text: "Wednesday: Numeric predictor and multinomial logistic regression"
           - href: labs/lab-binary-interactions.qmd
-            text: Logistic regression with two binary predictors
+            text: "Thursday: Two binary predictors"
           - href: labs/lab-continuous-interactions.qmd
-            text: Logistic regression with a binary and numeric predictor
+            text: "Friday: Binary and numeric predictors"
 
 
 format:
