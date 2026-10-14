@@ -51,6 +51,8 @@ website:
 
       - section: "Labs"
         contents:
+          - href: labs/lab-intercept-only.qmd
+            text: "Monday: Intercept-only model"
           - href: labs/lab-categorical-predictors.qmd
             text: "Tuesday: Binary and categorical predictors"
           - href: labs/lab-multinomial-logit.qmd

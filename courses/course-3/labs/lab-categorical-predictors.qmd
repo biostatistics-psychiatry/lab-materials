@@ -46,7 +46,15 @@ library(tidyverse)
 library(here)
 library(marginaleffects)
 
-df_categorical <- read_csv2(here("data", "steps_clean.csv")) |>
+df_clean <- read_csv2(here("data", "steps_clean.csv")) |>
+  mutate(
+    trt = factor(
+      trt,
+      levels = c("waitlist", "therapist-guided", "self-guided")
+    )
+  )
+
+df_categorical <- df_clean |>
   filter(!is.na(lsas_screen), !is.na(lsas_post)) |>
   mutate(
     lsas_response = factor(
@@ -56,10 +64,6 @@ df_categorical <- read_csv2(here("data", "steps_clean.csv")) |>
         "No response"
       ),
       levels = c("No response", "Response")
-    ),
-    trt = factor(
-      trt,
-      levels = c("waitlist", "therapist-guided", "self-guided")
     )
   )
 
