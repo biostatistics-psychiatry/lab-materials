@@ -1,0 +1,15 @@
+{
+  "hash": "8ef9b409772b084e57060ebe65d0b2f5",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Monday: Intercept-only logistic regression\"\nformat:\n  html:\n    df-print: kable\ntoc: true\n---\n\nTo start the week, we will practice calculating proportions and odds by hand.\nYou can also use functions for this, but give it a try yourself first.\nUse the [intercept-only section of the foundations chapter](../chapters/logistic-intro.qmd#intercept-only-logistic-regression) for guidance.\n\n# Starter code\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(tidyverse)\nlibrary(here)\nlibrary(marginaleffects)\n\ndf_clean <- read_csv2(here(\"data\", \"steps_clean.csv\")) |>\n  mutate(\n    # The second factor level is the event modeled by binomial glm().\n    phq9_depression = factor(\n      if_else(phq9_screen >= 10, \"Yes\", \"No\"),\n      levels = c(\"No\", \"Yes\")\n    ),\n    trt = factor(\n      trt,\n      levels = c(\"waitlist\", \"therapist-guided\", \"self-guided\")\n    )\n  )\n```\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\ndf_clean |>\n  count(phq9_depression)\n```\n\n::: {.cell-output-display}\n<div class=\"kable-table\">\n\n|phq9_depression |  n|\n|:---------------|--:|\n|No              | 99|\n|Yes             | 82|\n\n</div>\n:::\n:::\n\n\nUsing the numbers in the table above, show the proportion of participants who screened positive for depression (i.e., `phq9_depression == \"Yes\"`). Then calculate the odds of screening positive for depression.\n\nIn a second step, fit an intercept-only logistic regression model to the data and use the model to calculate the predicted probability of screening positive for depression. Compare this predicted probability to the proportion you calculated by hand.\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
