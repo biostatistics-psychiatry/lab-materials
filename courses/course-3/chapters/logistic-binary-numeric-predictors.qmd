@@ -155,7 +155,7 @@ Averaged over the observed baseline PHQ-9 distribution, therapist-guided treatme
 The **conditional treatment OR**, adjusted for PHQ-9, is **`r sprintf("%.2f", additive_trt_or$estimate[1])`** (95% CI **`r sprintf("%.2f", additive_trt_or$conf.low[1])`** to **`r sprintf("%.2f", additive_trt_or$conf.high[1])`**).
 
 This is therapist-guided minus waitlist; a positive value favors a higher estimated probability of response with therapist guidance.
-It is a population-average probability contrast over this analysis sample, conditional on the additive model—not a coefficient interpreted as a percentage-point change.
+It is a marginal probability difference over this analysis sample, conditional on the additive model—not a coefficient interpreted as a percentage-point change.
 :::
 
 ```{r}
@@ -342,10 +342,11 @@ plot_comparisons(
 The dashed zero line marks no modeled probability difference.
 Wide intervals at the edge of the observed PHQ-9 range are a reminder not to make subgroup claims from the curve's point estimates alone.
 
-# Conditional and population-average treatment contrasts
+# Conditional and marginal treatment contrasts
 
 A conditional contrast answers a question such as “what is the modeled difference at PHQ-9 = 10?”
-A population-average contrast answers a different question: “what is the modeled treatment difference after averaging each participant's counterfactual predictions over the observed PHQ-9 distribution?”
+A marginal (population-averaged) contrast answers a different question: “what is the modeled treatment difference after averaging each participant's counterfactual predictions over the observed PHQ-9 distribution?”
+We estimate it by marginal standardization, as in [logistic regression foundations](logistic-intro.qmd).
 
 ```{r}
 #| label: interaction-marginal-treatment-difference
@@ -372,10 +373,10 @@ marginal_trt_or
 
 Averaged over the observed PHQ-9 distribution, the interaction model estimates that therapist-guided treatment changes the probability of treatment response by **`r sprintf("%.1f", 100 * marginal_trt_difference$estimate[1])` percentage points** compared with waitlist (95% CI **`r sprintf("%.1f", 100 * marginal_trt_difference$conf.low[1])`** to **`r sprintf("%.1f", 100 * marginal_trt_difference$conf.high[1])` percentage points**).
 
-This population-average contrast is not the effect at a particular PHQ-9 score.
-It averages conditional contrasts over the PHQ-9 values represented in this sample, so it can change if the target population's baseline PHQ-9 distribution changes.
+This marginal contrast is not the effect at a particular PHQ-9 score.
+It averages each participant's counterfactual predictions over the PHQ-9 values represented in this sample, then compares the averages, so it can change if the target population's baseline PHQ-9 distribution changes.
 
-The corresponding **standardized (marginal) treatment OR** is **`r sprintf("%.2f", marginal_trt_or$estimate[1])`** (95% CI **`r sprintf("%.2f", marginal_trt_or$conf.low[1])`** to **`r sprintf("%.2f", marginal_trt_or$conf.high[1])`**).
+The corresponding **marginal treatment OR** is **`r sprintf("%.2f", marginal_trt_or$estimate[1])`** (95% CI **`r sprintf("%.2f", marginal_trt_or$conf.low[1])`** to **`r sprintf("%.2f", marginal_trt_or$conf.high[1])`**).
 It is the ratio of odds calculated from the two average counterfactual probabilities, not the average of the conditional ORs above.
 
 :::
@@ -507,7 +508,7 @@ Standardizing the adjusted model recovers the marginal odds ratio, and the stand
 
 - An additive logistic model assumes a common treatment **log-odds** difference, not necessarily a constant probability difference.
 - An interaction model lets the treatment association vary with continuous baseline PHQ-9.
-- `avg_comparisons(..., type = "response")` supplies conditional and population-average treatment contrasts on the probability scale.
+- `avg_comparisons(..., type = "response")` supplies conditional and marginal treatment contrasts on the probability scale.
 - A contrast curve communicates both the estimated pattern and its uncertainty.
 - Odds ratios describe ratios of odds.
   They are not percentage-point changes in probability.

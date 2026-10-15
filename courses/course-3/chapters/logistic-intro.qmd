@@ -313,7 +313,8 @@ The therapist-guided-versus-waitlist **odds ratio** is **`r sprintf("%.2f", or_t
 It predicts every participant's probability of response under waitlist and under therapist-guided treatment, averages each set of predictions, and divides the two averages.
 Predicting every participant under both treatments means the two averages describe the same people, so they differ only in treatment.
 In this unadjusted model each scenario simply reproduces the group's observed proportion.
-This approach is called marginal standardization [@Localio2007RelativeRisks].
+This approach is called marginal standardization [@Localio2007RelativeRisks], also known as G-computation [@Morris2022CovariateAdjustment].
+The result is a **marginal (population-averaged)** risk ratio: it averages over the participants in the sample, rather than describing a *conditional* risk ratio at particular covariate values.
 The `comparison` argument `lnratioavg` means, read from right to left: `avg` averages the predicted probabilities in each scenario, `ratio` divides the therapist-guided average by the waitlist average, and `ln` takes the natural log of that ratio.
 `transform = exp` then exponentiates the estimate and its confidence limits, returning them to the ratio scale.
 The detour through the log scale is for the confidence interval.
