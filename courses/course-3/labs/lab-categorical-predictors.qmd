@@ -32,7 +32,7 @@ The outcome remains binary but the predictor now has three categories.
 1. **Question and estimand** — Choose one clinically relevant contrast among waitlist, therapist-guided treatment, and self-guided treatment. State the direction explicitly and say why that comparison is useful.
 2. **Data check** — Report the number of participants and response counts in all three arms, including how you handled missing post-treatment LSAS values.
 3. **Model** — Fit a three-arm binary logistic model with `lsas_response ~ trt`. Identify the reference category and the event whose probability is modeled.
-4. **Results** — Report model-derived probabilities and odds ratios for the contrasts of interest, with 95% CIs
+4. **Results** — Report model-derived probabilities and odds ratios for the contrasts of interest, with 95% CIs.
 5. **Figure** — Include one or several figures to present your findings.
 6. **Conclusion** — Give a short, plain-language clinical interpretation of the probability difference and its uncertainty. Explain the distinction between the binary and three-level treatment predictors.
 
