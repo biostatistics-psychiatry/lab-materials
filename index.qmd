@@ -25,15 +25,15 @@ Fundamentals of biostatistics for clinical research, including descriptive stati
 
 Fundamentals of regression modeling for clinical research, including interpreting results using the `marginaleffects` package.
 
-[Enter Course 2 →](course-2/index.html){.btn .btn-secondary}
+[Enter Course 2 →](course-2/index.html){.btn .btn-primary}
 :::
 
 ::: {.g-col-12 .g-col-md-4}
-### Course 3
+### [Course 3](course-3/index.html)
 
-Regression models for binary and categorical outcomes in clinical research, including logistic, X and Y regression.
+Regression models for binary and categorical outcomes in clinical research, including binary and multinomial logistic regression, and interpreting results as odds ratios and probabilities.
 
-[Coming soon]{.btn .btn-outline-secondary .disabled}
+[Enter Course 3 →](course-3/index.html){.btn .btn-primary}
 :::
 
 :::

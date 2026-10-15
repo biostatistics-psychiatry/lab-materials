@@ -1,0 +1,27 @@
+---
+title: "Thursday: Logistic regression with two binary predictors"
+format:
+  html:
+    df-print: kable
+toc: true
+---
+
+A senior collaborator forwards a slide titled **“Therapist guidance works especially well for people with depression”**.
+The slide has no uncertainty intervals.
+They ask whether you can make the subgroup finding statistically respectable before the grant resubmission.
+Your task is to determine what the data and model can support.
+
+Create a Quarto notebook with the following sections.
+The choices of table layout, plot design, and exact wording are yours, but every statistical claim must be traceable to an estimand and a model.
+
+1. **Question and estimand** — State the primary contrast as the therapist-guided-minus-waitlist difference in the probability of treatment response, separately within baseline PHQ-9 `< 10` and `>= 10` categories.
+2. **Additive model** — Fit a binary logistic model with `trt + phq_cat`.
+   Use model-derived probabilities and therapist-guided-minus-waitlist probability differences with 95% CIs.
+   Report the adjusted treatment OR with its 95% CI.
+   Explain what “additive” means on the log-odds scale and why probability differences can still vary across PHQ-9 categories.
+3. **Interaction model** — Fit `trt * phq_cat` with `glm(..., family = binomial)`.
+   Estimate the same conditional treatment differences with 95% CIs, and estimate the difference between them, with its 95% CI.
+   Report the treatment OR within each PHQ-9 category and the ratio of those ORs, with 95% CIs.
+4. **Figures** — Create one or several figures to communicate your findings.
+5. **Conclusion for the collaborator** — In 100–150 words, give a plain-language answer.
+   State the numerical conditional probability differences and their 95% CIs, describe the degree of uncertainty, and say whether the proposed subgroup wording is justified.

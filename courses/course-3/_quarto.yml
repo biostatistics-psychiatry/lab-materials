@@ -1,9 +1,15 @@
 project:
   type: website
   output-dir: docs
+  render:
+    - index.qmd
+    - chapters/*.qmd
+    - labs/*.qmd
 
 execute:
   freeze: auto
+
+bibliography: references.bib
 
 website:
   title: "Biostatistics - Research School in Clinical Psychiatry"
@@ -28,13 +34,34 @@ website:
 
       - section: "Chapters"
         contents:
-          - href: chapters/template.qmd
-            text: Introduction
+          - href: chapters/logistic-intro.qmd
+            text: Logistic regression foundations
+          - href: chapters/logistic-one-binary-predictor.qmd
+            text: Logistic regression with a binary predictor
+          - href: chapters/logistic-one-categorical-predictor.qmd
+            text: Logistic regression with a categorical predictor
+          - href: chapters/logistic-one-numeric-predictor.qmd
+            text: Logistic regression with a numeric predictor
+          - href: chapters/multinomial-logit.qmd
+            text: Multinomial logistic regression
+          - href: chapters/logistic-two-binary-predictors.qmd
+            text: Logistic regression with two binary predictors
+          - href: chapters/logistic-binary-numeric-predictors.qmd
+            text: Logistic regression with a binary and numeric predictor
 
       - section: "Labs"
         contents:
-          - href: labs/template.qmd
-            text: Template
+          - href: labs/lab-intercept-only.qmd
+            text: "Monday: Intercept-only model"
+          - href: labs/lab-categorical-predictors.qmd
+            text: "Tuesday: Binary and categorical predictors"
+          - href: labs/lab-multinomial-logit.qmd
+            text: "Wednesday: Numeric predictor and multinomial logistic regression"
+          - href: labs/lab-binary-interactions.qmd
+            text: "Thursday: Two binary predictors"
+          - href: labs/lab-continuous-interactions.qmd
+            text: "Friday: Binary and numeric predictors"
+
 
 format:
   html:

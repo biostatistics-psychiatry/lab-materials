@@ -1,0 +1,32 @@
+---
+title: "Wednesday: Numeric predictor and multinomial logistic regression"
+toc: true
+---
+
+Prepare one Quarto notebook with the two analyses below.
+
+# Part 1: One numeric predictor
+
+Your supervisor asks whether baseline anxiety predicts the probability of treatment response.
+Use the STePS data and the [numeric-predictor chapter](../chapters/logistic-one-numeric-predictor.qmd) for guidance.
+
+1. Define `lsas_response` as a reduction of at least 30% from baseline LSAS, and identify the modeled event.
+2. Report how missing outcome or baseline GAD-7 values were handled and describe the observed range of `gad_screen`.
+3. Fit `lsas_response ~ gad_screen` with `glm(..., family = binomial)`.
+4. Report the OR for a one-point higher GAD-7 score and the average probability-scale slope in percentage points, both with 95% CIs.
+5. Plot the estimated probability across GAD-7 scores, with 95% CIs, and report predictions at meaningful scores.
+6. Write a short interpretation that distinguishes an association from a causal effect and an OR from a probability difference.
+
+# Part 2: Multinomial logistic regression
+
+A committee member at your half-time control has objected that the binary LSAS outcome hides the difference between moderate and severe symptoms.
+Another member replies that “more categories always means more nuance.”
+You have been asked to prepare a multinomial analysis to address these comments.
+
+Use the STePS data to model the three post-treatment LSAS severity categories:
+
+- low/no-to-mild: `< 50`;
+- moderate/marked: `>= 50` and `< 80`; and
+- severe/very severe: `>= 80`.
+
+Repeat the above steps, but remember that you now need to transform the data to long-format and use `mlogit` to fit the model.

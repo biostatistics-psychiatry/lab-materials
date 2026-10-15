@@ -1,0 +1,45 @@
+---
+title: "Monday: Intercept-only logistic regression"
+format:
+  html:
+    df-print: kable
+toc: true
+---
+
+To start the week, we will practice calculating proportions and odds by hand.
+You can also use functions for this, but give it a try yourself first.
+Use the [intercept-only section of the foundations chapter](../chapters/logistic-intro.qmd#intercept-only-logistic-regression) for guidance.
+
+# Starter code
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+library(tidyverse)
+library(here)
+library(marginaleffects)
+
+df_clean <- read_csv2(here("data", "steps_clean.csv")) |>
+  mutate(
+    # The second factor level is the event modeled by binomial glm().
+    phq9_depression = factor(
+      if_else(phq9_screen >= 10, "Yes", "No"),
+      levels = c("No", "Yes")
+    ),
+    trt = factor(
+      trt,
+      levels = c("waitlist", "therapist-guided", "self-guided")
+    )
+  )
+```
+
+```{r}
+#| label: phq9-table
+df_clean |>
+  count(phq9_depression)
+```
+
+Using the numbers in the table above, show the proportion of participants who screened positive for depression (i.e., `phq9_depression == "Yes"`). Then calculate the odds of screening positive for depression.
+
+In a second step, fit an intercept-only logistic regression model to the data and use the model to calculate the predicted probability of screening positive for depression. Compare this predicted probability to the proportion you calculated by hand.

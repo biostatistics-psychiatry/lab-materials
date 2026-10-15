@@ -1,5 +1,0 @@
----
-title: "Template lab"
----
-
-*This lab is a placeholder. Content will be added.*
