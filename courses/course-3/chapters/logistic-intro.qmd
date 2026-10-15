@@ -85,7 +85,7 @@ This follows the practical treatment-follow-up guidance for LSAS-SR, which descr
 We use the rounded 30% definition in this course.
 
 ::: callout-caution
-## A response definition is an analysis decision
+## The Cost of Dichotomizing
 
 The 30% response definition is useful for this course, but it is not a diagnosis or a remission definition.
 Before creating a binary clinical outcome in your own work, specify the purpose and identify a defensible external definition.
@@ -93,13 +93,15 @@ Before creating a binary clinical outcome in your own work, specify the purpose 
 Dichotomizing a continuous outcome also has a statistical cost.
 Participants just above and just below the 30% threshold are treated as completely different, while participants with 31% and 90% reductions are treated as identical.
 Splitting a normally distributed variable at its median loses about as much information as discarding a third of the sample [@Altman2006Dichotomising; @MacCallum2002Dichotomization].
+The median is the most favorable split: a threshold that produces unequal groups, such as our 30% response definition, loses more [@vanzwetEmpiricalAssessmentCost2026b].
 
 Our outcome has two further problems.
 It is based on percentage change from baseline, which is a statistically inefficient outcome compared with post-treatment scores adjusted for baseline [@Vickers2001PercentageChange].
 And a responder split can make a uniform improvement look like a division into responders and non-responders: if every participant improved by the same number of points, some would still cross the threshold and others would not [@Senn2009Measurement].
 
 The primary analysis of a continuous outcome such as LSAS should usually model the continuous score.
-We dichotomize in this course to teach models for binary outcomes, not to recommend the practice.
+A useful rule is to “model continuously but interpret dichotomously” [@vanzwetEmpiricalAssessmentCost2026b]: for example, report the percentage of participants with a clinically meaningful improvement as estimated from a model of the continuous score, rather than from dichotomized raw data.
+We dichotomize in this course to teach models for truly binary outcomes, not to recommend the practice.
 :::
 
 # The model behind logistic regression
