@@ -48,4 +48,4 @@ Methods for analyzing repeated measurements in clinical research, including line
 
 ## Teaching Team
 
-The course director is [Matteo Bottai](https://ki.se/en/people/matteo-bottai), Professor of Biostatistics at Karolinska Institutet. Course leaders are [Kristoffer Magnusson](https://ki.se/en/people/kristoffer-magnusson), [Fred Johansson](https://ki.se/en/people/fredrik-johansson) and [Oskar Flygare](https://ki.se/en/people/oskar-flygare), all researchers at Centre for Psychiatry Research, Karolinska Institutet.
+Course leaders are [Kristoffer Magnusson](https://rpsychologist.com), [Fred Johansson](https://ki.se/en/people/fredrik-johansson) and [Oskar Flygare](https://ki.se/en/people/oskar-flygare), all researchers at Centre for Psychiatry Research, Karolinska Institutet.
