@@ -12,7 +12,7 @@ Select the course you are enrolled in:
 
 ::: {.grid}
 
-::: {.g-col-12 .g-col-md-4}
+::: {.g-col-12 .g-col-md-6}
 ### [Course 1](course-1/index.html)
 
 Fundamentals of biostatistics for clinical research, including descriptive statistics, probability, hypothesis testing, and power analysis.
@@ -20,7 +20,7 @@ Fundamentals of biostatistics for clinical research, including descriptive stati
 [Enter Course 1 →](course-1/index.html){.btn .btn-primary}
 :::
 
-::: {.g-col-12 .g-col-md-4}
+::: {.g-col-12 .g-col-md-6}
 ### [Course 2](course-2/index.html)
 
 Fundamentals of regression modeling for clinical research, including interpreting results using the `marginaleffects` package.
@@ -28,12 +28,20 @@ Fundamentals of regression modeling for clinical research, including interpretin
 [Enter Course 2 →](course-2/index.html){.btn .btn-primary}
 :::
 
-::: {.g-col-12 .g-col-md-4}
+::: {.g-col-12 .g-col-md-6}
 ### [Course 3](course-3/index.html)
 
 Regression models for binary and categorical outcomes in clinical research, including binary and multinomial logistic regression, and interpreting results as odds ratios and probabilities.
 
 [Enter Course 3 →](course-3/index.html){.btn .btn-primary}
+:::
+
+::: {.g-col-12 .g-col-md-6}
+### Course 4
+
+Methods for analyzing repeated measurements in clinical research, including linear mixed-effects models for longitudinal data.
+
+[Coming soon]{.btn .btn-outline-secondary .disabled}
 :::
 
 :::

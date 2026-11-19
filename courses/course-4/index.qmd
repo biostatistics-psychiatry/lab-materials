@@ -1,0 +1,15 @@
+---
+title: "Course 4 - Longitudinal Data Analysis"
+date: last-modified
+---
+
+Welcome to Biostatistics IV!
+This course covers methods for analyzing longitudinal data.
+
+# Group work during lab sessions
+
+*To be added.*
+
+# Intended learning outcomes
+
+*To be added.*
